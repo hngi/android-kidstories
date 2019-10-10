@@ -7,7 +7,7 @@
     tools:context=".AddStoryActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/add_story_label"
         android:layout_width="113dp"
         android:layout_height="33dp"
         android:text="Add Story"
@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.067" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/title_edt"
         android:layout_width="309dp"
         android:layout_height="40dp"
         android:ems="10"
@@ -32,20 +32,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/add_story_label"
         app:layout_constraintVertical_bias="0.075" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/author_edt"
         android:layout_width="309dp"
         android:layout_height="40dp"
         android:ems="10"
         android:hint="Author"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:layout_constraintVertical_bias="0.049"
-        tools:layout_editor_absoluteX="51dp" />
+        app:layout_constraintEnd_toEndOf="@+id/title_edt"
+        app:layout_constraintStart_toStartOf="@+id/title_edt"
+        app:layout_constraintTop_toBottomOf="@+id/title_edt"
+        app:layout_constraintVertical_bias="0.049" />
 
     <TextView
         android:id="@+id/textView2"
@@ -54,26 +55,25 @@
         android:text="     Content"
         android:textColor="#3F9FF7"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        app:layout_constraintStart_toStartOf="@+id/author_edt"
+        app:layout_constraintTop_toBottomOf="@+id/author_edt"
         app:layout_constraintVertical_bias="0.05" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/story_edt"
         android:layout_width="311dp"
         android:layout_height="259dp"
         android:ems="10"
         android:hint="Write Your Story Here"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.112"
-        tools:layout_editor_absoluteX="51dp" />
+        app:layout_constraintVertical_bias="0.112" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/create_story_btn"
         android:layout_width="309dp"
         android:layout_height="35dp"
         android:background="#3F9FF7"
@@ -82,34 +82,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3"
+        app:layout_constraintTop_toBottomOf="@+id/story_edt"
         app:layout_constraintVertical_bias="0.238" />
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="178dp"
+        android:layout_width="0dp"
         android:layout_height="28dp"
         android:hint="                      No image uploaded"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintBottom_toTopOf="@+id/story_edt"
+        app:layout_constraintEnd_toEndOf="@+id/author_edt"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
-        app:layout_constraintVertical_bias="0.447" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="64dp"
-        android:layout_height="29dp"
-        android:text="Button"
-        android:textSize="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/editText3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.524"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
-        app:layout_constraintVertical_bias="0.432" />
+        app:layout_constraintTop_toBottomOf="@+id/author_edt"
+        app:layout_constraintVertical_bias="0.45999998" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

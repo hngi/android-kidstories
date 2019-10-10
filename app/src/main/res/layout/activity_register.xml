@@ -49,7 +49,7 @@
             android:ems="10"
             android:hint="E-mail"
             android:inputType="textEmailAddress"
-            android:textColorHint="#000000" />
+            android:textColorHint="@color/colorBlack" />
 
         <EditText
             android:id="@+id/reg_contact"
@@ -62,7 +62,7 @@
             android:ems="10"
             android:hint="Phone No"
             android:inputType="phone"
-            android:textColorHint="#000000" />
+            android:textColorHint="@color/colorBlack" />
 
         <EditText
             android:id="@+id/reg_password"
@@ -75,7 +75,7 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
-            android:textColorHint="#000000" />
+            android:textColorHint="@color/colorBlack" />
 
         <EditText
             android:id="@+id/reg_confirm_password"

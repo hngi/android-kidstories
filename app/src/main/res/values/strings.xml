@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">android-kidstories</string>
+    <string name="card_number">Card number</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="card_expiry_month"> Month</string>
+    <string name="card_expiray_year"> Year</string>
+    <string name="card_holder">Card Holder</string>
+    <string name="last_digits">The last three digits on the \n last  back of the card</string>
+    <string name="donate_now_btn">Donate now</string>
+    <string name="read_free_bedtime_stories">Read free bedtime stories, fairytales</string>
+    <string name="welcome">Welcome</string>
+    <string name="and_other_stories">and other stories</string>
+    <string name="e_mail">E-mail</string>
+    <string name="login">Login</string>
+    <string name="facebook">Facebook</string>
+    <string name="not_registered">Not Registered?</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="google">Google</string>
 </resources>

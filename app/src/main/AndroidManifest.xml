@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.project.android_kidstories">
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -20,18 +22,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
               </intent-filter>
         </activity>
-
-        <activity android:name=".DonateActivity">
-        </activity>
         <activity android:name=".StoryListingActivity"></activity>
 
         <activity android:name=".EditProfile"></activity>
-        <activity android:name=".DonateActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".StoryListingActivity" />
+
+        <!-- Do not edit this theme -->
+        <activity android:name=".DonateActivity"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+
         <activity android:name=".StoryDetailActivity" />
         <activity android:name=".SingleStoryActivity" />
         <activity android:name=".RegisterActivity" />

@@ -16,6 +16,10 @@
         <item name="android:fontFamily">@font/roboto_thin</item>
     </style>
 
+    <style name="AppTheme.NoToolBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
     <!-- Beginning of Theme for Donations Activity -->
     <!-- Do not Delete -->

@@ -38,7 +38,8 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".OnBoardingActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".HomeActivity" />
+        <activity android:name=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".CategoriesActivity" />
         <activity android:name=".BookMark" />
         <activity android:name=".AddStoryActivity" />

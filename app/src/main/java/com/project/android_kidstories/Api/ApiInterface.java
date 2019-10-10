@@ -5,6 +5,7 @@ import android.net.Uri;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.CategoryAllResponse;
+import com.project.android_kidstories.Api.Responses.CommentResponse;
 import com.project.android_kidstories.Api.Responses.DataResponse;
 import com.project.android_kidstories.Api.Responses.LoginResponse;
 import com.project.android_kidstories.Api.Responses.ReactionResponse;
@@ -166,6 +167,22 @@ public interface ApiInterface {
     //TODO: Delete this call during development
     @GET("categories/{id}/stories")
     Call<StoryCategoryResponse> getCategory(@Path("id") String id);
+
+    //Comment APIs
+    @Multipart
+    @POST("comments")
+    Call<BaseResponse<CommentResponse>> addComment(@Header("Authorization") String token,
+                                                   @Part("story_id") RequestBody storyId,
+                                                   @Part("body") RequestBody comment);
+
+    @PUT("comments/{id}")
+    Call<BaseResponse<CommentResponse>> updateComment(@Header("Authorization") String token,
+                                                      @Part("id") Integer commentId,
+                                                      @Field("body") String comment);
+
+    @DELETE("comments/{id}")
+    Call<Void> deleteComment(@Header("Authorization") String token,
+                             @Part("id") Integer commentId);
 
 
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">android-kidstories</string>
+    <string name="app_name">Bedtime Stories</string>
     <string name="card_number">Card number</string>
     <string name="expiry_date">Expiry Date</string>
     <string name="card_expiry_month"> Month</string>

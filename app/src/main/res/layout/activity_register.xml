@@ -49,7 +49,7 @@
             android:ems="10"
             android:hint="E-mail"
             android:inputType="textEmailAddress"
-            android:textColorHint="#000000" />
+            android:textColorHint="@color/colorBlack" />
 
         <EditText
             android:id="@+id/reg_contact"
@@ -62,7 +62,7 @@
             android:ems="10"
             android:hint="Phone No"
             android:inputType="phone"
-            android:textColorHint="#000000" />
+            android:textColorHint="@color/colorBlack" />
 
         <EditText
             android:id="@+id/reg_password"
@@ -75,7 +75,7 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
-            android:textColorHint="#000000" />
+            android:textColorHint="@color/colorBlack" />
 
         <EditText
             android:id="@+id/reg_confirm_password"
@@ -100,6 +100,9 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/roundbutton"
             android:drawableStart="@drawable/facebook"
+
+            android:fontFamily="@font/roboto_regular"
+
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
             android:text="facebook"
@@ -118,6 +121,9 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/roundbutton"
             android:drawableStart="@drawable/google"
+
+            android:fontFamily="@font/roboto_regular"
+
             android:gravity="center"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
@@ -135,6 +141,9 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/register_round_button"
+
+            android:fontFamily="@font/roboto_regular"
+
             android:text="Register"
             android:textAllCaps="false"
             android:textColor="#ffffff"
@@ -153,7 +162,7 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"
                 android:text="Not registered?"
-                android:textColor="#000000" />
+                android:textColor="@color/colorBlack" />
 
             <TextView
                 android:id="@+id/create_act"
@@ -162,7 +171,7 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"
                 android:text="create an account"
-                android:textColor="#3f9ff7" />
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
 

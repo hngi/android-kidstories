@@ -1,8 +1,10 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.project.android_kidstories.R;
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -4,6 +4,9 @@ package com.project.android_kidstories.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import androidx.room.Entity;
+
+@Entity
 public class Story {
 
 

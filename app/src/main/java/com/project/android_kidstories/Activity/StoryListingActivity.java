@@ -1,14 +1,14 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class AddStoriesContentActivity extends AppCompatActivity {
+public class StoryListingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_stories_content);
+        setContentView(R.layout.activity_story_listing);
     }
 }

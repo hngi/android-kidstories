@@ -1,14 +1,16 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class HomeActivity extends AppCompatActivity {
+import com.project.android_kidstories.R;
+
+public class BookMark extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_book_mark);
     }
 }

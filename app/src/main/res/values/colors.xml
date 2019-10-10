@@ -30,5 +30,10 @@
     <color name="main_color_grey_800">@color/material_grey_800</color>
     <color name="main_color_grey_900">@color/material_grey_900</color>
     <color name="colorBlueNew">#3f9ff7</color>
-
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name ="colorWhite">#fff</color>
+    <color name ="colorBlueSky">#3f9ff7</color>
+    <color name="colorBlack">#000</color>
 </resources>

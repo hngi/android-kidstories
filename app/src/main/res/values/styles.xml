@@ -9,12 +9,7 @@
 
         <item name="android:fontFamily"> @font/comic_font</item>
     </style>
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+
     <style name="EditTextWhite">
         <item name="android:background">@drawable/edittext_white_background</item>
         <item name="android:padding">15dp</item>
@@ -24,6 +19,12 @@
 
     <!-- Beginning of Theme for Donations Activity -->
     <!-- Do not Delete -->
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
     <style name="DefaultTheme" parent="AppTheme.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>

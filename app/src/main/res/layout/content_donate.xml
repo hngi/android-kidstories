@@ -58,7 +58,6 @@
             android:layout_weight="9"
             android:inputType="number"
             android:textAlignment="center"
-            android:textColor="@color/material_grey_700"
             app:layout_constraintEnd_toEndOf="@+id/text_enter_amount_to_donate"
             app:layout_constraintStart_toStartOf="@+id/text_enter_amount_to_donate"
             app:layout_constraintTop_toBottomOf="@+id/text_enter_amount_to_donate" />

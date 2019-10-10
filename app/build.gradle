@@ -78,4 +78,8 @@ dependencies {
 
 
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
+
+    //Flutterwave
+    implementation 'com.github.Flutterwave:rave-android:1.0.39'
+
 }

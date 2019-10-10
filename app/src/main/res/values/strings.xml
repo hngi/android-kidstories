@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">android-kidstories</string>
+    <string name="app_name">Bedtime Stories</string>
     <string name="card_number">Card number</string>
     <string name="expiry_date">Expiry Date</string>
     <string name="card_expiry_month"> Month</string>
@@ -16,4 +16,6 @@
     <string name="not_registered">Not Registered?</string>
     <string name="create_an_account">Create an account</string>
     <string name="google">Google</string>
+    <string name="donate">Donate</string>
+    <string name="cvv">CVV</string>
 </resources>

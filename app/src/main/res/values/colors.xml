@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#3f9ff7</color>
     <color name="colorPrimaryDark">#4E53F7</color>
     <color name="colorAccent">#6F8EF5</color>
@@ -9,15 +9,15 @@
 
 
     <color name="material_grey_500">#9d9d9d</color>
-    <color name="material_grey_50">#f9fafa</color>
-    <color name="material_grey_100">#f4f5f5</color>
-    <color name="material_grey_200">#eeeeee</color>
-    <color name="material_grey_300">#e0e0e0</color>
-    <color name="material_grey_400">#bdbcbc</color>
-    <color name="material_grey_600">#757575</color>
-    <color name="material_grey_700">#616161</color>
-    <color name="material_grey_800">#424242</color>
-    <color name="material_grey_900">#202020</color>
+    <color name="material_grey_50" tools:override="true">#f9fafa</color>
+    <color name="material_grey_100" tools:override="true">#f4f5f5</color>
+    <color name="material_grey_200" tools:override="true">#eeeeee</color>
+    <color name="material_grey_300" tools:override="true">#e0e0e0</color>
+    <color name="material_grey_400" tools:override="true">#bdbcbc</color>
+    <color name="material_grey_600" tools:override="true">#757575</color>
+    <color name="material_grey_700" tools:override="true">#616161</color>
+    <color name="material_grey_800" tools:override="true">#424242</color>
+    <color name="material_grey_900" tools:override="true">#202020</color>
 
     <color name="main_color_grey_500">@color/material_grey_500</color>
     <color name="main_color_grey_50">@color/material_grey_50</color>
@@ -30,10 +30,6 @@
     <color name="main_color_grey_800">@color/material_grey_800</color>
     <color name="main_color_grey_900">@color/material_grey_900</color>
     <color name="colorBlueNew">#3f9ff7</color>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
-    <color name ="colorWhite">#fff</color>
-    <color name ="colorBlueSky">#3f9ff7</color>
+    <color name="colorBlueSky">#3f9ff7</color>
     <color name="colorBlack">#000</color>
 </resources>

@@ -4,6 +4,8 @@ package com.project.android_kidstories.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Story {
 
 
@@ -49,6 +51,9 @@ public class Story {
     @SerializedName("user")
     @Expose
     private User user = null;
+    @SerializedName("comments")
+    @Expose
+    private Comments comments;
 
     public User getUser() {
         return user;

@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
         fullName = findViewById(R.id.reg_full_name);
         password = findViewById(R.id.reg_password);
         btn = findViewById(R.id.sign_up_button);
-        progressBar = findViewById(R.id.reg_progress);
+        progressBar =  findViewById(R.id.reg_progress_bar);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,6 +45,8 @@ public class RegisterActivity extends AppCompatActivity {
         String phone_string = phone.getText().toString();
         String fullName_string = fullName.getText().toString();
         String password_string = password.getText().toString();
+
+        //validating text fields
 
         if(TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())){
             email.setError("Please enter a valid email address");

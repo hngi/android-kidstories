@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Adapters;
+package com.project.android_kidstories.adapters;
 
 
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;

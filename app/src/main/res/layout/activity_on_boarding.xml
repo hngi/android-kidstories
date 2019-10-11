@@ -6,4 +6,92 @@
     android:layout_height="match_parent"
     tools:context=".OnBoardingActivity">
 
+    <!-- TODO: Remove these codes -->
+   <!-- <Button
+        android:id="@+id/login_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Login Activity"
+        android:onClick="openLoginActivity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/register_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Register Activity"
+        android:onClick="openRegisterActivity"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/main_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Main Activity"
+        android:onClick="openMainActivity"
+        app:layout_constraintTop_toBottomOf="@id/login_activity_button"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/book_detail_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Book Detail Activity"
+        android:onClick="openBookDetailActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/register_activity_button"/>
+
+    <Button
+        android:id="@+id/add_story_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Add Story Activity"
+        android:onClick="openAddStoryActivity"
+        app:layout_constraintTop_toBottomOf="@id/main_activity_button"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/edit_profile_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Edit Profile Activity"
+        android:onClick="openEditProfileActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/book_detail_activity_button"/>
+
+    <Button
+        android:id="@+id/bookmark_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Bookmark Activity"
+        android:onClick="openBookmarkActivity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_story_activity_button"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Donate Activity"
+        android:onClick="openDonateActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_profile_activity_button"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="About Activity"
+        android:onClick="openAboutActivity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bookmark_activity_button"/>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

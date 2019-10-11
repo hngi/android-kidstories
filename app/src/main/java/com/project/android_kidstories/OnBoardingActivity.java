@@ -43,7 +43,7 @@ public class OnBoardingActivity extends AppCompatActivity {
     }
 
     public void openEditProfileActivity(View view) {
-        startActivity(new Intent(OnBoardingActivity.this, ProfileActivity.class));
+        startActivity(new Intent(OnBoardingActivity.this, EditProfile.class));
     }
 
     public void openBookmarkActivity(View view) {

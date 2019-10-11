@@ -34,14 +34,10 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ProfileRegisterActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".OnBoardingActivity" />
-        <activity android:name=".LoginActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
+        <activity android:name=".OnBoardingActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".CategoriesActivity" />
         <activity android:name=".BookMark" />

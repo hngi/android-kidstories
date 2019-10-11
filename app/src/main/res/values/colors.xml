@@ -17,6 +17,12 @@
     <color name="material_grey_700">#616161</color>
     <color name="material_grey_800">#424242</color>
     <color name="material_grey_900">#202020</color>
+    <color name="gradient_start">#4cb4ff</color>
+    <color name="gradient_end">#18a3fe</color>
+    <color name="tab_indicator_gray">#c0c0c0</color>
+    <color name="intro_title_color">#000000</color>
+    <color name="intro_description_color">#656565</color>
+
 
     <color name="main_color_grey_500">@color/material_grey_500</color>
     <color name="main_color_grey_50">@color/material_grey_50</color>
@@ -40,4 +46,14 @@
 
     <color name="black">#000000</color>
     <color name="grey">#808080</color>
+
+    <!-- Color for button style -->
+    <color name="gradient_start">#4cb4ff</color>
+    <color name="gradient_end">#18a3fe</color>
+
+
+    <!-- Color for Tab and screen text -->
+    <color name="tab_indicator_gray">#c0c0c0</color>
+    <color name="intro_title_color">#000000</color>
+    <color name="intro_description_color">#656565</color>
 </resources>

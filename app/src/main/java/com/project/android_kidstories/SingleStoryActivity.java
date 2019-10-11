@@ -46,8 +46,8 @@ public class SingleStoryActivity extends AppCompatActivity {
         story_pic = findViewById(R.id.story_pic);
         like_btn = findViewById(R.id.like_button);
 
-        //Todo: Get story_id from intent
-        //-----int story_id = getIntent().getIntExtra("story_id", 0);
+//Todo: Get story_id from intent
+//-----int story_id = getIntent().getIntExtra("story_id", 0);
 
         ApiInterface service = Client.getInstance().create(ApiInterface.class);
         Call<StoryResponse> story = service.getStory(story_id);

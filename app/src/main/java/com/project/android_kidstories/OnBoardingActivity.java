@@ -35,14 +35,7 @@ public class OnBoardingActivity extends AppCompatActivity {
     private Button btnGetStarted;
     private Animation btnAnimation;
 
-    private ViewPager viewPager;
-    private OnboardingPageAdapter onboardingPageAdapter;
-    private List<OnboardingItem> mList;
-    private TabLayout tabLayout;
-    private Button btnNext;
-    private int position = 0;
-    private Button btnGetStarted;
-    private Animation btnAnimation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,18 +145,6 @@ public class OnBoardingActivity extends AppCompatActivity {
         editor.apply();
     }
 
-<<<<<<< HEAD
-    public void openBookmarkActivity(View view) {
-        startActivity(new Intent(OnBoardingActivity.this, BookMark.class));
-    }*/
-
-/*
-
-    public void openSingleStory(View view) {
-        startActivity(new Intent(OnBoardingActivity.this, SingleStoryActivity.class));
-    }*/
-
-=======
 
     private void loadScreen() {
         btnGetStarted.setAnimation(btnAnimation);
@@ -171,5 +152,4 @@ public class OnBoardingActivity extends AppCompatActivity {
         tabLayout.setVisibility(View.INVISIBLE);
         btnGetStarted.setVisibility(View.VISIBLE);
     }
->>>>>>> master
 }

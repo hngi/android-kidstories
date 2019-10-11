@@ -1,13 +1,17 @@
 package com.project.android_kidstories.DataStore;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
-import com.project.android_kidstories.Api.ApiInterface;
-import com.project.android_kidstories.Api.Client;
+import com.project.android_kidstories.Api.Api;
+import com.project.android_kidstories.Api.HelperClasses.AddCommentHelper;
+import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
+import com.project.android_kidstories.Api.RetrofitClient;
+import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
-import com.project.android_kidstories.Api.Responses.CategoryAllResponse;
-import com.project.android_kidstories.Api.Responses.StoryCategoryResponse;
+import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
+import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
@@ -19,35 +23,56 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * @author .: Ehma Ugbogo
+ * @email ..: ehmaugbogo@gmail.com
+ * @created : 10/10/19
+ */
+
 public class Repository {
+    private static Repository INSTANCE;
     private static final String TAG = "Repository";
-    private final ApiInterface api;
+    private final Api api;
     private StoryDao storyDao;
 
-    private List<Category> categories;
+
+    private Story story;
+    private List<Story> storyList;
+    private List<Category> categoryList;
+    private Category category;
 
 
-    public Repository(Context context) {
-        StoryDatabase storyDatabase = StoryDatabase.getInstance(context);
-        storyDao = storyDatabase.storyDao();
-        api = Client.getInstance().create(ApiInterface.class);
+
+    public static synchronized Repository getInstance(Context context){
+        if(INSTANCE==null){
+            INSTANCE=new Repository(context);
+        }
+        return INSTANCE;
     }
 
-    //`Getters for bookmarking Stories
-    //TODO Rx needs to be added to remove working on the main thread
-    public Long insertStory(Story story){
+    private Repository(Context context) {
+        StoryDatabase storyDatabase = StoryDatabase.getInstance(context);
+        storyDao = storyDatabase.storyDao();
+        api = RetrofitClient.getInstance().create(Api.class);
+    }
+
+
+    //******************** `Getters for Locally storing Stories *************************
+
+    //TODO Rx needs to be added to reduce working on the main thread
+    public Long insertOfflineStory(Story story){
         return storyDao.insertStory(story);
     }
 
-    public void updateStory(Story data){
+    public void updateOfflineStory(Story data){
         storyDao.updateStory(data);
     }
 
-    public void deleteStory(Story data){
+    public void deleteOfflineStory(Story data){
         storyDao.deleteStory(data);
     }
 
-    public void deleteAllStories(){
+    public void deleteAllOfflineStories(){
         storyDao.deleteAllStories();
     }
 
@@ -56,31 +81,151 @@ public class Repository {
     }
 
 
-    //`Getters to make Api calls
 
 
-    public List<Category> getAllCategories(){
-        return categories;
+
+    //******************** `Getters to make Api calls *************************
+
+    //Story APIs
+
+    public boolean addStory(Story story, String imageUri){
+        return AddStoryHelper.addOrUpdateStory(story, imageUri,true);
     }
 
-    public List<Story> getCategoryStories(String categoryId){
-
-        return null;
-    }
-
-    public List<Story> getAllStories(){
-        return null;
+    public void updateStory(Story newStory, String imageUri){
+        AddStoryHelper.addOrUpdateStory(newStory, imageUri,false);
     }
 
     public Story getStory(int storyId){
+        api.getStory(storyId).enqueue(new Callback<StoryBaseResponse>() {
+            @Override
+            public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
+                if(response.isSuccessful()){
+                    story = response.body().getData();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StoryBaseResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
+                story=null;
+            }
+        });
+        return story;
+    }
+
+
+    public List<Story> getAllStories(){
+        api.getAllStories().enqueue(new Callback<StoryAllResponse>() {
+            @Override
+            public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
+                if(response.isSuccessful()){
+                    storyList = response.body().getData();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StoryAllResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
+                storyList=null;
+            }
+        });
+        return storyList;
+    }
+
+
+    //Returns -1 on failure
+    public Integer likeStory(int storyId){
+        return AddStoryHelper.likeStory(storyId);
+    }
+
+    //Returns -1 on failure
+    public Integer dislikeStory(int storyId){
+        return AddStoryHelper.dislikeStory(storyId);
+    }
+
+
+
+    //Catergory APIs
+    //******  Verified
+    public Category getCategory(int categoryId){
+        api.getCategory(categoryId).enqueue(new Callback<BaseResponse<Category>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<Category>> call, Response<BaseResponse<Category>> response) {
+                if(response.isSuccessful()){
+                    category = response.body().getData();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<Category>> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
+                category=null;
+            }
+        });
+        return category;
+    }
+
+    public List<Story> getStoriesWithAuthourByCategoryId(int categoryId){
+        api.getStoriesByCategoryIdandUser(categoryId).enqueue(new Callback<BaseResponse<CategoryStoriesResponse>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<CategoryStoriesResponse>> call, Response<BaseResponse<CategoryStoriesResponse>> response) {
+                if(response.isSuccessful()){
+                    storyList = response.body().getData().getStories();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<CategoryStoriesResponse>> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
+                storyList=null;
+            }
+        });
+        return storyList;
+    }
+
+    public List<Category> getAllCategories(){
+        api.getAllCategories().enqueue(new Callback<BaseResponse<List<Category>>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<List<Category>>> call, Response<BaseResponse<List<Category>>> response) {
+                if(response.isSuccessful()){
+                    categoryList=response.body().getData();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<List<Category>>> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
+                categoryList=null;
+            }
+        });
+        return categoryList;
+    }
+
+
+
+    //TODO Comment methods not yet rectified
+    //Comment APIs
+    public boolean addComment(int storyId, String comment){
+        //TODO Helperclass is unfinished
+        return AddCommentHelper.addOrUpdateComment(storyId,comment);
+    }
+
+    public List<Category> updateComment(int StoryId, String comment){
         return null;
     }
 
-    public void addStory(Story newStory){
+
+    public void deleteComment(String token, int commentId ){
 
     }
 
 
+
+
+
+
+    //Authentication APIs
     public void registerUser(User user){
 
     }
@@ -89,15 +234,57 @@ public class Repository {
 
     }
 
+    public void logoutUser(String token){
+
+    }
+
+    public void getUser(String token){
+
+    }
+
+    public void changeUserPassword(String token, String oldPassword, String newPassword, String confirmPassword){
+
+    }
+
+
+
+
+    //***** Bookmark APIs *****//
+    public void bookmarkStory(String token, int storyId){
+
+    }
+
+    public void deleteBookmarkedStory(String token, int storyId){
+
+    }
+
+
+    public void getStoryBookmarkStatus(String token, int storyId){
+
+    }
+
+
+
+
+
+
+    //User APIs
+
+    public void getAllUsers(){
+
+    }
+
     public void getUserProfile(String token){
 
     }
 
-    public void reactToStory(String action, String storyId){
+    public void updateUserProfile(String token, User user){
 
     }
 
+    public void updateUserProfilePicture(String token, String confirmToken, Uri photoUri){
 
+    }
 
 
 

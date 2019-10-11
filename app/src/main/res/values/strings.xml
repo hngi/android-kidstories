@@ -57,4 +57,8 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
+
+    <string name="facebook_app_id">516313285816051</string>
+    <string name="fb_login_protocol_scheme">fb516313285816051</string>
+
 </resources>

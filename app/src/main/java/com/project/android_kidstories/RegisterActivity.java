@@ -1,17 +1,41 @@
 package com.project.android_kidstories;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -25,6 +49,15 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "AndroidClarified";
     private GoogleSignInClient googleSignInClient;
     private Button googleSignInButton;
+
+    private LoginButton loginButton;
+    private CircleImageView circleImageView;
+    private TextView txtName,txtEmail;
+
+
+    private CallbackManager callbackManager;
+
+
     EditText email;
     EditText phone;
     EditText fullName;
@@ -33,12 +66,130 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressBar progressBar;
 
 
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        email = findViewById(R.id.reg_email);
+        loginButton = findViewById(R.id.login_button);
+        txtName = findViewById(R.id.reg_full_name);
+        txtEmail = findViewById(R.id.reg_email);
+        circleImageView = findViewById(R.id.profile_image);
+
+        callbackManager = CallbackManager.Factory.create();
+        loginButton.setReadPermissions(Arrays.asList("email","public_profile"));
+        checkLoginStatus();
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        callbackManager.onActivityResult(requestCode , resultCode , data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    AccessTokenTracker tokenTracker = new AccessTokenTracker() {
+        @Override
+        protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+            if (currentAccessToken==null){
+                txtName.setText("");
+                txtEmail.setText("");
+                circleImageView.setImageResource(0);
+                Toast.makeText(RegisterActivity.this , "User Logged Out", Toast.LENGTH_LONG).show();
+
+            }else{
+                loaduserprofile(currentAccessToken);
+            }
+
+        }
+    };
+
+    private void loaduserprofile(AccessToken  newAccessToken){
+        GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                try {
+                    String First_Name = object.getString("First_Name");
+                    String Last_Name = object.getString("Last_Name");
+                    String email =object.getString("email");
+                    String id = object.getString("id");
+
+                    String image_url = "https://graph.facebook.com/"+id+ "/picture?type=normal";
+
+                    txtEmail.setText(email);
+
+                    txtName.setText(First_Name+" "+Last_Name);
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.dontAnimate();
+
+                    Glide.with(RegisterActivity.this).load(image_url).into(circleImageView);
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields","First_Name,Last_Name,email,id");
+        request.setParameters(parameters);
+        request.executeAsync();
+
+    }
+
+    private void checkLoginStatus(){
+        if(AccessToken.getCurrentAccessToken()!=null){
+            loaduserprofile(AccessToken.getCurrentAccessToken());
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     /*  email = findViewById(R.id.reg_email);
         phone = findViewById(R.id.reg_contact);
         fullName = findViewById(R.id.reg_full_name);
         password = findViewById(R.id.reg_password);
@@ -119,4 +270,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
     }
+
 }
+
+}
+*/
+

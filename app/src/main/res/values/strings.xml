@@ -2,10 +2,10 @@
     <string name="app_name">Bedtime Stories</string>
     <string name="Amount">Enter Amount to Donate</string>
     <string name="expiry_date">Expiry Date</string>
-    <string name="card_expiry_month"> Month</string>
-    <string name="card_expiray_year"> Year</string>
+    <string name="card_expiry_month">Month</string>
+    <string name="card_expiray_year">Year</string>
     <string name="card_holder">Card Holder</string>
-    <string name="last_digits">The last three digits on the \n last  back of the card</string>
+    <string name="last_digits">The last three digits on the \n last back of the card</string>
     <string name="donate_now_btn">Donate now</string>
     <string name="read_free_bedtime_stories">Read free bedtime stories, fairytales \n and other stories</string>
     <string name="welcome">Welcome</string>
@@ -19,7 +19,14 @@
     <string name="donate">Donate</string>
     <string name="cvv">CVV</string>
 
-    <string name="dummy_text">Afterward, Mom has noticed that the boys havent been getting along so she devises "Mom Bucks" to pay them if they spend time together where they can trade in for one real dollar, but this unwittingly makes things worse. Meanwhile, Greg and Rowley try to make a funny YouTube video by Rowley lip-syncing to "Tik Tok" by Kesha, unfortunately (despite Rowley at one point sitting on a tinfoil ball with spikes made by Manny) it proves to be awful, getting only 4 hits. After a talent show is advertised on TV, the brothers see this as a big opportunity – Rowley suggests that he and Greg perform magic tricks, but Greg rejects the idea whilst Rodrick sees this as his band\'s big break.</string>
+    <string name="dummy_text">Afterward, Mom has noticed that the boys havent been getting along so she devises "Mom
+        Bucks" to pay them if they spend time together where they can trade in for one real dollar, but this unwittingly
+        makes things worse. Meanwhile, Greg and Rowley try to make a funny YouTube video by Rowley lip-syncing to "Tik
+        Tok" by Kesha, unfortunately (despite Rowley at one point sitting on a tinfoil ball with spikes made by Manny)
+        it proves to be awful, getting only 4 hits. After a talent show is advertised on TV, the brothers see this as a
+        big opportunity – Rowley suggests that he and Greg perform magic tricks, but Greg rejects the idea whilst
+        Rodrick sees this as his band\'s big break.
+    </string>
     <string name="by_author_name">By Author Name</string>
     <string name="story_image">Story Image</string>
     <string name="like_button">Like button</string>
@@ -32,5 +39,22 @@
     <string name="save">Save</string>
     <string name="image_status">No image uploaded</string>
     <string name="web_client_id">689216128658-4crq2p8colfv3m29o0n9ec2atrro6ihe.apps.googleusercontent.com</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
 
 </resources>

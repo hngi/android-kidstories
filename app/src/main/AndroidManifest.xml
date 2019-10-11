@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-
-          package="com.project.android_kidstories">
-
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-
     package="com.project.android_kidstories">
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
 
     <application
         android:allowBackup="true"
@@ -21,71 +13,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".SplashScreenActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity android:name=".StoryListingActivity"/>
-        <activity android:name=".EditProfile"/> <!-- Do not edit this theme -->
-        <activity
-            android:name=".DonateActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".StoryDetailActivity"/>
-        <activity android:name=".SingleStoryActivity"/>
-        <activity android:name=".RegisterActivity"/>
-        <activity android:name=".ProfileRegisterActivity"/>
-        <activity android:name=".ProfileActivity"/>
-        <activity android:name=".OnBoardingActivity"/>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".HomeActivity"/>
-        <activity android:name=".CategoriesActivity"/>
-        <activity android:name=".BookMark"/>
-        <activity android:name=".AddStoryActivity"/>
-        <activity android:name=".AddStoriesContentActivity"/>
-
-        <activity android:name=".About"></activity>
-        <activity
-            android:name=".SplashScreenActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".StoryListingActivity" />
-        <activity android:name=".EditProfile" /> <!-- Do not edit this theme -->
-        <activity
-            android:name=".DonateActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".StoryListingActivity"></activity>
+        <activity android:name=".EditProfile"></activity>
+        <!-- Do not edit this theme -->
+        <activity android:name=".SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".StoryDetailActivity" />
         <activity android:name=".SingleStoryActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ProfileRegisterActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".OnBoardingActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".OnBoardingActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".CategoriesActivity" />
-        <activity android:name=".BookMark" />
+        <activity android:name=".BookMark"/>
         <activity android:name=".AddStoryActivity" />
         <activity android:name=".AddStoriesContentActivity" />
-        <activity android:name=".MainActivity"></activity>
-
+        <activity android:name=".DonateActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

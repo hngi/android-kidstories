@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -23,11 +26,18 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "AndroidClarified";
     private GoogleSignInClient googleSignInClient;
     private Button googleSignInButton;
+    EditText email;
+    EditText password;
+    Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        email = findViewById(R.id.et_email);
+        password = findViewById(R.id.et_password);
+        btn = findViewById(R.id.login_button);
 
         googleSignInButton = findViewById(R.id.google_auth_button);
 
@@ -47,8 +57,32 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginUser();
+            }
+        });
+
     }
 
+    private void loginUser() {
+        String email_string = email.getText().toString();
+        String password_string = password.getText().toString();
+
+        //validating text fields
+
+        if(TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())){
+            email.setError("Please enter a valid email address");
+            return;
+        }
+
+        if (TextUtils.isEmpty(password_string)) {
+            password.setError("Please enter a password");
+            return;
+        }
+
+    }
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

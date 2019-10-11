@@ -13,8 +13,8 @@ public class OnBoardingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_boarding);
     }
-
-    public void openDonateActivity(View view) {
+    // TODO: Remove these codes
+/*    public void openDonateActivity(View view) {
         startActivity(new Intent(OnBoardingActivity.this, DonateActivity.class));
     }
 
@@ -48,5 +48,5 @@ public class OnBoardingActivity extends AppCompatActivity {
 
     public void openBookmarkActivity(View view) {
         startActivity(new Intent(OnBoardingActivity.this, BookMark.class));
-    }
+    }*/
 }

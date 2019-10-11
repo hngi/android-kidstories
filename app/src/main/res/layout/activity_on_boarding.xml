@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".OnBoardingActivity">
-    <Button
+
+    <!-- TODO: Remove these codes -->
+   <!-- <Button
         android:id="@+id/login_activity_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -91,5 +93,5 @@
         android:text="About Activity"
         android:onClick="openAboutActivity"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bookmark_activity_button"/>
+        app:layout_constraintTop_toBottomOf="@id/bookmark_activity_button"/>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,8 +35,6 @@ public class OnBoardingActivity extends AppCompatActivity {
     private Button btnGetStarted;
     private Animation btnAnimation;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

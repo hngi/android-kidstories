@@ -100,7 +100,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/roundbutton"
             android:drawableStart="@drawable/facebook"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/roboto_regular"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
             android:text="facebook"
@@ -119,7 +119,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/roundbutton"
             android:drawableStart="@drawable/google"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/roboto_regular"
             android:gravity="center"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
@@ -137,7 +137,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/register_round_button"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/roboto_regular"
             android:text="Register"
             android:textAllCaps="false"
             android:textColor="#ffffff"
@@ -167,6 +167,16 @@
                 android:text="create an account"
                 android:textColor="#3f9ff7" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/reg_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorPrimary"
+            android:visibility="invisible" />
 
 
     </LinearLayout>

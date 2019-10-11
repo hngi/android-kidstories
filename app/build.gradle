@@ -82,5 +82,7 @@ dependencies {
 
     //Flutterwave
     implementation 'com.github.Flutterwave:rave-android:1.0.39'
+    implementation 'androidx.navigation:navigation-fragment:2.1.0'
+    implementation 'androidx.navigation:navigation-ui:2.1.0'
 
 }

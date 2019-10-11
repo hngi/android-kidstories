@@ -35,15 +35,6 @@ public class OnBoardingActivity extends AppCompatActivity {
     private Button btnGetStarted;
     private Animation btnAnimation;
 
-   /* private ViewPager viewPager;
-    private OnboardingPageAdapter onboardingPageAdapter;
-    private List<OnboardingItem> mList;
-    private TabLayout tabLayout;
-    private Button btnNext;
-    private int position = 0;
-    private Button btnGetStarted;
-    private Animation btnAnimation;*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +42,7 @@ public class OnBoardingActivity extends AppCompatActivity {
 
         //When this  activity is about to get launched, we need to check if that is the apps initial launching
         if (restorePrefData()){
-            Intent mainActivity = new Intent(OnBoardingActivity.this, HomeActivity.class);
+            Intent mainActivity = new Intent(OnBoardingActivity.this, MainActivity.class);
             startActivity(mainActivity);
             finish();
         }
@@ -129,7 +120,7 @@ public class OnBoardingActivity extends AppCompatActivity {
         btnGetStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(OnBoardingActivity.this, HomeActivity.class));
+                startActivity(new Intent(OnBoardingActivity.this, MainActivity.class));
                 //Save value to storage to indicate that user has already seen the onboarding in order not to repeat
                 //use sharepref
                 savePrefData();

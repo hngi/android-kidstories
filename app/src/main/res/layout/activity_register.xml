@@ -36,7 +36,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="Full Name"
-
+            android:background="@drawable/edit_text_rectangle"
             android:inputType="textPersonName"
             android:textColorHint="#000000" />
 
@@ -50,6 +50,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="E-mail"
+            android:background="@drawable/edit_text_rectangle"
             android:inputType="textEmailAddress"
             android:textColorHint="@color/colorBlack" />
 
@@ -63,6 +64,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="Phone No"
+            android:background="@drawable/edit_text_rectangle"
             android:inputType="phone"
             android:textColorHint="@color/colorBlack" />
 

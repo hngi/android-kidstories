@@ -25,11 +25,12 @@
     <string name="like_button">Like button</string>
 
     <string name="back_button">Back</string>
-    <string name="edit_profile" >Edit Profile</string>
+    <string name="edit_profile">Edit Profile</string>
     <string name="username">Joshua Atoms</string>
     <string name="name">Name</string>
     <string name="upload_image">Upload Image</string>
     <string name="save">Save</string>
     <string name="image_status">No image uploaded</string>
+    <string name="web_client_id">689216128658-4crq2p8colfv3m29o0n9ec2atrro6ihe.apps.googleusercontent.com</string>
 
 </resources>

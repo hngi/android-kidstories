@@ -13,6 +13,8 @@ import com.project.android_kidstories.R;
 
 public class PopularStoriesFragment extends Fragment {
 
+    public static PopularStoriesFragment newInstance(){return new PopularStoriesFragment();}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

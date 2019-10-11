@@ -13,6 +13,7 @@ import com.project.android_kidstories.R;
 
 public class CategoriesFragment extends Fragment {
 
+    public static CategoriesFragment newInstance(){return new CategoriesFragment();}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

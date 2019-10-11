@@ -1,3 +1,4 @@
+/*
 package com.project.android_kidstories;
 
 
@@ -196,7 +197,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /* ********************************* MENU ******************************************* */
+    */
+/* ********************************* MENU ******************************************* *//*
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
@@ -210,3 +213,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 }
+*/

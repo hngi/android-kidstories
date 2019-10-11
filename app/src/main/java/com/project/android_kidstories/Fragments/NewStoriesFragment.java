@@ -25,6 +25,7 @@ public class NewStoriesFragment extends Fragment {
     List<String> storyName;
     List<Integer> storyPic;
 
+    public static NewStoriesFragment newInstance(){return new NewStoriesFragment();}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

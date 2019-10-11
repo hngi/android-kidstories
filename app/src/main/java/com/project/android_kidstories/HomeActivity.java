@@ -6,10 +6,10 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
-import com.project.android_kidstories.Adapters.SectionsPageAdapter;
-import com.project.android_kidstories.Fragments.CategoriesFragment;
-import com.project.android_kidstories.Fragments.NewStoriesFragment;
-import com.project.android_kidstories.Fragments.PopularStoriesFragment;
+import com.project.android_kidstories.adapters.SectionsPageAdapter;
+import com.project.android_kidstories.fragments.CategoriesFragment;
+import com.project.android_kidstories.fragments.NewStoriesFragment;
+import com.project.android_kidstories.fragments.PopularStoriesFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -49,4 +49,11 @@ public class OnBoardingActivity extends AppCompatActivity {
     public void openBookmarkActivity(View view) {
         startActivity(new Intent(OnBoardingActivity.this, BookMark.class));
     }*/
+
+/*
+
+    public void openSingleStory(View view) {
+        startActivity(new Intent(OnBoardingActivity.this, SingleStoryActivity.class));
+    }*/
+
 }

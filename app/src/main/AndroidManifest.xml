@@ -37,11 +37,6 @@
         <activity android:name=".ProfileRegisterActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".OnBoardingActivity" />
-<<<<<<< HEAD
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-=======
         <activity android:name=".LoginActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -50,16 +45,11 @@
         </intent-filter>
         </activity>
         <activity android:name=".HomeActivity" />
->>>>>>> add scroll view
         <activity android:name=".CategoriesActivity" />
         <activity android:name=".BookMark" />
         <activity android:name=".AddStoryActivity" />
         <activity android:name=".AddStoriesContentActivity" />
         <activity android:name=".MainActivity">
-<<<<<<< HEAD
-=======
-
->>>>>>> add scroll view
         </activity>
     </application>
 

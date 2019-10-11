@@ -6,96 +6,192 @@
     android:layout_height="match_parent"
     tools:context=".AddStoryActivity">
 
-    <TextView
-        android:id="@+id/add_story_label"
-        android:layout_width="113dp"
-        android:layout_height="33dp"
-        android:text="Add Story"
-        android:textColor="#3F9FF7"
-        android:textColorHint="#3F9FF7"
-        android:textSize="24dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.067" />
-
-    <EditText
-        android:id="@+id/title_edt"
-        android:layout_width="309dp"
-        android:layout_height="40dp"
-        android:ems="10"
-        android:hint="Title"
-        android:inputType="textPersonName"
-        android:radius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_story_label"
-        app:layout_constraintVertical_bias="0.075" />
-
-    <EditText
-        android:id="@+id/author_edt"
-        android:layout_width="309dp"
-        android:layout_height="40dp"
-        android:ems="10"
-        android:hint="Author"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/title_edt"
-        app:layout_constraintStart_toStartOf="@+id/title_edt"
-        app:layout_constraintTop_toBottomOf="@+id/title_edt"
-        app:layout_constraintVertical_bias="0.049" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="81dp"
-        android:layout_height="21dp"
-        android:text="     Content"
-        android:textColor="#3F9FF7"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/author_edt"
-        app:layout_constraintTop_toBottomOf="@+id/author_edt"
-        app:layout_constraintVertical_bias="0.05" />
-
-    <EditText
-        android:id="@+id/story_edt"
-        android:layout_width="311dp"
-        android:layout_height="259dp"
-        android:ems="10"
-        android:hint="Write Your Story Here"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.112" />
-
-    <Button
-        android:id="@+id/button_donate"
-        android:layout_width="309dp"
-        android:layout_height="35dp"
-        android:background="#3F9FF7"
-        android:text="Create"
-        android:textColor="#F2FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/story_edt"
-        app:layout_constraintVertical_bias="0.238" />
-
-    <TextView
-        android:id="@+id/textView3"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="28dp"
-        android:hint="                      No image uploaded"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/story_edt"
-        app:layout_constraintEnd_toEndOf="@+id/author_edt"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/author_edt"
-        app:layout_constraintVertical_bias="0.45999998" />
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/add_story_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/comicsans_regular"
+                android:text="Add Story"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/title_edt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread" />
+
+            <EditText
+                android:id="@+id/title_edt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/border"
+                android:ems="10"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="Title"
+                android:inputType="textCapWords"
+                android:paddingStart="16dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="12dp"
+                android:textColor="@color/main_color_grey_800"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toTopOf="@+id/author_edt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/add_story_label" />
+
+            <EditText
+                android:id="@+id/author_edt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/border"
+                android:ems="10"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="Author"
+                android:inputType="textPersonName|textCapWords"
+                android:paddingStart="16dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="12dp"
+                android:textColor="@color/main_color_grey_800"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="@+id/title_edt"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/title_edt"
+                app:layout_constraintTop_toBottomOf="@+id/title_edt" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Content"
+                android:textColor="@color/main_color_grey_800"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/story_edt"
+                app:layout_constraintStart_toStartOf="@+id/author_edt" />
+
+            <EditText
+                android:id="@+id/story_edt"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/border"
+                android:ems="10"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="top"
+                android:hint="Write Your Story Here..."
+                android:inputType="textCapSentences|textMultiLine"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/main_color_grey_800"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/button_donate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+            <Button
+                android:id="@+id/button_donate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/rounded_triangle_blue"
+                android:text="Create"
+                android:textAllCaps="false"
+                android:textColor="#F2FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/story_edt" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/border"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/story_edt"
+                app:layout_constraintEnd_toEndOf="@+id/author_edt"
+                app:layout_constraintTop_toBottomOf="@+id/author_edt">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/upload_image_button"
+                    android:text="Upload image"
+                    android:textAllCaps="false"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:hint="No image uploaded"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/imageButton8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#E8FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.044"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.023"
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,9 +8,11 @@
     tools:context=".RegisterActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/reg_txt_view"
@@ -147,11 +149,13 @@
             android:text="Register"
             android:textAllCaps="false"
             android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -161,7 +165,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"
-                android:text="Not registered?"
+                android:text="Already registered? "
                 android:textColor="@color/colorBlack" />
 
             <TextView
@@ -170,9 +174,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"
-                android:text="create an account"
+                android:text="Sign in"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/reg_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:visibility="invisible" />
 
 
     </LinearLayout>

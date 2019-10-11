@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -32,6 +36,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     //retrofit dependencies
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
@@ -81,5 +86,9 @@ dependencies {
 
     //Flutterwave
     implementation 'com.github.Flutterwave:rave-android:1.0.39'
+
+    //ButterKnife
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
 
 }

@@ -38,9 +38,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".OnBoardingActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity android:name=".LoginActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".CategoriesActivity" />

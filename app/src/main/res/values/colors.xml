@@ -46,4 +46,14 @@
 
     <color name="black">#000000</color>
     <color name="grey">#808080</color>
+
+    <!-- Color for button style -->
+    <color name="gradient_start">#4cb4ff</color>
+    <color name="gradient_end">#18a3fe</color>
+
+
+    <!-- Color for Tab and screen text -->
+    <color name="tab_indicator_gray">#c0c0c0</color>
+    <color name="intro_title_color">#000000</color>
+    <color name="intro_description_color">#656565</color>
 </resources>

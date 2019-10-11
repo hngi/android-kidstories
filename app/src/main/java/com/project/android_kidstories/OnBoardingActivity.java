@@ -30,6 +30,15 @@ public class OnBoardingActivity extends AppCompatActivity {
     private Button btnGetStarted;
     private Animation btnAnimation;
 
+    private ViewPager viewPager;
+    private OnboardingPageAdapter onboardingPageAdapter;
+    private List<OnboardingItem> mList;
+    private TabLayout tabLayout;
+    private Button btnNext;
+    private int position = 0;
+    private Button btnGetStarted;
+    private Animation btnAnimation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +50,7 @@ public class OnBoardingActivity extends AppCompatActivity {
             startActivity(mainActivity);
             finish();
         }
+
         setContentView(R.layout.activity_on_boarding);
 
 

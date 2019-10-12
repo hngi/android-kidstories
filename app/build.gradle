@@ -2,6 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
+
+    compileOptions {
+        targetCompatibility = "8"
+        sourceCompatibility = "8"
+    }
+
     defaultConfig {
         applicationId "com.project.android_kidstories"
         minSdkVersion 21
@@ -26,7 +32,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
 
     //Added By Ehma, Review not to include repeat
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -57,8 +62,8 @@ dependencies {
 
 
     //Glide Image Library
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
@@ -73,4 +78,18 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
 
+    implementation 'androidx.navigation:navigation-fragment:2.1.0'
+    implementation 'androidx.navigation:navigation-ui:2.1.0'
+
+    //ButterKnife
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+
+    //Facebook Dependencies
+    implementation 'com.facebook.android:facebook-login:[5,6)'
+
+
+}
+repositories {
+    mavenCentral()
 }

@@ -30,7 +30,7 @@
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/comic_sans"
                 android:gravity="top"
-                android:text="@string/donate"
+                android:text="About"
                 android:textColor="@color/colorWhite"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"

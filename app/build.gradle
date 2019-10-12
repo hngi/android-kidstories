@@ -91,7 +91,7 @@ dependencies {
     implementation 'com.github.Flutterwave:rave-android:1.0.39'
 
 
-    
+
     compile "androidx.core:core-ktx:+"
     implementation 'androidx.core:core-ktx:1.1.0'
     compile "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0"

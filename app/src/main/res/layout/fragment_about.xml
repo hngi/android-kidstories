@@ -1,16 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".FragmentAbout">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="306dp"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:layout_gravity="center"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        android:background="@drawable/box_word"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/kiddies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/comic_sans"
+            android:gravity="center_vertical"
+            android:text="Kiddies stories is a mobile app that gives the best of value to your child."
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/develop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="150dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/comic_sans"
+            android:gravity="bottom"
+            android:text="Developed by mobile track HNG6 2019"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

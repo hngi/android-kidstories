@@ -6,9 +6,19 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="POPULAR STORIES"
+        android:text="NEW STORIES"
+        android:visibility="gone"
         android:layout_gravity="center"
         android:textSize="22sp"
         android:gravity="center"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerView"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
+
 
 </LinearLayout>

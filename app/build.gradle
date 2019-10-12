@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -27,6 +31,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -84,5 +89,17 @@ dependencies {
     implementation 'com.github.Flutterwave:rave-android:1.0.39'
     implementation 'androidx.navigation:navigation-fragment:2.1.0'
     implementation 'androidx.navigation:navigation-ui:2.1.0'
+
+    //ButterKnife
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+
+    //Facebook Dependencies
+    implementation 'com.facebook.android:facebook-login:[5,6)'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 
 }

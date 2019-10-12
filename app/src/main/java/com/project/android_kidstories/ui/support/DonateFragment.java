@@ -67,7 +67,7 @@ public class DonateFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_donate, container, false);
 
         button = root.findViewById(R.id.button_donate);
-        editText = root.findViewById(R.id.editText_amount);
+       // editText = root.findViewById(R.id.editText_amount);
         country = "NG";
         currency = "NGN";
         email = "Igboanyika19.com"; // Bsckend code to get email name goes here

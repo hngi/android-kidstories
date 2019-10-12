@@ -30,6 +30,11 @@
             android:id="@+id/nav_log_out"
             android:icon="@drawable/ic_action_log_out"
             android:title="Log out" />
+
+        <item
+            android:id="@+id/nav_Profile"
+            android:icon="@drawable/ic_action_log_out"
+            android:title="Profile" />
     </group>
 
 

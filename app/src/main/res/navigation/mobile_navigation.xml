@@ -41,5 +41,11 @@
         android:label="Log Out"
         tools:layout="@layout/fragment_log_out" />
 
+    <fragment
+        android:id="@+id/nav_Profile"
+        android:name="com.project.android_kidstories.ui.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/profile_fragment" />
+
 
 </navigation>

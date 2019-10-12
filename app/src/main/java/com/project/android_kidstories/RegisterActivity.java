@@ -3,9 +3,12 @@ package com.project.android_kidstories;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
@@ -34,7 +37,18 @@ import java.util.Arrays;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+
 public class RegisterActivity extends AppCompatActivity {
+
+    private static final String TAG = "AndroidClarified";
+    private GoogleSignInClient googleSignInClient;
+    private Button googleSignInButton;
 
     private LoginButton loginButton;
     private CircleImageView circleImageView;
@@ -153,7 +167,7 @@ public class RegisterActivity extends AppCompatActivity {
             loaduserprofile(AccessToken.getCurrentAccessToken());
         }
     }
-}
+
 
 
 
@@ -188,7 +202,47 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        googleSignInButton = findViewById(R.id.reg_google);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getResources().getString(R.string.web_client_id))
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        googleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, 101);
+            }
+        });
+
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK)
+            switch (requestCode) {
+                case 101:
+                    try {
+                        // The Task returned from this call is always completed, no need to attach
+                        // a listener.
+                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                        GoogleSignInAccount account = task.getResult(ApiException.class);
+                        String idToken = account.getIdToken();
+                    /*
+                      send this id token to server using HTTPS
+                     */
+
+//                    } catch (ApiException e) {
+//                        // The ApiException status code indicates the detailed failure reason.
+//                        Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+//                    }
+//                    break;
+//            }
+//
+//    }
 
     private void signInUser() {
         String email_string = email.getText().toString();
@@ -216,5 +270,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
     }
+
 }
-*/
+

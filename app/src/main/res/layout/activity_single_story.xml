@@ -53,17 +53,20 @@
         app:layout_constraintGuide_begin="20dp"
         app:layout_constraintGuide_percent="0.36" />
 
+    <!--android:text="@string/by_author_name"-->
+
     <TextView
         android:id="@+id/author_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/by_author_name"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <!-- android:text="@string/dummy_text"-->
 
     <TextView
         android:id="@+id/story_content"
@@ -72,7 +75,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/dummy_text"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -76,33 +76,34 @@ public class DonateFragment extends Fragment {
         narration = "Donation";
         txRef = email +" "+  UUID.randomUUID().toString();
 
-        button.setOnClickListener(v -> {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            if (editText.getText().toString().trim().matches("")){
-                Toast.makeText(getApplicationContext(), "Donation should not be empty", Toast.LENGTH_LONG).show();
-            }
-            else if(editText.getText().length() < 3 && (!editText.getText().toString().trim().matches("")) ){
-                Toast.makeText(getApplicationContext(), "The minimun donation is 100", Toast.LENGTH_LONG).show();
-            }
-            else {
-                amount = editText.getText().toString();
-                new RavePayManager(getActivity()).setAmount(Integer.valueOf(amount))
-                        .setCountry(country)
-                        .setCurrency(currency)
-                        .setEmail(email)
-                        .setfName(fName)
-                        .setlName(lName)
-                        .setNarration(narration)
-                        .setPublicKey(publicKey)
-                        .setEncryptionKey(encryptionKey)
-                        .setTxRef(txRef)
-                        .acceptAccountPayments(true)
-                        .acceptCardPayments(true)
-                        .acceptMpesaPayments(false)
-                        .onStagingEnv(false)
-                        .withTheme(R.style.DefaultTheme)
-                        .allowSaveCardFeature(true)
-                        .initialize();
+                if (editText.getText().toString().trim().matches("")) {
+                    Toast.makeText(getApplicationContext(), "Donation should not be empty", Toast.LENGTH_LONG).show();
+                } else if (editText.getText().length() < 3 && (!editText.getText().toString().trim().matches(""))) {
+                    Toast.makeText(getApplicationContext(), "The minimun donation is 100", Toast.LENGTH_LONG).show();
+                } else {
+                    amount = editText.getText().toString();
+                    new RavePayManager(DonateFragment.this.getActivity()).setAmount(Integer.valueOf(amount))
+                            .setCountry(country)
+                            .setCurrency(currency)
+                            .setEmail(email)
+                            .setfName(fName)
+                            .setlName(lName)
+                            .setNarration(narration)
+                            .setPublicKey(publicKey)
+                            .setEncryptionKey(encryptionKey)
+                            .setTxRef(txRef)
+                            .acceptAccountPayments(true)
+                            .acceptCardPayments(true)
+                            .acceptMpesaPayments(false)
+                            .onStagingEnv(false)
+                            .withTheme(R.style.DefaultTheme)
+                            .allowSaveCardFeature(true)
+                            .initialize();
+                }
             }
         });
 

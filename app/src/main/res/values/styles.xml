@@ -34,24 +34,24 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="OTPButtonStyle">@style/otpBtnStyle</item>
-        <item name="PayButtonStyle">@style/payBtnStylee</item>
-        <item name="PinButtonStyle">@style/pinButtonStyle</item>
-        <item name="OTPHeaderStyle">@style/otpHeaderStyle</item>
-        <item name="TabLayoutStyle">@style/tabLayoutStyles</item>
-        <item name="PinHeaderStyle">@style/pinHeaderStyle</item>
+<!--        <item name="OTPButtonStyle">@style/otpBtnStyle</item>-->
+<!--        <item name="PayButtonStyle">@style/payBtnStylee</item>-->
+<!--        <item name="PinButtonStyle">@style/pinButtonStyle</item>-->
+<!--        <item name="OTPHeaderStyle">@style/otpHeaderStyle</item>-->
+<!--        <item name="TabLayoutStyle">@style/tabLayoutStyles</item>-->
+<!--        <item name="PinHeaderStyle">@style/pinHeaderStyle</item>-->
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="SavedCardButtonStyle">@style/svdCardsBtnStyle</item>
+<!--        <item name="SavedCardButtonStyle">@style/svdCardsBtnStyle</item>-->
     </style>
 
     <style name="payBtnStylee" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/blue_button_curved</item>
-        <item name="android:textColor">@color/white</item>
+<!--        <item name="android:textColor">@color/white</item>-->
     </style>
 
     <style name="tabLayoutStyles" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorColor">@color/tabIndicatorColor</item>
+<!--        <item name="tabIndicatorColor">@color/tabIndicatorColor</item>-->
         <item name="tabSelectedTextColor">@color/colorPrimary</item>
     </style>
     <!-- Do not Delete-->

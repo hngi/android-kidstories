@@ -58,9 +58,13 @@
         android:layout_height="50dp"
         android:layout_below="@id/imageMain"
         android:layout_centerInParent="true"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/edit_text_rectangle"
         android:hint="@string/e_mail"
+        android:inputType="textEmailAddress"
         android:paddingLeft="20dp"
         android:textAllCaps="false" />
 
@@ -70,9 +74,13 @@
         android:layout_height="50dp"
         android:layout_below="@id/et_email"
         android:layout_centerInParent="true"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/edit_text_rectangle"
         android:hint="Password"
+        android:inputType="textPassword|numberPassword"
         android:paddingLeft="20dp"
         android:textAllCaps="false" />
 

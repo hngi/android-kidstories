@@ -8,9 +8,11 @@
     tools:context=".RegisterActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/reg_txt_view"
@@ -34,7 +36,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="Full Name"
-
+            android:background="@drawable/edit_text_rectangle"
             android:inputType="textPersonName"
             android:textColorHint="#000000" />
 
@@ -48,6 +50,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="E-mail"
+            android:background="@drawable/edit_text_rectangle"
             android:inputType="textEmailAddress"
             android:textColorHint="@color/colorBlack" />
 
@@ -61,6 +64,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="Phone No"
+            android:background="@drawable/edit_text_rectangle"
             android:inputType="phone"
             android:textColorHint="@color/colorBlack" />
 
@@ -111,6 +115,33 @@
             android:textColor="#000000"
             android:textSize="14sp" />
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtview_re"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:textSize="18sp"
+            />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
+
         <Button
             android:id="@+id/reg_google"
             android:layout_width="match_parent"
@@ -147,11 +178,13 @@
             android:text="Register"
             android:textAllCaps="false"
             android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -161,7 +194,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"
-                android:text="Not registered?"
+                android:text="Already registered? "
                 android:textColor="@color/colorBlack" />
 
             <TextView
@@ -170,9 +203,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"
-                android:text="create an account"
+                android:text="Sign in"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/reg_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:visibility="invisible" />
 
 
     </LinearLayout>

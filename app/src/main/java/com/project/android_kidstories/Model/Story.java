@@ -5,11 +5,14 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 
 @Entity
 public class Story {
 
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     private int id;
@@ -30,7 +33,7 @@ public class Story {
     private String imageUrl;
     @SerializedName("image_name")
     @Expose
-    private Object imageName;
+    private String imageName;
     @SerializedName("age")
     @Expose
     private String age;
@@ -57,6 +60,7 @@ public class Story {
     private boolean bookmark;
     @SerializedName("comments")
     @Expose
+    @Ignore
     private Comments comments;
 
     public int getId() {
@@ -107,11 +111,11 @@ public class Story {
         this.imageUrl = imageUrl;
     }
 
-    public Object getImageName() {
+    public String getImageName() {
         return imageName;
     }
 
-    public void setImageName(Object imageName) {
+    public void setImageName(String imageName) {
         this.imageName = imageName;
     }
 
@@ -179,10 +183,12 @@ public class Story {
         this.bookmark = bookmark;
     }
 
+    @Ignore
     public Comments getComments() {
         return comments;
     }
 
+    @Ignore
     public void setComments(Comments comments) {
         this.comments = comments;
     }

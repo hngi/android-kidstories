@@ -15,7 +15,9 @@ import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
+import com.project.android_kidstories.Utils.Common;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -31,35 +33,31 @@ import retrofit2.Response;
 
 public class Repository {
     private static Repository INSTANCE;
-    private static final String TAG = "Repository";
+    private static final String TAG = "kidstories";
     private final Api api;
     private StoryDao storyDao;
 
 
     private Story story;
-    private List<Story> storyList;
-    private List<Category> categoryList;
+    private List<Story> storyList=new ArrayList<>();
+    private List<Category> categoryList=new ArrayList<>();
     private Category category;
 
-
-
-    public static synchronized Repository getInstance(Context context){
-        if(INSTANCE==null){
-            INSTANCE=new Repository(context);
-        }
-        return INSTANCE;
-    }
-
-    private Repository(Context context) {
+    public Repository(Context context) {
         StoryDatabase storyDatabase = StoryDatabase.getInstance(context);
         storyDao = storyDatabase.storyDao();
+        //api = ((Common)context.getApplicationContext()).getApi();
         api = RetrofitClient.getInstance().create(Api.class);
+        Log.d(TAG, "Repository: Created");
     }
 
+    public Api getApi() {
+        return api;
+    }
 
     //******************** `Getters for Locally storing Stories *************************
 
-    //TODO Rx needs to be added to reduce working on the main thread
+    //TODO Rx needs to be added to reduce work on the main thread
     public Long insertOfflineStory(Story story){
         return storyDao.insertStory(story);
     }
@@ -83,7 +81,6 @@ public class Repository {
 
 
 
-
     //******************** `Getters to make Api calls *************************
 
     //Story APIs
@@ -102,12 +99,13 @@ public class Repository {
             public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
                 if(response.isSuccessful()){
                     story = response.body().getData();
+                    Log.d(TAG, "getStory Successful: ");
                 }
             }
 
             @Override
             public void onFailure(Call<StoryBaseResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: "+t.getMessage());
+                Log.w(TAG, "onFailure: "+t.getMessage());
                 story=null;
             }
         });
@@ -121,13 +119,13 @@ public class Repository {
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 if(response.isSuccessful()){
                     storyList = response.body().getData();
+                    Log.d(TAG, "getAllStories Successful: Stories "+storyList.size());
                 }
             }
 
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure: "+t.getMessage());
-                storyList=null;
+                Log.w(TAG, "onFailure: "+t.getMessage());
             }
         });
         return storyList;
@@ -148,25 +146,25 @@ public class Repository {
 
     //Catergory APIs
     //******  Verified
-    public Category getCategory(int categoryId){
+    public void getCategory(int categoryId){
         api.getCategory(categoryId).enqueue(new Callback<BaseResponse<Category>>() {
             @Override
             public void onResponse(Call<BaseResponse<Category>> call, Response<BaseResponse<Category>> response) {
                 if(response.isSuccessful()){
                     category = response.body().getData();
+                    Log.d(TAG, "getCategory: Successful CategoryName "+category.getName());
                 }
             }
 
             @Override
             public void onFailure(Call<BaseResponse<Category>> call, Throwable t) {
-                Log.d(TAG, "onFailure: "+t.getMessage());
+                Log.w(TAG, "onFailure: "+t.getMessage());
                 category=null;
             }
         });
-        return category;
     }
 
-    public List<Story> getStoriesWithAuthourByCategoryId(int categoryId){
+    public void getStoriesWithAuthourByCategoryId(int categoryId){
         api.getStoriesByCategoryIdandUser(categoryId).enqueue(new Callback<BaseResponse<CategoryStoriesResponse>>() {
             @Override
             public void onResponse(Call<BaseResponse<CategoryStoriesResponse>> call, Response<BaseResponse<CategoryStoriesResponse>> response) {
@@ -177,11 +175,9 @@ public class Repository {
 
             @Override
             public void onFailure(Call<BaseResponse<CategoryStoriesResponse>> call, Throwable t) {
-                Log.d(TAG, "onFailure: "+t.getMessage());
-                storyList=null;
+                Log.w(TAG, "onFailure: "+t.getMessage());
             }
         });
-        return storyList;
     }
 
     public List<Category> getAllCategories(){
@@ -190,13 +186,13 @@ public class Repository {
             public void onResponse(Call<BaseResponse<List<Category>>> call, Response<BaseResponse<List<Category>>> response) {
                 if(response.isSuccessful()){
                     categoryList=response.body().getData();
+                    Log.d(TAG, "getCategory: Successful Category "+categoryList.size());
                 }
             }
 
             @Override
             public void onFailure(Call<BaseResponse<List<Category>>> call, Throwable t) {
-                Log.d(TAG, "onFailure: "+t.getMessage());
-                categoryList=null;
+                Log.w(TAG, "onFailure: getAllCategories"+t.getMessage());
             }
         });
         return categoryList;

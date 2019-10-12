@@ -20,7 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddStoryHelper {
-    private static final String TAG = "AddStoryHelper";
+    private static final String TAG = "kidstories";
     public static final String TOKEN_KEY="token";
     public static String token = Prefs.getString(TOKEN_KEY, "");
     private static boolean isStoryAdded=false;

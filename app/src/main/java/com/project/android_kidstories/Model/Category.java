@@ -7,9 +7,9 @@ import java.util.List;
 
 public class Category {
 
-    @SerializedName("_id")
+    @SerializedName("id")
     @Expose
-    protected String id;
+    private int id;
     @SerializedName("name")
     @Expose
     private String name;
@@ -18,60 +18,19 @@ public class Category {
     private String imageUrl;
     @SerializedName("image_name")
     @Expose
-    private String imageName;
+    private Object imageName;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
-    @SerializedName("stories")
-    @Expose
-    private List<Story> stories = null;
-
-    public List<Story> getStories() {
-        return stories;
-    }
-
-    public void setStories(List<Story> stories) {
-        this.stories = stories;
-    }
-
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
 
-    public Category(String name) {
-        this.name = name;
-    }
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -89,5 +48,29 @@ public class Category {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Object getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(Object imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

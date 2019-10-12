@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_edit_profile, R.id.nav_categories, R.id.nav_donate,
-                R.id.nav_about, R.id.nav_home)
+                R.id.nav_about, R.id.nav_home, R.id.nav_Profile)
                 .setDrawerLayout(drawer)
                 .build();
 

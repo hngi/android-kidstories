@@ -4,14 +4,18 @@ package com.project.android_kidstories.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+
+@Entity
 public class Story {
 
-
+    @PrimaryKey
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private int id;
     @SerializedName("title")
     @Expose
     private String title;
@@ -20,54 +24,50 @@ public class Story {
     private String body;
     @SerializedName("category_id")
     @Expose
-    private Integer categoryId;
+    private int categoryId;
     @SerializedName("user_id")
     @Expose
-    private Integer userId;
+    private int userId;
     @SerializedName("image_url")
     @Expose
     private String imageUrl;
     @SerializedName("image_name")
     @Expose
     private String imageName;
-    @SerializedName("author")
-    @Expose
-    private String author;
     @SerializedName("age")
     @Expose
     private String age;
+    @SerializedName("author")
+    @Expose
+    private String author;
     @SerializedName("story_duration")
     @Expose
     private String storyDuration;
     @SerializedName("is_premium")
     @Expose
-    private Integer isPremium;
+    private int isPremium;
     @SerializedName("likes_count")
     @Expose
-    private Integer likesCount;
+    private int likesCount;
     @SerializedName("dislikes_count")
     @Expose
-    private Integer dislikesCount;
-    @SerializedName("user")
+    private int dislikesCount;
+    @SerializedName("reaction")
     @Expose
-    private User user = null;
+    private String reaction;
+    @SerializedName("bookmark")
+    @Expose
+    private boolean bookmark;
     @SerializedName("comments")
     @Expose
+    @Ignore
     private Comments comments;
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -87,19 +87,19 @@ public class Story {
         this.body = body;
     }
 
-    public Integer getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -119,20 +119,20 @@ public class Story {
         this.imageName = imageName;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public String getAge() {
         return age;
     }
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getStoryDuration() {
@@ -143,27 +143,54 @@ public class Story {
         this.storyDuration = storyDuration;
     }
 
-    public Integer getIsPremium() {
+    public int getIsPremium() {
         return isPremium;
     }
 
-    public void setIsPremium(Integer isPremium) {
+    public void setIsPremium(int isPremium) {
         this.isPremium = isPremium;
     }
 
-    public Integer getLikesCount() {
+    public int getLikesCount() {
         return likesCount;
     }
 
-    public void setLikesCount(Integer likesCount) {
+    public void setLikesCount(int likesCount) {
         this.likesCount = likesCount;
     }
 
-    public Integer getDislikesCount() {
+    public int getDislikesCount() {
         return dislikesCount;
     }
 
-    public void setDislikesCount(Integer dislikesCount) {
+    public void setDislikesCount(int dislikesCount) {
         this.dislikesCount = dislikesCount;
     }
+
+    public String getReaction() {
+        return reaction;
+    }
+
+    public void setReaction(String reaction) {
+        this.reaction = reaction;
+    }
+
+    public boolean isBookmark() {
+        return bookmark;
+    }
+
+    public void setBookmark(boolean bookmark) {
+        this.bookmark = bookmark;
+    }
+
+    @Ignore
+    public Comments getComments() {
+        return comments;
+    }
+
+    @Ignore
+    public void setComments(Comments comments) {
+        this.comments = comments;
+    }
+
 }

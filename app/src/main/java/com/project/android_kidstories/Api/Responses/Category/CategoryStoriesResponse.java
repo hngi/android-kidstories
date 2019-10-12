@@ -1,12 +1,12 @@
-package com.project.android_kidstories.Model;
+package com.project.android_kidstories.Api.Responses.Category;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.project.android_kidstories.Model.Story;
 
 import java.util.List;
 
-public class Category {
-
+public class CategoryStoriesResponse {
     @SerializedName("id")
     @Expose
     private int id;
@@ -25,6 +25,9 @@ public class Category {
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
+    @SerializedName("stories")
+    @Expose
+    private List<Story> stories = null;
 
     public int getId() {
         return id;
@@ -73,4 +76,14 @@ public class Category {
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public List<Story> getStories() {
+        return stories;
+    }
+
+    public void setStories(List<Story> stories) {
+        this.stories = stories;
+    }
+
 }
+

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.project.android_kidstories.R;
+
 public class AddStoriesContentActivity extends AppCompatActivity {
 
     @Override

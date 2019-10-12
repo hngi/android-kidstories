@@ -68,7 +68,12 @@ storyViewHolder.mTitle.setText(storyTitle.get(i));
             mImage = itemView.findViewById(R.id.recyclerImage);
             mTitle = itemView.findViewById(R.id.recyclerName);
 
-            itemView.setOnClickListener(view -> storyListener.onStoryClick());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    storyListener.onStoryClick();
+                }
+            });
         }
     }
 

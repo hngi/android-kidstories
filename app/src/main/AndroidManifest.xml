@@ -14,14 +14,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".NightmodeActivity"></activity>
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_the_main"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -32,8 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StoryListingActivity" />
-        <!-- Do not edit this theme -->
+        <activity android:name=".StoryListingActivity" /> <!-- Do not edit this theme -->
         <activity android:name=".StoryDetailActivity" />
         <activity android:name=".SingleStoryActivity" />
         <activity android:name=".RegisterActivity" />

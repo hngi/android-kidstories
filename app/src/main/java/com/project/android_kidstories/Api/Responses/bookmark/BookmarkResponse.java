@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Api.Responses;
+package com.project.android_kidstories.Api.Responses.bookmark;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  * @email ..: ukejee3@gmail.com
  * @created : 10/10/19
  */
-public class ReactionResponse {
+public class BookmarkResponse {
 
     @SerializedName("status")
     @Expose
@@ -19,18 +19,9 @@ public class ReactionResponse {
     @SerializedName("message")
     @Expose
     private String message;
-    @SerializedName("likes_count")
-    @Expose
-    private Integer likesCount;
-    @SerializedName("dislikes_count")
-    @Expose
-    private Integer dislikesCount;
-    @SerializedName("action")
-    @Expose
-    private String action;
     @SerializedName("data")
     @Expose
-    private Integer data;
+    private Boolean data;
 
     public String getStatus() {
         return status;
@@ -56,35 +47,11 @@ public class ReactionResponse {
         this.message = message;
     }
 
-    public Integer getLikesCount() {
-        return likesCount;
-    }
-
-    public void setLikesCount(Integer likesCount) {
-        this.likesCount = likesCount;
-    }
-
-    public Integer getDislikesCount() {
-        return dislikesCount;
-    }
-
-    public void setDislikesCount(Integer dislikesCount) {
-        this.dislikesCount = dislikesCount;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public Integer getData() {
+    public Boolean getData() {
         return data;
     }
 
-    public void setData(Integer data) {
+    public void setData(Boolean data) {
         this.data = data;
     }
 }

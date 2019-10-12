@@ -3,16 +3,15 @@ package com.project.android_kidstories.Api;
 import android.net.Uri;
 
 import com.project.android_kidstories.Api.Responses.BaseResponse;
-import com.project.android_kidstories.Api.Responses.BookmarkResponse;
-import com.project.android_kidstories.Api.Responses.CategoryAllResponse;
-import com.project.android_kidstories.Api.Responses.CommentResponse;
-import com.project.android_kidstories.Api.Responses.DataResponse;
-import com.project.android_kidstories.Api.Responses.LoginResponse;
-import com.project.android_kidstories.Api.Responses.ReactionResponse;
-import com.project.android_kidstories.Api.Responses.StoryAllResponse;
-import com.project.android_kidstories.Api.Responses.StoryCategoryResponse;
-import com.project.android_kidstories.Api.Responses.StoryReactionResponse;
-import com.project.android_kidstories.Api.Responses.StoryResponse;
+import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
+import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
+import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
+import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
+import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
+import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
+import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
 
@@ -21,7 +20,6 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -36,7 +34,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 
-public interface ApiInterface {
+public interface Api {
 
     //Authentication APIs
     @POST("auth/register")
@@ -76,6 +74,10 @@ public interface ApiInterface {
                                                               @Field("photo")Uri photoUri);
 
     //Story APIs
+
+    @GET("stories/{id}")
+    Call<StoryBaseResponse> getStory(@Path("id") int id);
+
     @GET("stories")
     Call<StoryAllResponse> getAllStories();
 
@@ -104,8 +106,6 @@ public interface ApiInterface {
             @Part MultipartBody.Part image
     );
 
-    @GET("stories/{id}")
-    Call<StoryResponse> getStory(@Path("id") int id);
 
     /***
      *
@@ -141,6 +141,8 @@ public interface ApiInterface {
     Call<ReactionResponse> dislikeStory(@Header("Authorization") String token,
                                       @Part("storyId") Integer storyId);
 
+
+
     //Bookmark APIs
     @POST("bookmarks/stories/{storyId}")
     Call<BookmarkResponse> bookmarkStory(@Header("Authorization") String token,
@@ -154,19 +156,19 @@ public interface ApiInterface {
     Call<BookmarkResponse> getStoryBookmarkStatus(@Header("Authorization") String token,
                                                   @Part("storyId") Integer storyId);
 
+
+
     //Catergory APIs
     @GET("categories")
-    Call<BaseResponse<List<CategoryAllResponse>>> getAllCategories();
+    Call<BaseResponse<List<Category>>> getAllCategories();
 
     @GET("categories/{id}")
-    Call<CategoryAllResponse> getCategory(@Part("id") Integer categoryId);
+    Call<BaseResponse<Category>> getCategory(@Part("id") Integer categoryId);
 
     @GET("catergories/{id}/stories")
-    Call<BaseResponse<CategoryAllResponse>> getCategoryByIdandUser(@Part("id") Integer categoryId);
+    Call<BaseResponse<CategoryStoriesResponse>> getStoriesByCategoryIdandUser(@Part("id") Integer categoryId);
 
-    //TODO: Delete this call during development
-    @GET("categories/{id}/stories")
-    Call<StoryCategoryResponse> getCategory(@Path("id") String id);
+
 
     //Comment APIs
     @Multipart
@@ -183,16 +185,6 @@ public interface ApiInterface {
     @DELETE("comments/{id}")
     Call<Void> deleteComment(@Header("Authorization") String token,
                              @Part("id") Integer commentId);
-
-
-
-    //TODO:Delete this call
-    @GET("users/profile")
-    Call<LoginResponse> getProfile(@Header("Authorization") String token);
-
-    @POST("stories/{storyId}/reaction/{action}")
-    Call<BaseResponse<StoryReactionResponse>> reactToStory(@Path("action") String action, @Path("storyId") String storyId);
-
 
 
 }

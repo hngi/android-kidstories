@@ -10,15 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.project.android_kidstories.Api.ApiInterface;
-import com.project.android_kidstories.Api.Client;
-import com.project.android_kidstories.Api.Responses.StoryResponse;
 import com.project.android_kidstories.Model.Story;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.http.Path;
 
 public class SingleStoryActivity extends AppCompatActivity {
 
@@ -45,11 +37,9 @@ public class SingleStoryActivity extends AppCompatActivity {
         story_content = findViewById(R.id.story_content);
         story_pic = findViewById(R.id.story_pic);
         like_btn = findViewById(R.id.like_button);
+        int story_id = getIntent().getIntExtra("story_id", 0);
 
-//Todo: Get story_id from intent
-//-----int story_id = getIntent().getIntExtra("story_id", 0);
-
-        ApiInterface service = Client.getInstance().create(ApiInterface.class);
+       /* ApiInterface service = Client.getInstance().create(ApiInterface.class);
         Call<StoryResponse> story = service.getStory(story_id);
 
         story.enqueue(new Callback<StoryResponse>() {
@@ -69,6 +59,6 @@ public class SingleStoryActivity extends AppCompatActivity {
                 progressDoalog.dismiss();
                 Toast.makeText(SingleStoryActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 }

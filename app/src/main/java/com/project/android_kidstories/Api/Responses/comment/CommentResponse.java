@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Api.Responses;
+package com.project.android_kidstories.Api.Responses.comment;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

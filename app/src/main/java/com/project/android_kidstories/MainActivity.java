@@ -20,7 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class TheMainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -32,13 +32,14 @@ public class TheMainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_edit_profile, R.id.nav_categories, R.id.nav_donate,
                 R.id.nav_about, R.id.nav_home)
                 .setDrawerLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);

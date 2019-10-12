@@ -167,7 +167,7 @@ public class RegisterActivity extends AppCompatActivity {
             loaduserprofile(AccessToken.getCurrentAccessToken());
         }
     }
-}
+
 
 
 
@@ -235,14 +235,14 @@ public class RegisterActivity extends AppCompatActivity {
                       send this id token to server using HTTPS
                      */
 
-                    } catch (ApiException e) {
-                        // The ApiException status code indicates the detailed failure reason.
-                        Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-                    }
-                    break;
-            }
-
-    }
+//                    } catch (ApiException e) {
+//                        // The ApiException status code indicates the detailed failure reason.
+//                        Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+//                    }
+//                    break;
+//            }
+//
+//    }
 
     private void signInUser() {
         String email_string = email.getText().toString();
@@ -272,7 +272,4 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 }
-
-}
-*/
 

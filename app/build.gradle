@@ -1,9 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 29
+
+    compileOptions {
+        targetCompatibility = "8"
+        sourceCompatibility = "8"
+    }
+
     defaultConfig {
         applicationId "com.project.android_kidstories"
         minSdkVersion 21
@@ -29,6 +33,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -83,12 +88,22 @@ dependencies {
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
 
     //Flutterwave
-//    implementation 'com.github.Flutterwave:rave-android:1.0.39'
-//    compile "androidx.core:core-ktx:+"
+    implementation 'com.github.Flutterwave:rave-android:1.0.39'
+
+
+
+    compile "androidx.core:core-ktx:+"
     implementation 'androidx.core:core-ktx:1.1.0'
-//    compile "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0"
+    compile "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0-alpha05"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.github.Flutterwave:rave-android:1.0.39'
+    implementation 'androidx.navigation:navigation-fragment:2.1.0'
+    implementation 'androidx.navigation:navigation-ui:2.1.0'
+
+    //ButterKnife
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
 
     //Facebook Dependencies
     implementation 'com.facebook.android:facebook-login:[5,6)'

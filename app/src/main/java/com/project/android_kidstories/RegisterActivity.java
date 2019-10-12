@@ -47,105 +47,82 @@ import com.google.android.gms.tasks.Task;
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "AndroidClarified";
-    private GoogleSignInClient googleSignInClient;
-    private Button googleSignInButton;
 
-    private LoginButton loginButton;
-    private CircleImageView circleImageView;
-    private TextView txtName,txtEmail;
+
+
 
 
     private CallbackManager callbackManager;
 
 
-    EditText email;
+    EditText emailET;
     EditText phone;
     EditText fullName;
-    EditText password;
-    Button btn;
+    EditText password, confirmPassword;
+    Button regFacebook, regGoogle, SignUp;
     ProgressBar progressBar;
-
-
-
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        phone = findViewById(R.id.reg_contact);
+        password = findViewById(R.id.reg_password);
+        fullName = findViewById(R.id.reg_full_name);
+        emailET = findViewById(R.id.reg_email);
+        confirmPassword = findViewById(R.id.reg_confirm_password);
 
-        loginButton = findViewById(R.id.login_button);
-        txtName = findViewById(R.id.reg_full_name);
-        txtEmail = findViewById(R.id.reg_email);
-        circleImageView = findViewById(R.id.profile_image);
+        regFacebook = findViewById(R.id.reg_facebook);
+        regGoogle = findViewById(R.id.reg_google);
+        SignUp = findViewById(R.id.sign_up_button);
+
 
         callbackManager = CallbackManager.Factory.create();
-        loginButton.setReadPermissions(Arrays.asList("email","public_profile"));
+
         checkLoginStatus();
 
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        callbackManager.onActivityResult(requestCode , resultCode , data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     AccessTokenTracker tokenTracker = new AccessTokenTracker() {
         @Override
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-            if (currentAccessToken==null){
-                txtName.setText("");
-                txtEmail.setText("");
-                circleImageView.setImageResource(0);
-                Toast.makeText(RegisterActivity.this , "User Logged Out", Toast.LENGTH_LONG).show();
+            if (currentAccessToken == null) {
+                fullName.setText("");
+                emailET.setText("");
+                Toast.makeText(RegisterActivity.this, "User Logged Out", Toast.LENGTH_LONG).show();
 
-            }else{
+            } else {
                 loaduserprofile(currentAccessToken);
             }
 
         }
     };
 
-    private void loaduserprofile(AccessToken  newAccessToken){
+    private void loaduserprofile(AccessToken newAccessToken) {
         GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
                     String First_Name = object.getString("First_Name");
                     String Last_Name = object.getString("Last_Name");
-                    String email =object.getString("email");
+                    String email = object.getString("email");
                     String id = object.getString("id");
 
-                    String image_url = "https://graph.facebook.com/"+id+ "/picture?type=normal";
+                    String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
 
-                    txtEmail.setText(email);
+                    emailET.setText(email);
 
-                    txtName.setText(First_Name+" "+Last_Name);
+                    fullName.setText(First_Name + " " + Last_Name);
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
-
-                    Glide.with(RegisterActivity.this).load(image_url).into(circleImageView);
-
-
 
 
                 } catch (JSONException e) {
@@ -156,14 +133,14 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields","First_Name,Last_Name,email,id");
+        parameters.putString("fields", "First_Name,Last_Name,email,id");
         request.setParameters(parameters);
         request.executeAsync();
 
     }
 
-    private void checkLoginStatus(){
-        if(AccessToken.getCurrentAccessToken()!=null){
+    private void checkLoginStatus() {
+        if (AccessToken.getCurrentAccessToken() != null) {
             loaduserprofile(AccessToken.getCurrentAccessToken());
         }
     }
@@ -245,24 +222,24 @@ public class RegisterActivity extends AppCompatActivity {
 //    }
 
     private void signInUser() {
-        String email_string = email.getText().toString();
+        String email_string = emailET.getText().toString();
         String phone_string = phone.getText().toString();
         String fullName_string = fullName.getText().toString();
         String password_string = password.getText().toString();
 
         //validating text fields
 
-        if(TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())){
-            email.setError("Please enter a valid email address");
+        if (TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())) {
+            emailET.setError("Please enter a valid email address");
             return;
         }
 
-        if(TextUtils.isEmpty(phone_string) || (!Patterns.PHONE.matcher(phone_string).matches())){
+        if (TextUtils.isEmpty(phone_string) || (!Patterns.PHONE.matcher(phone_string).matches())) {
             phone.setError("Please enter a valid phone number");
             return;
         }
 
-        if(TextUtils.isEmpty(fullName_string) || TextUtils.isEmpty(password_string)){
+        if (TextUtils.isEmpty(fullName_string) || TextUtils.isEmpty(password_string)) {
             fullName.setError("Please enter a valid phone number");
             password.setError("Enter a password");
             return;

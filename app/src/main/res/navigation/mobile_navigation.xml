@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.project.android_kidstories.ui.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_edit_profile"
+        android:name="com.project.android_kidstories.ui.edit.ProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit" />
+
+    <fragment
+        android:id="@+id/nav_categories"
+        android:name="com.project.android_kidstories.ui.group.CategoriesFragment"
+        android:label="Categories"
+        tools:layout="@layout/fragment_categories" />
+
+    <fragment
+        android:id="@+id/nav_donate"
+        android:name="com.project.android_kidstories.ui.support.DonateFragment"
+        android:label="Donate"
+        tools:layout="@layout/fragment_donate" />
+
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.project.android_kidstories.ui.info.AboutFragment"
+        android:label="About"
+        tools:layout="@layout/fragment_about" />
+
+    <fragment
+        android:id="@+id/nav_log_out"
+        android:name="com.project.android_kidstories.ui.auth.LogOutFragment"
+        android:label="Log Out"
+        tools:layout="@layout/fragment_log_out" />
+
+    <fragment
+        android:id="@+id/nav_Profile"
+        android:name="com.project.android_kidstories.ui.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/profile_fragment" />
+
+
+</navigation>

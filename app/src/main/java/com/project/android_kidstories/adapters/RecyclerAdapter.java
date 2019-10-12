@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.fragments.NewStoriesFragment;
 
 
 import java.util.List;
@@ -21,6 +22,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.StoryV
     public Context mContext;
     public List<String> storyTitle;
     public List<Integer> storyPic;
+    private StoryListener storyListener;
+
 
     public RecyclerAdapter(Context mContext, List<String> storyTitle, List<Integer> storyPic) {
         this.mContext = mContext;
@@ -49,6 +52,11 @@ storyViewHolder.mTitle.setText(storyTitle.get(i));
         return storyTitle.size() ;
     }
 
+    public void setStoryListener(StoryListener listener){
+        storyListener = listener;
+    }
+
+
     class StoryViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mImage;
@@ -59,7 +67,21 @@ storyViewHolder.mTitle.setText(storyTitle.get(i));
 
             mImage = itemView.findViewById(R.id.recyclerImage);
             mTitle = itemView.findViewById(R.id.recyclerName);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    storyListener.onStoryClick();
+                }
+            });
         }
+    }
+
+
+    public interface StoryListener{
+
+        void onStoryClick();
+
     }
 
 }

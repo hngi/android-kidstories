@@ -8,9 +8,9 @@ public class BaseResponse<T> {
     @SerializedName("status")
     @Expose
     private Integer status;
-    @SerializedName("method")
+    @SerializedName("code")
     @Expose
-    private String method;
+    private String code;
     @SerializedName("message")
     @Expose
     private String message;
@@ -26,12 +26,12 @@ public class BaseResponse<T> {
         this.status = status;
     }
 
-    public String getMethod() {
-        return method;
+    public String getCode() {
+        return code;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getMessage() {

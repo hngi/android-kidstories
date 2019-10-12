@@ -1,27 +1,30 @@
-package com.project.android_kidstories.Api.Responses;
+package com.project.android_kidstories.Api.Responses.story;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.project.android_kidstories.Model.Story;
+
+import java.util.List;
 
 /**
- * @author .: Ukeje Emeka
- * @email ..: ukejee3@gmail.com
- * @created : 10/10/19
+ * @author .: Ehma Ugbogo
+ * @email ..: ehmaugbo@gmail.com
+ * @created : 11/10/19
  */
-public class BookmarkResponse {
 
+public class StoryAllResponse {
     @SerializedName("status")
     @Expose
     private String status;
     @SerializedName("code")
     @Expose
-    private Integer code;
+    private int code;
     @SerializedName("message")
     @Expose
     private String message;
     @SerializedName("data")
     @Expose
-    private Boolean data;
+    private List<Story> data = null;
 
     public String getStatus() {
         return status;
@@ -31,11 +34,11 @@ public class BookmarkResponse {
         this.status = status;
     }
 
-    public Integer getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
@@ -47,11 +50,11 @@ public class BookmarkResponse {
         this.message = message;
     }
 
-    public Boolean getData() {
+    public List<Story> getData() {
         return data;
     }
 
-    public void setData(Boolean data) {
+    public void setData(List<Story> data) {
         this.data = data;
     }
 }

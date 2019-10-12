@@ -5,12 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,10 +17,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
 
 public class OnBoardingActivity extends AppCompatActivity {
     private ViewPager viewPager;
@@ -42,7 +35,7 @@ public class OnBoardingActivity extends AppCompatActivity {
 
         //When this  activity is about to get launched, we need to check if that is the apps initial launching
         if (restorePrefData()){
-            Intent mainActivity = new Intent(OnBoardingActivity.this, TheMainActivity.class);
+            Intent mainActivity = new Intent(OnBoardingActivity.this, MainActivity.class);
             startActivity(mainActivity);
             finish();
         }
@@ -120,7 +113,7 @@ public class OnBoardingActivity extends AppCompatActivity {
         btnGetStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(OnBoardingActivity.this, TheMainActivity.class));
+                startActivity(new Intent(OnBoardingActivity.this, MainActivity.class));
                 //Save value to storage to indicate that user has already seen the onboarding in order not to repeat
                 //use sharepref
                 savePrefData();

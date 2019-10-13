@@ -2,6 +2,7 @@ package com.project.android_kidstories.ui.edit;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.project.android_kidstories.R;
+
+import java.io.FileNotFoundException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -47,22 +50,21 @@ public class ProfileFragment extends Fragment {
         return root;
     }
 
-    @Override
+   /* @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
             Uri selected_image = data.getData();
-            String[] file_path_col = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContext().getContentResolver().query(selected_image,
-                    file_path_col, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(file_path_col[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            //String image_text = selected_image.toString();
+            Bitmap bitmap;
+            try {
+                bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(selected_image));
+                imageView.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
-    }
+    }*/
 }

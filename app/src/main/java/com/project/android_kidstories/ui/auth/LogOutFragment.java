@@ -1,5 +1,6 @@
 package com.project.android_kidstories.ui.auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.facebook.login.LoginManager;
+import com.project.android_kidstories.RegisterActivity;
 
 public class LogOutFragment extends Fragment {
 
@@ -21,6 +23,8 @@ public class LogOutFragment extends Fragment {
         if (LoginManager.getInstance() != null) {
             LoginManager.getInstance().logOut();
         }
+        Intent intent = new Intent(getActivity(), RegisterActivity.class);
+        startActivity(intent);
         getActivity().finish();
         return null;
     }

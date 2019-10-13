@@ -54,6 +54,7 @@ import com.google.android.gms.tasks.Task;
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
+    public static final int LOGIN_TEXT_REQUEST_CODE = 11;
     private CallbackManager callbackManager;
     private static final String EMAIL = "email";
     private static final String AUTH_TYPE = "rerequest";
@@ -71,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 11) {
+        if (requestCode == LOGIN_TEXT_REQUEST_CODE) {
             finish();
         }
     }
@@ -111,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
         loginText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(RegisterActivity.this, LoginActivity.class), 11);
+                startActivityForResult(new Intent(RegisterActivity.this, LoginActivity.class), LOGIN_TEXT_REQUEST_CODE);
             }
         });
     }

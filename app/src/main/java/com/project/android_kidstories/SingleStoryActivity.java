@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views;
+package com.project.android_kidstories;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -7,8 +7,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.project.android_kidstories.R;
 
 public class SingleStoryActivity extends AppCompatActivity {
 

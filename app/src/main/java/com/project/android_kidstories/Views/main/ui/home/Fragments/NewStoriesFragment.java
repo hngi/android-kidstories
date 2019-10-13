@@ -19,11 +19,11 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.Common;
+import com.project.android_kidstories.Views.main.ui.home.BaseFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,21 +32,21 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
     private static final String TAG = "kidstories";
     private RecyclerView recyclerView;
-;
+    ;
     private Repository repository;
     private StoryAdapter storyAdapter;
 
 
-    public static NewStoriesFragment newInstance(){
+    public static NewStoriesFragment newInstance() {
         return new NewStoriesFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_newstories,container,false);
+        View v = inflater.inflate(R.layout.fragment_newstories, container, false);
 
-        FloatingActionButton fab=v.findViewById(R.id.new_story_frag_fab);
+        FloatingActionButton fab = v.findViewById(R.id.new_story_frag_fab);
         fab.setOnClickListener(this);
 
         recyclerView = v.findViewById(R.id.new_story_frag_recycler);
@@ -58,7 +58,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         storyAdapter = new StoryAdapter(apiViewmodel);
         storyAdapter.setOnStoryClickListener(this);
         recyclerView.setAdapter(storyAdapter);
-
 
 
         fetchStories();
@@ -73,22 +72,22 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
 
     private void fetchStories() {
-        if(!Common.checkNetwork(getActivity())){
+        if (!Common.checkNetwork(getActivity())) {
             showToast("You do not have network connection");
         }
         repository.getApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     List<Story> storyList = response.body().getData();
                     storyAdapter.summitStories(storyList);
-                    Log.d(TAG, "getAllStories Successful: Stories "+storyList.size());
+                    Log.d(TAG, "getAllStories Successful: Stories " + storyList.size());
                 }
             }
 
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
-                Log.w(TAG, "onFailure: "+t.getMessage());
+                Log.w(TAG, "onFailure: " + t.getMessage());
             }
         });
     }
@@ -100,7 +99,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.new_story_frag_fab){
+        if (view.getId() == R.id.new_story_frag_fab) {
             showToast("Clicked");
         }
     }

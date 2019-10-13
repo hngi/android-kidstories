@@ -1,11 +1,22 @@
 package com.project.android_kidstories.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-
-public class User {
+@Entity(tableName = "user")
+public class User implements Parcelable {
+    @NonNull
+    @PrimaryKey
     @SerializedName("token")
     @Expose
     private String token;
@@ -37,7 +48,8 @@ public class User {
 
     @SerializedName("bookmark")
     @Expose
-    private List<Object> bookmark = null;
+    @Ignore
+    private List<Object> bookmark;
 
     @SerializedName("bookmark_count")
     @Expose
@@ -67,6 +79,91 @@ public class User {
     @SerializedName("role")
     @Expose
     private String role;
+
+    public User(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    public User(Parcel in) {
+        token = in.readString();
+        id = in.readString();
+        name = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        email = in.readString();
+        byte tmpAdmin = in.readByte();
+        admin = tmpAdmin == 0 ? null : tmpAdmin == 1;
+        byte tmpPremium = in.readByte();
+        premium = tmpPremium == 0 ? null : tmpPremium == 1;
+        if (in.readByte() == 0) {
+            bookmarkCount = null;
+        } else {
+            bookmarkCount = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            liked = null;
+        } else {
+            liked = in.readInt();
+        }
+        image = in.readString();
+        phoneNumber = in.readString();
+        designation = in.readString();
+        password = in.readString();
+        photo = in.readString();
+        title = in.readString();
+        role = in.readString();
+        bookmark = null;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(token);
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(email);
+        dest.writeByte((byte) (admin == null ? 0 : admin ? 1 : 2));
+        dest.writeByte((byte) (premium == null ? 0 : premium ? 1 : 2));
+        if (bookmarkCount == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(bookmarkCount);
+        }
+        if (liked == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(liked);
+        }
+        dest.writeString(image);
+        dest.writeString(phoneNumber);
+        dest.writeString(designation);
+        dest.writeString(password);
+        dest.writeString(photo);
+        dest.writeString(title);
+        dest.writeString(role);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getPhoto() {
         return photo;

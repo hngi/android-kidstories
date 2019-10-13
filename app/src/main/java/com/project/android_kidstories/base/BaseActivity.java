@@ -3,6 +3,7 @@ package com.project.android_kidstories.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +39,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void openMainActivity(Context context, User currentUser) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(MainActivity.USER_INTENT_EXTRA, currentUser);
         startActivity(intent);
     }
 

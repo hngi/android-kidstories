@@ -36,6 +36,8 @@ public class Repository {
     private static Repository INSTANCE;
     private final Api api;
     private StoryDao storyDao;
+    private UserDao userDao;
+
 
 
     private Story story;
@@ -46,6 +48,7 @@ public class Repository {
     public Repository(Context context) {
         StoryDatabase storyDatabase = StoryDatabase.getInstance(context);
         storyDao = storyDatabase.storyDao();
+        userDao = storyDatabase.userDao();
         //api = ((Common)context.getApplicationContext()).getApi();
         api = RetrofitClient.getInstance().create(Api.class);
         Log.d(TAG, "Repository: Created");
@@ -78,7 +81,22 @@ public class Repository {
         return storyDao.getAllStories();
     }
 
+    //Getters for User
+    public Long insertUser(User user){
+        return userDao.insertUser(user);
+    }
 
+    public void updateUser(User user){
+        userDao.updateUser(user);
+    }
+
+    public void deleteUser(User user){
+        userDao.deleteUser(user);
+    }
+
+    public List<User> getAllLocalUsers(){
+        return userDao.getallUsers();
+    }
 
 
     //******************** `Getters to make Api calls *************************

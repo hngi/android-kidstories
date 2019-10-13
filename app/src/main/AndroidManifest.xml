@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.project.android_kidstories">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -19,13 +20,13 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_the_main"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.LightStatusBar">
 
         </activity>
         <activity
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/DefaultTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

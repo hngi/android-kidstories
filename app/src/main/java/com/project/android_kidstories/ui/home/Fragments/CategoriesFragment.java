@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.android_kidstories.Model.RecyclerAdapter;
+import com.project.android_kidstories.Adapters.RecyclerAdapter;
 import com.project.android_kidstories.R;
 
 import java.util.ArrayList;

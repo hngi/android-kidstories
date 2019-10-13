@@ -12,37 +12,40 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.adapters.SectionsPageAdapter;
 import com.project.android_kidstories.fragments.CategoriesFragment;
-import com.project.android_kidstories.fragments.NewStoriesFragment;
 import com.project.android_kidstories.fragments.PopularStoriesFragment;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.project.android_kidstories.ui.home.Adapters.SectionsPageAdapter;
+import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
 
 public class HomeFragment extends Fragment {
-     @BindView(R.id.container)
-     ViewPager mViewPager;
-
-    @BindView(R.id.tabs1)
-    TabLayout mTabLayout;
 
     private HomeViewModel homeViewModel;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        mTabLayout = root.findViewById(R.id.tabs1);
-        mViewPager = root.findViewById(R.id.container);
+        TabLayout tabLayout = root.findViewById(R.id.home_frag_tablayout);
+        ViewPager viewPager = root.findViewById(R.id.home_frag_container);
 
-        ButterKnife.bind(getActivity());
+
         SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());
         adapter.addFragment(NewStoriesFragment.newInstance(),"New Stories");
         adapter.addFragment(PopularStoriesFragment.newInstance(),"Popular Stories");
         adapter.addFragment(CategoriesFragment.newInstance(),"Categories");
-        mViewPager.setAdapter(adapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+
+
+
         return root;
     }
+
+
+
+
+
 }

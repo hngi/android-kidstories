@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
@@ -30,78 +30,84 @@
         <EditText
             android:id="@+id/reg_full_name"
             style="@style/EditTextWhite"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:background="@drawable/edit_text_rectangle"
             android:ems="10"
             android:hint="Full Name"
-            android:background="@drawable/edit_text_rectangle"
             android:inputType="textPersonName"
-            android:textColorHint="#000000" />
+            android:textColorHint="#646669" />
 
         <EditText
             android:id="@+id/reg_email"
             style="@style/EditTextWhite"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:background="@drawable/edit_text_rectangle"
             android:ems="10"
             android:hint="E-mail"
-            android:background="@drawable/edit_text_rectangle"
             android:inputType="textEmailAddress"
-            android:textColorHint="@color/colorBlack" />
+            android:textColorHint="#646669" />
 
         <EditText
             android:id="@+id/reg_contact"
             style="@style/EditTextWhite"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:background="@drawable/edit_text_rectangle"
             android:ems="10"
             android:hint="Phone No"
-            android:background="@drawable/edit_text_rectangle"
             android:inputType="phone"
-            android:textColorHint="@color/colorBlack" />
+            android:textColorHint="#646669" />
 
         <EditText
             android:id="@+id/reg_password"
             style="@style/EditTextWhite"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:background="@drawable/edit_text_rectangle"
             android:ems="10"
             android:hint="Password"
-            android:background="@drawable/edit_text_rectangle"
             android:inputType="textPassword"
-            android:textColorHint="@color/colorBlack" />
+            android:textColorHint="#646669" />
 
         <EditText
             android:id="@+id/reg_confirm_password"
             style="@style/EditTextWhite"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:background="@drawable/edit_text_rectangle"
             android:ems="10"
             android:hint="Confirm Password"
-            android:background="@drawable/edit_text_rectangle"
             android:inputType="textPassword"
-            android:textColorHint="@color/colorBlack" />
+            android:textColorHint="#646669" />
 
 
         <Button
             android:id="@+id/reg_facebook"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
@@ -152,42 +158,44 @@
 
               ....... -->
 
-                <Button
-                    android:id="@+id/reg_google"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/roundbutton"
-                    android:drawableStart="@drawable/google"
-                    android:fontFamily="@font/roboto_regular"
-                    android:gravity="center"
-                    android:paddingStart="30dp"
-                    android:paddingEnd="30dp"
-                    android:text="Google"
-                    android:textAllCaps="false"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
+        <Button
+            android:id="@+id/reg_google"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/roundbutton"
+            android:drawableStart="@drawable/google"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="Google"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="14sp" />
 
-                <Button
-                    android:id="@+id/sign_up_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/register_round_button"
+        <Button
+            android:id="@+id/sign_up_button"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
 
-                    android:fontFamily="@font/roboto_regular"
+            android:background="@drawable/register_round_button"
 
-                    android:text="Register"
-                    android:textAllCaps="false"
-                    android:textColor="#ffffff"
-                    android:textSize="14sp"
-                    android:visibility="visible" />
+            android:fontFamily="@font/roboto_regular"
+            android:text="Register"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

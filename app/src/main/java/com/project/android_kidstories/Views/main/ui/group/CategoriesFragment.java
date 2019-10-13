@@ -1,4 +1,4 @@
-package com.project.android_kidstories.ui.group;
+package com.project.android_kidstories.Views.main.ui.group;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,10 +13,10 @@ import com.project.android_kidstories.R;
 
 public class CategoriesFragment extends Fragment {
 
-    private CategoryViewModel categoryViewModel;
+    private com.project.android_kidstories.ui.group.CategoryViewModel categoryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+        categoryViewModel = ViewModelProviders.of(this).get(com.project.android_kidstories.ui.group.CategoryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_categories, container, false);
 
 

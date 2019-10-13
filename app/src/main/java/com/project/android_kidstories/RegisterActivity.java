@@ -62,8 +62,8 @@ public class RegisterActivity extends AppCompatActivity {
     EditText phone;
     EditText fullName;
     EditText password, confirmPassword;
-    Button regGoogle, SignUp;
-    LoginButton regFacebook;
+    Button regFacebook, regGoogle, SignUp;
+    TextView loginText;
     ProgressBar progressBar;
 
 
@@ -71,6 +71,9 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 11) {
+            finish();
+        }
     }
 
     @Override
@@ -90,31 +93,25 @@ public class RegisterActivity extends AppCompatActivity {
         regFacebook = findViewById(R.id.reg_facebook);
         regGoogle = findViewById(R.id.reg_google);
         SignUp = findViewById(R.id.sign_up_button);
-
+        loginText = findViewById(R.id.create_act);
 
         FacebookSdk.sdkInitialize(this);
         callbackManager = CallbackManager.Factory.create();
-        regFacebook.setReadPermissions(Arrays.asList(EMAIL));
-        regFacebook.setAuthType(AUTH_TYPE);
 
-        regFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        regFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(RegisterActivity.this, "Successful", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "onSuccess: " + loginResult);
-                setResult(RESULT_OK);
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                finish();
+            public void onClick(View view) {
+                LoginManager.getInstance().setAuthType(AUTH_TYPE)
+                        .logInWithReadPermissions(RegisterActivity.this, Arrays.asList(EMAIL));
+                facebookLogin();
             }
+        });
 
+        // if user is already registered
+        loginText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Toast.makeText(RegisterActivity.this, "Error " + error.getMessage(), Toast.LENGTH_LONG).show();
+            public void onClick(View view) {
+                startActivityForResult(new Intent(RegisterActivity.this, LoginActivity.class), 11);
             }
         });
     }
@@ -171,10 +168,33 @@ public class RegisterActivity extends AppCompatActivity {
         if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
             // user already signed in
             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            finish();
         }
     }
 
+    public void facebookLogin() {
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(RegisterActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onSuccess: " + loginResult);
+                setResult(RESULT_OK);
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                finish();
+                /*call : loginResult.getAccessToken().getUserId() to get userId and save to database;*/
+            }
 
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(RegisterActivity.this, "Error " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
 
 
@@ -287,7 +307,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Log.i(TAG, "printHashKey: " + hashKey + "=");
             }
         } catch (Exception e) {
-            Log.e(TAG, "printHashKey: " + e.getMessage());
+            Log.e(TAG, "printHashKey: Error: " + e.getMessage());
         }
     }
 }

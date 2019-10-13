@@ -40,6 +40,7 @@ public class ProfileFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_edit, container, false);
 
         imageView = root.findViewById(R.id.img_user);
+        btn_upload = root.findViewById(R.id.btn_upload_image);
         btn_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

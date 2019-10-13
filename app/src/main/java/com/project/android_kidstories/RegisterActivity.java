@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -25,14 +29,17 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
 import java.util.Arrays;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -46,106 +53,102 @@ import com.google.android.gms.tasks.Task;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private static final String TAG = "AndroidClarified";
-    private GoogleSignInClient googleSignInClient;
-    private Button googleSignInButton;
-
-    private LoginButton loginButton;
-    private CircleImageView circleImageView;
-    private TextView txtName,txtEmail;
-
-
+    private static final String TAG = "RegisterActivity";
+    public static final int LOGIN_TEXT_REQUEST_CODE = 11;
     private CallbackManager callbackManager;
+    private static final String EMAIL = "email";
+    private static final String AUTH_TYPE = "rerequest";
 
-
-    EditText email;
+    EditText emailET;
     EditText phone;
     EditText fullName;
-    EditText password;
-    Button btn;
+    EditText password, confirmPassword;
+    Button regFacebook, regGoogle, SignUp;
+    TextView loginText;
     ProgressBar progressBar;
 
 
-
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LOGIN_TEXT_REQUEST_CODE) {
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        loginButton = findViewById(R.id.login_button);
-        txtName = findViewById(R.id.reg_full_name);
-        txtEmail = findViewById(R.id.reg_email);
-        circleImageView = findViewById(R.id.profile_image);
-
-        callbackManager = CallbackManager.Factory.create();
-        loginButton.setReadPermissions(Arrays.asList("email","public_profile"));
+        printHashKey(this);
         checkLoginStatus();
 
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        phone = findViewById(R.id.reg_contact);
+        password = findViewById(R.id.reg_password);
+        fullName = findViewById(R.id.reg_full_name);
+        emailET = findViewById(R.id.reg_email);
+        confirmPassword = findViewById(R.id.reg_confirm_password);
+
+        regFacebook = findViewById(R.id.reg_facebook);
+        regGoogle = findViewById(R.id.reg_google);
+        SignUp = findViewById(R.id.sign_up_button);
+        loginText = findViewById(R.id.create_act);
+
+        FacebookSdk.sdkInitialize(this);
+        callbackManager = CallbackManager.Factory.create();
+
+        regFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
-
-
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
+            public void onClick(View view) {
+                LoginManager.getInstance().setAuthType(AUTH_TYPE)
+                        .logInWithReadPermissions(RegisterActivity.this, Arrays.asList(EMAIL));
+                facebookLogin();
             }
         });
 
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        callbackManager.onActivityResult(requestCode , resultCode , data);
-        super.onActivityResult(requestCode, resultCode, data);
+        // if user is already registered
+        loginText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(RegisterActivity.this, LoginActivity.class), LOGIN_TEXT_REQUEST_CODE);
+            }
+        });
     }
 
     AccessTokenTracker tokenTracker = new AccessTokenTracker() {
         @Override
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-            if (currentAccessToken==null){
-                txtName.setText("");
-                txtEmail.setText("");
-                circleImageView.setImageResource(0);
-                Toast.makeText(RegisterActivity.this , "User Logged Out", Toast.LENGTH_LONG).show();
+            if (currentAccessToken == null) {
+                fullName.setText("");
+                emailET.setText("");
+                Toast.makeText(RegisterActivity.this, "User Logged Out", Toast.LENGTH_LONG).show();
 
-            }else{
-                loaduserprofile(currentAccessToken);
+            } else {
+                //loaduserprofile(currentAccessToken);
             }
 
         }
     };
 
-    private void loaduserprofile(AccessToken  newAccessToken){
+    private void loaduserprofile(AccessToken newAccessToken) {
         GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
                     String First_Name = object.getString("First_Name");
                     String Last_Name = object.getString("Last_Name");
-                    String email =object.getString("email");
+                    String email = object.getString("email");
                     String id = object.getString("id");
 
-                    String image_url = "https://graph.facebook.com/"+id+ "/picture?type=normal";
+                    String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
 
-                    txtEmail.setText(email);
+                    emailET.setText(email);
 
-                    txtName.setText(First_Name+" "+Last_Name);
+                    fullName.setText(First_Name + " " + Last_Name);
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
-
-                    Glide.with(RegisterActivity.this).load(image_url).into(circleImageView);
-
-
 
 
                 } catch (JSONException e) {
@@ -156,20 +159,43 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields","First_Name,Last_Name,email,id");
+        parameters.putString("fields", "First_Name,Last_Name,email,id");
         request.setParameters(parameters);
         request.executeAsync();
 
     }
 
-    private void checkLoginStatus(){
-        if(AccessToken.getCurrentAccessToken()!=null){
-            loaduserprofile(AccessToken.getCurrentAccessToken());
+    private void checkLoginStatus() {
+        if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
+            // user already signed in
+            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            finish();
         }
     }
 
+    public void facebookLogin() {
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(RegisterActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onSuccess: " + loginResult);
+                setResult(RESULT_OK);
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                finish();
+                /*call : loginResult.getAccessToken().getUserId() to get userId and save to database;*/
+            }
 
+            @Override
+            public void onCancel() {
 
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(RegisterActivity.this, "Error " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
 
 
@@ -245,24 +271,24 @@ public class RegisterActivity extends AppCompatActivity {
 //    }
 
     private void signInUser() {
-        String email_string = email.getText().toString();
+        String email_string = emailET.getText().toString();
         String phone_string = phone.getText().toString();
         String fullName_string = fullName.getText().toString();
         String password_string = password.getText().toString();
 
         //validating text fields
 
-        if(TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())){
-            email.setError("Please enter a valid email address");
+        if (TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())) {
+            emailET.setError("Please enter a valid email address");
             return;
         }
 
-        if(TextUtils.isEmpty(phone_string) || (!Patterns.PHONE.matcher(phone_string).matches())){
+        if (TextUtils.isEmpty(phone_string) || (!Patterns.PHONE.matcher(phone_string).matches())) {
             phone.setError("Please enter a valid phone number");
             return;
         }
 
-        if(TextUtils.isEmpty(fullName_string) || TextUtils.isEmpty(password_string)){
+        if (TextUtils.isEmpty(fullName_string) || TextUtils.isEmpty(password_string)) {
             fullName.setError("Please enter a valid phone number");
             password.setError("Enter a password");
             return;
@@ -271,5 +297,19 @@ public class RegisterActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
     }
 
+    // Getting app hash key for facebook login registration
+    private static void printHashKey(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            for (android.content.pm.Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.i(TAG, "printHashKey: " + hashKey + "=");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "printHashKey: Error: " + e.getMessage());
+        }
+    }
 }
 

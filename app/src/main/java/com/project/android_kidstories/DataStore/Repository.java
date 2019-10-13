@@ -32,8 +32,8 @@ import retrofit2.Response;
  */
 
 public class Repository {
-    private static Repository INSTANCE;
     private static final String TAG = "kidstories";
+    private static Repository INSTANCE;
     private final Api api;
     private StoryDao storyDao;
 

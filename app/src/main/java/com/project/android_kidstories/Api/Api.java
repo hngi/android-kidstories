@@ -58,7 +58,7 @@ public interface Api {
                                                         @Field("new_password") String newPassword,
                                                         @Field("confirm_password") String confirmPassword);
 
-    //User APIs
+    //DbUserClass APIs
     @GET("users")
     Call<List<DataResponse>> getAllUsers();
 

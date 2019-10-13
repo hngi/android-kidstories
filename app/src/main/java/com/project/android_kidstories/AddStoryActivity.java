@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views;
+package com.project.android_kidstories;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;

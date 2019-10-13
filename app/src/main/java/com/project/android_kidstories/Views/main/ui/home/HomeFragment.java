@@ -1,4 +1,4 @@
-package com.project.android_kidstories.ui.home;
+package com.project.android_kidstories.Views.main.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,18 +12,18 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.Views.main.ui.home.Adapters.SectionsPageAdapter;
 import com.project.android_kidstories.fragments.CategoriesFragment;
 import com.project.android_kidstories.fragments.PopularStoriesFragment;
-import com.project.android_kidstories.ui.home.Adapters.SectionsPageAdapter;
 import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
 
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private com.project.android_kidstories.ui.home.HomeViewModel homeViewModel;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel = ViewModelProviders.of(this).get(com.project.android_kidstories.ui.home.HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         TabLayout tabLayout = root.findViewById(R.id.home_frag_tablayout);

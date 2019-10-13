@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views;
+package com.project.android_kidstories;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,7 +28,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.project.android_kidstories.Views.main.MainActivity;
-import com.project.android_kidstories.R;
 
 import java.util.Arrays;
 

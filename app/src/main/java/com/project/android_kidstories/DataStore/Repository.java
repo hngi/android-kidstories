@@ -264,7 +264,7 @@ public class Repository {
 
 
 
-    //User APIs
+    //DbUserClass APIs
 
     public void getAllUsers(){
 

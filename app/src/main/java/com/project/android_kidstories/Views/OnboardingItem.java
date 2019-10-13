@@ -1,4 +1,4 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.Views;
 
 public class OnboardingItem {
     private String title, Description;

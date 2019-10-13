@@ -1,10 +1,12 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.project.android_kidstories.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

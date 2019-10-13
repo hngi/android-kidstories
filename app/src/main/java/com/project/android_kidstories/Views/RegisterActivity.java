@@ -1,9 +1,7 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.Views;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +20,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -34,7 +31,6 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,14 +38,8 @@ import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
+import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

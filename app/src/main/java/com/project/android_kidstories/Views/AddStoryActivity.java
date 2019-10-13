@@ -1,4 +1,4 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.Views;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.project.android_kidstories.R;
 
 
 public class AddStoryActivity extends AppCompatActivity {

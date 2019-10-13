@@ -1,4 +1,4 @@
-package com.project.android_kidstories.ui;
+package com.project.android_kidstories.Views.main.ui.profile;
 
 import androidx.lifecycle.ViewModelProviders;
 

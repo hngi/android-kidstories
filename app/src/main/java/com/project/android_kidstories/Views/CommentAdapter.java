@@ -1,4 +1,4 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.Views;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 
+import com.project.android_kidstories.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

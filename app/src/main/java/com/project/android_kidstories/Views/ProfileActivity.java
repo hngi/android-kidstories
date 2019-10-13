@@ -1,4 +1,4 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.project.android_kidstories.R;
 
-public class CategoriesActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_categories);
+        setContentView(R.layout.activity_profile);
     }
 }

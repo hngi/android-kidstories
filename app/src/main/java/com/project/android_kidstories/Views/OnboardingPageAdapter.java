@@ -1,4 +1,4 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.Views;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.project.android_kidstories.R;
 
 
 public class OnboardingPageAdapter extends PagerAdapter {

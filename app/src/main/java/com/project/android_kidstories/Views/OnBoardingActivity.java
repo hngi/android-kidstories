@@ -1,4 +1,4 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.google.android.material.tabs.TabLayout;
+import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,10 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.project.android_kidstories.R;
 
 public class About extends AppCompatActivity {
 

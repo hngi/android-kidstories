@@ -115,7 +115,7 @@
                 android:layout_gravity="right"
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@id/count2"
-                app:srcCompat="@drawable/ic_bookmark_black_24dp"/>
+                app:srcCompat="@drawable/ic_bookmark_click_24dp"/>
 
 
         </LinearLayout>

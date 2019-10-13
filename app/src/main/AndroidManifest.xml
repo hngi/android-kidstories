@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.project.android_kidstories">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,50 +16,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NightmodeActivity"></activity>
+        <activity android:name=".NightmodeActivity"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".Views.main.MainActivity"
             android:label="@string/title_activity_the_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.LightStatusBar">
+
+        </activity>
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".Views.SplashScreenActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/DefaultTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StoryListingActivity" /> <!-- Do not edit this theme -->
-        <activity android:name=".StoryDetailActivity" />
-        <activity android:name=".SingleStoryActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".ProfileRegisterActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".OnBoardingActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".BookMark" />
-        <activity android:name=".AddStoryActivity" />
-        <activity android:name=".AddStoriesContentActivity" />
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
-        <activity
-            android:name="com.facebook.CustomTabActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="@string/fb_login_protocol_scheme" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".Views.StoryListingActivity" /> <!-- Do not edit this theme -->
+        <activity android:name=".Views.StoryDetailActivity" />
+        <activity android:name=".Views.SingleStoryActivity" />
+        <activity android:name=".Views.RegisterActivity" />
+        <activity android:name=".Views.ProfileRegisterActivity" />
+        <activity android:name=".Views.ProfileActivity" />
+        <activity android:name=".Views.OnBoardingActivity" />
+        <activity android:name=".Views.LoginActivity" />
+        <activity android:name=".Views.BookMark" />
+        <activity android:name=".Views.AddStoryActivity" />
+        <activity android:name=".Views.AddStoriesContentActivity" />
+        <activity android:name=".BaseActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

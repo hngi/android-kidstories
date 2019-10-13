@@ -1,6 +1,9 @@
 package com.project.android_kidstories.Utils;
 
 import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.project.android_kidstories.Api.Api;
@@ -14,6 +17,12 @@ public class Common extends Application {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate: Common");
+    }
+
+    public static boolean checkNetwork(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 

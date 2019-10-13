@@ -1,87 +1,62 @@
-package com.project.android_kidstories.adapters;
-
+package com.project.android_kidstories.Adapters;
 
 import android.content.Context;
-
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.fragments.NewStoriesFragment;
 
+import java.util.ArrayList;
 
-import java.util.List;
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemHolder> {
+    ArrayList<Integer> images;
+    ArrayList<String> author;
+    Context context;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.StoryViewHolder>{
+    public RecyclerAdapter(Context context, ArrayList<Integer> images, ArrayList<String> author) {
+        this.images = images;
+        this.author = author;
+        this.context = context;
 
-
-    public Context mContext;
-    public List<String> storyTitle;
-    public List<Integer> storyPic;
-    private StoryListener storyListener;
-
-
-    public RecyclerAdapter(Context mContext, List<String> storyTitle, List<Integer> storyPic) {
-        this.mContext = mContext;
-        this.storyTitle = storyTitle;
-        this.storyPic = storyPic;
     }
 
     @NonNull
     @Override
-    public StoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View mView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_item, viewGroup, false);
-        return new StoryViewHolder(mView);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_list, parent, false);
+        ItemHolder itemHolder = new ItemHolder(v);
+        return itemHolder;
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StoryViewHolder storyViewHolder, int i) {
-storyViewHolder.mImage.setImageResource(storyPic.get(i));
-storyViewHolder.mTitle.setText(storyTitle.get(i));
+    public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
+
+        holder.text1.setText(author.get(position));
+        holder.image.setImageResource(images.get(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return storyTitle.size() ;
+        return images.size();
     }
 
-    public void setStoryListener(StoryListener listener){
-        storyListener = listener;
-    }
-
-
-    class StoryViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView mImage;
-        TextView mTitle;
-
-        StoryViewHolder(View itemView) {
+    public class ItemHolder extends RecyclerView.ViewHolder {
+        ImageView image;
+        TextView text1;
+        public ItemHolder(@NonNull View itemView) {
             super(itemView);
-
-            mImage = itemView.findViewById(R.id.recyclerImage);
-            mTitle = itemView.findViewById(R.id.recyclerName);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    storyListener.onStoryClick();
-                }
-            });
+            image = itemView.findViewById(R.id.category_image);
+            text1 = itemView.findViewById(R.id.textView8);
         }
     }
-
-
-    public interface StoryListener{
-
-        void onStoryClick();
-
-    }
-
 }

@@ -11,14 +11,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.project.android_kidstories.Model.Story;
-import com.project.android_kidstories.db.AddStories;
-import com.project.android_kidstories.db.DbUserClass;
 
 public class BedTimeDbHelper extends SQLiteOpenHelper {
 
 
     public static final int DATABASE_VERSION =2;
     public static final String DATABASE_NAME = "bedtimestories.db";
+    /*
     private static final String SQL_CREATE_ADDSTORIES =
             "CREATE TABLE " + AddStories.AddStoriesColumn.TABLE_NAME + "(" +
                     AddStories.AddStoriesColumn._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -26,9 +25,9 @@ public class BedTimeDbHelper extends SQLiteOpenHelper {
                     AddStories.AddStoriesColumn.AUTHOR +" AUTHOR,"+
                     AddStories.AddStoriesColumn.CATEGORY +" CATEGORY,"+
                     AddStories.AddStoriesColumn.BODY+" BODY,"+
-                    AddStories.AddStoriesColumn.IMAGE+" IMAGE)";
+                    AddStories.AddStoriesColumn.IMAGE+" IMAGE)";*/
 
-    private static final String SQL_CREATE_ADDUSERS =
+    private static final String SQL_CREATE_ADD_USERS =
             "CREATE TABLE " + AddUsers.AddUsersColumn.TABLE_NAME + "(" +
                     AddUsers.AddUsersColumn._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                     AddUsers.AddUsersColumn.USER_ID+" INTEGER,"+
@@ -36,8 +35,8 @@ public class BedTimeDbHelper extends SQLiteOpenHelper {
                     AddUsers.AddUsersColumn.FIRST_NAME +" TEXT,"+
                     AddUsers.AddUsersColumn.LAST_NAME +" TEXT)";
 
-    private static final String SQL_DELETE_USER_ENTRY =
-            "DROP TABLE IF EXISTS " + AddStories.AddStoriesColumn.TABLE_NAME;
+   /* private static final String SQL_DELETE_USER_ENTRY =
+            "DROP TABLE IF EXISTS " + AddStories.AddStoriesColumn.TABLE_NAME;*/
 
     /*
     public BedTimeDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -52,15 +51,15 @@ public class BedTimeDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ADDSTORIES);
-        db.execSQL(SQL_CREATE_ADDUSERS);
+        //db.execSQL(SQL_CREATE_ADDSTORIES);
+        db.execSQL(SQL_CREATE_ADD_USERS);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(SQL_CREATE_ADDSTORIES);
-        db.execSQL(SQL_DELETE_USER_ENTRY);
+        //db.execSQL(SQL_CREATE_ADDSTORIES);
+        db.execSQL(SQL_CREATE_ADD_USERS);
         onCreate(db);
 
     }
@@ -79,12 +78,14 @@ public class BedTimeDbHelper extends SQLiteOpenHelper {
     }
 
      // add story
+    /*
     public void addStory(Story story){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = getContentValues(story);
 
 
         //insect story
+
         long cat_id = db.insertWithOnConflict(AddStories.AddStoriesColumn.TABLE_NAME,
                 null,values,SQLiteDatabase.CONFLICT_IGNORE);
     }
@@ -131,7 +132,7 @@ public class BedTimeDbHelper extends SQLiteOpenHelper {
         values.put(AddStories.AddStoriesColumn.CATEGORY,story.getCategoryId());
         return values;
     }
-
+*/
     public void storeUserImage(byte[] image, Context context){
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();

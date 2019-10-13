@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3f9ff7</color>
-    <color name="colorPrimaryDark">#3F9FF7</color>
-    <color name="colorAccent">#6F8EF5</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorAccent">#3f9ff7</color>
+    <color name="colorOrangeRed">#FF5722</color>
     <color name="colorAsh">#AEE2E2E2</color>
+    <color name="colorWhite">#FFFFFF</color>
     <color name="colorPrimaryTransparent">#e14e53f7</color>
 
 
@@ -32,7 +34,6 @@
     <color name="main_color_grey_900">@color/material_grey_900</color>
     <color name="colorBlueNew">#3f9ff7</color>
 
-    <color name ="colorWhite">#fff</color>
     <color name ="colorBlueSky">#3f9ff7</color>
 <!--    <color name="colorBlack">#000</color>-->
 <!--    <color name="colorWhite">#FFFFFF</color>-->

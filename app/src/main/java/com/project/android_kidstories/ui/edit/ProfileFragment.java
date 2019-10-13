@@ -51,7 +51,7 @@ public class ProfileFragment extends Fragment {
         return root;
     }
 
-   /* @Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -67,5 +67,5 @@ public class ProfileFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-    }*/
+    }
 }

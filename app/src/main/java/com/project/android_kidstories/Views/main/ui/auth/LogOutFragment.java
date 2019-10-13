@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.facebook.login.LoginManager;
-import com.project.android_kidstories.Views.RegisterActivity;
+import com.project.android_kidstories.RegisterActivity;
 
 
 public class LogOutFragment extends Fragment {

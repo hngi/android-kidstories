@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views;
+package com.project.android_kidstories;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +39,6 @@ import java.security.MessageDigest;
 import java.util.Arrays;
 
 import com.project.android_kidstories.Views.main.MainActivity;
-import com.project.android_kidstories.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

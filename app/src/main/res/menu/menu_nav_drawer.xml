@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_action_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_edit_profile"
+            android:icon="@drawable/ic_action_edit"
+            android:title="Edit profile" />
+        <item
+            android:id="@+id/nav_categories"
+            android:icon="@drawable/ic_action_categories"
+            android:title="Categories" />
+        <item
+            android:id="@+id/nav_donate"
+            android:icon="@drawable/ic_action_donate"
+            android:title="Donate" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_action_info"
+            android:title="About" />
+
+        <item
+            android:id="@+id/nav_log_out"
+            android:icon="@drawable/ic_action_log_out"
+            android:title="Log out" />
+
+        <item
+            android:id="@+id/nav_Profile"
+            android:icon="@drawable/ic_action_log_out"
+            android:title="Profile" />
+    </group>
+
+
+</menu>

@@ -1,6 +1,5 @@
 package com.project.android_kidstories;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -12,8 +11,16 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -21,13 +28,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-import com.project.android_kidstories.R;
+import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "AndroidClarified";
+    private static final String TAG = "LoginActivity";
     private GoogleSignInClient googleSignInClient;
     private Button googleSignInButton;
+    private CallbackManager callbackManager;
+    private static final String EMAIL = "email";
+    private static final String AUTH_TYPE = "rerequest";
     EditText email;
     EditText password;
     Button btn;
@@ -59,6 +69,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        TextView createAccount = findViewById(R.id.create_account);
+        createAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            }
+        });
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +84,19 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /* ******************* Facebook Authentication ********************** */
+        FacebookSdk.sdkInitialize(this);
+        callbackManager = CallbackManager.Factory.create();
+
+        Button facebookAuthButton = findViewById(R.id.facebook_auth_button);
+        facebookAuthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoginManager.getInstance().setAuthType(AUTH_TYPE)
+                        .logInWithReadPermissions(LoginActivity.this, Arrays.asList(EMAIL));
+                facebookLogin();
+            }
+        });
     }
 
     private void loginUser() {
@@ -74,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //validating text fields
 
-        if(TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())){
+        if (TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())) {
             email.setError("Please enter a valid email address");
             return;
         }
@@ -89,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK)
+        if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case 101:
                     try {
@@ -108,17 +139,20 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     break;
             }
+        }
+        callbackManager.onActivityResult(requestCode, resultCode, data);
 
     }
+
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
         Intent intent = new Intent(this, ProfileActivity.class);
-
-
         startActivity(intent);
         finish();
     }
+
     public void onStart() {
         super.onStart();
+        checkLoginStatus();
         GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
         if (alreadyloggedAccount != null) {
             Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
@@ -128,4 +162,35 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void checkLoginStatus() {
+        if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
+            // user already signed in
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+    }
+
+    public void facebookLogin() {
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(LoginActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onSuccess: " + loginResult.getAccessToken().getUserId());
+                setResult(RESULT_OK);
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+                /*call : loginResult.getAccessToken().getUserId() to get userId and save to database;*/
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(LoginActivity.this, "Error " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }

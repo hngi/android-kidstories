@@ -1,6 +1,5 @@
 package com.project.android_kidstories;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -12,6 +11,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -21,29 +21,29 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-import com.project.android_kidstories.R;
-
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "AndroidClarified";
     private GoogleSignInClient googleSignInClient;
     private Button googleSignInButton;
-    EditText email;
-    EditText password;
-    Button btn;
+    private ProgressBar progressBar;
+    EditText login_email;
+    EditText login_password;
+    Button login_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        email = findViewById(R.id.et_email);
-        password = findViewById(R.id.et_password);
-        btn = findViewById(R.id.login_button);
+        showProgressbar();
+        login_email = findViewById(R.id.et_email);
+        login_password = findViewById(R.id.et_password);
+        login_btn = findViewById(R.id.login_button);
 
         googleSignInButton = findViewById(R.id.google_auth_button);
 
-        // Configure sign-in to request the user's ID, email address, and basic
+        // Configure sign-in to request the user's ID, login_email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getResources().getString(R.string.web_client_id))
@@ -59,28 +59,30 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginUser();
+                //loginUser();
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, 101);
             }
         });
 
     }
 
     private void loginUser() {
-        String email_string = email.getText().toString();
-        String password_string = password.getText().toString();
+        String email_string = login_email.getText().toString();
+        String password_string = login_password.getText().toString();
 
         //validating text fields
 
         if(TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())){
-            email.setError("Please enter a valid email address");
+            login_email.setError("Please enter a valid login_email address");
             return;
         }
 
         if (TextUtils.isEmpty(password_string)) {
-            password.setError("Please enter a password");
+            login_password.setError("Please enter a login_password");
             return;
         }
 
@@ -105,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                     } catch (ApiException e) {
                         // The ApiException status code indicates the detailed failure reason.
                         Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+                        hideProgressbar();
                     }
                     break;
             }
@@ -126,6 +129,13 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "Not logged in");
         }
+    }
+    private void showProgressbar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressbar() {
+        progressBar.setVisibility(View.GONE);
     }
 
 }

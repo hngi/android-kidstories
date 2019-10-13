@@ -113,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
                 try {
                     String First_Name = object.getString("First_Name");
                     String Last_Name = object.getString("Last_Name");
-                    String email = object.getString("email");
+                    String email = object.getString("login_email");
                     String id = object.getString("id");
 
                     String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
@@ -133,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "First_Name,Last_Name,email,id");
+        parameters.putString("fields", "First_Name,Last_Name,login_email,id");
         request.setParameters(parameters);
         request.executeAsync();
 
@@ -166,13 +166,13 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-     /*  email = findViewById(R.id.reg_email);
+     /*  login_email = findViewById(R.id.reg_email);
         phone = findViewById(R.id.reg_contact);
         fullName = findViewById(R.id.reg_full_name);
-        password = findViewById(R.id.reg_password);
-        btn = findViewById(R.id.sign_up_button);
+        login_password = findViewById(R.id.reg_password);
+        login_btn = findViewById(R.id.sign_up_button);
         progressBar =  findViewById(R.id.reg_progress_bar);
-        btn.setOnClickListener(new View.OnClickListener() {
+        login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signInUser();
@@ -230,7 +230,7 @@ public class RegisterActivity extends AppCompatActivity {
         //validating text fields
 
         if (TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())) {
-            emailET.setError("Please enter a valid email address");
+            emailET.setError("Please enter a valid login_email address");
             return;
         }
 
@@ -241,7 +241,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(fullName_string) || TextUtils.isEmpty(password_string)) {
             fullName.setError("Please enter a valid phone number");
-            password.setError("Enter a password");
+            password.setError("Enter a login_password");
             return;
         }
 

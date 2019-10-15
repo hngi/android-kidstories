@@ -13,7 +13,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/reg_txt_view"
@@ -82,9 +83,10 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/edit_text_rectangle"
+
             android:ems="10"
             android:hint="Password"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:textColorHint="#646669" />
 
         <EditText
@@ -102,28 +104,6 @@
             android:inputType="textPassword"
             android:textColorHint="#646669" />
 
-
-        <Button
-            android:id="@+id/reg_facebook"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/roundbutton"
-            android:drawableStart="@drawable/facebook"
-            android:fontFamily="@font/roboto_regular"
-            android:paddingStart="30dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="30dp"
-            android:paddingBottom="12dp"
-            android:text="facebook"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="#000000"
-            android:textSize="14sp" />
 
         <!--.............Why is this widget here?? please use the button to call
                             the google signup......
@@ -161,32 +141,12 @@
               ....... -->
 
         <Button
-            android:id="@+id/reg_google"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/roundbutton"
-            android:drawableStart="@drawable/google"
-            android:fontFamily="@font/roboto_regular"
-            android:gravity="center"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp"
-            android:text="Google"
-            android:textAllCaps="false"
-            android:textColor="#000000"
-            android:textSize="14sp" />
-
-        <Button
             android:id="@+id/sign_up_button"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/register_round_button"

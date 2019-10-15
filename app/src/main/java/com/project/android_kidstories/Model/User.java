@@ -22,7 +22,7 @@ public class User implements Parcelable {
     private String token;
     @SerializedName("id")
     @Expose
-    private String id;
+    private Long id;
     @SerializedName("name")
     @Expose
     private String name;
@@ -88,7 +88,7 @@ public class User implements Parcelable {
 
     public User(Parcel in) {
         token = in.readString();
-        id = in.readString();
+        id = in.readLong();
         name = in.readString();
         firstName = in.readString();
         lastName = in.readString();
@@ -120,7 +120,7 @@ public class User implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(token);
-        dest.writeString(id);
+        dest.writeLong(id);
         dest.writeString(name);
         dest.writeString(firstName);
         dest.writeString(lastName);
@@ -213,11 +213,11 @@ public class User implements Parcelable {
         this.token = token;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

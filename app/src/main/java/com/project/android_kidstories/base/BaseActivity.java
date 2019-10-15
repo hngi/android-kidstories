@@ -8,10 +8,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.project.android_kidstories.LoginActivity;
-import com.project.android_kidstories.MainActivity;
 import com.project.android_kidstories.Model.User;
-import com.project.android_kidstories.RegisterActivity;
+import com.project.android_kidstories.Views.LoginActivity;
+import com.project.android_kidstories.Views.RegisterActivity;
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 
 public class BaseActivity extends AppCompatActivity {
@@ -39,7 +39,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void openMainActivity(Context context, User currentUser) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MainActivity.USER_INTENT_EXTRA, currentUser);
+        //intent.putExtra(MainActivity.USER_INTENT_EXTRA, currentUser);
         startActivity(intent);
     }
 

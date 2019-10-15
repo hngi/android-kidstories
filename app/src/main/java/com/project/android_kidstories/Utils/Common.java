@@ -18,10 +18,12 @@ public class Common extends Application {
         super.onCreate();
         Log.d(TAG, "onCreate: Common");
     }
+
     public static boolean checkNetwork(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
 
 }

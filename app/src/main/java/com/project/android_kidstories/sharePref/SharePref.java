@@ -2,6 +2,7 @@ package com.project.android_kidstories.sharePref;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 public class SharePref {
@@ -10,6 +11,18 @@ public class SharePref {
     private static final String ID_KEY="com.project.android_kidstories_ID_KEY";
 
     private static SharePref INSTANCE;
+
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCr(savedInstanceState);
+//
+//        INSTANCE=SharePref.getINSTANCE(this);
+//    }
+
+    public SharePref getSharePref() {
+        return INSTANCE;
+    }
 
     public static synchronized SharePref getINSTANCE(Context context) {
         if(INSTANCE==null){

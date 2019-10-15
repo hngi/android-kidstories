@@ -7,7 +7,6 @@ import android.os.Parcelable;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.LoginActivity;
 import com.project.android_kidstories.Views.RegisterActivity;

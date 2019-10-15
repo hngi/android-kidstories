@@ -1,20 +1,16 @@
 package com.project.android_kidstories.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,16 +27,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.project.android_kidstories.DataStore.ApiViewmodel;
-import com.project.android_kidstories.Model.User;
-import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.Views.ProfileActivity;
+import com.project.android_kidstories.Views.RegisterActivity;
+import com.project.android_kidstories.Views.main.MainActivity;
 
 import java.util.Arrays;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
+public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private GoogleSignInClient googleSignInClient;
@@ -48,24 +42,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CallbackManager callbackManager;
     private static final String EMAIL = "email";
     private static final String AUTH_TYPE = "rerequest";
-    private SharePref sharePref;
-    ApiViewmodel apiViewmodel;
-    Handler handler;
-    EditText emailET;
-    boolean isNowLoggedIn;
-    EditText passwordET;
+    EditText email;
+    EditText password;
     Button btn;
-    TextView register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        email = findViewById(R.id.et_email);
+        password = findViewById(R.id.et_password);
+        btn = findViewById(R.id.login_button);
 
-
-        initViews();
-        apiViewmodel= ViewModelProviders.of(this).get(ApiViewmodel.class);
         googleSignInButton = findViewById(R.id.google_auth_button);
 
         // Configure sign-in to request the user's ID, email address, and basic
@@ -84,12 +73,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-//        register.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                gotoRegisterActivity();
-//            }
-//        });
         TextView createAccount = findViewById(R.id.create_account);
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,12 +81,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                loginUser();
-//            }
-//        });
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginUser();
+            }
+        });
 
         /* ******************* Facebook Authentication ********************** */
         FacebookSdk.sdkInitialize(this);
@@ -120,132 +103,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    public SharePref getSharePref() {
-        return sharePref;
-    }
-
-    private void initViews() {
-        emailET= findViewById(R.id.et_email);
-        passwordET = findViewById(R.id.et_password);
-        btn = findViewById(R.id.login_button);
-        register =findViewById(R.id.create_account);
-
-        register.setOnClickListener(this);
-        btn.setOnClickListener(this);
-
-
-    }
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.login_button: loginViaRoom();
-                break;
-            case R.id.create_account:
-                gotoRegisterActivity(LoginActivity.this);
-                break;
-        }
-    }
-
-    private void loginViaRoom() {
-        showProgressbar();
-        String email = emailET.getText().toString().trim();
-        String password = passwordET.getText().toString().trim();
-
-
-        if (!validateEmailPassword(email, password)) {
-            hideProgressbar();
-            isNowLoggedIn =false;
-            return;
-        }
-
-        for(User user:apiViewmodel.getRepository().getAllLocalUsers()){
-            if(user.getEmail().equals(email)&&user.getPassword().equals(password)&&!isNowLoggedIn){
-                isNowLoggedIn =true;
-                getSharePref().setLoggedUserId(user.getId());
-                Log.d(TAG, "register: SharedPref LoggedIn UserId "+getSharePref().getLoggedUserId());
-                openMainActivityOnDelay(user);
-                return;
-            }else if(isNowLoggedIn){
-                showToast("Please wait, Logging you in");
-                return;
-            }
-        }
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideProgressbar();
-                showToast("Wrong email or password");
-                isNowLoggedIn =false;
-            }
-        },1000);
-
-    }
-
-    private void openMainActivityOnDelay(final User user) {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                openMainActivity(LoginActivity.this,user);
-                finish();
-            }
-        },1000);
-    }
-    protected void openMainActivity(Context context, User currentUser) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MainActivity.USER_KEY_INTENT_EXTRA,currentUser);
-        startActivity(intent);
-    }
-
-    private boolean validateEmailPassword(String email, String password) {
-        if (TextUtils.isEmpty(email)) {
-            emailET.setError("Required");
-            return false;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            passwordET.setError("Required");
-            return false;
-        } else if (password.length() > 15) {
-            passwordET.setError("Password too long");
-            return false;
-        }
-        return true;
-    }
-
-    //ProgressBar progressBar = findViewById(R.id.login_progress);
-    private void showProgressbar() {
-       // progressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void hideProgressbar() {
-        //progressBar.setVisibility(View.GONE);
-    }
-
-    protected void gotoRegisterActivity(Context context) {
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(context, RegisterActivity.class);
-                startActivity(i);
-            }
-        });
-
-    }
-
     private void loginUser() {
-        String email_string = emailET.getText().toString();
-        String password_string = passwordET.getText().toString();
+        String email_string = email.getText().toString();
+        String password_string = password.getText().toString();
 
         //validating text fields
 
         if (TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())) {
-            emailET.setError("Please enter a valid email address");
+            email.setError("Please enter a valid email address");
             return;
         }
 
         if (TextUtils.isEmpty(password_string)) {
-            passwordET.setError("Please enter a password");
+            password.setError("Please enter a password");
             return;
         }
 
@@ -277,7 +147,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
     }
-
 
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
         Intent intent = new Intent(this, ProfileActivity.class);
@@ -327,9 +196,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(LoginActivity.this, "Error " + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    protected void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

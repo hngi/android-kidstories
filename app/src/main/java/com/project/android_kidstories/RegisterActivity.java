@@ -80,22 +80,22 @@ public class RegisterActivity extends AppCompatActivity {
         emailET = findViewById(R.id.reg_email);
         confirmPassword = findViewById(R.id.reg_confirm_password);
 
-        regFacebook = findViewById(R.id.reg_facebook);
-        regGoogle = findViewById(R.id.reg_google);
+//        regFacebook = findViewById(R.id.reg_facebook);
+//        regGoogle = findViewById(R.id.reg_google);
         SignUp = findViewById(R.id.sign_up_button);
         loginText = findViewById(R.id.create_act);
 
         FacebookSdk.sdkInitialize(this);
         callbackManager = CallbackManager.Factory.create();
-
-        regFacebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoginManager.getInstance().setAuthType(AUTH_TYPE)
-                        .logInWithReadPermissions(RegisterActivity.this, Arrays.asList(EMAIL));
-                facebookLogin();
-            }
-        });
+//
+//        regFacebook.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                LoginManager.getInstance().setAuthType(AUTH_TYPE)
+//                        .logInWithReadPermissions(RegisterActivity.this, Arrays.asList(EMAIL));
+//                facebookLogin();
+//            }
+//        });
 
         // if user is already registered
         loginText.setOnClickListener(new View.OnClickListener() {

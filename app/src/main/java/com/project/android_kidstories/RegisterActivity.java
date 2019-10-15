@@ -1,15 +1,13 @@
-package com.project.android_kidstories.Views;
+package com.project.android_kidstories;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -39,15 +37,10 @@ import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
-import java.util.Objects;
 
-import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.DataStore.ApiViewmodel;
-import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.main.MainActivity;
-import com.project.android_kidstories.R;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
+public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
     public static final int LOGIN_TEXT_REQUEST_CODE = 11;
@@ -56,17 +49,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private static final String AUTH_TYPE = "rerequest";
 
     EditText emailET;
-    EditText phoneeET;
-    EditText fullNameET;
-    EditText passWordET;
-    EditText confirMPasswordET;
+    EditText phone;
+    EditText fullName;
+    EditText password, confirmPassword;
     Button regFacebook, regGoogle, SignUp;
     TextView loginText;
     ProgressBar progressBar;
-    Button register_btn;
-    ApiViewmodel viewmodel;
-    Handler handler;
-    private boolean isNowRegistered;
 
 
     @Override
@@ -86,46 +74,26 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         printHashKey(this);
         checkLoginStatus();
 
-        initViews();
-
-
-    }
-
-    private void initViews() {
-        phoneeET = findViewById(R.id.reg_contact);
-        passWordET = findViewById(R.id.reg_password);
-        fullNameET = findViewById(R.id.reg_full_name);
+        phone = findViewById(R.id.reg_contact);
+        password = findViewById(R.id.reg_password);
+        fullName = findViewById(R.id.reg_full_name);
         emailET = findViewById(R.id.reg_email);
-        confirMPasswordET = findViewById(R.id.reg_confirm_password);
-        register_btn = findViewById(R.id.sign_up_button);
-        regFacebook = findViewById(R.id.reg_facebook);
-        regGoogle = findViewById(R.id.reg_google);
+        confirmPassword = findViewById(R.id.reg_confirm_password);
+
+//        regFacebook = findViewById(R.id.reg_facebook);
+//        regGoogle = findViewById(R.id.reg_google);
         SignUp = findViewById(R.id.sign_up_button);
         loginText = findViewById(R.id.create_act);
 
-        loginText.setOnClickListener(this);
-        register_btn.setOnClickListener(this);
-
-        handler = new Handler();
-        viewmodel = ViewModelProviders.of(this).get(ApiViewmodel.class);
         FacebookSdk.sdkInitialize(this);
         callbackManager = CallbackManager.Factory.create();
-        regFacebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoginManager.getInstance().setAuthType(AUTH_TYPE)
-                        .logInWithReadPermissions(RegisterActivity.this, Arrays.asList(EMAIL));
-                facebookLogin();
-            }
-        });
-
-//        //Register
-//        register_btn.setOnClickListener(new View.OnClickListener() {
+//
+//        regFacebook.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                signInUser();
-//                //if ()
-//
+//                LoginManager.getInstance().setAuthType(AUTH_TYPE)
+//                        .logInWithReadPermissions(RegisterActivity.this, Arrays.asList(EMAIL));
+//                facebookLogin();
 //            }
 //        });
 
@@ -138,88 +106,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.create_act: gotoLoginActivity(this);
-                break;
-            case R.id.sign_up_button: register();
-                break;
-        }
-    }
-
-
-    private void register(){
-        showProgressbar();
-        String fName = Objects.requireNonNull(fullNameET.getText()).toString().trim();
-        String email = Objects.requireNonNull(emailET.getText()).toString().trim();
-        String password = Objects.requireNonNull(passWordET.getText()).toString().trim();
-        String phone = Objects.requireNonNull(phoneeET.getText()).toString().trim();
-        String confirmPassword = Objects.requireNonNull(confirMPasswordET.getText()).toString().trim();
-
-
-
-
-        if (!validateInputs( fName, email, password,phone,confirmPassword)){
-            hideProgressbar();
-            return;
-        }
-
-//
-        User newUser=new User(fName,email,password);
-        newUser.setPassword(password);
-        Long insertedUserId = viewmodel.getRepository().getUser(newUser);     //insertUser(newUser);
-        newUser.setId(insertedUserId);
-
-        if(insertedUserId!=null&&insertedUserId!=-1&&!isNowRegistered){
-            isNowRegistered=true;
-            //getSharePref().setLoggedUserId(insertedUserId);
-            //Log.d(TAG, "register_btn: SharedPref LoggedIn UserId "+getSharePref().getLoggedUserId());
-            openHandler(newUser);
-        } else if(isNowRegistered){
-            showToast("Registering Please wait");
-            return;
-        }else {
-            showToast("Error Registering");
-        }
-
-    }
-
-    private boolean validateInputs(String fname, String email, String password, String confirm_password,String phone) {
-        if (TextUtils.isEmpty(fname)) {
-            fullNameET.setError("Required");
-            return false;
-        }
-
-        if (TextUtils.isEmpty(email)) {
-            emailET.setError("Required");
-            return false;
-        }
-        if (TextUtils.isEmpty(phone)) {
-            phoneeET.setError("Required");
-            return false;
-        }
-        if (TextUtils.isEmpty(confirm_password)) {
-            confirMPasswordET.setError("Required");
-            return false;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            passWordET.setError("Required");
-            return false;
-        } else if (password.length() > 15) {
-            passWordET.setError("Password too long");
-            return false;
-        }
-        return true;
-    }
-
     AccessTokenTracker tokenTracker = new AccessTokenTracker() {
         @Override
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
             if (currentAccessToken == null) {
-                fullNameET.setText("");
+                fullName.setText("");
                 emailET.setText("");
                 Toast.makeText(RegisterActivity.this, "User Logged Out", Toast.LENGTH_LONG).show();
 
@@ -237,14 +128,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 try {
                     String First_Name = object.getString("First_Name");
                     String Last_Name = object.getString("Last_Name");
-                    String email = object.getString("login_email");
+                    String email = object.getString("email");
                     String id = object.getString("id");
 
                     String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
 
                     emailET.setText(email);
 
-                    fullNameET.setText(First_Name + " " + Last_Name);
+                    fullName.setText(First_Name + " " + Last_Name);
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
 
@@ -257,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "First_Name,Last_Name,login_email,id");
+        parameters.putString("fields", "First_Name,Last_Name,email,id");
         request.setParameters(parameters);
         request.executeAsync();
 
@@ -297,13 +188,29 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
 
-     /*  login_email = findViewById(R.id.reg_email);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     /*  email = findViewById(R.id.reg_email);
         phone = findViewById(R.id.reg_contact);
         fullName = findViewById(R.id.reg_full_name);
-        login_password = findViewById(R.id.reg_password);
-        login_btn = findViewById(R.id.sign_up_button);
+        password = findViewById(R.id.reg_password);
+        btn = findViewById(R.id.sign_up_button);
         progressBar =  findViewById(R.id.reg_progress_bar);
-        login_btn.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signInUser();
@@ -352,55 +259,32 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 //
 //    }
 
-    private boolean signInUser() {
+    private void signInUser() {
         String email_string = emailET.getText().toString();
-        String phone_string = phoneeET.getText().toString();
-        String fullName_string = fullNameET.getText().toString();
-        String password_string = passWordET.getText().toString();
-        String confirm_password = confirMPasswordET.getText().toString();
+        String phone_string = phone.getText().toString();
+        String fullName_string = fullName.getText().toString();
+        String password_string = password.getText().toString();
 
         //validating text fields
-        if (TextUtils.isEmpty(fullName_string) || TextUtils.isEmpty(fullName_string)) {
-            emailET.setError("Please enter a valid login_email address");
-            return false;
-        }
 
         if (TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())) {
-            emailET.setError("Please enter a valid login_email address");
-            return false;
+            emailET.setError("Please enter a valid email address");
+            return;
         }
 
         if (TextUtils.isEmpty(phone_string) || (!Patterns.PHONE.matcher(phone_string).matches())) {
-            phoneeET.setError("Please enter a valid phone number");
-            return false;
+            phone.setError("Please enter a valid phone number");
+            return;
         }
 
-        if (TextUtils.isEmpty(password_string) || TextUtils.isEmpty(password_string)) {
-            //fullName.setError("Please enter a valid phone number");
-            phoneeET.setError("Enter a login_password");
-            return false;
+        if (TextUtils.isEmpty(fullName_string) || TextUtils.isEmpty(password_string)) {
+            fullName.setError("Please enter a valid phone number");
+            password.setError("Enter a password");
+            return;
         }
-        if (TextUtils.isEmpty(confirm_password) || TextUtils.isEmpty(confirm_password)) {
-            confirMPasswordET.setError("Password not match");
-            return false;
-        }
-            return true;
-       // progressBar.setVisibility(View.VISIBLE);
+
+        progressBar.setVisibility(View.VISIBLE);
     }
-    private void openHandler(final User newUser) {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideProgressbar();
-                showToast("Registration Successful");
-                gotoLoginActivity(RegisterActivity.this);
-
-                finish();
-            }
-        },2000);
-    }
-
-
 
     // Getting app hash key for facebook login registration
     private static void printHashKey(Context context) {
@@ -416,22 +300,5 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             Log.e(TAG, "printHashKey: Error: " + e.getMessage());
         }
     }
-
-    private void showProgressbar(){
-        //progressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void hideProgressbar(){
-        //progressBar.setVisibility(View.GONE);
-    }
-
-    protected void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-    protected void gotoLoginActivity(Context context) {
-        startActivity(new Intent(context, LoginActivity.class));
-    }
-
-
 }
 

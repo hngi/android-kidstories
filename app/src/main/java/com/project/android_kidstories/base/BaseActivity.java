@@ -7,9 +7,10 @@ import android.os.Parcelable;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.Model.User;
-import com.project.android_kidstories.Views.LoginActivity;
-import com.project.android_kidstories.Views.RegisterActivity;
+import com.project.android_kidstories.RegisterActivity;
 import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 

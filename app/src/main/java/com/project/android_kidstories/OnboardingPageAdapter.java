@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views;
+package com.project.android_kidstories;
 
 import android.content.Context;
 import android.view.LayoutInflater;

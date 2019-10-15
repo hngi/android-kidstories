@@ -83,9 +83,10 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/edit_text_rectangle"
+
             android:ems="10"
             android:hint="Password"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:textColorHint="#646669" />
 
         <EditText

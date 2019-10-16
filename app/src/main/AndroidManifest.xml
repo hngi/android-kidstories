@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Views.NightmodeActivity"
+        <activity android:name=".NightmodeActivity"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"/>
         <activity

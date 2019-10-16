@@ -2,11 +2,11 @@ package com.project.android_kidstories.DataStore;
 
 import android.content.Context;
 
-import com.project.android_kidstories.Model.Story;
-import com.project.android_kidstories.Model.User;
-
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+
+import com.project.android_kidstories.Model.Story;
+import com.project.android_kidstories.Model.User;
 
 /**
  * @author .: Ehma Ugbogo

@@ -2,7 +2,6 @@ package com.project.android_kidstories.sharePref;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 public class SharePref {
@@ -19,9 +18,11 @@ public class SharePref {
 //
 //        INSTANCE=SharePref.getINSTANCE(this);
 //    }
+    private SharedPreferences sharedPreferences;
 
-    public SharePref getSharePref() {
-        return INSTANCE;
+    private SharePref(SharedPreferences sharedPreferences) {
+        this.sharedPreferences=sharedPreferences;
+
     }
 
     public static synchronized SharePref getINSTANCE(Context context) {
@@ -32,11 +33,8 @@ public class SharePref {
         return INSTANCE;
     }
 
-    private SharedPreferences sharedPreferences;
-
-    private SharePref(SharedPreferences sharedPreferences) {
-        this.sharedPreferences=sharedPreferences;
-
+    public SharePref getSharePref() {
+        return INSTANCE;
     }
 
     public void setLastSunAccess(int hour){
@@ -47,12 +45,11 @@ public class SharePref {
         return sharedPreferences.getInt(LAST_LOGGED_IN,1);
     }
 
+    public Long getLoggedUserId(){
+        return sharedPreferences.getLong(ID_KEY,-1);
+    }
 
     public void setLoggedUserId(Long id){
         sharedPreferences.edit().putLong(ID_KEY,id).apply();
-    }
-
-    public Long getLoggedUserId(){
-        return sharedPreferences.getLong(ID_KEY,-1);
     }
 }

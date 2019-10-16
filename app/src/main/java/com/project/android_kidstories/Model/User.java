@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
@@ -15,14 +14,22 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 @Entity(tableName = "user")
 public class User implements Parcelable {
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     @NonNull
     @PrimaryKey
     @SerializedName("token")
     @Expose
     private String token;
-    @SerializedName("id")
-    @Expose
-    private Long id;
     @SerializedName("name")
     @Expose
     private String name;
@@ -45,11 +52,9 @@ public class User implements Parcelable {
     @SerializedName("premium")
     @Expose
     private Boolean premium;
-
-    @SerializedName("bookmark")
+    @SerializedName("id")
     @Expose
-    @Ignore
-    private List<Object> bookmark;
+    private Long id;
 
     @SerializedName("bookmark_count")
     @Expose
@@ -79,6 +84,10 @@ public class User implements Parcelable {
     @SerializedName("role")
     @Expose
     private String role;
+    @SerializedName("bookmark")
+    @Expose
+    @Ignore
+    private List<Object> bookmark;
 
     public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
@@ -152,18 +161,6 @@ public class User implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
     public String getPhoto() {
         return photo;

@@ -21,6 +21,9 @@
             android:name=".NightmodeActivity"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning" />
+        <activity android:name=".NightmodeActivity"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"/>
         <activity
             android:name=".Views.main.MainActivity"
             android:label="@string/title_activity_the_main"

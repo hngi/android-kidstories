@@ -12,7 +12,7 @@ public class SharePref {
     private static SharePref INSTANCE;
 
 
-    //    @Override
+//    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCr(savedInstanceState);
 //

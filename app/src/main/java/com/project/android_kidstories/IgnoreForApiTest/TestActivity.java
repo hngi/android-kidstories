@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
@@ -158,9 +159,9 @@ public class TestActivity extends AppCompatActivity {
 
     public void getAllCategory(View view) {
         showProgressbar();
-        storyApi.getAllCategories().enqueue(new Callback<BaseResponse<List<Category>>>() {
+        storyApi.getAllCategories().enqueue(new Callback<CategoriesAllResponse>() {
             @Override
-            public void onResponse(Call<BaseResponse<List<Category>>> call, Response<BaseResponse<List<Category>>> response) {
+            public void onResponse(Call<CategoriesAllResponse> call, Response<CategoriesAllResponse> response) {
                 if (response.isSuccessful()) {
                     String status = String.valueOf(response.body().getStatus());
                     String message = response.body().getMessage();
@@ -178,7 +179,7 @@ public class TestActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<BaseResponse<List<Category>>> call, Throwable t) {
+            public void onFailure(Call<CategoriesAllResponse> call, Throwable t) {
                 //textView.setText("Response Error " + t.getMessage());
                 hideProgressbar();
             }

@@ -2,7 +2,6 @@ package com.project.android_kidstories.Views.main;
 
 import android.content.ContextWrapper;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;

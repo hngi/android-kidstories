@@ -30,8 +30,8 @@
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/comic_sans"
                 android:gravity="top"
-                android:text="About"
-                android:textColor="@color/colorWhite"
+                android:text="@string/about_label"
+                android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +63,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/comic_sans"
             android:gravity="center_vertical"
-            android:text="Kiddies stories is a mobile app that gives the best of value to your child."
+            android:text="@string/about_description"
             android:textAlignment="center"
             android:textSize="14sp" />
 
@@ -75,7 +75,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/comic_sans"
             android:gravity="bottom"
-            android:text="Developed by mobile track HNG6 2019"
+            android:text="@string/developers"
             android:textAlignment="center"
             android:textSize="14sp" />
     </LinearLayout>

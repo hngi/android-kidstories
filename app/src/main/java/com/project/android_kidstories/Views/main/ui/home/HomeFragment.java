@@ -14,7 +14,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Views.main.ui.home.Adapters.SectionsPageAdapter;
 import com.project.android_kidstories.Views.main.ui.home.Fragments.CategoriesFragment;
-import com.project.android_kidstories.Views.main.ui.home.Fragments.PopularStoriesFragment;
+import com.project.android_kidstories.fragments.PopularStoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
 
 public class HomeFragment extends Fragment {

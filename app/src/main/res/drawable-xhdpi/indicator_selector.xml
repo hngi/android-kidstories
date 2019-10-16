@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@drawable/indicator_selected"
+        android:drawable="@drawable/onboarding_indicator"
         android:state_selected="true"/>
     <item
-        android:drawable="@drawable/indicator_default"/>
+        android:drawable="@drawable/onboarding_default_indicator"/>
 </selector>

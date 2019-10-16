@@ -1,5 +1,6 @@
 package com.project.android_kidstories.Views.main.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +11,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.project.android_kidstories.AddStoryActivity;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.Views.main.ui.home.Adapters.SectionsPageAdapter;
 import com.project.android_kidstories.Views.main.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.fragments.PopularStoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
 
 public class HomeFragment extends Fragment {
+
+
 
     private com.project.android_kidstories.ui.home.HomeViewModel homeViewModel;
 
@@ -28,6 +34,16 @@ public class HomeFragment extends Fragment {
 
         TabLayout tabLayout = root.findViewById(R.id.home_frag_tablayout);
         ViewPager viewPager = root.findViewById(R.id.home_frag_container);
+
+        FloatingActionButton floatingActionButton = root.findViewById(R.id.home_frag_calculate_fab);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeFragment.this.getActivity(), AddStoryActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());

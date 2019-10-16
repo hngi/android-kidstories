@@ -81,7 +81,7 @@
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="facebook_btn_label">facebook</string>
     <string name="google_btn_label">Google</string>
-    <string name="already_registered">Already registered?</string>
+    <string name="already_registered">Already registered? </string>
     <string name="sign_in_txt_btn">Sign in</string>
     <string name="apps_logo">Apps LOGO</string>
     <string name="comments">Comments</string>
@@ -110,5 +110,6 @@
     <string name="create_btn_label">Create</string>
     <string name="content_label">Content</string>
     <string name="no_image_uploaded">No image uploaded</string>
+    <string name="register_btn_label">Register</string>
 
 </resources>

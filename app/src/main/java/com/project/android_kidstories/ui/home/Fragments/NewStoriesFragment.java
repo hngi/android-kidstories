@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
-import com.project.android_kidstories.DataStore.ApiViewmodel;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
@@ -53,14 +52,13 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        ApiViewmodel apiViewmodel = ViewModelProviders.of(getActivity()).get(ApiViewmodel.class);
-        repository = apiViewmodel.getRepository();
-        storyAdapter = new StoryAdapter(apiViewmodel);
+        repository=Repository.getInstance(getActivity().getApplication());
+        storyAdapter = new StoryAdapter(repository);
         storyAdapter.setOnStoryClickListener(this);
         recyclerView.setAdapter(storyAdapter);
 
 
-        Repository repository1=new Repository(getActivity().getApplication());
+
         fetchStories();
         Log.d(TAG, "onCreateView: NewStoriesFrag");
         return v;
@@ -77,7 +75,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             showToast("You do not have network connection");
             return;
         }
-        repository.getApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
+        repository.getStoryApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 if (response.isSuccessful()) {

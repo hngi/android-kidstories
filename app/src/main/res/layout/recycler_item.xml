@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/recyclerImage"
             android:text="Diary of a wimpy kid"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/black"
             android:textSize="12sp"
         />
         <TextView
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/tv2"
-            android:background="@color/colorBlack"
+            android:background="@color/black"
         />
         <TextView
             android:id="@+id/tv3"
@@ -65,7 +65,7 @@
             android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorBlack"
+            android:background="@color/black"
         />
 
         <LinearLayout

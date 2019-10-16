@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,10 +36,11 @@ public class ProfileFragment extends Fragment {
 
 
     ImageView imageView;
-    Button btn_upload, save;
+    ImageView btn_upload;
+    Button save;
     private static int RESULT_LOAD_IMAGE = 1;
     ImageConversion imageConversion;
-    EditText username;
+    TextView username;
 
     BedTimeDbHelper helper;
 
@@ -54,7 +56,7 @@ public class ProfileFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_edit, container, false);
 
         imageView = root.findViewById(R.id.img_user);
-        username = root.findViewById(R.id.ed_username);
+        username = root.findViewById(R.id.tv_username);
         btn_upload = root.findViewById(R.id.btn_upload_image);
         btn_upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +71,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(TextUtils.isEmpty(username.getText().toString())){
-                    username.setError("Username cannot be empty");
+                    //username.setError("Username cannot be empty");
                 }else {
                     Bitmap bitmap;
                     if (imageView.getDrawable() instanceof BitmapDrawable) {

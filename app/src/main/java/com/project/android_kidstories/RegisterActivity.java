@@ -337,10 +337,11 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
             }
+            //This is weird, but the Method below actually registers the user.
 
             @Override
             public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
-                Toast.makeText(RegisterActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Welcome!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(intent);
             }

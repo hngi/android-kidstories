@@ -3,6 +3,7 @@ package com.project.android_kidstories.Api;
 import android.net.Uri;
 
 import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
@@ -160,7 +161,8 @@ public interface Api {
 
     //Catergory APIs
     @GET("categories")
-    Call<BaseResponse<List<Category>>> getAllCategories();
+    Call<CategoriesAllResponse> getAllCategories();
+    //Call<BaseResponse<List<Category>>> getAllCategories();
 
     @GET("categories/{id}")
     Call<BaseResponse<Category>> getCategory(@Part("id") Integer categoryId);

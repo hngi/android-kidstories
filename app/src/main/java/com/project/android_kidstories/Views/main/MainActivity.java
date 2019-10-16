@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,20 +15,27 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.DataStore.ApiViewmodel;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.Views.main.ui.home.HomeFragment;
-import com.project.android_kidstories.fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.edit.ProfileFragment;
+import com.project.android_kidstories.ui.home.Adapters.SectionsPageAdapter;
+import com.project.android_kidstories.ui.home.Adapters.ViewPagerAdapter;
+import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
+import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
+import com.project.android_kidstories.ui.home.Fragments.PopularStoriesFragment;
+import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
@@ -47,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Toolbar toolbar;
     private Repository repository;
     private StoryAdapter storyAdapter;
+    private FrameLayout frameLayout;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initViews();
 
         if (savedInstanceState == null) {
-            openHomeFragment();
+            //openHomeFragment();
         }
 
 
@@ -76,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toggle.syncState();
 
 
-        //For test
+
         RecyclerView recyclerView=findViewById(R.id.main_recycler);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -90,11 +100,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         setupProfile(headerView);
-        openHomeFragment();
-        //fetchStories();
+        //openHomeFragment();
+
+        forTest();
         navigationClickListeners();
 
 
+    }
+
+    private void forTest(){
+        frameLayout = findViewById(R.id.main_fragment_container);
+
+        ViewPager viewPager=findViewById(R.id.home_frag_container_test);
+        tabLayout = findViewById(R.id.home_frag_tablayout_test_test);
+
+        SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
+        //ViewPagerAdapter pagerAdapter=new ViewPagerAdapter(getActivity().getSupportFragmentManager(), FragmentPagerAdapter.POSITION_UNCHANGED);
+        adapter.addFragment(NewStoriesFragment.newInstance(),"New Stories");
+        adapter.addFragment(PopularStoriesFragment.newInstance(),"Popular Stories");
+        adapter.addFragment(CategoriesFragment.newInstance(),"Categories");
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+
+
+    }
+
+    private void hideFrameLayout(){
+        frameLayout.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void showFrameLayout(){
+        frameLayout.setVisibility(View.VISIBLE);
+        tabLayout.setVisibility(View.GONE);
     }
 
     private void navigationClickListeners() {
@@ -105,22 +145,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String msg = "";
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
+                        hideFrameLayout();
                         fragment = new HomeFragment();
                         msg="Stories";
                         break;
                     case R.id.nav_edit_profile:
+                        showFrameLayout();
                         fragment = new ProfileFragment();
                         msg="Profile";
                         break;
                     case R.id.nav_categories:
+                        showFrameLayout();
                         fragment = new CategoriesFragment();
                         msg="Categories";
                         break;
                     case R.id.nav_donate:
+                        showFrameLayout();
                         fragment = new DonateFragment();
                         msg="Donate";
                         break;
                     case R.id.nav_about:
+                        showFrameLayout();
                         fragment = new AboutFragment();
                         msg="About";
                         showToast("Add New Account Nav Clicked");

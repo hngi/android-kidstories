@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views.main.ui.auth;
+package com.project.android_kidstories.ui.auth;
 
 import android.content.Intent;
 import android.os.Bundle;

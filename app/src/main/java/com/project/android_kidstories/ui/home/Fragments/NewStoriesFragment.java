@@ -19,7 +19,7 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.Common;
-import com.project.android_kidstories.Views.main.ui.home.BaseFragment;
+import com.project.android_kidstories.ui.home.BaseFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 
 import java.util.List;
@@ -60,8 +60,9 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         recyclerView.setAdapter(storyAdapter);
 
 
+        Repository repository1=new Repository(getActivity().getApplication());
         fetchStories();
-
+        Log.d(TAG, "onCreateView: NewStoriesFrag");
         return v;
     }
 
@@ -74,6 +75,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private void fetchStories() {
         if (!Common.checkNetwork(getActivity())) {
             showToast("You do not have network connection");
+            return;
         }
         repository.getApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
             @Override

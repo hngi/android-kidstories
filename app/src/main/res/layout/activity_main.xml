@@ -28,6 +28,13 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:subtitleTextColor="@color/black"
                 app:titleTextColor="@color/black" />
+            <!--for test purpose, Trying an hack. Normally shouldn't be here-->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/home_frag_tablayout_test_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary" />
+
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -37,10 +44,18 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <!--for test purpose, Trying an hack. Normally shouldn't be here-->
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/home_frag_container_test"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
             <FrameLayout
                 android:id="@+id/main_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/main_recycler"

@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views.main.ui.home;
+package com.project.android_kidstories.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,15 +7,19 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.Views.main.ui.home.Adapters.SectionsPageAdapter;
-import com.project.android_kidstories.fragments.CategoriesFragment;
-import com.project.android_kidstories.fragments.PopularStoriesFragment;
+import com.project.android_kidstories.ui.home.Adapters.SectionsPageAdapter;
+import com.project.android_kidstories.ui.home.Adapters.ViewPagerAdapter;
+import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
+import com.project.android_kidstories.ui.home.Fragments.PopularStoriesFragment;
+
 
 public class HomeFragment extends Fragment {
 
@@ -31,10 +35,11 @@ public class HomeFragment extends Fragment {
 
 
         SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());
+        ViewPagerAdapter pagerAdapter=new ViewPagerAdapter(getActivity().getSupportFragmentManager(), FragmentPagerAdapter.POSITION_UNCHANGED);
         adapter.addFragment(NewStoriesFragment.newInstance(),"New Stories");
         adapter.addFragment(PopularStoriesFragment.newInstance(),"Popular Stories");
         adapter.addFragment(CategoriesFragment.newInstance(),"Categories");
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
 

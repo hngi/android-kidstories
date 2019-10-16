@@ -25,7 +25,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:ellipsize="end" android:text="@string/book_title"
-            android:textColor="@color/colorBlack" android:textSize="14sp"
+            android:textColor="@color/black" android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@+id/book_image"
             app:layout_constraintTop_toTopOf="@+id/book_image"/>
         <TextView
@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:text="@string/by" android:textColor="@color/colorBlack"
+            android:text="@string/by" android:textColor="@color/black"
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="@+id/book_title"
             app:layout_constraintTop_toBottomOf="@+id/book_title"/>
@@ -60,7 +60,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:text="@string/book_description"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/black"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="@+id/book_title"
             app:layout_constraintStart_toStartOf="@+id/by" app:layout_constraintTop_toBottomOf="@+id/divider"/>

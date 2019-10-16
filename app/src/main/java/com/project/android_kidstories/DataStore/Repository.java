@@ -4,14 +4,20 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.HelperClasses.AddCommentHelper;
+
+import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
+import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
+import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
@@ -19,7 +25,6 @@ import com.project.android_kidstories.Model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -197,6 +202,7 @@ public class Repository {
         });
     }
 
+    /*
     public List<Category> getAllCategories(){
         api.getAllCategories().enqueue(new Callback<BaseResponse<List<Category>>>() {
             @Override
@@ -210,6 +216,24 @@ public class Repository {
             @Override
             public void onFailure(Call<BaseResponse<List<Category>>> call, Throwable t) {
                 Log.w(TAG, "onFailure: getAllCategories"+t.getMessage());
+            }
+        });
+        return categoryList;
+    }
+*/
+    public List<Category> getAllCategories(){
+        api.getAllCategories().enqueue(new Callback<CategoriesAllResponse>() {
+            @Override
+            public void onResponse(Call<CategoriesAllResponse> call, Response<CategoriesAllResponse> response) {
+                if(response.isSuccessful()){
+                    categoryList = response.body().getData();
+                    Log.d(TAG, "getAllStories Successful: Stories "+storyList.size());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoriesAllResponse> call, Throwable t) {
+                Log.w(TAG, "onFailure: "+t.getMessage());
             }
         });
         return categoryList;

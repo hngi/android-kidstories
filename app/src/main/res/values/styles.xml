@@ -21,7 +21,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/comic_font</item>
-        <item name="textColor">@color/colorWhite</item>
+        <item name="textColor">@color/white</item>
         <item name="backgroundColor">@color/main_color_grey_800</item>
         <item name="backgroundBoxColor">@color/main_color_grey_800</item>
         <item name="tintColor">@color/colorPrimary</item>
@@ -46,7 +46,7 @@
     </style>
 
 
-   <!-- MainActivity Toolbar Theme-->
+    <!-- MainActivity Toolbar Theme-->
     <style name="AppToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">@android:color/black</item>
         <item name="android:textColorSecondary">@android:color/black</item>
@@ -112,7 +112,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorControlNormal">@color/colorBlack</item>
+        <item name="colorControlNormal">@color/black</item>
     </style>
 
 </resources>

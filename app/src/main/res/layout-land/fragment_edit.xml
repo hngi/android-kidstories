@@ -115,7 +115,7 @@
             android:fontFamily="@font/roboto_regular"
             android:text="@string/save"
             android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

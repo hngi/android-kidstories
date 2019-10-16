@@ -111,5 +111,6 @@
     <string name="content_label">Content</string>
     <string name="no_image_uploaded">No image uploaded</string>
     <string name="register_btn_label">Register</string>
+    <string name="write_your_story_here">Write your story here...</string>
 
 </resources>

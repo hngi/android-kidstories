@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     tools:context=".LoginActivity">
 
@@ -45,7 +46,7 @@
                 android:layout_below="@id/write"
                 android:layout_centerInParent="false"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/book" />
+                android:src="@drawable/onboarding_ic" />
 
             <EditText
                 android:id="@+id/et_email"
@@ -60,6 +61,18 @@
                 android:inputType="textEmailAddress"
                 android:paddingLeft="20dp"
                 android:textAllCaps="false" />
+
+            <ProgressBar
+                android:id="@+id/login_progress"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/et_password"

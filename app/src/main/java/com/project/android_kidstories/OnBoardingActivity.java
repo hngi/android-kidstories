@@ -1,10 +1,5 @@
 package com.project.android_kidstories;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +7,9 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.Views.main.MainActivity;
@@ -52,8 +50,8 @@ public class OnBoardingActivity extends AppCompatActivity {
 
 
         mList = new ArrayList<>();
-        mList.add(new OnboardingItem("Read free bedtime stories , fairytales and poems for kids"," " , R.drawable.book_1));
-        mList.add(new OnboardingItem("Create new stories that are available offline", "", R.drawable.book_2));
+        mList.add(new OnboardingItem("Read free bedtime stories , fairytales and poems for kids"," " , R.drawable.onboarding_ic));
+        mList.add(new OnboardingItem("Create new stories that are available offline", "", R.drawable.onboarding_ic_two));
 
         //Set up view pager
         viewPager = findViewById(R.id.onbaord_viewpager);

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.HelperClasses.AddCommentHelper;
+import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
@@ -197,6 +198,7 @@ public class Repository {
         });
     }
 
+    /*
     public List<Category> getAllCategories(){
         api.getAllCategories().enqueue(new Callback<BaseResponse<List<Category>>>() {
             @Override
@@ -210,6 +212,24 @@ public class Repository {
             @Override
             public void onFailure(Call<BaseResponse<List<Category>>> call, Throwable t) {
                 Log.w(TAG, "onFailure: getAllCategories"+t.getMessage());
+            }
+        });
+        return categoryList;
+    }
+*/
+    public List<Category> getAllCategories(){
+        api.getAllCategories().enqueue(new Callback<CategoriesAllResponse>() {
+            @Override
+            public void onResponse(Call<CategoriesAllResponse> call, Response<CategoriesAllResponse> response) {
+                if(response.isSuccessful()){
+                    categoryList = response.body().getData();
+                    Log.d(TAG, "getAllStories Successful: Stories "+storyList.size());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoriesAllResponse> call, Throwable t) {
+                Log.w(TAG, "onFailure: "+t.getMessage());
             }
         });
         return categoryList;

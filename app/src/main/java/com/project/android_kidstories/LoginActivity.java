@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getResources().getString(R.string.web_client_id))
+                .requestEmail()
                 .build();
 
         googleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -121,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+        /*if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case 101:
                     try {
@@ -134,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                       send this id token to server using HTTPS
                      */
 
-                    } catch (ApiException e) {
+                    /*} catch (ApiException e) {
                         // The ApiException status code indicates the detailed failure reason.
                         Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
                     }
@@ -142,18 +143,38 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         callbackManager.onActivityResult(requestCode, resultCode, data);
+*/
+            if(requestCode == 101){
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                handleSignInResult(task);
+            }
 
     }
 
+        private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+            try {
+                GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+                // Signed in successfully, show authenticated UI.
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            } catch (ApiException e) {
+                // The ApiException status code indicates the detailed failure reason.
+                // Please refer to the GoogleSignInStatusCodes class reference for more information.
+                Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+               // updateUI(null);
+            }
+        }
+
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
 
     public void onStart() {
         super.onStart();
-        checkLoginStatus();
+
         GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
         if (alreadyloggedAccount != null) {
             Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
@@ -163,13 +184,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void checkLoginStatus() {
+   /* private void checkLoginStatus() {
         if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
             // user already signed in
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
-    }
+    }*/
 
     public void facebookLogin() {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {

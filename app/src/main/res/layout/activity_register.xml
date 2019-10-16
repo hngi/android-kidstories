@@ -10,11 +10,11 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_height="match_parent">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/reg_txt_view"

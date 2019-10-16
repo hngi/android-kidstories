@@ -27,7 +27,7 @@ public class CategoryStoriesResponse {
     private String updatedAt;
     @SerializedName("stories")
     @Expose
-    private List<Story> stories = null;
+    private List<Story> stories;
 
     public int getId() {
         return id;

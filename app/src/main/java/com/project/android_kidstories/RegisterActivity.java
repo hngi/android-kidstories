@@ -60,7 +60,6 @@ public class RegisterActivity extends AppCompatActivity {
     Button regFacebook, regGoogle, SignUp;
     TextView loginText;
     ProgressBar progressBar;
- 
 
 
     @Override

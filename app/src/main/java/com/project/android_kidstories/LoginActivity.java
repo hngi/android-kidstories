@@ -148,13 +148,13 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginResponse != null) {
                     SharePref.getINSTANCE(LoginActivity.this).setLoggedUserId(loginResponse.getUser().getId());
                     String msg = loginResponse.getMessage();
-                    Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Welcome back", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
 
                 } else {
-                    Toast.makeText(LoginActivity.this, "user does not exist", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Invalid Email or Password", Toast.LENGTH_SHORT).show();
                 }
 
 

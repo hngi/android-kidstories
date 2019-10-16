@@ -15,7 +15,6 @@ import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
-import com.project.android_kidstories.Utils.Common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +35,8 @@ public class Repository {
     private static Repository INSTANCE;
     private final Api api;
     private StoryDao storyDao;
+    //private UserDao userDao;
+
 
 
     private Story story;
@@ -46,7 +47,8 @@ public class Repository {
     public Repository(Context context) {
         StoryDatabase storyDatabase = StoryDatabase.getInstance(context);
         storyDao = storyDatabase.storyDao();
-        //api = ((Common)context.getApplicationContext()).getApi();
+        //userDao = storyDatabase.userDao();
+//        api = ((Common)context.getApplicationContext()).getApi();
         api = RetrofitClient.getInstance().create(Api.class);
         Log.d(TAG, "Repository: Created");
     }
@@ -78,7 +80,22 @@ public class Repository {
         return storyDao.getAllStories();
     }
 
+    //Getters for User
+//    public Long insertUser(User user){
+//       return userDao.insertUser(user);
+//    }
 
+//    public void updateUser(User user){
+//        userDao.updateUser(user);
+//    }
+//
+//    public void deleteUser(User user){
+//        userDao.deleteUser(user);
+//    }
+//
+//    public List<User> getAllLocalUsers(){
+//        return userDao.getallUsers();
+//    }
 
 
     //******************** `Getters to make Api calls *************************
@@ -234,8 +251,9 @@ public class Repository {
 
     }
 
-    public void getUser(String token){
+    public Long getUser(User token){
 
+        return null;
     }
 
     public void changeUserPassword(String token, String oldPassword, String newPassword, String confirmPassword){
@@ -283,5 +301,7 @@ public class Repository {
     }
 
 
-
+    public User[] getUser() {
+        return null;
+    }
 }

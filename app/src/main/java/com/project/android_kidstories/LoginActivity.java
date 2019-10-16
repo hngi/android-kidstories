@@ -3,7 +3,9 @@ package com.project.android_kidstories;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,9 +29,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
+import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.main.MainActivity;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -117,6 +130,26 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        Repository repository = new Repository(this.getApplication());
+        Call<LoginResponse> call = repository.getApi().loginUser(email_string, password_string);
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<LoginResponse> call, @NotNull Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+
+                String msg = loginResponse.getMessage();
+                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<LoginResponse> call, Throwable t) {
+
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 
@@ -144,27 +177,27 @@ public class LoginActivity extends AppCompatActivity {
         }
         callbackManager.onActivityResult(requestCode, resultCode, data);
 */
-            if(requestCode == 101){
-                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-                handleSignInResult(task);
-            }
+        if (requestCode == 101) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
 
     }
 
-        private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-            try {
-                GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
-                // Signed in successfully, show authenticated UI.
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-            } catch (ApiException e) {
-                // The ApiException status code indicates the detailed failure reason.
-                // Please refer to the GoogleSignInStatusCodes class reference for more information.
-                Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-               // updateUI(null);
-            }
+            // Signed in successfully, show authenticated UI.
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            // updateUI(null);
         }
+    }
 
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
         Intent intent = new Intent(this, MainActivity.class);
@@ -214,5 +247,38 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Error " + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void saveUser(User user){
+
+        SharedPreferences sharedPreferences = this.getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putLong("id", user.getId());
+        editor.putString("email", user.getEmail());
+        editor.putString("Firstname", user.getFirstName());
+        editor.putString("Lastname", user.getLastName());
+        editor.putString("phone", user.getPhoneNumber());
+
+        editor.apply();
+
+    }
+
+    public boolean isLoggedIn(){
+        SharedPreferences sharedPreferences = this.getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        return sharedPreferences.getLong("id", -1) != -1;
+
+    }
+
+    public User getUser() {
+        SharedPreferences sharedPreferences = this.getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        User user = new User(sharedPreferences.getString("Firstname", null),
+                sharedPreferences.getString("Lastname", null),
+               sharedPreferences.getString("email", null) );
+        user.setId(sharedPreferences.getLong("id", -1));
+        user.setPhoneNumber(sharedPreferences.getString("phone", null));
+
+        return user;
+
     }
 }

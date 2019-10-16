@@ -35,15 +35,21 @@ import com.facebook.login.LoginResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
 import com.project.android_kidstories.Api.Api;
+import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.main.MainActivity;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -102,6 +108,13 @@ public class RegisterActivity extends AppCompatActivity {
 //            }
 //        });
 
+        SignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signInUser();
+            }
+        });
+
         // if user is already registered
         loginText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
     };
+
 
     private void loaduserprofile(AccessToken newAccessToken) {
         GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
@@ -288,7 +302,39 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+
+        User user = new User("Name", "LastName", "Noelnwaelugo@gmail.com");
+        user.setPassword("12345678");
+        user.setPhoneNumber("09091342526");
+        Repository repository = new Repository(this.getApplication());
+        Call<BaseResponse<DataResponse>> call = repository.getApi().registerUser(user);
+
+
+        call.enqueue(new Callback<BaseResponse<DataResponse>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
+
+                try {
+                    if (response.code() == 200) {
+                        String s = response.message();
+                        Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        String s = response.errorBody().string();
+                        Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }

@@ -56,23 +56,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         FloatingActionButton fab = v.findViewById(R.id.new_story_frag_fab);
         fab.setOnClickListener(this);
 
-        /*
-        recyclerView = v.findViewById(R.id.new_story_frag_recycler);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));*/
-
-        /*
-        ApiViewmodel apiViewmodel = ViewModelProviders.of(getActivity()).get(ApiViewmodel.class);
-        repository = apiViewmodel.getRepository();
-        storyAdapter = new StoryAdapter(apiViewmodel);
-        storyAdapter.setOnStoryClickListener(this);
-        recyclerView.setAdapter(storyAdapter);
-
-
-        fetchStories();
-
-
-*/
 
         progressDoalog = new ProgressDialog(getActivity());
         progressDoalog.setMessage("Loading....");
@@ -115,6 +98,24 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
     }
+
+       /*
+        recyclerView = v.findViewById(R.id.new_story_frag_recycler);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));*/
+
+        /*
+        ApiViewmodel apiViewmodel = ViewModelProviders.of(getActivity()).get(ApiViewmodel.class);
+        repository = apiViewmodel.getRepository();
+        storyAdapter = new StoryAdapter(apiViewmodel);
+        storyAdapter.setOnStoryClickListener(this);
+        recyclerView.setAdapter(storyAdapter);
+
+
+        fetchStories();
+
+
+*/
 
     /*
 

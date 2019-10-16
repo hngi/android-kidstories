@@ -78,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //For test
-        RecyclerView recyclerView=findViewById(R.id.main_recycler);
+        /*RecyclerView recyclerView=findViewById(R.id.main_recycler);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(storyAdapter);
+        recyclerView.setAdapter(storyAdapter);*/
         ApiViewmodel apiViewmodel= ViewModelProviders.of(this).get(ApiViewmodel.class);
         repository = apiViewmodel.getRepository();
 

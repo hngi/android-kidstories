@@ -40,7 +40,9 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private RecyclerStoriesAdapter adapter;
     ProgressDialog progressDoalog;
     private Repository repository;
-    private StoryAdapter storyAdapter;
+//    private StoryAdapter storyAdapter;
+    private RecyclerStoriesAdapter storyAdapter;
+
 
 
     public static NewStoriesFragment newInstance() {
@@ -54,19 +56,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         FloatingActionButton fab = v.findViewById(R.id.new_story_frag_fab);
         fab.setOnClickListener(this);
 
-        /*
-        recyclerView = v.findViewById(R.id.new_story_frag_recycler);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-
-        ApiViewmodel apiViewmodel = ViewModelProviders.of(getActivity()).get(ApiViewmodel.class);
-        repository = apiViewmodel.getRepository();
-        storyAdapter = new StoryAdapter(apiViewmodel);
-        storyAdapter.setOnStoryClickListener(this);
-        recyclerView.setAdapter(storyAdapter);
-
-
-        fetchStories();*/
         progressDoalog = new ProgressDialog(getActivity());
         progressDoalog.setMessage("Loading....");
         progressDoalog.show();
@@ -74,7 +63,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
         Call<StoryAllResponse> stories = service.getAllStories();
-        Log.i("apple", "Size: "+stories.isExecuted());
 
         stories.enqueue(new Callback<StoryAllResponse>() {
             @Override
@@ -84,10 +72,10 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 recyclerView = v.findViewById(R.id.recyclerView);
 
                 try {
-                    adapter = new RecyclerStoriesAdapter(getContext(), response.body());
+                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body());
                     GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
                     recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
+                    recyclerView.setAdapter(storyAdapter);
                 }catch (Exception e){
                     Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
@@ -109,6 +97,22 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
     }
 
+       /*
+        recyclerView = v.findViewById(R.id.new_story_frag_recycler);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));*/
+
+        /*
+        ApiViewmodel apiViewmodel = ViewModelProviders.of(getActivity()).get(ApiViewmodel.class);
+        repository = apiViewmodel.getRepository();
+        storyAdapter = new StoryAdapter(apiViewmodel);
+        storyAdapter.setOnStoryClickListener(this);
+        recyclerView.setAdapter(storyAdapter);
+
+
+        fetchStories();*/
+
+    /*
 
     private void fetchStories() {
         if (!Common.checkNetwork(getActivity())) {
@@ -129,7 +133,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 Log.w(TAG, "onFailure: " + t.getMessage());
             }
         });
-    }
+    }*/
 
     @Override
     public void onStoryClick(Story story) {

@@ -16,6 +16,10 @@ import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
 
+/**
+ * @author .: Oluwajuwon Fawole
+ * @created : 16/10/19
+ */
 public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStoriesAdapter.CustomViewHolder>{
 
 
@@ -67,7 +71,8 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
         holder.storyTitle.setText(storiesList.getData().get(position).getTitle());
         holder.authorName.setText(storiesList.getData().get(position).getAuthor());
-        holder.ageRange.setText(storiesList.getData().get(position).getAge());
+
+        holder.ageRange.setText("For kids ages "+storiesList.getData().get(position).getAge());
         holder.likes.setText(storiesList.getData().get(position).getLikesCount()+"");
         holder.dislikes.setText(storiesList.getData().get(position).getDislikesCount()+"");
 

@@ -1,4 +1,4 @@
-package com.project.android_kidstories.ui.edit;
+package com.project.android_kidstories.Views.main.ui.edit;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
+import com.project.android_kidstories.Views.main.ui.profile.ProfileViewModel;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 
 import java.io.FileNotFoundException;

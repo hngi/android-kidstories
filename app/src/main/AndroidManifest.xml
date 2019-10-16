@@ -16,9 +16,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Views.NightmodeActivity"
+        <activity android:name=".NightmodeActivity"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"/>
+        tools:ignore="GoogleAppIndexingWarning">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Views.main.MainActivity"
             android:label="@string/title_activity_the_main"
@@ -29,12 +36,7 @@
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DefaultTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".StoryListingActivity" /> <!-- Do not edit this theme -->
         <activity android:name=".StoryDetailActivity" />

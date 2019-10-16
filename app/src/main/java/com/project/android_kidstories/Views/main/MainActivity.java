@@ -2,9 +2,11 @@ package com.project.android_kidstories.Views.main;
 
 import android.content.ContextWrapper;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -65,6 +67,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setupProfile(navigationView);
 
+        // Making the header image clickable
+        View headerView = navigationView.getHeaderView(0);
+        ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
+        navImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ProfileFragment profileFragment = new ProfileFragment();
+                setUpFragment(profileFragment);
+                getSupportActionBar().setTitle("Profile");
+                drawer.closeDrawer(GravityCompat.START);
+                for (int i = 0; i < navigationView.getMenu().size(); i++) {
+                    navigationView.getMenu().getItem(i).setChecked(false);
+                }
+            }
+        });
     }
 
     private void initViews() {
@@ -108,10 +125,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.nav_home:
                         fragment = new HomeFragment();
                         msg="Stories";
-                        break;
-                    case R.id.nav_edit_profile:
-                        fragment = new ProfileFragment();
-                        msg="Profile";
                         break;
                     case R.id.nav_categories:
                         fragment = new CategoriesFragment();

@@ -49,10 +49,9 @@ public class PopularStoriesFragment extends Fragment {
 
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
-        Call<StoryAllResponse> categories = service.getAllStories();
-        Log.i("apple", "Size: "+categories.isExecuted());
+        Call<StoryAllResponse> stories = service.getAllStories();
 
-        categories.enqueue(new Callback<StoryAllResponse>() {
+        stories.enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 //  generateCategoryList(response.body(),v);

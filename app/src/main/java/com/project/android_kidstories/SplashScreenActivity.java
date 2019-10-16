@@ -8,6 +8,7 @@ import android.os.Handler;
 
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.Views.main.TestActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -19,7 +20,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
+                Intent intent = new Intent(getApplicationContext(), TestActivity.class);
                 startActivity(intent);
                 finish();
             }

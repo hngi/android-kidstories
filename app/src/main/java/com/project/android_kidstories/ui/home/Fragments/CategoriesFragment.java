@@ -1,4 +1,4 @@
-package com.project.android_kidstories.ui.home.Fragments;
+package com.project.android_kidstories.Views.main.ui.home.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

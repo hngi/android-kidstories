@@ -150,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
                       send this id token to server using HTTPS
                      */
 
-               /* Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+              /*  Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } catch (ApiException e) {
                 // The ApiException status code indicates the detailed failure reason.

@@ -61,7 +61,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText emailET;
     EditText phone;
-    EditText fullName;
+    EditText firstName, Lastname;
+
     EditText password, confirmPassword;
     Button regFacebook, regGoogle, SignUp;
     TextView loginText;
@@ -87,7 +88,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         phone = findViewById(R.id.reg_contact);
         password = findViewById(R.id.reg_password);
-        fullName = findViewById(R.id.reg_full_name);
+        firstName = findViewById(R.id.reg_first_name);
+        Lastname = findViewById(R.id.reg_last_name);
         emailET = findViewById(R.id.reg_email);
         confirmPassword = findViewById(R.id.reg_confirm_password);
 
@@ -128,7 +130,8 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
             if (currentAccessToken == null) {
-                fullName.setText("");
+                firstName.setText("");
+                Lastname.setText("");
                 emailET.setText("");
                 Toast.makeText(RegisterActivity.this, "User Logged Out", Toast.LENGTH_LONG).show();
 
@@ -154,7 +157,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                     emailET.setText(email);
 
-                    fullName.setText(First_Name + " " + Last_Name);
+                    firstName.setText(First_Name);
+                    Lastname.setText(Last_Name);
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
 
@@ -281,7 +285,8 @@ public class RegisterActivity extends AppCompatActivity {
     private void signInUser() {
         String email_string = emailET.getText().toString();
         String phone_string = phone.getText().toString();
-        String fullName_string = fullName.getText().toString();
+        String firstname_string = firstName.getText().toString();
+        String Lastname_string = Lastname.getText().toString();
         String password_string = password.getText().toString();
 
         //validating text fields
@@ -296,16 +301,16 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(fullName_string) || TextUtils.isEmpty(password_string)) {
-            fullName.setError("Please enter a valid phone number");
+        if (TextUtils.isEmpty(firstname_string) || TextUtils.isEmpty(password_string)) {
+            firstName.setError("Please enter a valid phone number");
             password.setError("Enter a password");
             return;
         }
 
 
-        User user = new User("Name", "LastName", "Noelnwaelugo@gmail.com");
-        user.setPassword("12345678");
-        user.setPhoneNumber("09091342526");
+        User user = new User(firstname_string, Lastname_string, email_string);
+        user.setPassword(password_string);
+        user.setPhoneNumber(phone_string);
         Repository repository = new Repository(this.getApplication());
         Call<BaseResponse<DataResponse>> call = repository.getApi().registerUser(user);
 
@@ -314,25 +319,30 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
 
-                try {
-                    if (response.code() == 200) {
+
+                    if (response.code() == 201) {
                         String s = response.message();
                         Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
 
+
                     } else {
+
+                        try {
                         String s = response.errorBody().string();
                         Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
 
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    }catch (IOException e) {
+                            e.printStackTrace();
+                        }
                 }
 
             }
 
             @Override
             public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
-                Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 

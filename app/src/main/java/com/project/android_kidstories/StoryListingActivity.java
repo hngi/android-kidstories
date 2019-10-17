@@ -44,7 +44,7 @@ public class StoryListingActivity extends AppCompatActivity {
 
         CollapsingToolbarLayout toolbar = findViewById(R.id.Collapse_toolbar);
         Toolbar toolbar1 = findViewById(R.id.toolbar);
-        toolbar.setTitle("Category Name");
+        toolbar.setTitle(categoryName);
         setSupportActionBar(toolbar1);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

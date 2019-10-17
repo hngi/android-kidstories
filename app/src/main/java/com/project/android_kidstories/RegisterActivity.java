@@ -39,9 +39,9 @@ import java.security.MessageDigest;
 import java.util.Arrays;
 
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.base.BaseActivity;
 
-public class RegisterActivity extends AppCompatActivity {
-
+public class RegisterActivity extends BaseActivity {
     private static final String TAG = "RegisterActivity";
     public static final int LOGIN_TEXT_REQUEST_CODE = 11;
     private CallbackManager callbackManager;
@@ -299,6 +299,12 @@ public class RegisterActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e(TAG, "printHashKey: Error: " + e.getMessage());
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recreate();
     }
 }
 

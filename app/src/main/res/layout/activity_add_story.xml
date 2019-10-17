@@ -10,7 +10,6 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -62,13 +61,15 @@
                 android:paddingTop="12dp"
                 android:paddingEnd="12dp"
                 android:paddingBottom="12dp"
-                android:textColor="@color/main_color_grey_800"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toTopOf="@+id/author_edt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/add_story_label" />
+
+<!--
+                android:textColor="@color/main_color_grey_800"-->
 
             <EditText
                 android:id="@+id/author_edt"
@@ -85,13 +86,15 @@
                 android:paddingTop="12dp"
                 android:paddingEnd="12dp"
                 android:paddingBottom="12dp"
-                android:textColor="@color/main_color_grey_800"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="@+id/title_edt"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/title_edt"
                 app:layout_constraintTop_toBottomOf="@+id/title_edt" />
+
+
+<!--            android:textColor="@color/main_color_grey_800"-->
 
             <TextView
                 android:id="@+id/textView2"
@@ -101,10 +104,12 @@
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Content"
-                android:textColor="@color/main_color_grey_800"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/story_edt"
                 app:layout_constraintStart_toStartOf="@+id/author_edt" />
+
+
+<!--            android:textColor="@color/main_color_grey_800"-->
 
             <EditText
                 android:id="@+id/story_edt"
@@ -124,13 +129,15 @@
                 android:paddingTop="8dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="8dp"
-                android:textColor="@color/main_color_grey_800"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/button_donate"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+
+<!--            android:textColor="@color/main_color_grey_800"-->
 
             <Button
                 android:id="@+id/button_donate"

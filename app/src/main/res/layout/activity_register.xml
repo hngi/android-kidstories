@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="?attr/backgroundColor"
     tools:context=".RegisterActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_height="match_parent">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/reg_txt_view"
@@ -39,6 +39,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/edit_text_rectangle"
             android:ems="10"
+            android:textColor="@color/black"
             android:hint="Full Name"
             android:inputType="textPersonName"
             android:textColorHint="#646669" />
@@ -54,6 +55,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/edit_text_rectangle"
             android:ems="10"
+            android:textColor="@color/black"
             android:hint="E-mail"
             android:inputType="textEmailAddress"
             android:textColorHint="#646669" />
@@ -69,6 +71,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/edit_text_rectangle"
             android:ems="10"
+            android:textColor="@color/black"
             android:hint="Phone No"
             android:inputType="phone"
             android:textColorHint="#646669" />
@@ -82,11 +85,11 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:textColor="@color/black"
             android:background="@drawable/edit_text_rectangle"
-
             android:ems="10"
             android:hint="Password"
-            android:inputType="number"
+            android:inputType="textPassword"
             android:textColorHint="#646669" />
 
         <EditText
@@ -102,6 +105,7 @@
             android:ems="10"
             android:hint="Confirm Password"
             android:inputType="textPassword"
+            android:textColor="@color/black"
             android:textColorHint="#646669" />
 
 
@@ -171,7 +175,7 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/roboto_light"
                         android:text="Already registered? "
-                        android:textColor="@color/colorBlack" />
+                        android:textColor="?attr/textColor"/>
 
                     <TextView
                         android:id="@+id/create_act"

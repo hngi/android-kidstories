@@ -42,9 +42,8 @@ import com.project.android_kidstories.ui.support.DonateFragment;
  */
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
-
     private static final String TAG = "kidstories";
     private DrawerLayout drawer;
     private NavigationView navigationView;

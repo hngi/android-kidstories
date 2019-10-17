@@ -2,12 +2,23 @@ package com.project.android_kidstories.Utils;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
+import com.google.gson.Gson;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.RetrofitClient;
+import com.project.android_kidstories.R;
+import com.project.android_kidstories.base.BaseActivity;
+import com.project.android_kidstories.sharePref.SharePref;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Common extends Application {
     private static final String TAG = "Common";
@@ -17,6 +28,31 @@ public class Common extends Application {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate: Common");
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+            Log.d(TAG, "key" + key);
+            Map<String, ?> map = new HashMap<>();
+            Gson gson = new Gson();
+            map = sharedPreferences.getAll();
+            Log.d(TAG, "map = " + map);
+            Boolean night = (Boolean) map.get("NIGHT MODE");
+
+
+
+            if(night){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                setTheme(R.style.DarkTheme);
+                Log.d(TAG, "Night mode is set");
+            }
+            else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                Log.d(TAG, "Night mode is unset");
+//                setTheme(R.style.AppTheme);
+            }
+
+        });
+
     }
 
     public static boolean checkNetwork(Context context) {

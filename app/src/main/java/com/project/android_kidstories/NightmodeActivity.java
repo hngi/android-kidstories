@@ -17,46 +17,47 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 
-public class NightmodeActivity extends AppCompatActivity {
-    private Switch nightswitch;
+public class NightmodeActivity extends BaseActivity {
+
     //    This is supposed to change the view of the app from Light to Dark mode.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       // getActionBar().setDisplayHomeAsUpEnabled(true);
-
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkTheme);
-        }
-        else setTheme(R.style.AppTheme);
+        // getActionBar().setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nightmode);
 
-        BaseActivity base = new BaseActivity();
-        SharePref shared = base.getSharePref();
+        Switch nightSwitch = findViewById(R.id.night_switch);
 
-        nightswitch = findViewById(R.id.night_switch);
-
-
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            nightswitch.setChecked(true);
+//AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+        if (getSharePref().getNightMode()) {
+            nightSwitch.setChecked(true);
         }
 
-        nightswitch.setOnCheckedChangeListener((compoundButton, b) -> {
+        nightSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {
-                shared.setNightMode(true);
-                Log.d("XXXX",String.valueOf(shared.getNightMode()));
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                restartApp();
+
+                getSharePref().setNightMode(true);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                recreate();
             } else {
+                getSharePref().setNightMode(false);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                restartApp();
+                recreate();
             }
         });
     }
 
-    public void restartApp() {
-        Intent i = new Intent(getApplicationContext(), NightmodeActivity.class);
-        startActivity(i);
-        finish();
-    }
+//    public void setTheme(){
+//        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+//
+//            setTheme(R.style.DarkTheme);
+//        }
+//        else setTheme(R.style.AppTheme);
+//    }
+
+//    public void restartApp() {
+//        Intent i = new Intent(getApplicationContext(), NightmodeActivity.class);
+//        startActivity(i);
+//        finish();
+//    }
 }

@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 public class SharePref {
 
     private static final String LAST_LOGGED_IN ="LAST_LOGGED_IN";
@@ -20,15 +22,18 @@ public class SharePref {
 //
 //        INSTANCE=SharePref.getINSTANCE(this);
 //    }
+//
 
+    private SharedPreferences sharedPreferences;
+private SharePref(SharedPreferences sharedPreferences) {
+    this.sharedPreferences=sharedPreferences;
+
+}
     private SharePref getSharePref() {
         return INSTANCE;
     }
 
-    private SharePref(SharedPreferences sharedPreferences) {
-        this.sharedPreferences=sharedPreferences;
 
-    }
     public static synchronized SharePref getINSTANCE(Context context) {
         if(INSTANCE==null){
             //noinspection deprecation
@@ -37,7 +42,7 @@ public class SharePref {
         return INSTANCE;
     }
 
-    private SharedPreferences sharedPreferences;
+
 
 
 
@@ -65,5 +70,16 @@ public class SharePref {
         return sharedPreferences.getLong(ID_KEY,-1);
     }
 
+    public void listener(){
+    sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+        if (getSharePref().getNightMode()){
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO);
+    });
+    }
 
 }

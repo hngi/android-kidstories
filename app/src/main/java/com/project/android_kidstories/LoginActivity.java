@@ -39,6 +39,12 @@ import com.project.android_kidstories.sharePref.SharePref;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
+import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
+
 import java.util.Arrays;
 
 import retrofit2.Call;
@@ -57,6 +63,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     Button btn;
 
+    private Repository repository = Repository.getInstance(getApplication());
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
         btn = findViewById(R.id.login_button);
 
         googleSignInButton = findViewById(R.id.google_auth_button);
+        sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
+
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -80,14 +91,8 @@ public class LoginActivity extends AppCompatActivity {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso);*/
 
+        googleSignInSetUp();
 
-        googleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent signInIntent = googleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, 101);
-            }
-        });
 
         TextView createAccount = findViewById(R.id.create_account);
         createAccount.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +124,26 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void googleSignInSetUp() {
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getResources().getString(R.string.web_client_id))
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        googleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, 101);
+            }
+        });
+
+    }
+
     private void loginUser() {
         String email_string = email.getText().toString();
         String password_string = password.getText().toString();
@@ -128,51 +153,44 @@ public class LoginActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())) {
             email.setError("Please enter a valid email address");
             return;
-        }
-
-        if (TextUtils.isEmpty(password_string)) {
+        } else if (TextUtils.isEmpty(password_string)) {
             password.setError("Please enter a password");
             return;
-        }
-
-        Repository repository = new Repository(this.getApplication());
-        Call<LoginResponse> call = repository.getStoryApi().loginUser(email_string, password_string);
-
-        call.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(@NotNull Call<LoginResponse> call, @NotNull Response<LoginResponse> response) {
-
-                LoginResponse loginResponse = response.body();
+        } else {
+            repository.getStoryApi().loginUser(email_string, password_string).enqueue(new Callback<LoginResponse>() {
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
 
-                if (loginResponse != null) {
-                    SharePref.getINSTANCE(LoginActivity.this).setLoggedUserId(loginResponse.getUser().getId());
-                    String msg = loginResponse.getMessage();
-                    Toast.makeText(LoginActivity.this, "Welcome back", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    if (response.isSuccessful()) {
 
-                } else {
-                    Toast.makeText(LoginActivity.this, "Invalid Email or Password", Toast.LENGTH_SHORT).show();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        editor.putString("Token", response.body().getUser().getToken());
+                        editor.apply();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    } else {
+                        Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"
+                                , Snackbar.LENGTH_LONG).show();
+                    }
                 }
 
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    Snackbar.make(findViewById(R.id.login_parent_layout), "Network Failure"
+                            , Snackbar.LENGTH_LONG).show();
 
-            }
+                }
+            });
+        }
 
-            @Override
-            public void onFailure(@NotNull Call<LoginResponse> call, Throwable t) {
-
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 
-
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case 101:
                     try {
@@ -181,19 +199,21 @@ public class LoginActivity extends AppCompatActivity {
                         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
                         GoogleSignInAccount account = task.getResult(ApiException.class);
                         String idToken = account.getIdToken();
+                        onLoggedIn(account);
                     /*
                       send this id token to server using HTTPS
                      */
 
-                    /*} catch (ApiException e) {
+                    } catch (ApiException e) {
                         // The ApiException status code indicates the detailed failure reason.
                         Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
                     }
                     break;
             }
         }
+
         callbackManager.onActivityResult(requestCode, resultCode, data);
-*/
+
         if (requestCode == 101) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
@@ -207,9 +227,6 @@ public class LoginActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // Signed in successfully, show authenticated UI.
             String idToken = account.getIdToken();
-                /*
-                      send this id token to server using HTTPS
-                     */
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
@@ -219,6 +236,16 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             // updateUI(null);
         }
+               /* Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            } catch (ApiException e) {
+                // The ApiException status code indicates the detailed failure reason.
+                // Please refer to the GoogleSignInStatusCodes class reference for more information.
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+               // updateUI(null);
+            }
+        }*/
+
 
     }
 
@@ -229,6 +256,8 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+
+    @Override
     public void onStart() {
         super.onStart();
 

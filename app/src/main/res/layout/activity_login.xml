@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:id="@+id/login_parent_layout">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -85,7 +86,7 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/edit_text_rectangle"
                 android:hint="Password"
-                android:inputType="textPassword|numberPassword"
+                android:inputType="textPassword"
                 android:paddingLeft="20dp"
                 android:textAllCaps="false" />
 

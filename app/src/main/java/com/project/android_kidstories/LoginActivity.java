@@ -27,6 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Views.main.MainActivity;
@@ -136,16 +137,18 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
                     if(response.isSuccessful()){
-                        Toast.makeText(getApplicationContext(), "Successfully Login", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     }
                     else{
-                        Log.d("LOGIN RESPONSE: ", response.body().toString());
+                        Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"
+                        , Snackbar.LENGTH_LONG).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(), "Network Failure", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.login_parent_layout), "Network Failure"
+                            , Snackbar.LENGTH_LONG).show();
 
                 }
             });

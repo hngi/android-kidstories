@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/single_story_toolbar"
+
         >
         <ImageView
             android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
         >
 
         <ImageView
-            android:id="@+id/story_description_image"
+            android:id="@+id/story_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/story_bg_ic"
@@ -52,7 +52,7 @@
             android:id="@+id/button_favourite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/story_description_image"
+            android:layout_below="@id/story_pic"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="-33dp"
@@ -82,11 +82,11 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="10dp"
-            android:Gravity = "center"
+            android:gravity="center"
             android:padding="10dp"
             android:textAlignment="gravity"
             android:hint="Afterward, Mom has noticed that the boys haven't been getting along so she devises 'Mom Bucks' to pay them if they spend time together where they can trade in for one real dollar, but this unwittingly makes things worse. Meanwhile, Greg and Rowley try to make a funny YouTube video by Rowley lip-syncing to 'Tik Tok' by Kesha, unfortunately (despite Rowley at one point sitting on a tinfoil ball with spikes made by Manny) it proves to be awful, getting only 4 hits. After a talent show is advertised on TV, the brothers see this as a big opportunity – Rowley suggests that he and Greg perform magic tricks, but Greg rejects the idea whilst Rodrick sees this as his band's big break."
-            android:id="@+id/story_content_field"
+            android:id="@+id/story_content"
 
             />
 

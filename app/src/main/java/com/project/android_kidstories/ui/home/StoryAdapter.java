@@ -5,11 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.project.android_kidstories.DataStore.ApiViewmodel;
+import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.StoryEffect;
@@ -26,7 +24,7 @@ import java.util.List;
 
 
 public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder> {
-    private final ApiViewmodel apiViewmodel;
+    private Repository repository;
     private List<Story> stories = new ArrayList<>();
 
     private OnStoryClickListener listener;
@@ -35,8 +33,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder> 
         void onStoryClick(Story story);
     }
 
-    public StoryAdapter(ApiViewmodel apiViewmodel) {
-        this.apiViewmodel = apiViewmodel;
+    public StoryAdapter(Repository repository) {
+        this.repository = repository;
     }
 
     public void setOnStoryClickListener(OnStoryClickListener listener) {
@@ -81,9 +79,9 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder> 
     }
 
     private void savaStoriesForOffline(List<Story> stories) {
-        apiViewmodel.getRepository().deleteAllOfflineStories();
+        repository.deleteAllOfflineStories();
         for (Story story : stories) {
-            apiViewmodel.getRepository().insertOfflineStory(story);
+            repository.insertOfflineStory(story);
         }
     }
 

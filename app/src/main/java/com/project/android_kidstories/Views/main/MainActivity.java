@@ -1,13 +1,11 @@
 package com.project.android_kidstories.Views.main;
 
-import android.content.ContextWrapper;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,20 +13,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
-import com.project.android_kidstories.DataStore.ApiViewmodel;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Views.main.ui.home.Fragments.CategoriesFragment;
-import com.project.android_kidstories.Views.main.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.edit.ProfileFragment;
+import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
@@ -99,10 +90,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(storyAdapter);*/
-        ApiViewmodel apiViewmodel= ViewModelProviders.of(this).get(ApiViewmodel.class);
-        repository = apiViewmodel.getRepository();
+        repository = Repository.getInstance(this.getApplication());
 
-        storyAdapter = new StoryAdapter(apiViewmodel);
+        storyAdapter = new StoryAdapter(repository);
 
 
 
@@ -214,17 +204,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void showSnackBar(View view,String msg){
         Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-    }
-
-    private void initPrefAndsaveToken(){
-        new Prefs.Builder()
-                .setContext(this)
-                .setMode(ContextWrapper.MODE_PRIVATE)
-                .setPrefsName(getPackageName())
-                .setUseDefaultSharedPreference(true)
-                .build();
-
-        Prefs.putString(AddStoryHelper.TOKEN_KEY,"aTokenStringShouldBeHere");
     }
 
 

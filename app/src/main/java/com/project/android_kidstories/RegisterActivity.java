@@ -58,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+
     AccessTokenTracker tokenTracker = new AccessTokenTracker() {
         @Override
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
@@ -67,10 +68,13 @@ public class RegisterActivity extends AppCompatActivity {
                 emailET.setText("");
                 Toast.makeText(RegisterActivity.this, "User Logged Out", Toast.LENGTH_LONG).show();
 
-            } else {
-                //loaduserprofile(currentAccessToken);
+                SignUp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        signInUser();
+                    }
+                });
             }
-
         }
     };
 
@@ -114,13 +118,6 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivityForResult(new Intent(RegisterActivity.this, LoginActivity.class), LOGIN_TEXT_REQUEST_CODE);
             }
         });
-
-        SignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signInUser();
-            }
-        });
     }
 
     private void loaduserprofile(AccessToken newAccessToken) {
@@ -136,7 +133,6 @@ public class RegisterActivity extends AppCompatActivity {
                     String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
 
                     emailET.setText(email);
-
                     firstName.setText(First_Name);
                     lastName.setText(Last_Name);
                     RequestOptions requestOptions = new RequestOptions();
@@ -188,6 +184,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
      /*  email = findViewById(R.id.reg_email);
@@ -271,17 +268,17 @@ public class RegisterActivity extends AppCompatActivity {
         }
         if (TextUtils.isEmpty(lastName_string) || TextUtils.isEmpty(password_string)) {
             lastName.setError("Please enter a valid phone number");
-            password.setError("Enter a password");
-            return;
         }
+
         if (password_string.length() < 8) {
             password.setError("Password must be at least 8 characters");
         }
 
+
         progressBar.setVisibility(View.VISIBLE);
 
-        Repository repository = new Repository(this.getApplicationContext());
-        Api api = repository.getApi();
+        Repository repository = Repository.getInstance(this.getApplication());
+        Api api = repository.getStoryApi();
 
         User user = new User(firstName_string, lastName_string, email_string);
         user.setPhoneNumber(phone_string);

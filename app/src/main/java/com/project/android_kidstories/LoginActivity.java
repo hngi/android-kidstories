@@ -124,8 +124,8 @@ public class LoginActivity extends AppCompatActivity {
 
         progress_layout.setVisibility(View.VISIBLE);
 
-        Repository repository = new Repository(this.getApplicationContext());
-        Api api = repository.getApi();
+        Repository repository = Repository.getInstance(this.getApplication());
+        Api api = repository.getStoryApi();
 
         api.loginUser(email_string, password_string)
                 .enqueue(new Callback<LoginResponse>() {

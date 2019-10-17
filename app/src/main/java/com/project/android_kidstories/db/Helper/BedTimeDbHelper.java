@@ -1,16 +1,11 @@
 package com.project.android_kidstories.db.Helper;
 
-import android.bluetooth.le.AdvertiseData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import com.project.android_kidstories.Model.Story;
 
 public class BedTimeDbHelper extends SQLiteOpenHelper {
 
@@ -77,28 +72,23 @@ public class BedTimeDbHelper extends SQLiteOpenHelper {
         }
     }
 
-     // add story
+    // add story
     /*
     public void addStory(Story story){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = getContentValues(story);
-
-
         //insect story
-
         long cat_id = db.insertWithOnConflict(AddStories.AddStoriesColumn.TABLE_NAME,
                 null,values,SQLiteDatabase.CONFLICT_IGNORE);
     }
     public void updateStory(Story story){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = getContentValues(story);
-
         db.update(AddStories.AddStoriesColumn.TABLE_NAME,values,
                 AddStories.AddStoriesColumn.TITLE +" = ?",new String[] {String.valueOf(story.getTitle())});
     }
     public Story getStoryById(String id){
         SQLiteDatabase db = this.getReadableDatabase();
-
         String query = "SELECT * FROM " +AddStories.AddStoriesColumn.TABLE_NAME + " WHERE "+AddStories.AddStoriesColumn._ID
                 + " ='"+id+"'";
         Cursor c = db.rawQuery(query, null);
@@ -110,12 +100,10 @@ public class BedTimeDbHelper extends SQLiteOpenHelper {
             story.setBody(c.getString(c.getColumnIndex(AddStories.AddStoriesColumn.BODY)));
             story.setCategoryId(c.getInt(c.getColumnIndex(AddStories.AddStoriesColumn.CATEGORY)));
             story.setImageName(c.getString(c.getColumnIndex(AddStories.AddStoriesColumn.IMAGE)));
-
         }
         c.close();
         return story;
     }
-
     public void deleteStory (Story story ){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(AddStories.AddStoriesColumn.TABLE_NAME,
@@ -140,7 +128,7 @@ public class BedTimeDbHelper extends SQLiteOpenHelper {
         //values.put("first_name", user.getFirstName());
         //values.put("last_name", user.getLastName());
 
-       // database.insertWithOnConflict(AddUsers.AddUsersColumn.TABLE_NAME, null,values,SQLiteDatabase.CONFLICT_IGNORE);
+        // database.insertWithOnConflict(AddUsers.AddUsersColumn.TABLE_NAME, null,values,SQLiteDatabase.CONFLICT_IGNORE);
         long rowInserted = database.insert(AddUsers.AddUsersColumn.TABLE_NAME, null, values);
         if(rowInserted != -1)
             Toast.makeText(context, "New row added, row id: " + rowInserted, Toast.LENGTH_SHORT).show();
@@ -171,17 +159,17 @@ public class BedTimeDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         int id = 0;
 
-            String query = "SELECT id FROM " + tablename + " ORDER BY id DESC LIMIT 1";
-            Cursor cursor = db.rawQuery(query, null);
+        String query = "SELECT id FROM " + tablename + " ORDER BY id DESC LIMIT 1";
+        Cursor cursor = db.rawQuery(query, null);
 
-            if (cursor != null && cursor.getCount() != 0) {
-                if (cursor.moveToFirst()) {
-                    do {
-                        id = cursor.getInt(cursor.getColumnIndex("id"));
-                    } while (cursor.moveToNext());
-                }
+        if (cursor != null && cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    id = cursor.getInt(cursor.getColumnIndex("id"));
+                } while (cursor.moveToNext());
             }
-            cursor.close();
+        }
+        cursor.close();
 
         return id;
     }

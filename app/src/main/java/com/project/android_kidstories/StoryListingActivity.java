@@ -1,11 +1,10 @@
 package com.project.android_kidstories;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
-import com.project.android_kidstories.R;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 public class StoryListingActivity extends AppCompatActivity {
 
@@ -13,5 +12,12 @@ public class StoryListingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_listing);
+
+        CollapsingToolbarLayout toolbar = findViewById(R.id.Collapse_toolbar);
+        Toolbar toolbar1 = findViewById(R.id.toolbar);
+        toolbar.setTitle("Category Name");
+        setSupportActionBar(toolbar1);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 }

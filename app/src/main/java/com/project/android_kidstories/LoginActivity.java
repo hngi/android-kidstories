@@ -3,7 +3,9 @@ package com.project.android_kidstories;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,9 +29,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
+import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
 
 import java.util.Arrays;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -43,6 +53,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     Button btn;
 
+    private Repository repository = Repository.getInstance(getApplication());
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,23 +66,10 @@ public class LoginActivity extends AppCompatActivity {
         btn = findViewById(R.id.login_button);
 
         googleSignInButton = findViewById(R.id.google_auth_button);
+        sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
 
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getResources().getString(R.string.web_client_id))
-                .requestEmail()
-                .build();
+        googleSignInSetUp();
 
-        googleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        googleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent signInIntent = googleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, 101);
-            }
-        });
 
         TextView createAccount = findViewById(R.id.create_account);
         createAccount.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +101,26 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void googleSignInSetUp(){
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getResources().getString(R.string.web_client_id))
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        googleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, 101);
+            }
+        });
+
+    }
+
     private void loginUser() {
         String email_string = email.getText().toString();
         String password_string = password.getText().toString();
@@ -111,19 +131,45 @@ public class LoginActivity extends AppCompatActivity {
             email.setError("Please enter a valid email address");
             return;
         }
-
-        if (TextUtils.isEmpty(password_string)) {
+        else if (TextUtils.isEmpty(password_string)) {
             password.setError("Please enter a password");
             return;
         }
+        else{
+            repository.getStoryApi().loginUser(email_string, password_string).enqueue(new Callback<LoginResponse>() {
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+
+                    if(response.isSuccessful()){
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        editor.putString("Token", response.body().getUser().getToken());
+                        editor.apply();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    }
+                    else{
+                        Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"
+                        , Snackbar.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    Snackbar.make(findViewById(R.id.login_parent_layout), "Network Failure"
+                            , Snackbar.LENGTH_LONG).show();
+
+                }
+            });
+        }
+
 
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK)
+        if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case 101:
                     try {
@@ -131,17 +177,23 @@ public class LoginActivity extends AppCompatActivity {
                         // a listener.
                         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
                         GoogleSignInAccount account = task.getResult(ApiException.class);
+                        String idToken = account.getIdToken();
                         onLoggedIn(account);
+                    /*
+                      send this id token to server using HTTPS
+                     */
+
                     } catch (ApiException e) {
                         // The ApiException status code indicates the detailed failure reason.
                         Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
                     }
                     break;
             }
+        }
+
     }
 
-
-       /* private void handleSignInResult (Task < GoogleSignInAccount > completedTask) {
+       /* private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
             try {
                 GoogleSignInAccount account = completedTask.getResult(ApiException.class);
                 // Signed in successfully, show authenticated UI.
@@ -150,34 +202,35 @@ public class LoginActivity extends AppCompatActivity {
                       send this id token to server using HTTPS
                      */
 
-              /*  Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+               /* Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } catch (ApiException e) {
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                // updateUI(null);
+               // updateUI(null);
             }
         }*/
 
-        private void onLoggedIn (GoogleSignInAccount googleSignInAccount){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
+    private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
-        @Override
-        public void onStart () {
-            super.onStart();
 
-            GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
-            if (alreadyloggedAccount != null) {
-                Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
-                onLoggedIn(alreadyloggedAccount);
-            } else {
-                Log.d(TAG, "Not logged in");
-            }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if (alreadyloggedAccount != null) {
+            Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
+            onLoggedIn(alreadyloggedAccount);
+        } else {
+            Log.d(TAG, "Not logged in");
         }
+    }
 
    /* private void checkLoginStatus() {
         if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
@@ -187,28 +240,27 @@ public class LoginActivity extends AppCompatActivity {
         }
     }*/
 
-        public void facebookLogin () {
-            LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    Toast.makeText(LoginActivity.this, "Successful", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onSuccess: " + loginResult.getAccessToken().getUserId());
-                    setResult(RESULT_OK);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
-                    /*call : loginResult.getAccessToken().getUserId() to get userId and save to database;*/
-                }
+    public void facebookLogin() {
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(LoginActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onSuccess: " + loginResult.getAccessToken().getUserId());
+                setResult(RESULT_OK);
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+                /*call : loginResult.getAccessToken().getUserId() to get userId and save to database;*/
+            }
 
-                @Override
-                public void onCancel() {
+            @Override
+            public void onCancel() {
 
-                }
+            }
 
-                @Override
-                public void onError(FacebookException error) {
-                    Toast.makeText(LoginActivity.this, "Error " + error.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
-        }
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(LoginActivity.this, "Error " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
-
+}

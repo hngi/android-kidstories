@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         Repository repository = new Repository(this.getApplication());
-        Call<LoginResponse> call = repository.getApi().loginUser(email_string, password_string);
+        Call<LoginResponse> call = repository.getStoryApi().loginUser(email_string, password_string);
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override

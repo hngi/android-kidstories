@@ -48,8 +48,8 @@ public class Repository {
 
 
     private Repository(Context context) {
-        StoryDatabase storyDatabase = StoryDatabase.getInstance(context);
-        storyDao = storyDatabase.storyDao();
+       // StoryDatabase storyDatabase = StoryDatabase.getInstance(context);
+        //storyDao = storyDatabase.storyDao();
         //userDao = storyDatabase.userDao();
 //        api = ((Common)context.getApplicationContext()).getStoryApi();
         api = RetrofitClient.getInstance().create(Api.class);

@@ -67,13 +67,6 @@ public class RegisterActivity extends AppCompatActivity {
                 lastName.setText("");
                 emailET.setText("");
                 Toast.makeText(RegisterActivity.this, "User Logged Out", Toast.LENGTH_LONG).show();
-
-                SignUp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        signInUser();
-                    }
-                });
             }
         }
     };
@@ -116,6 +109,13 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(RegisterActivity.this, LoginActivity.class), LOGIN_TEXT_REQUEST_CODE);
+            }
+        });
+
+        SignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signInUser();
             }
         });
     }
@@ -290,6 +290,9 @@ public class RegisterActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             //TODO: Save User locally
                             launchMainActivity();
+                        } else {
+                            progressBar.setVisibility(View.VISIBLE);
+                            Toast.makeText(getApplicationContext(), "Problem with registration, email already registered", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -297,6 +300,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
                         if (t.getMessage() != null) {
                             Log.e(TAG, t.getMessage());
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });

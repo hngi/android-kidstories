@@ -7,7 +7,7 @@ public class BaseResponse<T> {
 
     @SerializedName("status")
     @Expose
-    private Integer status;
+    private String status;
     @SerializedName("code")
     @Expose
     private String code;
@@ -18,11 +18,11 @@ public class BaseResponse<T> {
     @Expose
     private T data;
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

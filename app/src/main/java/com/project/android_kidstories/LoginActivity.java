@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             launchMainActivity();
                         } else {
-                            Toast.makeText(getApplicationContext(), "Invalid Username or Password", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Invalid Username or Password", Toast.LENGTH_SHORT).show();
                         }
 
                     }

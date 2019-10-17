@@ -131,19 +131,21 @@ public class LoginActivity extends AppCompatActivity {
                 .enqueue(new Callback<LoginResponse>() {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        progress_layout.setVisibility(View.GONE);
                         if (response.isSuccessful()) {
                             launchMainActivity();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Invalid Username or Password", Toast.LENGTH_LONG).show();
                         }
+
                     }
 
                     @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
                         if (t.getMessage() != null) {
                             Log.e("LoginActivity", t.getMessage());
-                            progress_layout.setVisibility(View.GONE);
                             Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                         }
-                        Toast.makeText(getApplicationContext(), "Invalid Username or Password", Toast.LENGTH_LONG).show();
                     }
                 });
     }

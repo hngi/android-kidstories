@@ -97,6 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
         phone = findViewById(R.id.reg_contact);
         password = findViewById(R.id.reg_password);
         firstName = findViewById(R.id.reg_first_name);
+        progressBar = findViewById(R.id.reg_progress_bar);
 
         lastName = findViewById(R.id.reg_last_name);
 
@@ -135,6 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 registerUser();
             }
         });
@@ -177,6 +179,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         editor.putString("Token", response.body().getData().getToken());
                         editor.apply();
+                        progressBar.setVisibility(View.INVISIBLE);
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
                     } else {

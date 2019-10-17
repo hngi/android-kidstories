@@ -16,15 +16,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Views.NightmodeActivity"
+        <activity android:name=".Views.main.TestActivity"></activity>
+        <activity
+            android:name=".NightmodeActivity"
+            android:theme="@style/AppTheme"
+            tools:ignore="GoogleAppIndexingWarning" />
+        <activity android:name=".NightmodeActivity"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"/>
         <activity
             android:name=".Views.main.MainActivity"
             android:label="@string/title_activity_the_main"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"

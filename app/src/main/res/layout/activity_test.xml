@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".IgnoreForApiTest.TestActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/test_register_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="RegisterUser"
+                android:text="Register user" />
+
+            <Button
+                android:id="@+id/test_showToken"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="showToken"
+                android:text="show Token" />
+
+            <Button
+                android:id="@+id/test_login_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="LoginUser"
+                android:text="login user" />
+
+            <Button
+                android:id="@+id/test_getAllStories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="getAllStories"
+                android:text="get All Stories" />
+
+            <Button
+                android:id="@+id/test_getFirstCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="getFirstCategory"
+                android:text="get First Category" />
+
+            <Button
+                android:id="@+id/test_getAllCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="getAllCategory"
+                android:text="get All Category" />
+
+
+            <Button
+                android:id="@+id/test_getCategoryStorieWithIdOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="getCategoryStoriesWithIdOne"
+                android:text="get Category Stories With Id One" />
+
+            <TextView
+                android:id="@+id/test_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Info shows here"
+                android:gravity="center"
+                android:layout_marginTop="16dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+    <ProgressBar
+        android:id="@+id/test_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

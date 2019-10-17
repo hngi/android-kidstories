@@ -87,7 +87,6 @@
     <string name="comments">Comments</string>
     <string name="featured_image_desc">ImgeView for the story\'s featured image</string>
     <string name="tools_text_test">Diary of a wimpy kid</string>
-    <string name="by">By</string>
     <string name="author_name">Jim Walker</string>
     <string name="for_kids_0_to_4_years">For kids 0 to 4 years</string>
     <string name="comment_author">Sammy</string>
@@ -112,5 +111,11 @@
     <string name="no_image_uploaded">No image uploaded</string>
     <string name="register_btn_label">Register</string>
     <string name="write_your_story_here">Write your story here...</string>
+    <string name="book_description">Book Description</string>
+    <string name="book_title">Book Title</string>
+    <string name="by">By</string>
+    <string name="bookmark">bookmark</string>
+    <string name="comment">comment</string>
+    <string name="_0">0</string>
 
 </resources>

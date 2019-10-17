@@ -28,7 +28,7 @@
                 android:id="@+id/story_item_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Diary of A Wimpy Kid"
+                android:text="@string/diary_of_a_wimpy_kid"
                 android:textSize="24sp" />
 
             <TextView

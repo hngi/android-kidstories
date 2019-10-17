@@ -2,7 +2,6 @@ package com.project.android_kidstories.sharePref;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -22,17 +21,12 @@ public class SharePref {
 //
 //        INSTANCE=SharePref.getINSTANCE(this);
 //    }
-//
-
     private SharedPreferences sharedPreferences;
-private SharePref(SharedPreferences sharedPreferences) {
-    this.sharedPreferences=sharedPreferences;
 
-}
-    private SharePref getSharePref() {
-        return INSTANCE;
+    private SharePref(SharedPreferences sharedPreferences) {
+        this.sharedPreferences=sharedPreferences;
+
     }
-
 
     public static synchronized SharePref getINSTANCE(Context context) {
         if(INSTANCE==null){
@@ -42,9 +36,9 @@ private SharePref(SharedPreferences sharedPreferences) {
         return INSTANCE;
     }
 
-
-
-
+    public SharePref getSharePref() {
+        return INSTANCE;
+    }
 
     public void setLastSunAccess(int hour){
         sharedPreferences.edit().putInt(LAST_LOGGED_IN,hour).apply();
@@ -69,17 +63,4 @@ private SharePref(SharedPreferences sharedPreferences) {
     public Long getLoggedUserId(){
         return sharedPreferences.getLong(ID_KEY,-1);
     }
-
-    public void listener(){
-    sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
-        if (getSharePref().getNightMode()){
-            AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        else
-            AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_NO);
-    });
-    }
-
 }

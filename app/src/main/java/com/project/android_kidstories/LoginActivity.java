@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getResources().getString(R.string.web_client_id))
+                .requestServerAuthCode("473866473162-4k87knredq3nnb19d4el239n1ja6r3ae.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -154,14 +155,18 @@ public class LoginActivity extends AppCompatActivity {
         private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
             try {
                 GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
                 // Signed in successfully, show authenticated UI.
+                String idToken = account.getIdToken();
+                /*
+                      send this id token to server using HTTPS
+                     */
+
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } catch (ApiException e) {
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.
-                Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                // updateUI(null);
             }
         }

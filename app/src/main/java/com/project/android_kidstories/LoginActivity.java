@@ -3,7 +3,9 @@ package com.project.android_kidstories;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -31,6 +33,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
 
 import java.util.Arrays;
 
@@ -51,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btn;
 
     private Repository repository = Repository.getInstance(getApplication());
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         btn = findViewById(R.id.login_button);
 
         googleSignInButton = findViewById(R.id.google_auth_button);
+        sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
 
         //googleSignInSetUp();
 
@@ -137,6 +142,11 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
                     if(response.isSuccessful()){
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        editor.putString("Token", response.body().getUser().getToken());
+                        editor.apply();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     }
                     else{

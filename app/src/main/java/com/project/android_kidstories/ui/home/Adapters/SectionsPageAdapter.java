@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views.main.ui.home.Adapters;
+package com.project.android_kidstories.ui.home.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

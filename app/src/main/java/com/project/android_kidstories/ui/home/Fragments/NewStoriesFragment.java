@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views.main.ui.home.Fragments;
+package com.project.android_kidstories.ui.home.Fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -18,13 +18,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
-import com.project.android_kidstories.DataStore.ApiViewmodel;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.Common;
-import com.project.android_kidstories.Views.main.ui.home.BaseFragment;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
+import com.project.android_kidstories.ui.home.BaseFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 
 import java.util.List;

@@ -33,6 +33,14 @@ public class SharePref {
         return INSTANCE;
     }
 
+    public void setString(String key, String data) {
+        sharedPreferences.edit().putString(key, data).apply();
+    }
+
+    public String getString(String key) {
+        return sharedPreferences.getString(key, "");
+    }
+
     public SharePref getSharePref() {
         return INSTANCE;
     }

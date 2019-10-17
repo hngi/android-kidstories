@@ -27,11 +27,14 @@ import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.util.Arrays;
+
+import static com.project.android_kidstories.RegisterActivity.USER_TOKEN_KEY;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -133,7 +136,14 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         progress_layout.setVisibility(View.GONE);
                         if (response.isSuccessful()) {
-                            launchMainActivity();
+                            try {
+                                String token = response.body().getUser().getToken();
+                                SharePref.getINSTANCE(LoginActivity.this)
+                                        .setString(USER_TOKEN_KEY, token);
+                                launchMainActivity();
+                            } catch (NullPointerException e) {
+                                Toast.makeText(getApplicationContext(), "Problem retrieving user token", Toast.LENGTH_LONG).show();
+                            }
                         } else {
                             Toast.makeText(getApplicationContext(), "Invalid Username or Password", Toast.LENGTH_SHORT).show();
                         }

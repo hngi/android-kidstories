@@ -23,6 +23,7 @@ import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
 import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit2.Call;
@@ -32,6 +33,8 @@ import retrofit2.Response;
 import java.security.MessageDigest;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    public static final String USER_TOKEN_KEY = "USER_TOKEN_KEY";
 
     private static final String TAG = "RegisterActivity";
     public static final int LOGIN_TEXT_REQUEST_CODE = 11;
@@ -289,7 +292,15 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
                         if (response.isSuccessful()) {
                             //TODO: Save User locally
-                            launchMainActivity();
+                            try {
+                                String token = response.body().getData().getToken();
+                                SharePref.getINSTANCE(RegisterActivity.this)
+                                        .setString(USER_TOKEN_KEY, token);
+
+                                launchMainActivity();
+                            } catch (NullPointerException e) {
+                                Toast.makeText(getApplicationContext(), "Problem retrieving user token", Toast.LENGTH_LONG).show();
+                            }
                         } else {
                             progressBar.setVisibility(View.VISIBLE);
                             Toast.makeText(getApplicationContext(), "Problem with registration, email already registered", Toast.LENGTH_SHORT).show();

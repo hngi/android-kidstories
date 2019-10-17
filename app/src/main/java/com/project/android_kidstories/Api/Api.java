@@ -136,26 +136,26 @@ public interface Api {
 
     @POST("stories/{storyId}/reactions/like")
     Call<ReactionResponse> likeStory(@Header("Authorization") String token,
-                                     @Part("storyId") Integer storyId);
+                                     @Path("storyId") Integer storyId);
 
     @POST("stories/{storyId}/reactions/dislike")
     Call<ReactionResponse> dislikeStory(@Header("Authorization") String token,
-                                      @Part("storyId") Integer storyId);
+                                      @Path("storyId") Integer storyId);
 
 
 
     //Bookmark APIs
     @POST("bookmarks/stories/{storyId}")
     Call<BookmarkResponse> bookmarkStory(@Header("Authorization") String token,
-                                         @Part("storyId") Integer storyId);
+                                         @Path("storyId") Integer storyId);
 
     @DELETE("bookmarks/stories/{storyId}")
     Call<Void> deleteBookmarkedStory(@Header("Authorization") String token,
-                                     @Part("storyId") Integer storyId);
+                                     @Path("storyId") Integer storyId);
 
     @GET("bookmarks/stories/{storyId}/status")
     Call<BookmarkResponse> getStoryBookmarkStatus(@Header("Authorization") String token,
-                                                  @Part("storyId") Integer storyId);
+                                                  @Path("storyId") Integer storyId);
 
 
 
@@ -165,10 +165,10 @@ public interface Api {
     //Call<BaseResponse<List<Category>>> getAllCategories();
 
     @GET("categories/{id}")
-    Call<BaseResponse<Category>> getCategory(@Part("id") Integer categoryId);
+    Call<BaseResponse<Category>> getCategory(@Path("id") String categoryId);
 
-    @GET("catergories/{id}/stories")
-    Call<BaseResponse<CategoryStoriesResponse>> getStoriesByCategoryIdandUser(@Part("id") Integer categoryId);
+    @GET("categories/{id}/stories")
+    Call<BaseResponse<CategoryStoriesResponse>> getStoriesByCategoryIdandUser(@Path("id") String categoryId);
 
 
 
@@ -181,12 +181,12 @@ public interface Api {
 
     @PUT("comments/{id}")
     Call<BaseResponse<CommentResponse>> updateComment(@Header("Authorization") String token,
-                                                      @Part("id") Integer commentId,
+                                                      @Path("id") Integer commentId,
                                                       @Field("body") String comment);
 
     @DELETE("comments/{id}")
     Call<Void> deleteComment(@Header("Authorization") String token,
-                             @Part("id") Integer commentId);
+                             @Path("id") Integer commentId);
 
 
 }

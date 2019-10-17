@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".RegisterActivity">
+    tools:context=".RegisterActivity"
+    android:id="@+id/registration_parent_layout">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -28,9 +29,9 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/reg_full_name"
+            android:id="@+id/reg_first_name"
             style="@style/EditTextWhite"
-            android:layout_width="350dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
@@ -38,14 +39,29 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/edit_text_rectangle"
             android:ems="10"
-            android:hint="@string/full_name_hint"
+            android:hint="First Name"
+            android:inputType="textPersonName"
+            android:textColorHint="#646669" />
+
+        <EditText
+            android:id="@+id/reg_last_name"
+            style="@style/EditTextWhite"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/edit_text_rectangle"
+            android:ems="10"
+            android:hint="Last Name"
             android:inputType="textPersonName"
             android:textColorHint="#646669" />
 
         <EditText
             android:id="@+id/reg_email"
             style="@style/EditTextWhite"
-            android:layout_width="350dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
@@ -60,7 +76,7 @@
         <EditText
             android:id="@+id/reg_contact"
             style="@style/EditTextWhite"
-            android:layout_width="350dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
@@ -75,23 +91,22 @@
         <EditText
             android:id="@+id/reg_password"
             style="@style/EditTextWhite"
-            android:layout_width="350dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/edit_text_rectangle"
-
             android:ems="10"
             android:hint="@string/password_hint"
-            android:inputType="number"
+            android:inputType="textPassword"
             android:textColorHint="#646669" />
 
         <EditText
             android:id="@+id/reg_confirm_password"
             style="@style/EditTextWhite"
-            android:layout_width="350dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
@@ -141,13 +156,13 @@
 
         <Button
             android:id="@+id/sign_up_button"
-            android:layout_width="350dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/register_round_button"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/register_btn_label"

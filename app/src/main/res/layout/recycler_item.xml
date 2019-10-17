@@ -128,7 +128,7 @@
                     android:layout_gravity="end"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_bookmark_click_24dp" />
+                    app:srcCompat="@drawable/ic_bookmark_border_black_24dp" />
 
 
             </LinearLayout>

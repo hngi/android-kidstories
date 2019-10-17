@@ -49,6 +49,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         TextView dislikes;
         ImageView like;
         ImageView dislike;
+        ImageView bookmark;
 
 
         CustomViewHolder(View itemView) {
@@ -63,7 +64,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             dislikes = view.findViewById(R.id.count2);
             like = view.findViewById(R.id.img_like);
             dislike = view.findViewById(R.id.img_dislike);
-
+            bookmark = view.findViewById(R.id.bookmark);
         }
     }
 
@@ -99,6 +100,8 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);    //When you change the drawable
         holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
 
+        holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
+
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +136,22 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                 }else{
                     holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
                     holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
+                }
+            }
+        });
+
+        holder.bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int bookmark_drawableId = (Integer)holder.bookmark.getTag();
+
+                if(bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp) {
+                    holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
+                    holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
+
+                }else{
+                    holder.bookmark.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
+                    holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
                 }
             }
         });

@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views.main.ui.home;
+package com.project.android_kidstories.ui.home;
 
 import android.view.View;
 import android.widget.Toast;

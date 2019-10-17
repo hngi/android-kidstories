@@ -62,7 +62,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText emailET;
     EditText phone;
     EditText firstName, Lastname;
-
     EditText password, confirmPassword;
     Button regFacebook, regGoogle, SignUp;
     TextView loginText;
@@ -90,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.reg_password);
         firstName = findViewById(R.id.reg_first_name);
         Lastname = findViewById(R.id.reg_last_name);
+
         emailET = findViewById(R.id.reg_email);
         confirmPassword = findViewById(R.id.reg_confirm_password);
 
@@ -132,6 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (currentAccessToken == null) {
                 firstName.setText("");
                 Lastname.setText("");
+
                 emailET.setText("");
                 Toast.makeText(RegisterActivity.this, "User Logged Out", Toast.LENGTH_LONG).show();
 
@@ -156,9 +157,8 @@ public class RegisterActivity extends AppCompatActivity {
                     String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
 
                     emailET.setText(email);
+                    firstName.setText(First_Name + " " + Last_Name);
 
-                    firstName.setText(First_Name);
-                    Lastname.setText(Last_Name);
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
 
@@ -285,8 +285,10 @@ public class RegisterActivity extends AppCompatActivity {
     private void signInUser() {
         String email_string = emailET.getText().toString();
         String phone_string = phone.getText().toString();
+
         String firstname_string = firstName.getText().toString();
         String Lastname_string = Lastname.getText().toString();
+
         String password_string = password.getText().toString();
 
         //validating text fields
@@ -301,7 +303,9 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+
         if (TextUtils.isEmpty(firstname_string) || TextUtils.isEmpty(password_string)) {
+
             firstName.setError("Please enter a valid phone number");
             password.setError("Enter a password");
             return;
@@ -312,7 +316,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.setPassword(password_string);
         user.setPhoneNumber(phone_string);
         Repository repository = new Repository(this.getApplication());
-        Call<BaseResponse<DataResponse>> call = repository.getApi().registerUser(user);
+        Call<BaseResponse<DataResponse>> call = repository.getStoryApi().registerUser(user);
 
 
         call.enqueue(new Callback<BaseResponse<DataResponse>>() {
@@ -320,20 +324,20 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
 
 
-                    if (response.code() == 201) {
-                        String s = response.message();
-                        Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
+                if (response.code() == 201) {
+                    String s = response.message();
+                    Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
 
 
-                    } else {
+                } else {
 
-                        try {
+                    try {
                         String s = response.errorBody().string();
                         Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
 
-                    }catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }

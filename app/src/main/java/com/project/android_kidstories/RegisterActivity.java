@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText emailET;
     EditText phone;
-    EditText fullName;
+    EditText firstName, lastName;
     EditText password, confirmPassword;
     Button regFacebook, regGoogle, SignUp;
     TextView loginText;
@@ -76,7 +76,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         phone = findViewById(R.id.reg_contact);
         password = findViewById(R.id.reg_password);
-        //fullName = findViewById(R.id.reg_full_name);
+        firstName = findViewById(R.id.reg_first_name);
+        firstName = findViewById(R.id.reg_last_name);
         emailET = findViewById(R.id.reg_email);
         confirmPassword = findViewById(R.id.reg_confirm_password);
 
@@ -110,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
             if (currentAccessToken == null) {
-                fullName.setText("");
+                firstName.setText("");
                 emailET.setText("");
                 Toast.makeText(RegisterActivity.this, "User Logged Out", Toast.LENGTH_LONG).show();
 
@@ -135,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     emailET.setText(email);
 
-                    fullName.setText(First_Name + " " + Last_Name);
+                    firstName.setText(First_Name + " " + Last_Name);
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
 
@@ -262,7 +263,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void signInUser() {
         String email_string = emailET.getText().toString();
         String phone_string = phone.getText().toString();
-        String fullName_string = fullName.getText().toString();
+        String fullName_string = firstName.getText().toString();
         String password_string = password.getText().toString();
 
         //validating text fields
@@ -278,7 +279,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(fullName_string) || TextUtils.isEmpty(password_string)) {
-            fullName.setError("Please enter a valid phone number");
+            firstName.setError("Please enter a valid phone number");
             password.setError("Enter a password");
             return;
         }

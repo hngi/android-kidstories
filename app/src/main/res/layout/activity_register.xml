@@ -28,7 +28,7 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/reg_full_name"
+            android:hint="@string/first_name_hint"
             style="@style/EditTextWhite"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
@@ -38,7 +38,22 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/edit_text_rectangle"
             android:ems="10"
-            android:hint="@string/full_name_hint"
+            android:id="@+id/reg_first_name"
+            android:inputType="textPersonName"
+            android:textColorHint="#646669"/>
+
+        <EditText
+            style="@style/EditTextWhite"
+            android:background="@drawable/edit_text_rectangle"
+            android:ems="10"
+            android:hint="@string/last_name_hint"
+            android:id="@+id/reg_last_name"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_width="350dp"
             android:inputType="textPersonName"
             android:textColorHint="#646669" />
 

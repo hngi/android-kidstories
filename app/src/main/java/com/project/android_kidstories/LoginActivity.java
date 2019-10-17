@@ -1,8 +1,5 @@
 package com.project.android_kidstories;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,8 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.facebook.AccessToken;
+import androidx.appcompat.app.AppCompatActivity;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -27,7 +23,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.project.android_kidstories.Api.Api;
+import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
+import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Views.main.MainActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.Arrays;
 
@@ -42,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button btn;
+    View progress_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         email = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);
         btn = findViewById(R.id.login_button);
+        progress_layout = findViewById(R.id.progress_layout);
 
         googleSignInButton = findViewById(R.id.google_auth_button);
 
@@ -118,8 +122,37 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        progress_layout.setVisibility(View.VISIBLE);
+
+        Repository repository = new Repository(this.getApplicationContext());
+        Api api = repository.getApi();
+
+        api.loginUser(email_string, password_string)
+                .enqueue(new Callback<LoginResponse>() {
+                    @Override
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        if (response.isSuccessful()) {
+                            launchMainActivity();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        if (t.getMessage() != null) {
+                            Log.e("LoginActivity", t.getMessage());
+                            progress_layout.setVisibility(View.GONE);
+                            Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                        Toast.makeText(getApplicationContext(), "Invalid Username or Password", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
+    private void launchMainActivity() {
+        progress_layout.setVisibility(View.GONE);
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

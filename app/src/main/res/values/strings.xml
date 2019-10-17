@@ -112,5 +112,7 @@
     <string name="no_image_uploaded">No image uploaded</string>
     <string name="register_btn_label">Register</string>
     <string name="write_your_story_here">Write your story here...</string>
+    <string name="first_name_hint">First Name</string>
+    <string name="last_name_hint">Last Name</string>
 
 </resources>

@@ -117,5 +117,10 @@
     <string name="bookmark">bookmark</string>
     <string name="comment">comment</string>
     <string name="_0">0</string>
+    <string name="add_story">Add Story</string>
+    <string name="upload_image_new">Upload image</string>
+    <string name="type_content">Type Content</string>
+    <string name="title_label_new">Title</string>
+    <string name="cover_image">Cover Image</string>
 
 </resources>

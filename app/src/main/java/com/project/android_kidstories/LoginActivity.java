@@ -1,6 +1,9 @@
 package com.project.android_kidstories;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,18 +26,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.project.android_kidstories.Api.Api;
+import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Views.main.MainActivity;
-import com.project.android_kidstories.sharePref.SharePref;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.util.Arrays;
-
-import static com.project.android_kidstories.RegisterActivity.USER_TOKEN_KEY;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -47,7 +47,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button btn;
-    View progress_layout;
+
+    SharedPreferences sharedPreferences;
+    private Repository repository = Repository.getInstance(getApplication());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,27 +59,12 @@ public class LoginActivity extends AppCompatActivity {
         email = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);
         btn = findViewById(R.id.login_button);
-        progress_layout = findViewById(R.id.progress_layout);
 
         googleSignInButton = findViewById(R.id.google_auth_button);
+        sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
 
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getResources().getString(R.string.web_client_id))
-                .requestServerAuthCode("473866473162-4k87knredq3nnb19d4el239n1ja6r3ae.apps.googleusercontent.com")
-                .requestEmail()
-                .build();
+        googleSignInSetUp();
 
-        googleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        googleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent signInIntent = googleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, 101);
-            }
-        });
 
         TextView createAccount = findViewById(R.id.create_account);
         createAccount.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +96,26 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void googleSignInSetUp() {
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getResources().getString(R.string.web_client_id))
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        googleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, 101);
+            }
+        });
+
+    }
+
     private void loginUser() {
         String email_string = email.getText().toString();
         String password_string = password.getText().toString();
@@ -118,57 +125,43 @@ public class LoginActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())) {
             email.setError("Please enter a valid email address");
             return;
-        }
-
-        if (TextUtils.isEmpty(password_string)) {
+        } else if (TextUtils.isEmpty(password_string)) {
             password.setError("Please enter a password");
             return;
+        } else {
+            repository.getStoryApi().loginUser(email_string, password_string).enqueue(new Callback<LoginResponse>() {
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+
+                    if (response.isSuccessful()) {
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        editor.putString("Token", response.body().getUser().getToken());
+                        editor.apply();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    } else {
+                        Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"
+                                , Snackbar.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    Snackbar.make(findViewById(R.id.login_parent_layout), "Network Failure"
+                            , Snackbar.LENGTH_LONG).show();
+
+                }
+            });
         }
 
-        progress_layout.setVisibility(View.VISIBLE);
 
-        Repository repository = Repository.getInstance(this.getApplication());
-        Api api = repository.getStoryApi();
-
-        api.loginUser(email_string, password_string)
-                .enqueue(new Callback<LoginResponse>() {
-                    @Override
-                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        progress_layout.setVisibility(View.GONE);
-                        if (response.isSuccessful()) {
-                            try {
-                                String token = response.body().getUser().getToken();
-                                SharePref.getINSTANCE(LoginActivity.this)
-                                        .setString(USER_TOKEN_KEY, token);
-                                launchMainActivity();
-                            } catch (NullPointerException e) {
-                                Toast.makeText(getApplicationContext(), "Problem retrieving user token", Toast.LENGTH_LONG).show();
-                            }
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Invalid Username or Password", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        if (t.getMessage() != null) {
-                            Log.e("LoginActivity", t.getMessage());
-                            Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
     }
 
-    private void launchMainActivity() {
-        progress_layout.setVisibility(View.GONE);
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
-    }
-
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case 101:
                     try {
@@ -177,27 +170,22 @@ public class LoginActivity extends AppCompatActivity {
                         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
                         GoogleSignInAccount account = task.getResult(ApiException.class);
                         String idToken = account.getIdToken();
+                        onLoggedIn(account);
                     /*
                       send this id token to server using HTTPS
                      */
 
-                    /*} catch (ApiException e) {
+                    } catch (ApiException e) {
                         // The ApiException status code indicates the detailed failure reason.
                         Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
                     }
                     break;
             }
         }
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-*/
-            if(requestCode == 101){
-                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-                handleSignInResult(task);
-            }
 
     }
 
-        private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+       /* private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
             try {
                 GoogleSignInAccount account = completedTask.getResult(ApiException.class);
                 // Signed in successfully, show authenticated UI.
@@ -206,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
                       send this id token to server using HTTPS
                      */
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+               /* Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } catch (ApiException e) {
                 // The ApiException status code indicates the detailed failure reason.
@@ -214,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                // updateUI(null);
             }
-        }
+        }*/
 
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
         Intent intent = new Intent(this, MainActivity.class);
@@ -222,6 +210,8 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+
+    @Override
     public void onStart() {
         super.onStart();
 

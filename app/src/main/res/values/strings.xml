@@ -38,7 +38,7 @@
     <string name="upload_image">Upload Image</string>
     <string name="save">Save</string>
     <string name="image_status">No image uploaded</string>
-    <string name="web_client_id">473866473162-4k87knredq3nnb19d4el239n1ja6r3ae.apps.googleusercontent.com</string>
+    <string name="web_client_id">559987297928-vu5are06bfmbvkc5v6isvebf4sjn7sdl.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -87,7 +87,6 @@
     <string name="comments">Comments</string>
     <string name="featured_image_desc">ImgeView for the story\'s featured image</string>
     <string name="tools_text_test">Diary of a wimpy kid</string>
-    <string name="by">By</string>
     <string name="author_name">Jim Walker</string>
     <string name="for_kids_0_to_4_years">For kids 0 to 4 years</string>
     <string name="comment_author">Sammy</string>
@@ -112,6 +111,11 @@
     <string name="no_image_uploaded">No image uploaded</string>
     <string name="register_btn_label">Register</string>
     <string name="write_your_story_here">Write your story here...</string>
+    <string name="book_description">Book Description</string>
+    <string name="book_title">Book Title</string>
+    <string name="by">By</string>
+    <string name="bookmark">bookmark</string>
+    <string name="comment">comment</string>
     <string name="_0">0</string>
 
 </resources>

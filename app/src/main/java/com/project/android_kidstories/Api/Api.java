@@ -153,7 +153,7 @@ public interface Api {
     @GET("categories/{id}")
     Call<BaseResponse<Category>> getCategory(@Path("id") String categoryId);
 
-    @GET("catergories/{id}/stories")
+    @GET("categories/{id}/stories")
     Call<BaseResponse<CategoryStoriesResponse>> getStoriesByCategoryIdandUser(@Path("id") String categoryId);
 
 

@@ -120,6 +120,7 @@ public class TestActivity extends AppCompatActivity {
         });
     }
 
+    //
     public void getAllStories(View view) {
         showProgressbar();
         storyApi.getAllStories().enqueue(new Callback<StoryAllResponse>() {
@@ -237,7 +238,7 @@ public class TestActivity extends AppCompatActivity {
 
     public void showToken(View view) {
         String token = Prefs.getString("Token", "Nothing to display Ehma");
-        showToast("Your token is: " + token);
+        showToast("Your token : " + token);
     }
 
     private void hideProgressbar() {

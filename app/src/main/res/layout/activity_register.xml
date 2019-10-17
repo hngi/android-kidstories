@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".RegisterActivity">
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:id="@+id/registration_parent_layout"
+            tools:context=".RegisterActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -99,7 +100,7 @@
             android:background="@drawable/edit_text_rectangle"
             android:ems="10"
             android:hint="@string/password_hint"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             android:textColorHint="#646669" />
 
         <EditText

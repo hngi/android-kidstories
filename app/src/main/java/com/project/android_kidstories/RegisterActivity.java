@@ -2,6 +2,7 @@ package com.project.android_kidstories;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -17,13 +18,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.facebook.*;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.project.android_kidstories.Api.Api;
+import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.main.MainActivity;
-import com.project.android_kidstories.sharePref.SharePref;
 import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit2.Call;
@@ -34,8 +34,6 @@ import java.security.MessageDigest;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    public static final String USER_TOKEN_KEY = "USER_TOKEN_KEY";
-
     private static final String TAG = "RegisterActivity";
     public static final int LOGIN_TEXT_REQUEST_CODE = 11;
     private CallbackManager callbackManager;
@@ -44,12 +42,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText emailET;
     EditText phone;
-    EditText firstName;
-    EditText lastName;
+    EditText firstName, lastName;
     EditText password, confirmPassword;
-    Button regFacebook, regGoogle, SignUp;
+    Button regFacebook, regGoogle, signUp;
     TextView loginText;
     ProgressBar progressBar;
+
+    Repository repository = Repository.getInstance(getApplication());
+    SharedPreferences sharedPreferences;
+
 
 
     @Override
@@ -60,17 +61,18 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
         }
     }
-
-
     AccessTokenTracker tokenTracker = new AccessTokenTracker() {
         @Override
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
             if (currentAccessToken == null) {
                 firstName.setText("");
-                lastName.setText("");
                 emailET.setText("");
                 Toast.makeText(RegisterActivity.this, "User Logged Out", Toast.LENGTH_LONG).show();
+
+            } else {
+                //loaduserprofile(currentAccessToken);
             }
+
         }
     };
 
@@ -82,7 +84,6 @@ public class RegisterActivity extends AppCompatActivity {
         printHashKey(this);
         checkLoginStatus();
 
-        progressBar = findViewById(R.id.reg_progress_bar);
         phone = findViewById(R.id.reg_contact);
         password = findViewById(R.id.reg_password);
         firstName = findViewById(R.id.reg_first_name);
@@ -92,11 +93,14 @@ public class RegisterActivity extends AppCompatActivity {
 
 //        regFacebook = findViewById(R.id.reg_facebook);
 //        regGoogle = findViewById(R.id.reg_google);
-        SignUp = findViewById(R.id.sign_up_button);
+        signUp = findViewById(R.id.sign_up_button);
         loginText = findViewById(R.id.create_act);
 
         FacebookSdk.sdkInitialize(this);
         callbackManager = CallbackManager.Factory.create();
+
+        sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
+
 //
 //        regFacebook.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -115,12 +119,68 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        SignUp.setOnClickListener(new View.OnClickListener() {
+        signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signInUser();
+                registerUser();
             }
         });
+    }
+
+    private void registerUser() {
+        String firstName = this.firstName.getText().toString();
+        String lastName = this.lastName.getText().toString();
+        String email = emailET.getText().toString();
+        String phone = this.phone.getText().toString();
+        String password = this.password.getText().toString();
+        String confirmPassword = this.confirmPassword.getText().toString();
+        User newUser;
+
+
+        if (firstName.isEmpty()) {
+            this.firstName.setError("Please enter your first name");
+        } else if (lastName.isEmpty()) {
+            this.lastName.setError("Please enter your last name");
+        } else if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailET.setError("Please enter a valid email");
+        }
+        //TODO: Add this before final push !Patterns.PHONE.matcher(phone_string).matches()
+        else if (phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches()) {
+            this.phone.setError("Please enter a valid phone number");
+        } else if (password.isEmpty() || password.length() < 8) {
+            this.password.setError("Please enter a valid password");
+        } else if (confirmPassword.isEmpty() || !confirmPassword.contentEquals(password)) {
+            this.confirmPassword.setError("Passwords do not match");
+        } else {
+            newUser = new User(firstName, lastName, email);
+            newUser.setPhoneNumber(phone);
+            newUser.setPassword(confirmPassword);
+            repository.getStoryApi().registerUser(newUser).enqueue(new Callback<BaseResponse<DataResponse>>() {
+                @Override
+                public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
+                    if (response.isSuccessful()) {
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        editor.putString("Token", response.body().getData().getToken());
+                        editor.apply();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(findViewById(R.id.registration_parent_layout),
+                                "User with that email already exists", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Network Failure", Toast.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(R.id.registration_parent_layout),
+                            "Network Failure", Snackbar.LENGTH_LONG).show();
+
+                }
+            });
+        }
     }
 
     private void loaduserprofile(AccessToken newAccessToken) {
@@ -136,8 +196,8 @@ public class RegisterActivity extends AppCompatActivity {
                     String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
 
                     emailET.setText(email);
-                    firstName.setText(First_Name);
-                    lastName.setText(Last_Name);
+
+                    firstName.setText(First_Name + " " + Last_Name);
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
 
@@ -187,6 +247,22 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -248,8 +324,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void signInUser() {
         String email_string = emailET.getText().toString();
         String phone_string = phone.getText().toString();
-        String firstName_string = firstName.getText().toString();
-        String lastName_string = lastName.getText().toString();
+        String fullName_string = firstName.getText().toString();
         String password_string = password.getText().toString();
 
         //validating text fields
@@ -264,62 +339,13 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(firstName_string) || TextUtils.isEmpty(password_string)) {
+        if (TextUtils.isEmpty(fullName_string) || TextUtils.isEmpty(password_string)) {
             firstName.setError("Please enter a valid phone number");
             password.setError("Enter a password");
             return;
         }
-        if (TextUtils.isEmpty(lastName_string) || TextUtils.isEmpty(password_string)) {
-            lastName.setError("Please enter a valid phone number");
-        }
-
-        if (password_string.length() < 8) {
-            password.setError("Password must be at least 8 characters");
-        }
-
 
         progressBar.setVisibility(View.VISIBLE);
-
-        Repository repository = Repository.getInstance(this.getApplication());
-        Api api = repository.getStoryApi();
-
-        User user = new User(firstName_string, lastName_string, email_string);
-        user.setPhoneNumber(phone_string);
-        user.setPassword(password_string);
-        api.registerUser(user)
-                .enqueue(new Callback<BaseResponse<DataResponse>>() {
-                    @Override
-                    public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
-                        if (response.isSuccessful()) {
-                            //TODO: Save User locally
-                            try {
-                                String token = response.body().getData().getToken();
-                                SharePref.getINSTANCE(RegisterActivity.this)
-                                        .setString(USER_TOKEN_KEY, token);
-
-                                launchMainActivity();
-                            } catch (NullPointerException e) {
-                                Toast.makeText(getApplicationContext(), "Problem retrieving user token", Toast.LENGTH_LONG).show();
-                            }
-                        } else {
-                            progressBar.setVisibility(View.VISIBLE);
-                            Toast.makeText(getApplicationContext(), "Problem with registration, email already registered", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
-                        if (t.getMessage() != null) {
-                            Log.e(TAG, t.getMessage());
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    }
-                });
-    }
-
-    private void launchMainActivity() {
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
     }
 
     // Getting app hash key for facebook login registration

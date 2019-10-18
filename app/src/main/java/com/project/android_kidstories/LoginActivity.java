@@ -210,6 +210,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("Token", response.body().getUser().getToken());
                         editor.apply();
                         LoginProgress.dismiss();
+
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                   startActivity(intent);

@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressBar progressBar;
     ProgressDialog regProgress;
 
-    Repository repository ;
+    Repository repository;
     SharedPreferences sharedPreferences;
 
 
@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        repository  = Repository.getInstance(getApplication());
+        repository = Repository.getInstance(getApplication());
 
         printHashKey(this);
         checkLoginStatus();
@@ -138,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivityForResult(intent , LOGIN_TEXT_REQUEST_CODE);
+                startActivityForResult(intent, LOGIN_TEXT_REQUEST_CODE);
                 finish();
             }
         });
@@ -168,9 +168,7 @@ public class RegisterActivity extends AppCompatActivity {
             this.lastName.setError("Please enter your last name");
         } else if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailET.setError("Please enter a valid email");
-        }
-        //TODO: Add this before final push !Patterns.PHONE.matcher(phone_string).matches()
-        else if (phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches()) {
+        } else if (phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches()) {
             this.phone.setError("Please enter a valid phone number");
         } else if (password.isEmpty() || password.length() < 8) {
             this.password.setError("Please enter a valid password");
@@ -195,9 +193,11 @@ public class RegisterActivity extends AppCompatActivity {
                         editor.putString("Token", response.body().getData().getToken());
                         editor.apply();
                         progressBar.setVisibility(View.INVISIBLE);
+
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+
                         finish();
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
 

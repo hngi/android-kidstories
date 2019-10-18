@@ -14,7 +14,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Animation;
+
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -61,6 +65,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+        Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        Animation transit = AnimationUtils.loadAnimation(this, R.anim.ttb);
+
+        TextView transText = findViewById(R.id.welcome);
+        TextView transText2 = findViewById(R.id.welcome);
+        ImageView bounceImage = findViewById(R.id.imageMain);
+
+        transText.startAnimation(transit);
+        transText2.startAnimation(transit);
+        bounceImage.startAnimation(bounce);
+
         email = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);
         btn = findViewById(R.id.login_button);
@@ -76,6 +92,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
             }
         });
 
@@ -83,6 +101,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loginUser();
+                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
             }
         });
 
@@ -116,6 +136,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent signInIntent = googleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, 101);
+                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
             }
         });
 

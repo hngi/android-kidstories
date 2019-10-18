@@ -112,34 +112,23 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
                 int like_drawableId = (Integer)holder.like.getTag();
                 int dislike_drawableId = (Integer)holder.dislike.getTag();
 
-                if(like_drawableId == R.drawable.ic_thumb_up_black_24dp ||  dislike_drawableId == R.drawable.ic_thumb_down_blue_24dp) {
-                    holder.like.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
-                    holder.like.setTag(R.drawable.ic_thumb_up_blue_24dp);
-
-                    holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
-                    holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
-                }else{
-                    holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
-                    holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);
-                }
-            }
-        });
-
-        holder.dislike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int dislike_drawableId = (Integer)holder.dislike.getTag();
-                int like_drawableId = (Integer)holder.like.getTag();
-
                 if(dislike_drawableId == R.drawable.ic_thumb_down_black_24dp || like_drawableId == R.drawable.ic_thumb_up_blue_24dp) {
                     holder.dislike.setImageResource(R.drawable.ic_thumb_down_blue_24dp);
                     holder.dislike.setTag(R.drawable.ic_thumb_down_blue_24dp);
 
                     holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
                     holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);
+
+                    int count = Integer.parseInt(holder.dislikes.getText().toString());
+                    count++;
+                    holder.dislikes.setText(""+count);
                 }else{
                     holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
                     holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
+
+                    int count = Integer.parseInt(holder.dislikes.getText().toString());
+                    count--;
+                    holder.dislikes.setText(""+count);
                 }
             }
         });

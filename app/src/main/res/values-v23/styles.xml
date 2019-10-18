@@ -5,4 +5,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
+
+    <style name="AppTheme.WhiteStatusBar" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
 </resources>

@@ -94,6 +94,12 @@
         <item name="tabIndicatorColor">@color/tabIndicatorColor</item>
         <item name="tabSelectedTextColor">@color/colorPrimary</item>
     </style>
+
+    <style name="AppTheme.WhiteStatusBar" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <!-- Do not Delete-->
     <!-- End of Theme for Donations Activity -->
     <style name="TextAppearance.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

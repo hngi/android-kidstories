@@ -13,8 +13,8 @@ public class ProfileViewModel extends ViewModel {
     private User user;
 
     public ProfileViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+//        mText = new MutableLiveData<>();
+//        mText.setValue("This is gallery fragment");
     }
 
     public void init(){

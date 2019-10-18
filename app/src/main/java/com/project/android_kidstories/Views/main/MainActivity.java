@@ -1,7 +1,6 @@
 package com.project.android_kidstories.Views.main;
 
 import android.content.ContextWrapper;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,8 +26,8 @@ import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.Views.main.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.edit.ProfileFragment;
+import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
@@ -67,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupProfile(navigationView);
 
         //collect user info from loginActivity intent
-        Intent intent = getIntent();
-        User user = intent.getParcelableExtra("User");
+//        Intent intent = getIntent();
+//        User user = intent.getParcelableExtra("User");
 
 
 
@@ -93,10 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProfileFragment profileFragment = new ProfileFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("User", user);
-                profileFragment.setArguments(bundle);
+                com.project.android_kidstories.ui.profile.ProfileFragment profileFragment = new com.project.android_kidstories.ui.profile.ProfileFragment();
                 setUpFragment(profileFragment);
                 getSupportActionBar().setTitle("Profile");
                 drawer.closeDrawer(GravityCompat.START);
@@ -163,6 +159,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.nav_log_out:
                         showToast("Log Out");
+                        break;
+                    case R.id.nav_edit_profile:
+                        fragment = new ProfileFragment();
+                        msg="Edit Profile";
                         break;
                 }
 

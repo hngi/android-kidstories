@@ -55,12 +55,11 @@ public class SharePref {
         return sharedPreferences.getInt(LAST_LOGGED_IN,1);
     }
 
+    public Long getLoggedUserId(){
+        return sharedPreferences.getLong(ID_KEY,-1);
+    }
 
     public void setLoggedUserId(Long id){
         sharedPreferences.edit().putLong(ID_KEY,id).apply();
-    }
-
-    public Long getLoggedUserId(){
-        return sharedPreferences.getLong(ID_KEY,-1);
     }
 }

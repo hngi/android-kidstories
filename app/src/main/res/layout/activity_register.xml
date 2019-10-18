@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".RegisterActivity">
+    tools:context=".RegisterActivity"
+    android:id="@+id/registration_parent_layout">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -99,7 +100,7 @@
             android:background="@drawable/edit_text_rectangle"
             android:ems="10"
             android:hint="@string/password_hint"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             android:textColorHint="#646669" />
 
         <EditText

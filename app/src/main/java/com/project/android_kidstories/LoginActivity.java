@@ -69,14 +69,15 @@ public class LoginActivity extends AppCompatActivity {
     Button btn;
     ProgressDialog LoginProgress;
 
+    private Repository repository;
 
-    private Repository repository = Repository.getInstance(getApplication());
     SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        repository = Repository.getInstance(getApplication());
 
 
         Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);

@@ -50,4 +50,6 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(new Intent(context, LoginActivity.class));
     }
 
+
+
 }

@@ -1,12 +1,12 @@
 package com.project.android_kidstories;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class SingleStoryActivity extends AppCompatActivity {
 
@@ -23,11 +23,19 @@ public class SingleStoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_story);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressDoalog = new ProgressDialog(SingleStoryActivity.this);
         progressDoalog.setMessage("Loading....");
         progressDoalog.show();
+
+        findViewById(R.id.image_arrow_back)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finish();
+                    }
+                });
 
         story_author = findViewById(R.id.author_name);
         story_content = findViewById(R.id.story_content);

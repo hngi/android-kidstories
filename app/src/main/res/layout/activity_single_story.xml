@@ -95,7 +95,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttom_toolbar"
         android:layout_alignParentBottom="true"
         >
         <ImageView

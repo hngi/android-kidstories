@@ -2,7 +2,6 @@ package com.project.android_kidstories;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -24,6 +23,7 @@ import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
 import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit2.Call;
@@ -49,9 +49,6 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressBar progressBar;
 
     Repository repository = Repository.getInstance(getApplication());
-    SharedPreferences sharedPreferences;
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -98,8 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         FacebookSdk.sdkInitialize(this);
         callbackManager = CallbackManager.Factory.create();
-
-        sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
 
 //
 //        regFacebook.setOnClickListener(new View.OnClickListener() {
@@ -160,10 +155,9 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
                     if (response.isSuccessful()) {
 
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        SharePref editor = SharePref.getINSTANCE(getApplicationContext());
+                        editor.setString("Token", response.body().getData().getToken());
 
-                        editor.putString("Token", response.body().getData().getToken());
-                        editor.apply();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
                     } else {

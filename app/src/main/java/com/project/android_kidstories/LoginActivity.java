@@ -1,9 +1,7 @@
 package com.project.android_kidstories;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,6 +28,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     Button btn;
 
-    SharedPreferences sharedPreferences;
     private Repository repository = Repository.getInstance(getApplication());
 
     @Override
@@ -61,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         btn = findViewById(R.id.login_button);
 
         googleSignInButton = findViewById(R.id.google_auth_button);
-        sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
 
         googleSignInSetUp();
 
@@ -135,10 +132,9 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (response.isSuccessful()) {
 
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        SharePref editor = SharePref.getINSTANCE(getApplicationContext());
+                        editor.setString("Token", response.body().getUser().getToken());
 
-                        editor.putString("Token", response.body().getUser().getToken());
-                        editor.apply();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } else {
                         Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"

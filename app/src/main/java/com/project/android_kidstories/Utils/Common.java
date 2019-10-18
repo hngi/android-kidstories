@@ -41,17 +41,22 @@ public class Common extends Application {
         map1 = prefs.getAll();
         Log.d(TAG, "map = " + map1);
         Boolean night1 = (Boolean) map1.get("NIGHT MODE");
+
+        if (night1){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
         prefs.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
             Log.d(TAG, "key" + key);
-            Map<String, ?> map = new HashMap<>();
+            Map<String, ?> map;
             map = sharedPreferences.getAll();
             Log.d(TAG, "map = " + map);
-            Boolean night = (Boolean) map.get("NIGHT MODE");
+            String night = String.valueOf(map.get("NIGHT MODE"));
 
 
-            if (night) {
+            if (night == "true") {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                Log.d(TAG, "Night mode is set");
+                Log.d(TAG, "Night mode is changed to set");
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 Log.d(TAG, "Night mode is unset");

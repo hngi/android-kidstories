@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import androidx.appcompat.app.AppCompatDelegate;
-
 public class SharePref {
 
     private static final String LAST_LOGGED_IN ="LAST_LOGGED_IN";

@@ -25,7 +25,7 @@
         <activity
             android:name=".Views.main.MainActivity"
             android:label="@string/title_activity_the_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.WhiteStatusBar"></activity>
         <activity
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -39,14 +39,21 @@
         </activity>
         <activity android:name=".StoryListingActivity" /> <!-- Do not edit this theme -->
         <activity android:name=".StoryDetailActivity" />
+
         <activity android:name=".SingleStoryActivity" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".RegisterActivity"
+                        android:theme="@style/AppTheme.WhiteStatusBar"  />
+
         <activity android:name=".ProfileRegisterActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".OnBoardingActivity" />
-        <activity android:name=".LoginActivity" />
+
+        <activity android:name=".LoginActivity"
+                        android:theme="@style/AppTheme.WhiteStatusBar" />
+
         <activity android:name=".BookMark" />
         <activity android:name=".AddStoryActivity" />
+
         <activity android:name=".AddStoriesContentActivity" />
         <activity android:name=".Views.main.BaseActivity" />
 

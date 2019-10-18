@@ -22,7 +22,6 @@ public class SettingsActivity extends BaseActivity {
 
         nightSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {
-
                 getSharePref().setNightMode(true);
             } else {
                 getSharePref().setNightMode(false);

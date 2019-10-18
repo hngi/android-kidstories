@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,10 +19,11 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.DataStore.Repository;
-import com.project.android_kidstories.SettingsActivity;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.Views.main.ui.home.Fragments.CategoriesFragment;
-//import com.project.android_kidstories.ui.edit.ProfileFragment;
+import com.project.android_kidstories.SettingsActivity;
+import com.project.android_kidstories.base.BaseActivity;
+import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
+import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
@@ -34,7 +36,7 @@ import com.project.android_kidstories.ui.support.DonateFragment;
  */
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "kidstories";
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                com.project.android_kidstories.Views.main.ui.edit.ProfileFragment profileFragment = new com.project.android_kidstories.Views.main.ui.edit.ProfileFragment();
+                ProfileFragment profileFragment = new ProfileFragment();
                 setUpFragment(profileFragment);
                 getSupportActionBar().setTitle("Profile");
                 drawer.closeDrawer(GravityCompat.START);
@@ -200,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     //TODO: Ehma Refactor to BaseActivity
-    private void showToast(String message) {
+    protected void showToast(String message) {
         Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
     }
 
@@ -226,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawer.closeDrawer(GravityCompat.START);
     }
 
+
     public void openSettings(){
         Intent intent = new Intent(this, SettingsActivity.class);
 
@@ -242,4 +245,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

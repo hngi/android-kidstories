@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Adapters;
+package com.project.android_kidstories.adapters;
 
 import android.content.Context;
 import android.media.Image;

@@ -1,180 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical"
-    tools:context=".ProfileActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+        <variable
+            name="mViewmodel"
+            type="com.project.android_kidstories.ProfileViewModelTest" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="10dp"
-        android:paddingTop="30dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="10dp">
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        tools:context=".ProfileActivity">
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/profile"
-                    android:layout_width="178dp"
-                    android:layout_height="178dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:src="@drawable/profile_pic" />
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Azeez Gbindin"
-                    android:textColor="#000000"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:paddingStart="10dp"
+                android:paddingTop="30dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp">
 
-                <LinearLayout
-                    android:id="@+id/mail"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:layout_weight="1"
-                    android:animationCache="false"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="E-Mail:"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/text_mail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="gbindinazeez@gmail.com"
-                        android:textAlignment="textEnd"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
-                </LinearLayout>
+                        <ImageView
+                            android:id="@+id/profile"
+                            android:layout_width="178dp"
+                            android:layout_height="178dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:src="@drawable/profile_pic" />
 
-                <LinearLayout
-                    android:id="@+id/phone"
+                        <TextView
+                            android:id="@+id/name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            tools:text="Azeez Gbindin"
+                            android:text="@{viewmodel.user.name}"
+                            android:textColor="#000000"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/mail"
-                    android:layout_marginBottom="20dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <TextView
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Phone:"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        <LinearLayout
+                            android:id="@+id/mail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:layout_weight="1"
+                            android:animationCache="false"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/text_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:fontFamily="@font/roboto_regular"
-                        android:paddingLeft="8dp"
-                        android:text="+2348179082163"
-                        android:textAlignment="textEnd"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
-                </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="E-Mail:"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/text_mail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/roboto_regular"
+                                tools:text="gbindinazeez@gmail.com"
+                                android:text="@{viewmodel.user.email}"
+                                android:textAlignment="textEnd"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/mail"
+                            android:layout_marginBottom="20dp"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="Phone:"
+                                android:textAllCaps="false"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/text_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/roboto_regular"
+                                android:paddingLeft="8dp"
+                                android:text="@{viewmodel.user.phoneNo}"
+                                tools:text="+2348179082163"
+                                android:textAlignment="textEnd"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
+                        </LinearLayout>
 
 
-                <LinearLayout
-                    android:id="@+id/username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/phone"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                        <LinearLayout
+                            android:id="@+id/username"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
 
-                    <TextView
+                            <TextView
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Username:"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="Username:"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/text_username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:fontFamily="@font/roboto_regular"
-                        android:paddingLeft="8dp"
-                        android:text="gbindinazeez"
-                        android:textAlignment="textEnd"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
-                </LinearLayout>
+                            <TextView
+                                android:id="@+id/text_username"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:fontFamily="@font/roboto_regular"
+                                android:paddingLeft="8dp"
+                                tools:text="gbindinazeez"
+                                android:text="@{viewmodel.user.username}"
+                                android:textAlignment="textEnd"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
             </LinearLayout>
 
-        </RelativeLayout>
+        </ScrollView>
 
-
-    </LinearLayout>
-
-</ScrollView>
+    </FrameLayout>
+</layout>

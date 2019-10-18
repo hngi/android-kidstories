@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -32,6 +33,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.DataStore.UserRepository;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 
@@ -144,9 +147,17 @@ public class LoginActivity extends AppCompatActivity {
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
+                        assert response.body() != null;
+                        User user = response.body().getUser();
+                        String currentUser = user.toString();
+
                         editor.putString("Token", response.body().getUser().getToken());
+                        editor.putString("User", currentUser);
                         editor.apply();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("User", (Parcelable) user);
+                        startActivity(intent);
                     }
                     else{
                         Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"

@@ -1,5 +1,6 @@
-package com.project.android_kidstories.Views.main.ui.profile;
+package com.project.android_kidstories.ui.profile;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
 import com.project.android_kidstories.db.Helper.AddUsers;
@@ -34,7 +36,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-
+//        mViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
         helper = new BedTimeDbHelper(getContext());
         imageConversion = new ImageConversion();
 
@@ -55,6 +57,12 @@ public class ProfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+        mViewModel.getUser().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+
+            }
+        });
         // TODO: Use the ViewModel
     }
 

@@ -1,6 +1,7 @@
 package com.project.android_kidstories.Views.main;
 
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Views.main.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.edit.ProfileFragment;
@@ -62,8 +64,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             openHomeFragment();
         }
 
-
         setupProfile(navigationView);
+
+        //collect user info from loginActivity intent
+        Intent intent = getIntent();
+        User user = intent.getParcelableExtra("User");
+
+
+
+////now collect all User values
+//        String streetName = property.getStreetName();
+//        Integer streetNumber = property.getStreetNumber();
+//        String suburb = property.getSuburb();
+//        String state = property.getState();
+//        String description = property.getDescription();
+//        Double price = property.getPrice();
+//        Integer bedrooms = property.getBedrooms();
+//        Integer bathrooms = property.getBathrooms();
+//        Integer carspots = property.getCarspots();
+//        String image = property.getImage();
+//        Integer imageID = this.getResources().getIdentifier(image, "drawable", this.getPackageName());
+//        String address = streetNumber + " " + streetName + ", " + suburb + ", " + state;
+
 
         // Making the header image clickable
         View headerView = navigationView.getHeaderView(0);
@@ -72,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
                 ProfileFragment profileFragment = new ProfileFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("User", user);
+                profileFragment.setArguments(bundle);
                 setUpFragment(profileFragment);
                 getSupportActionBar().setTitle("Profile");
                 drawer.closeDrawer(GravityCompat.START);

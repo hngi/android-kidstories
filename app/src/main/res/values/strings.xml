@@ -102,7 +102,7 @@
     <string name="for_2_year_olds">For 2 year olds</string>
     <string name="ehma_ugbogo">Ehma Ugbogo</string>
     <string name="for_kids_4_years_old">For Kids - 4 years old</string>
-    <string name="add_story_label">Add Story</string>
+    <string name="add_story_label">Type Content</string>
     <string name="title_hint">title</string>
     <string name="wite_story_hint">Write Your Story Here...</string>
     <string name="author">Author</string>
@@ -117,5 +117,10 @@
     <string name="bookmark">bookmark</string>
     <string name="comment">comment</string>
     <string name="_0">0</string>
+    <string name="add_story">Add Story</string>
+    <string name="upload_image_new">Upload image</string>
+    <string name="type_content">Type Content</string>
+    <string name="title_label_new">Title</string>
+    <string name="cover_image">Cover Image</string>
 
 </resources>

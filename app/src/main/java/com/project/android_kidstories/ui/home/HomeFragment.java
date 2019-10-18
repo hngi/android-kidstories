@@ -16,14 +16,10 @@ import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.AddStoryActivity;
 import com.project.android_kidstories.R;
 
-import com.project.android_kidstories.Views.main.MainActivity;
-
-
-import com.project.android_kidstories.Views.main.ui.home.Fragments.CategoriesFragment;
-
-import com.project.android_kidstories.Views.main.ui.home.Fragments.PopularStoriesFragment;
 import com.project.android_kidstories.ui.home.Adapters.SectionsPageAdapter;
+import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
+import com.project.android_kidstories.ui.home.Fragments.PopularStoriesFragment;
 
 public class HomeFragment extends Fragment {
 

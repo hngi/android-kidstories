@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,6 +48,10 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
         TextView ageRange;
         TextView likes;
         TextView dislikes;
+        ImageView like;
+        ImageView dislike;
+        ImageView bookmark;
+        LinearLayout list_item;
 
 
         CustomViewHolder(View itemView) {
@@ -59,6 +64,10 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
             ageRange = view.findViewById(R.id.tv3);
             likes = view.findViewById(R.id.count1);
             dislikes = view.findViewById(R.id.count2);
+            like = view.findViewById(R.id.img_like);
+            dislike = view.findViewById(R.id.img_dislike);
+            bookmark = view.findViewById(R.id.bookmark);
+            list_item = view.findViewById(R.id.l_clickable);
 
         }
     }
@@ -75,20 +84,79 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
         Glide.with(context).load(storiesList.get(position).getImageUrl()).into(holder.storyImage);
 
         holder.storyTitle.setText(storiesList.get(position).getTitle());
-        holder.authorName.setText(storiesList.get(position).getAuthor());
+        holder.authorName.setText("By "+storiesList.get(position).getAuthor());
 
         holder.ageRange.setText("For kids ages "+storiesList.get(position).getAge());
         holder.likes.setText(storiesList.get(position).getLikesCount()+"");
         holder.dislikes.setText(storiesList.get(position).getDislikesCount()+"");
 
 
-        holder.storyImage.setOnClickListener(new View.OnClickListener() {
+        holder.list_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int story_id = storiesList.get(position).getId();
                 Intent intent = new Intent(context, SingleStoryActivity.class);
                 intent.putExtra("story_id", story_id);
                 context.startActivity(intent);
+            }
+        });
+
+        holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);    //When you change the drawable
+        holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
+
+        holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
+
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int like_drawableId = (Integer)holder.like.getTag();
+                int dislike_drawableId = (Integer)holder.dislike.getTag();
+
+                if(like_drawableId == R.drawable.ic_thumb_up_black_24dp ||  dislike_drawableId == R.drawable.ic_thumb_down_blue_24dp) {
+                    holder.like.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
+                    holder.like.setTag(R.drawable.ic_thumb_up_blue_24dp);
+
+                    holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+                    holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
+                }else{
+                    holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+                    holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);
+                }
+            }
+        });
+
+        holder.dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int dislike_drawableId = (Integer)holder.dislike.getTag();
+                int like_drawableId = (Integer)holder.like.getTag();
+
+                if(dislike_drawableId == R.drawable.ic_thumb_down_black_24dp || like_drawableId == R.drawable.ic_thumb_up_blue_24dp) {
+                    holder.dislike.setImageResource(R.drawable.ic_thumb_down_blue_24dp);
+                    holder.dislike.setTag(R.drawable.ic_thumb_down_blue_24dp);
+
+                    holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+                    holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);
+                }else{
+                    holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+                    holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
+                }
+            }
+        });
+
+        holder.bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int bookmark_drawableId = (Integer)holder.bookmark.getTag();
+
+                if(bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp) {
+                    holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
+                    holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
+
+                }else{
+                    holder.bookmark.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
+                    holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
+                }
             }
         });
     }

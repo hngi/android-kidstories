@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.AddStoryActivity;
@@ -22,7 +23,9 @@ import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.PopularStoriesFragment;
 
 public class HomeFragment extends Fragment {
-
+    ViewPager viewPager;
+    TabLayout tabLayout;
+    AppBarLayout appBarLayout;
 
     private com.project.android_kidstories.ui.home.HomeViewModel homeViewModel;
 
@@ -31,8 +34,9 @@ public class HomeFragment extends Fragment {
         homeViewModel = ViewModelProviders.of(this).get(com.project.android_kidstories.ui.home.HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        TabLayout tabLayout = root.findViewById(R.id.home_frag_tablayout);
-        ViewPager viewPager = root.findViewById(R.id.home_frag_container);
+        tabLayout = root.findViewById(R.id.home_frag_tablayout);
+        viewPager = root.findViewById(R.id.home_frag_container);
+        appBarLayout = root.findViewById(R.id.home_frag_appbar);;
 
         FloatingActionButton floatingActionButton = root.findViewById(R.id.home_frag_calculate_fab);
 
@@ -55,5 +59,9 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
-
+    @Override
+    public void onDestroyView () {
+        super.onDestroyView ();super . onDestroyView ();
+        appBarLayout.removeView(tabLayout);
+    }
 }

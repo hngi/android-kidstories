@@ -70,7 +70,8 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 progressDoalog.dismiss();
                 recyclerView = v.findViewById(R.id.recyclerView);
 
-                if (response.isSuccessful()) {                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body());
+                if (response.isSuccessful()) {
+                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body());
                     GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(storyAdapter);

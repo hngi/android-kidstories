@@ -32,7 +32,7 @@
     <color name="main_color_grey_800">@color/material_grey_800</color>
     <color name="main_color_grey_900">@color/material_grey_900</color>
 
-    <color name="blueSky">#3f9ff7</color>
+    <color name="blueSky">#3F9FF7</color>
     <color name="black">#000000</color>
     <color name="grey">#808080</color>
 
@@ -47,5 +47,6 @@
     <color name="intro_title_color">#000000</color>
     <color name="intro_description_color">#656565</color>
     <color name="tab_indicator_color">#3F9FF7</color>
+    <color name="trans_blue">#B93F9FF7</color>
     <!--End of Color for Tab and screen text-->
 </resources>

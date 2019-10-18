@@ -56,7 +56,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemHo
         public ItemHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.category_image);
-            text1 = itemView.findViewById(R.id.textView8);
+            text1 = itemView.findViewById(R.id.textView1_cat);
         }
     }
 }

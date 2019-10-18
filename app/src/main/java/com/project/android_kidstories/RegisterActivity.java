@@ -53,6 +53,7 @@ import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,8 +76,9 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressBar progressBar;
     ProgressDialog regProgress;
 
-    Repository repository = Repository.getInstance(getApplication());
+    Repository repository;
     SharedPreferences sharedPreferences;
+    SharePref sharePref;
 
 
     @Override
@@ -96,6 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
         printHashKey(this);
         checkLoginStatus();
 
+        repository = Repository.getInstance(getApplication());
         phone = findViewById(R.id.reg_contact);
         password = findViewById(R.id.reg_password);
         firstName = findViewById(R.id.reg_first_name);
@@ -117,6 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
 
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
+        sharePref = SharePref.getINSTANCE(getApplicationContext());
 
 //
 //        regFacebook.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         editor.putString("Token", response.body().getData().getToken());
                         editor.apply();
+                        sharePref.setIsUserLoggedIn(true);
                         progressBar.setVisibility(View.INVISIBLE);
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         finish();

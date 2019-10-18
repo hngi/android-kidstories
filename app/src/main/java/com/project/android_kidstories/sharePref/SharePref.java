@@ -8,11 +8,11 @@ public class SharePref {
 
     private static final String LAST_LOGGED_IN ="LAST_LOGGED_IN";
     private static final String ID_KEY="com.project.android_kidstories_ID_KEY";
+    private static final String USER_LOGIN_STATE = "isUserLoggedIn";
 
     private static SharePref INSTANCE;
 
-
-//    @Override
+    //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCr(savedInstanceState);
 //
@@ -51,6 +51,14 @@ public class SharePref {
 
     public void setLoggedUserId(Long id){
         sharedPreferences.edit().putLong(ID_KEY,id).apply();
+    }
+
+    public Boolean getIsUserLoggedIn() {
+        return sharedPreferences.getBoolean(USER_LOGIN_STATE, false);
+    }
+
+    public  void setIsUserLoggedIn(Boolean isUserLoggedIn) {
+        sharedPreferences.edit().putBoolean(USER_LOGIN_STATE, isUserLoggedIn).apply();
     }
 
 

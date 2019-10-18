@@ -33,6 +33,7 @@ import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private StoryAdapter storyAdapter;
     private GoogleApiClient mGoogleApiClient;
 
+    private SharePref sharePref;
+
 
 
     @Override
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+        sharePref = SharePref.getINSTANCE(getApplicationContext());
 
         initViews();
 
@@ -197,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     });
         }
+        sharePref.setIsUserLoggedIn(false);
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finish();
     }

@@ -3,9 +3,7 @@ package com.project.android_kidstories;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import androidx.appcompat.app.AppCompatActivity;
-import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -19,13 +17,14 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 SharePref sharePref = SharePref.getINSTANCE(getApplicationContext());
-                String userToken = sharePref.getString("Token");
-                if (TextUtils.isEmpty(userToken)) {
+                boolean hasLaunchedBefore = sharePref.getBool(OnBoardingActivity.HAS_LAUNCHED_BEFORE);
+
+                if (hasLaunchedBefore) {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), OnBoardingActivity.class);
                     startActivity(intent);
                     finish();
                 }

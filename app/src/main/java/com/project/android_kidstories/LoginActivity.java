@@ -54,6 +54,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        SharePref sharePref = SharePref.getINSTANCE(getApplicationContext());
+        String userToken = sharePref.getString("Token");
+        if (!TextUtils.isEmpty(userToken)) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         email = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);
         btn = findViewById(R.id.login_button);

@@ -37,8 +37,16 @@ public class SharePref {
         sharedPreferences.edit().putString(key, data).apply();
     }
 
+    public void setBool(String key, boolean data) {
+        sharedPreferences.edit().putBoolean(key, data).apply();
+    }
+
     public String getString(String key) {
         return sharedPreferences.getString(key, "");
+    }
+
+    public boolean getBool(String key) {
+        return sharedPreferences.getBoolean(key, false);
     }
 
     public SharePref getSharePref() {

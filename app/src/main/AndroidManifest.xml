@@ -43,7 +43,8 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ProfileRegisterActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".OnBoardingActivity" />
+        <activity android:name=".OnBoardingActivity">
+        </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".BookMark" />
         <activity android:name=".AddStoryActivity" />

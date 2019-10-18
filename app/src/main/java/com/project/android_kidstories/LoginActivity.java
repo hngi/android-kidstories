@@ -3,6 +3,7 @@ package com.project.android_kidstories;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -52,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button btn;
+    ProgressDialog LoginProgress;
+
 
     private Repository repository = Repository.getInstance(getApplication());
     SharedPreferences sharedPreferences;
@@ -65,10 +68,12 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.et_password);
         btn = findViewById(R.id.login_button);
 
+        LoginProgress = new ProgressDialog(LoginActivity.this);
+
         googleSignInButton = findViewById(R.id.google_auth_button);
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
 
-        //googleSignInSetUp();
+        googleSignInSetUp();
 
 
         TextView createAccount = findViewById(R.id.create_account);
@@ -106,7 +111,6 @@ public class LoginActivity extends AppCompatActivity {
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getResources().getString(R.string.web_client_id))
-                .requestServerAuthCode("473866473162-4k87knredq3nnb19d4el239n1ja6r3ae.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -137,6 +141,10 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         else{
+            LoginProgress.setTitle("Signing In");
+            LoginProgress.setMessage("Please wait...");
+            LoginProgress.setCanceledOnTouchOutside(false);
+            LoginProgress.show();
             repository.getStoryApi().loginUser(email_string, password_string).enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -147,9 +155,11 @@ public class LoginActivity extends AppCompatActivity {
 
                         editor.putString("Token", response.body().getUser().getToken());
                         editor.apply();
+                        LoginProgress.dismiss();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     }
                     else{
+                        LoginProgress.hide();
                         Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"
                         , Snackbar.LENGTH_LONG).show();
                     }
@@ -157,6 +167,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    LoginProgress.hide();
                     Snackbar.make(findViewById(R.id.login_parent_layout), "Network Failure"
                             , Snackbar.LENGTH_LONG).show();
 
@@ -167,10 +178,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case 101:
                     try {
@@ -179,27 +190,22 @@ public class LoginActivity extends AppCompatActivity {
                         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
                         GoogleSignInAccount account = task.getResult(ApiException.class);
                         String idToken = account.getIdToken();
+                        onLoggedIn(account);
                     /*
                       send this id token to server using HTTPS
                      */
 
-                    /*} catch (ApiException e) {
+                    } catch (ApiException e) {
                         // The ApiException status code indicates the detailed failure reason.
                         Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
                     }
                     break;
             }
         }
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-*/
-            if(requestCode == 101){
-                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-                handleSignInResult(task);
-            }
 
     }
 
-        private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+       /* private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
             try {
                 GoogleSignInAccount account = completedTask.getResult(ApiException.class);
                 // Signed in successfully, show authenticated UI.
@@ -208,7 +214,7 @@ public class LoginActivity extends AppCompatActivity {
                       send this id token to server using HTTPS
                      */
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+               /* Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } catch (ApiException e) {
                 // The ApiException status code indicates the detailed failure reason.
@@ -216,7 +222,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                // updateUI(null);
             }
-        }
+        }*/
 
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
         Intent intent = new Intent(this, MainActivity.class);
@@ -224,6 +230,8 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+
+    @Override
     public void onStart() {
         super.onStart();
 

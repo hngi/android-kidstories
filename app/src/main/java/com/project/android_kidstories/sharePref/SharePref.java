@@ -52,4 +52,6 @@ public class SharePref {
     public void setLoggedUserId(Long id){
         sharedPreferences.edit().putLong(ID_KEY,id).apply();
     }
+
+
 }

@@ -1,6 +1,8 @@
 package com.project.android_kidstories.Views.main;
 
+import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,18 +21,25 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
-import com.project.android_kidstories.DataStore.ApiViewmodel;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
+import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.Views.main.ui.home.Fragments.CategoriesFragment;
-import com.project.android_kidstories.Views.main.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.edit.ProfileFragment;
+import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
+import com.project.android_kidstories.ui.home.HomeFragment;
+import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
 
@@ -53,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Repository repository;
     private com.project.android_kidstories.ui.home.StoryAdapter storyAdapter;
     static List<Story> storiesList;
+    private GoogleApiClient mGoogleApiClient;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProfileFragment profileFragment = new ProfileFragment();
+                com.project.android_kidstories.ui.profile.ProfileFragment profileFragment = new com.project.android_kidstories.ui.profile.ProfileFragment();
                 setUpFragment(profileFragment);
                 getSupportActionBar().setTitle("Profile");
                 drawer.closeDrawer(GravityCompat.START);
@@ -103,10 +115,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(storyAdapter);*/
-        ApiViewmodel apiViewmodel= ViewModelProviders.of(this).get(ApiViewmodel.class);
-        repository = apiViewmodel.getRepository();
+        repository = Repository.getInstance(this.getApplication());
 
-        storyAdapter = new com.project.android_kidstories.ui.home.StoryAdapter(apiViewmodel);
+        storyAdapter = new com.project.android_kidstories.ui.home.StoryAdapter(repository);
+        storyAdapter = new StoryAdapter(repository);
 
 
 
@@ -143,7 +155,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         showToast("Add New Account Nav Clicked");
                         break;
                     case R.id.nav_log_out:
-                        showToast("Log Out");
+                        showToast("Logging Out");
+                        signout();
+                        break;
+                    case R.id.nav_edit_profile:
+                        fragment = new ProfileFragment();
+                        msg="Edit Profile";
                         break;
                 }
 
@@ -172,9 +189,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void signout() {
-        /*auth.signOut();
+        // Facebook logout
+        if (LoginManager.getInstance() != null) {
+            LoginManager.getInstance().logOut();
+        }
+        // Google logout
+        if (mGoogleApiClient != null) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+                            // ...
+                            Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        finish();*/
+        finish();
+    }
+
+    @Override
+    protected void onStart() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mGoogleApiClient.connect();
+        super.onStart();
     }
 
 

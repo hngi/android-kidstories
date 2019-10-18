@@ -1,119 +1,194 @@
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/activity_horizontal_margin" android:layout_marginTop="8dp"
-    android:layout_marginEnd="@dimen/activity_horizontal_margin" android:background="@drawable/rv_ripple"
-    android:elevation="4dp" app:cardCornerRadius="8dp"
-    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent">
-    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                       android:layout_height="match_parent">
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+    android:background="@drawable/rv_ripple"
+    android:elevation="6dp"
+    android:translationZ="12dp"
+    app:cardCornerRadius="10dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <ImageView
             android:id="@+id/book_image"
-            android:layout_width="0dp" android:layout_height="120dp"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
             android:contentDescription="@string/story_image"
-            android:scaleType="centerCrop" app:layout_constraintBottom_toBottomOf="parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars[7]"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars[7]" />
+
         <TextView
             android:id="@+id/book_title"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:ellipsize="end" android:text="@string/book_title"
-            android:textColor="@color/black" android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@+id/book_image"
-            app:layout_constraintTop_toTopOf="@+id/book_image"/>
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_regular"
+            android:singleLine="true"
+            android:text="@string/book_title"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/book_image"
+            app:layout_constraintTop_toTopOf="@+id/book_image" />
+
         <TextView
             android:id="@+id/by"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:text="@string/by" android:textColor="@color/black"
+            android:fontFamily="@font/roboto_lite"
+            android:text="@string/by"
+            android:textColor="@color/black"
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="@+id/book_title"
-            app:layout_constraintTop_toBottomOf="@+id/book_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/book_title" />
+
         <TextView
             android:id="@+id/author_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_marginStart="4dp"
-            android:text="@string/by_author_name" android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/roboto_lite"
+            android:text="@string/by_author_name"
+            android:textColor="@color/colorPrimary"
             android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@+id/by" app:layout_constraintTop_toTopOf="@+id/by"/>
+            app:layout_constraintStart_toEndOf="@+id/by"
+            app:layout_constraintTop_toTopOf="@+id/by" />
+
         <View
             android:id="@+id/divider"
             android:layout_width="0dp"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:layout_marginTop="8dp"
-            android:background="#757575"
+            android:background="#ACACAC"
             app:layout_constraintEnd_toEndOf="@+id/book_title"
             app:layout_constraintStart_toStartOf="@+id/by"
-            app:layout_constraintTop_toBottomOf="@+id/author_name"/>
+            app:layout_constraintTop_toBottomOf="@+id/author_name" />
+
         <TextView
             android:id="@+id/book_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
+            android:fontFamily="@font/roboto_lite"
             android:text="@string/book_description"
             android:textColor="@color/black"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="@+id/book_title"
-            app:layout_constraintStart_toStartOf="@+id/by" app:layout_constraintTop_toBottomOf="@+id/divider"/>
+            app:layout_constraintStart_toStartOf="@+id/by"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
         <View
             android:id="@+id/divider2"
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="4dp"
-            android:background="#757575" app:layout_constraintEnd_toEndOf="@+id/book_description"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="10dp"
+            android:background="#ACACAC"
+            app:layout_constraintEnd_toEndOf="@+id/book_description"
             app:layout_constraintStart_toStartOf="@+id/divider"
-            app:layout_constraintTop_toBottomOf="@+id/book_description"/>
+            app:layout_constraintTop_toBottomOf="@+id/book_description" />
+
         <ImageView
             android:id="@+id/like_button"
-            android:layout_width="15dp" android:layout_height="15dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="@string/like_button"
-            android:layout_marginTop="8dp" app:layout_constraintStart_toStartOf="@+id/divider2"
-            app:layout_constraintTop_toBottomOf="@+id/divider2" app:srcCompat="@drawable/ic_thumb_up_black_24dp"/>
+            app:layout_constraintStart_toStartOf="@+id/divider2"
+            app:layout_constraintTop_toBottomOf="@+id/divider2"
+            app:srcCompat="@drawable/ic_thumb_up_black_24dp" />
+
         <ImageView
             android:id="@+id/bookmark_button"
-            android:layout_width="15dp" android:layout_height="15dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/bookmark"
-            app:layout_constraintEnd_toEndOf="@+id/divider2" app:layout_constraintTop_toTopOf="@+id/like_button"
-            app:srcCompat="@drawable/ic_bookmark_border_black_24dp"/>
-        <androidx.constraintlayout.widget.Guideline android:id="@+id/guideline5"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:orientation="vertical"
-                                                    app:layout_constraintGuide_percent="0.37"/>
+            app:layout_constraintEnd_toEndOf="@+id/divider2"
+            app:layout_constraintTop_toTopOf="@+id/like_button"
+            app:srcCompat="@drawable/ic_bookmark_border_black_24dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.43" />
+
         <TextView
             android:id="@+id/like_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:fontFamily="@font/roboto_lite"
             android:text="@string/_0"
-            android:textSize="12sp" app:layout_constraintBottom_toBottomOf="@+id/like_button"
-            app:layout_constraintStart_toEndOf="@+id/like_button" app:layout_constraintTop_toTopOf="@+id/like_button"/>
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/like_button"
+            app:layout_constraintStart_toEndOf="@+id/like_button"
+            app:layout_constraintTop_toTopOf="@+id/like_button" />
+
         <ImageView
             android:id="@+id/comment"
-            android:layout_width="15dp" android:layout_height="15dp"
-            android:layout_marginStart="24dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="16dp"
             android:contentDescription="@string/comment"
-            app:layout_constraintStart_toEndOf="@+id/like_count" app:layout_constraintTop_toTopOf="@+id/like_button"
-            app:srcCompat="@drawable/ic_comment_alt_solid"/>
+            app:layout_constraintStart_toEndOf="@+id/dislike_count"
+            app:layout_constraintTop_toTopOf="@+id/dislike_button"
+            app:srcCompat="@drawable/ic_comment_alt_solid" />
+
         <TextView
             android:id="@+id/comment_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:fontFamily="@font/roboto_lite"
             android:text="@string/_0"
-            android:textSize="12sp" app:layout_constraintBottom_toBottomOf="@+id/comment"
-            app:layout_constraintStart_toEndOf="@+id/comment" app:layout_constraintTop_toTopOf="@+id/comment"/>
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/comment"
+            app:layout_constraintStart_toEndOf="@+id/comment"
+            app:layout_constraintTop_toTopOf="@+id/comment" />
+
+        <ImageView
+            android:id="@+id/dislike_button"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/comment"
+            app:layout_constraintStart_toEndOf="@+id/like_count"
+            app:layout_constraintTop_toTopOf="@+id/like_button"
+            app:srcCompat="@drawable/ic_thumb_down_black_24dp" />
+
+        <TextView
+            android:id="@+id/dislike_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/roboto_lite"
+            android:text="@string/_0"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/dislike_button"
+            app:layout_constraintStart_toEndOf="@+id/dislike_button"
+            app:layout_constraintTop_toTopOf="@+id/dislike_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

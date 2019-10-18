@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:id="@+id/login_parent_layout">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,7 +20,8 @@
                 android:id="@+id/welcome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="13dp"
                 android:fontFamily="@font/comic_sans"
                 android:gravity="center"
                 android:text="@string/welcome"
@@ -42,16 +44,16 @@
             <ImageView
                 android:id="@+id/imageMain"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="194dp"
                 android:layout_below="@id/write"
                 android:layout_centerInParent="false"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="18dp"
                 android:src="@drawable/onboarding_ic" />
 
             <EditText
                 android:id="@+id/et_email"
                 android:layout_width="350dp"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_below="@id/imageMain"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
@@ -77,7 +79,7 @@
             <EditText
                 android:id="@+id/et_password"
                 android:layout_width="350dp"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_below="@id/et_email"
                 android:layout_centerInParent="false"
                 android:layout_centerHorizontal="true"
@@ -85,7 +87,7 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/edit_text_rectangle"
                 android:hint="Password"
-                android:inputType="textPassword|numberPassword"
+                android:inputType="textPassword"
                 android:paddingLeft="20dp"
                 android:textAllCaps="false" />
 
@@ -115,7 +117,7 @@
                 <Button
                     android:id="@+id/facebook_auth_button"
                     android:layout_width="150dp"
-                    android:layout_height="50dp"
+                    android:layout_height="45dp"
                     android:background="@drawable/rounded_triangle"
                     android:drawableLeft="@drawable/icon_facebook"
                     android:fontFamily="@font/roboto_regular"
@@ -127,7 +129,7 @@
                 <Button
                     android:id="@+id/google_auth_button"
                     android:layout_width="150dp"
-                    android:layout_height="50dp"
+                    android:layout_height="45dp"
                     android:layout_marginLeft="20dp"
                     android:background="@drawable/rounded_triangle"
                     android:drawableLeft="@drawable/icon_google"
@@ -140,11 +142,16 @@
 
             <LinearLayout
                 android:id="@+id/tv_create_account"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="366dp"
+                android:layout_height="19dp"
                 android:layout_below="@id/authentication_holder"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="19dp"
+                android:layout_marginBottom="6dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:textAlignment="center">

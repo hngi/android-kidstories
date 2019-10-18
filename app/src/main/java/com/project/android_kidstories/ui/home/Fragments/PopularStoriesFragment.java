@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views.main.ui.home.Fragments;
+package com.project.android_kidstories.ui.home.Fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -63,6 +63,14 @@ public class PopularStoriesFragment extends Fragment {
                 GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
+                if (response.isSuccessful()) {
+                    adapter = new RecyclerStoriesAdapter(getContext(), sortList(response.body()).getData());
+                    //GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+                }else{
+                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

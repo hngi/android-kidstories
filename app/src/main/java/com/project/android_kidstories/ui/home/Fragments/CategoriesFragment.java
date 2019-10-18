@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views.main.ui.home.Fragments;
+package com.project.android_kidstories.ui.home.Fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.android_kidstories.Adapters.RecyclerAdapter;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
@@ -75,6 +74,14 @@ public class CategoriesFragment extends Fragment {
                 GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
+                if (response.isSuccessful()) {
+                    adapter = new RecyclerCategoryAdapter(getContext(),response.body().getData());
+                   // GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+                }else{
+                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

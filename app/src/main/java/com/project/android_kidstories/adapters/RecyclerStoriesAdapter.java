@@ -82,7 +82,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         Glide.with(context).load(storiesList.getData().get(position).getImageUrl()).into(holder.storyImage);
 
         holder.storyTitle.setText(storiesList.getData().get(position).getTitle());
-        holder.authorName.setText("By "+storiesList.getData().get(position).getAuthor());
+        holder.authorName.setText(storiesList.getData().get(position).getAuthor());
 
         holder.ageRange.setText("For kids ages "+storiesList.getData().get(position).getAge());
         holder.likes.setText(storiesList.getData().get(position).getLikesCount()+"");

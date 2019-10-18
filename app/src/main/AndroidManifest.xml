@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".IgnoreForApiTest.TestActivity"></activity>
         <activity
-            android:name=".NightmodeActivity"
+            android:name=".SettingsActivity"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning" />
         <activity

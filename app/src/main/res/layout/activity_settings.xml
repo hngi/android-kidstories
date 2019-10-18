@@ -5,8 +5,9 @@
     android:id="@+id/test_one"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
-    tools:context=".NightmodeActivity">
+    tools:context=".SettingsActivity">
+<!--
+    android:background="?attr/backgroundColor"-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"

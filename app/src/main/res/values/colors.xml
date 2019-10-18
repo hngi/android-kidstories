@@ -5,7 +5,9 @@
     <color name="colorAccent">#3f9ff7</color>
     <color name="orangeRed">#FF5722</color>
     <color name="ash">#AEE2E2E2</color>
-    <color name="white">#FFFFFF</color>
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="textColor">#000</color>
+    <color name="textOnButtonColor">#000</color>
     <color name="colorPrimaryTransparent">#e14e53f7</color>
 
 

@@ -4,6 +4,7 @@
     android:layout_height="@dimen/nav_header_height"
     android:background="#FFFFFF"
     android:gravity="bottom"
+    android:layout_marginTop="30dp"
     android:orientation="vertical"
     android:padding="@dimen/activity_horizontal_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">

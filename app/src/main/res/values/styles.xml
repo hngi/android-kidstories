@@ -102,7 +102,7 @@
         <item name="tabSelectedTextColor">@color/colorPrimary</item>
     </style>
 
-    <style name="AppTheme.WhiteStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.WhiteStatusBar" parent="AppTheme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>

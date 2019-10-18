@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".RegisterActivity"
     android:id="@+id/registration_parent_layout">
 
@@ -185,8 +184,10 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"
-                android:text="@string/already_registered"
-                android:textColor="@color/black" />
+                android:text="@string/already_registered" />
+
+<!--
+                android:textColor="@color/black"-->
 
             <TextView
                 android:id="@+id/create_act"

@@ -15,15 +15,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.pixplicity.easyprefs.library.Prefs;
+import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SettingsActivity;
 import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.edit.ProfileFragment;
+import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
@@ -36,7 +42,7 @@ import com.project.android_kidstories.ui.support.DonateFragment;
  */
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "kidstories";
@@ -68,7 +74,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         navImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProfileFragment profileFragment = new ProfileFragment();
+                com.project.android_kidstories.ui.profile.ProfileFragment profileFragment = new com.project.android_kidstories.ui.profile.ProfileFragment();
                 setUpFragment(profileFragment);
                 getSupportActionBar().setTitle("Profile");
                 drawer.closeDrawer(GravityCompat.START);
@@ -136,6 +142,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     case R.id.nav_log_out:
                         showToast("Log Out");
                         break;
+                    case R.id.nav_edit_profile:
+                        fragment = new ProfileFragment();
+                        msg="Edit Profile";
+                        break;
                 }
 
                 drawer.closeDrawer(GravityCompat.START);
@@ -202,7 +212,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
     //TODO: Ehma Refactor to BaseActivity
-    protected void showToast(String message) {
+    private void showToast(String message) {
         Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
     }
 

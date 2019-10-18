@@ -24,6 +24,8 @@ import com.project.android_kidstories.Utils.ImageConversion;
 import com.project.android_kidstories.adapters.ProfilePagerAdapter;
 import com.project.android_kidstories.db.Helper.AddUsers;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
+import com.project.android_kidstories.ui.profile.BookmarksFragment;
+import com.project.android_kidstories.ui.profile.MyStoriesFragment;
 
 public class ProfileFragment extends Fragment {
     public ImageView imageView;

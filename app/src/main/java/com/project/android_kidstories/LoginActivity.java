@@ -68,6 +68,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     Button btn;
     ProgressDialog LoginProgress;
+    TextView createAccount;
+
 
     private Repository repository;
 
@@ -91,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         transText2.startAnimation(transit);
         bounceImage.startAnimation(bounce);
 
+;
         email = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);
         btn = findViewById(R.id.login_button);
@@ -116,11 +119,14 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInSetUp();
 
 
-        TextView createAccount = findViewById(R.id.create_account);
+         createAccount = findViewById(R.id.create_account);
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 
             }
@@ -148,6 +154,8 @@ public class LoginActivity extends AppCompatActivity {
                 facebookLogin();
             }
         });
+
+
     }
 
     private void googleSignInSetUp() {

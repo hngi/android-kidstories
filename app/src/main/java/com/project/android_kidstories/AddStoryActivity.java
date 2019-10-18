@@ -67,4 +67,9 @@ public class AddStoryActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void TypeContent(View view){
+        Intent i = new Intent(AddStoryActivity.this, AddStoriesContentActivity.class);
+        startActivity(i);
+    }
 }

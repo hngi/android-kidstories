@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -39,6 +42,8 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
+        // Enables options menu in this fragment
+        setHasOptionsMenu(true);
 
         helper = new BedTimeDbHelper(getContext());
         imageConversion = new ImageConversion();
@@ -85,5 +90,22 @@ public class ProfileFragment extends Fragment {
     private byte[] getImage(int clientId){
         byte[] user_image = helper.getUserImage(clientId);
         return user_image;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_edit_profile, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.profile_edit) {
+            com.project.android_kidstories.ui.edit.ProfileFragment profileFragment = new com.project.android_kidstories.ui.edit.ProfileFragment();
+            getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, profileFragment).commit();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

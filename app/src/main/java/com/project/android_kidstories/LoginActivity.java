@@ -15,7 +15,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Animation;
+
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -30,6 +34,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
+import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.User;
+import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.DataStore.Repository;
@@ -55,14 +69,27 @@ public class LoginActivity extends AppCompatActivity {
     Button btn;
     ProgressDialog LoginProgress;
 
+    private Repository repository;
 
-    private Repository repository = Repository.getInstance(getApplication());
     SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        repository = Repository.getInstance(getApplication());
+
+
+        Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        Animation transit = AnimationUtils.loadAnimation(this, R.anim.ttb);
+
+        TextView transText = findViewById(R.id.welcome);
+        TextView transText2 = findViewById(R.id.welcome);
+        ImageView bounceImage = findViewById(R.id.imageMain);
+
+        transText.startAnimation(transit);
+        transText2.startAnimation(transit);
+        bounceImage.startAnimation(bounce);
 
         email = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);
@@ -73,6 +100,19 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInButton = findViewById(R.id.google_auth_button);
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
 
+
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+
+
+      /*  GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getResources().getString(R.string.web_client_id))
+                .requestServerAuthCode("473866473162-4k87knredq3nnb19d4el239n1ja6r3ae.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso);*/
+
         googleSignInSetUp();
 
 
@@ -81,6 +121,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
             }
         });
 
@@ -88,6 +130,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loginUser();
+                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
             }
         });
 
@@ -106,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void googleSignInSetUp(){
+    private void googleSignInSetUp() {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -121,6 +165,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent signInIntent = googleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, 101);
+                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
             }
         });
 
@@ -135,10 +181,10 @@ public class LoginActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(email_string) || (!Patterns.EMAIL_ADDRESS.matcher(email_string).matches())) {
             email.setError("Please enter a valid email address");
             return;
-        }
-        else if (TextUtils.isEmpty(password_string)) {
+        } else if (TextUtils.isEmpty(password_string)) {
             password.setError("Please enter a password");
             return;
+
         }
         else{
             LoginProgress.setTitle("Signing In");
@@ -149,7 +195,8 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
-                    if(response.isSuccessful()){
+
+                    if (response.isSuccessful()) {
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -157,11 +204,13 @@ public class LoginActivity extends AppCompatActivity {
                         editor.apply();
                         LoginProgress.dismiss();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
+
                     }
                     else{
                         LoginProgress.hide();
                         Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"
-                        , Snackbar.LENGTH_LONG).show();
+                                , Snackbar.LENGTH_LONG).show();
                     }
                 }
 
@@ -203,17 +252,30 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 101) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+
     }
 
-       /* private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-            try {
-                GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-                // Signed in successfully, show authenticated UI.
-                String idToken = account.getIdToken();
-                /*
-                      send this id token to server using HTTPS
-                     */
 
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            // Signed in successfully, show authenticated UI.
+            String idToken = account.getIdToken();
+
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            // updateUI(null);
+        }
                /* Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } catch (ApiException e) {
@@ -223,6 +285,10 @@ public class LoginActivity extends AppCompatActivity {
                // updateUI(null);
             }
         }*/
+
+
+    }
+
 
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
         Intent intent = new Intent(this, MainActivity.class);
@@ -242,6 +308,8 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "Not logged in");
         }
+
+
     }
 
    /* private void checkLoginStatus() {
@@ -275,4 +343,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
+
+

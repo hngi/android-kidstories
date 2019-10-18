@@ -5,8 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.project.android_kidstories.Views.main.ui.home.Fragments.CategoriesFragment;
+import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
+import com.project.android_kidstories.ui.home.Fragments.PopularStoriesFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter
 {
@@ -23,7 +24,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
         switch(position){
             case 0: activeFragment=new NewStoriesFragment();
                 break;
-            case 1: activeFragment=new com.project.android_kidstories.Views.main.ui.home.Fragments.PopularStoriesFragment();
+            case 1: activeFragment=new PopularStoriesFragment();
                 break;
             case 2: activeFragment=new CategoriesFragment();
                 break;

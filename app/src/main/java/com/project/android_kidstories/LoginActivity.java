@@ -3,6 +3,7 @@ package com.project.android_kidstories;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -52,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button btn;
+    ProgressDialog LoginProgress;
+
 
     private Repository repository = Repository.getInstance(getApplication());
     SharedPreferences sharedPreferences;
@@ -64,6 +67,8 @@ public class LoginActivity extends AppCompatActivity {
         email = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);
         btn = findViewById(R.id.login_button);
+
+        LoginProgress = new ProgressDialog(LoginActivity.this);
 
         googleSignInButton = findViewById(R.id.google_auth_button);
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
@@ -136,6 +141,10 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         else{
+            LoginProgress.setTitle("Signing In");
+            LoginProgress.setMessage("Please wait...");
+            LoginProgress.setCanceledOnTouchOutside(false);
+            LoginProgress.show();
             repository.getStoryApi().loginUser(email_string, password_string).enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -146,9 +155,11 @@ public class LoginActivity extends AppCompatActivity {
 
                         editor.putString("Token", response.body().getUser().getToken());
                         editor.apply();
+                        LoginProgress.dismiss();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     }
                     else{
+                        LoginProgress.hide();
                         Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"
                         , Snackbar.LENGTH_LONG).show();
                     }
@@ -156,6 +167,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    LoginProgress.hide();
                     Snackbar.make(findViewById(R.id.login_parent_layout), "Network Failure"
                             , Snackbar.LENGTH_LONG).show();
 

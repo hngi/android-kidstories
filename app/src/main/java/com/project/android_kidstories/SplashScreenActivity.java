@@ -6,7 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
+import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Views.main.MainActivity;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -14,7 +20,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-
+        
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

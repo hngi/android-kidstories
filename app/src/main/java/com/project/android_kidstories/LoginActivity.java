@@ -204,6 +204,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.apply();
                         LoginProgress.dismiss();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
 
                     }
                     else{

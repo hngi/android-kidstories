@@ -149,7 +149,6 @@ public class RegisterActivity extends AppCompatActivity {
         else if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             emailET.setError("Please enter a valid email");
         }
-        //TODO: Add this before final push !Patterns.PHONE.matcher(phone_string).matches()
         else if(phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches()){
             this.phone.setError("Please enter a valid phone number");
         }

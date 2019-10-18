@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressBar progressBar;
     ProgressDialog regProgress;
 
-    Repository repository = Repository.getInstance(getApplication());
+    Repository repository ;
     SharedPreferences sharedPreferences;
 
 
@@ -92,6 +92,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        repository  = Repository.getInstance(getApplication());
 
         printHashKey(this);
         checkLoginStatus();
@@ -189,7 +191,10 @@ public class RegisterActivity extends AppCompatActivity {
                         editor.putString("Token", response.body().getData().getToken());
                         editor.apply();
                         progressBar.setVisibility(View.INVISIBLE);
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
 
                         regProgress.dismiss();

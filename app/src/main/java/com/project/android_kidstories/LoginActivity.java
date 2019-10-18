@@ -185,8 +185,7 @@ public class LoginActivity extends AppCompatActivity {
             password.setError("Please enter a password");
             return;
 
-        }
-        else{
+        } else {
             LoginProgress.setTitle("Signing In");
             LoginProgress.setMessage("Please wait...");
             LoginProgress.setCanceledOnTouchOutside(false);
@@ -203,10 +202,12 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("Token", response.body().getUser().getToken());
                         editor.apply();
                         LoginProgress.dismiss();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                  intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                  startActivity(intent);
+                  finish();
 
-                    }
-                    else{
+                    } else {
                         LoginProgress.hide();
                         Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"
                                 , Snackbar.LENGTH_LONG).show();

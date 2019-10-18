@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,6 +51,7 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
         ImageView like;
         ImageView dislike;
         ImageView bookmark;
+        LinearLayout list_item;
 
 
         CustomViewHolder(View itemView) {
@@ -65,6 +67,7 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
             like = view.findViewById(R.id.img_like);
             dislike = view.findViewById(R.id.img_dislike);
             bookmark = view.findViewById(R.id.bookmark);
+            list_item = view.findViewById(R.id.l_clickable);
 
         }
     }
@@ -81,14 +84,14 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
         Glide.with(context).load(storiesList.get(position).getImageUrl()).into(holder.storyImage);
 
         holder.storyTitle.setText(storiesList.get(position).getTitle());
-        holder.authorName.setText(storiesList.get(position).getAuthor());
+        holder.authorName.setText("By "+storiesList.get(position).getAuthor());
 
         holder.ageRange.setText("For kids ages "+storiesList.get(position).getAge());
         holder.likes.setText(storiesList.get(position).getLikesCount()+"");
         holder.dislikes.setText(storiesList.get(position).getDislikesCount()+"");
 
 
-        holder.storyImage.setOnClickListener(new View.OnClickListener() {
+        holder.list_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int story_id = storiesList.get(position).getId();

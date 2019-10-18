@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.main_toolbar);
+        toolbar.setTitle("Stories");
         setSupportActionBar(toolbar);
 
         initViews();
@@ -121,6 +122,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
                         fragment = new HomeFragment();
+                        setUpFragment(fragment);
+                        navigationView.setCheckedItem(R.id.nav_home);
                         msg="Stories";
                         break;
                     case R.id.nav_categories:
@@ -234,7 +237,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void hideDrawer() {
         drawer.closeDrawer(GravityCompat.START);
     }
-
 
 
 

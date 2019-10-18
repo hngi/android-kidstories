@@ -17,70 +17,56 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/story_pic"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/sigle_story_thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:contentDescription="@string/story_image"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:srcCompat="@drawable/story_bg_ic" />
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/ic_main_cards_green" />
 
     <ImageView
-        android:id="@+id/like_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
         android:contentDescription="@string/like_button"
+        android:id="@+id/fav_btn"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="168dp"
+        android:layout_width="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintStart_toEndOf="@+id/author_name"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:srcCompat="@drawable/ic_favourite" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp"
-        app:layout_constraintGuide_percent="0.40" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp"
-        app:layout_constraintGuide_percent="0.36" />
-
-    <!--android:text="@string/by_author_name"-->
 
     <TextView
-        android:id="@+id/author_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/author_name_tv"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
-
-    <!-- android:text="@string/dummy_text"-->
-
-    <TextView
-        android:id="@+id/story_content"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:text="By Utibe"
+        android:textSize="16sp"
+        android:textColor="@color/main_color_grey_800"
+        android:fontFamily="@font/comicsans_bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/author_name"
-        app:layout_constraintTop_toBottomOf="@+id/author_name" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sigle_story_thumbnail" />
 
+    <RelativeLayout
+        android:id="@+id/story_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/author_name_tv">
+
+        <include layout="@layout/single_story_content"/>
+    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

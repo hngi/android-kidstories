@@ -23,15 +23,18 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
+import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.DataStore.ApiViewmodel;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Views.main.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.Views.main.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.edit.ProfileFragment;
-import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
+
+import java.util.List;
 
 /**
  * @author .: Ehma Ugbogo
@@ -48,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NavigationView navigationView;
     private Toolbar toolbar;
     private Repository repository;
-    private StoryAdapter storyAdapter;
+    private com.project.android_kidstories.ui.home.StoryAdapter storyAdapter;
+    static List<Story> storiesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ApiViewmodel apiViewmodel= ViewModelProviders.of(this).get(ApiViewmodel.class);
         repository = apiViewmodel.getRepository();
 
-        storyAdapter = new StoryAdapter(apiViewmodel);
+        storyAdapter = new com.project.android_kidstories.ui.home.StoryAdapter(apiViewmodel);
 
 
 
@@ -216,17 +220,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setAction("Action", null).show();
     }
 
-    private void initPrefAndsaveToken(){
-        new Prefs.Builder()
-                .setContext(this)
-                .setMode(ContextWrapper.MODE_PRIVATE)
-                .setPrefsName(getPackageName())
-                .setUseDefaultSharedPreference(true)
-                .build();
-
-        Prefs.putString(AddStoryHelper.TOKEN_KEY,"aTokenStringShouldBeHere");
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -243,8 +236,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void hideDrawer() {
         drawer.closeDrawer(GravityCompat.START);
     }
-
-
 
 
 }

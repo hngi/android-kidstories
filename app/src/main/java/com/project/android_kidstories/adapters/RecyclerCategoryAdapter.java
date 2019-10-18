@@ -11,18 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
+import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.R;
+
+import java.util.List;
+
 /**
  * @author .: Oluwajuwon Fawole
  * @created : 16/10/19
  */
 public class RecyclerCategoryAdapter extends RecyclerView.Adapter<RecyclerCategoryAdapter.CustomViewHolder>{
 
-        private CategoriesAllResponse categoryList;
+        private List<Category> categoryList;
         private Context context;
 
 
-        public RecyclerCategoryAdapter(Context context, CategoriesAllResponse categoryList){
+        public RecyclerCategoryAdapter(Context context,  List<Category> categoryList){
             this.context = context;
             this.categoryList = categoryList;
         }
@@ -52,14 +56,14 @@ public class RecyclerCategoryAdapter extends RecyclerView.Adapter<RecyclerCatego
 
         @Override
         public void onBindViewHolder(CustomViewHolder holder, int position) {
-            holder.categoryName.setText(categoryList.getData().get(position).getName());
+            holder.categoryName.setText(categoryList.get(position).getName());
 
-            Glide.with(context).load(categoryList.getData().get(position).getImageUrl()).into(holder.categoryImage);
+            Glide.with(context).load(categoryList.get(position).getImageUrl()).into(holder.categoryImage);
 
         }
 
         @Override
         public int getItemCount() {
-            return categoryList.getData().size();
+            return categoryList.size();
         }
 }

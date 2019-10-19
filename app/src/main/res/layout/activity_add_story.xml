@@ -74,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/title_label_new"
+                android:textColor="@color/main_color_grey_800"
                 app:layout_constraintBottom_toTopOf="@+id/title_edt"
                 app:layout_constraintStart_toStartOf="@+id/title_edt" />
 
@@ -83,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/cover_image"
+                android:textColor="@color/main_color_grey_800"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintStart_toStartOf="@+id/linearLayout" />
 

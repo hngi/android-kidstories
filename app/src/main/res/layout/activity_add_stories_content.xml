@@ -36,17 +36,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:background="#E8FFFFFF"
-                app:layout_constraintBottom_toBottomOf="@+id/textView4"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView4"
-                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
-
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
@@ -82,7 +71,7 @@
                 android:background="@drawable/border"
                 android:ems="10"
                 android:fontFamily="@font/roboto_regular"
-                android:gravity="top|left"
+                android:gravity="start|top"
                 android:hint="@string/write_your_story_here"
                 android:inputType="textMultiLine"
                 android:paddingStart="16dp"

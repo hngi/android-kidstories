@@ -34,7 +34,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/comicsans_regular"
-                android:text="@string/add_story_label"
+                android:text="@string/add_story"
                 android:textColor="@color/colorPrimary"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -50,9 +50,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
                 android:background="@drawable/border"
                 android:ems="10"
                 android:fontFamily="@font/roboto_regular"
@@ -64,102 +63,58 @@
                 android:paddingBottom="12dp"
                 android:textColor="@color/main_color_grey_800"
                 android:textSize="13sp"
-                app:layout_constraintBottom_toTopOf="@+id/author_edt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/add_story_label" />
 
-            <EditText
-                android:id="@+id/author_edt"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/border"
-                android:ems="10"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="@string/author"
-                android:inputType="textPersonName|textCapWords"
-                android:paddingStart="16dp"
-                android:paddingTop="12dp"
-                android:paddingEnd="12dp"
-                android:paddingBottom="12dp"
-                android:textColor="@color/main_color_grey_800"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                app:layout_constraintEnd_toEndOf="@+id/title_edt"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/title_edt"
-                app:layout_constraintTop_toBottomOf="@+id/title_edt" />
-
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/content_label"
+                android:text="@string/title_label_new"
                 android:textColor="@color/main_color_grey_800"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/story_edt"
-                app:layout_constraintStart_toStartOf="@+id/author_edt" />
+                app:layout_constraintBottom_toTopOf="@+id/title_edt"
+                app:layout_constraintStart_toStartOf="@+id/title_edt" />
 
-            <EditText
-                android:id="@+id/story_edt"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/border"
-                android:ems="10"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="top"
-                android:hint="@string/wite_story_hint"
-                android:inputType="textCapSentences|textMultiLine"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="8dp"
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/cover_image"
                 android:textColor="@color/main_color_grey_800"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/button_donate"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout" />
 
             <Button
-                android:id="@+id/button_donate"
+                android:id="@+id/button_type_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="32dp"
                 android:background="@drawable/rounded_triangle_blue"
-                android:text="@string/create_btn_label"
-                android:textAllCaps="false"
+                android:text="@string/type_content"
+                android:onClick="TypeContent"
                 android:textColor="#F2FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/story_edt" />
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="64dp"
                 android:background="@drawable/border"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/story_edt"
-                app:layout_constraintEnd_toEndOf="@+id/author_edt"
-                app:layout_constraintTop_toBottomOf="@+id/author_edt">
+                app:layout_constraintBottom_toTopOf="@+id/button_type_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_edt">
 
                 <Button
                     android:id="@+id/btn_upload"
@@ -167,7 +122,7 @@
                     android:layout_height="28dp"
                     android:layout_margin="8dp"
                     android:background="@drawable/upload_image_button"
-                    android:text="Upload image"
+                    android:text="@string/upload_image_new"
                     android:textAllCaps="false"
                     android:textSize="12sp" />
 
@@ -181,18 +136,6 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/imageButton8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#E8FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.044"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.023"
-                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -70,12 +70,12 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 progressDoalog.dismiss();
                 recyclerView = v.findViewById(R.id.recyclerView);
 
-                try {
+                if (response.isSuccessful()) {
                     storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body());
                     GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(storyAdapter);
-                }catch (Exception e){
+                }else{
                     Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }

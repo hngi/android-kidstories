@@ -3,6 +3,7 @@ package com.project.android_kidstories;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,14 +37,23 @@ import com.facebook.login.LoginResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.security.MessageDigest;
+
+
+import com.project.android_kidstories.Api.Api;
+import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
+import com.project.android_kidstories.Api.RetrofitClient;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
+
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,10 +74,11 @@ public class RegisterActivity extends AppCompatActivity {
     Button regFacebook, regGoogle, signUp;
     TextView loginText;
     ProgressBar progressBar;
+    ProgressDialog regProgress;
 
-    Repository repository = Repository.getInstance(getApplication());
+    Repository repository;
     SharedPreferences sharedPreferences;
-
+    SharePref sharePref;
 
 
     @Override
@@ -87,12 +98,18 @@ public class RegisterActivity extends AppCompatActivity {
         printHashKey(this);
         checkLoginStatus();
 
+        repository = Repository.getInstance(getApplication());
         phone = findViewById(R.id.reg_contact);
         password = findViewById(R.id.reg_password);
         firstName = findViewById(R.id.reg_first_name);
+        progressBar = findViewById(R.id.reg_progress_bar);
+
         lastName = findViewById(R.id.reg_last_name);
+
         emailET = findViewById(R.id.reg_email);
         confirmPassword = findViewById(R.id.reg_confirm_password);
+
+        regProgress = new ProgressDialog(RegisterActivity.this);
 
 //        regFacebook = findViewById(R.id.reg_facebook);
 //        regGoogle = findViewById(R.id.reg_google);
@@ -103,6 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
 
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
+        sharePref = SharePref.getINSTANCE(getApplicationContext());
 
 //
 //        regFacebook.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +131,7 @@ public class RegisterActivity extends AppCompatActivity {
 //                facebookLogin();
 //            }
 //        });
+
 
         // if user is already registered
         loginText.setOnClickListener(new View.OnClickListener() {
@@ -125,12 +144,13 @@ public class RegisterActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 registerUser();
             }
         });
     }
 
-    private void registerUser(){
+    private void registerUser() {
         String firstName = this.firstName.getText().toString();
         String lastName = this.lastName.getText().toString();
         String email = emailET.getText().toString();
@@ -140,44 +160,48 @@ public class RegisterActivity extends AppCompatActivity {
         User newUser;
 
 
-        if(firstName.isEmpty()){
+        if (firstName.isEmpty()) {
             this.firstName.setError("Please enter your first name");
-        }
-        else if(lastName.isEmpty()){
+        } else if (lastName.isEmpty()) {
             this.lastName.setError("Please enter your last name");
-        }
-        else if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        } else if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailET.setError("Please enter a valid email");
         }
-        //TODO: Add this before final push !Patterns.PHONE.matcher(phone_string).matches()
-        else if(phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches()){
+        else if (phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches()) {
             this.phone.setError("Please enter a valid phone number");
-        }
-        else if(password.isEmpty() || password.length() < 8){
+        } else if (password.isEmpty() || password.length() < 8) {
             this.password.setError("Please enter a valid password");
-        }
-        else if(confirmPassword.isEmpty() || !confirmPassword.contentEquals(password)){
+        } else if (confirmPassword.isEmpty() || !confirmPassword.contentEquals(password)) {
             this.confirmPassword.setError("Passwords do not match");
-        }
-        else{
+
+        } else {
+            regProgress.setTitle("Creating new user");
+            regProgress.setMessage("Please wait while we create your account");
+            regProgress.setCanceledOnTouchOutside(false);
+            regProgress.show();
             newUser = new User(firstName, lastName, email);
             newUser.setPhoneNumber(phone);
             newUser.setPassword(confirmPassword);
             repository.getStoryApi().registerUser(newUser).enqueue(new Callback<BaseResponse<DataResponse>>() {
                 @Override
                 public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
                         editor.putString("Token", response.body().getData().getToken());
                         editor.apply();
+                        sharePref.setIsUserLoggedIn(true);
+                        progressBar.setVisibility(View.INVISIBLE);
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
-                    }
-                    else{
+
+                        regProgress.dismiss();
+                    } else {
                         Snackbar.make(findViewById(R.id.registration_parent_layout),
                                 "User with that email already exists", Snackbar.LENGTH_LONG).show();
+                        regProgress.hide();
                     }
                 }
 
@@ -186,7 +210,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Network Failure", Toast.LENGTH_LONG).show();
                     Snackbar.make(findViewById(R.id.registration_parent_layout),
                             "Network Failure", Snackbar.LENGTH_LONG).show();
-
+                    regProgress.hide();
                 }
             });
         }
@@ -197,6 +221,8 @@ public class RegisterActivity extends AppCompatActivity {
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
             if (currentAccessToken == null) {
                 firstName.setText("");
+                lastName.setText("");
+
                 emailET.setText("");
                 Toast.makeText(RegisterActivity.this, "User Logged Out", Toast.LENGTH_LONG).show();
 
@@ -206,6 +232,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
     };
+
 
     private void loaduserprofile(AccessToken newAccessToken) {
         GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
@@ -220,8 +247,8 @@ public class RegisterActivity extends AppCompatActivity {
                     String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
 
                     emailET.setText(email);
-
                     firstName.setText(First_Name + " " + Last_Name);
+
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
 
@@ -345,10 +372,13 @@ public class RegisterActivity extends AppCompatActivity {
 //
 //    }
 
-    private void signInUser() {
+   /* private void signInUser() {
         String email_string = emailET.getText().toString();
         String phone_string = phone.getText().toString();
-        String fullName_string = firstName.getText().toString();
+
+        String firstname_string = firstName.getText().toString();
+        String Lastname_string = Lastname.getText().toString();
+
         String password_string = password.getText().toString();
 
         //validating text fields
@@ -363,14 +393,56 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(fullName_string) || TextUtils.isEmpty(password_string)) {
+
+        if (TextUtils.isEmpty(firstname_string) || TextUtils.isEmpty(password_string)) {
+
             firstName.setError("Please enter a valid phone number");
             password.setError("Enter a password");
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
-    }
+
+        User user = new User(firstname_string, Lastname_string, email_string);
+        user.setPassword(password_string);
+        user.setPhoneNumber(phone_string);
+        Repository repository = new Repository(this.getApplication());
+        Call<BaseResponse<DataResponse>> call = repository.getStoryApi().registerUser(user);
+
+
+        call.enqueue(new Callback<BaseResponse<DataResponse>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
+
+
+                if (response.code() == 201) {
+                    String s = response.message();
+                    Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
+
+
+                } else {
+
+                    try {
+                        String s = response.errorBody().string();
+                        Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+            //This is weird, but the Method below actually registers the user.
+
+            @Override
+            public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, "Welcome!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+    }  */
 
     // Getting app hash key for facebook login registration
     private static void printHashKey(Context context) {

@@ -34,11 +34,12 @@ public class ProfileFragment extends Fragment {
 
 
     ImageView imageView;
-    ImageView btn_upload;
+    Button btnUpload;
     Button save;
     private static int RESULT_LOAD_IMAGE = 1;
     ImageConversion imageConversion;
     TextView username;
+    TextView imagePath;
 
     BedTimeDbHelper helper;
 
@@ -53,10 +54,11 @@ public class ProfileFragment extends Fragment {
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_edit, container, false);
 
+        imagePath = root.findViewById(R.id.selected_image_path);
         imageView = root.findViewById(R.id.img_user);
         username = root.findViewById(R.id.tv_username);
-        btn_upload = root.findViewById(R.id.btn_upload_image);
-        btn_upload.setOnClickListener(new View.OnClickListener() {
+        btnUpload = root.findViewById(R.id.btn_upload);
+        btnUpload .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent images = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -95,7 +97,8 @@ public class ProfileFragment extends Fragment {
 
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
             Uri selected_image = data.getData();
-            //String image_text = selected_image.toString();
+            String image_text = selected_image.toString();
+            imagePath.setText(image_text);
             Bitmap bitmap;
             try {
                 bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(selected_image));

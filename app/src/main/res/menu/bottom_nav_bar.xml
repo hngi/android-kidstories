@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Home"
+        android:id="@+id/home"
+        android:icon="@drawable/ic_action_home"/>
+    <item android:title="Add"
+        android:id="@+id/addStory"
+        android:icon="@drawable/ic_add_black_24dp"/>
+    <item android:title="Bookmark"
+        android:id="@+id/bookmark_fragment"
+        android:icon="@drawable/ic_bookmark_black_24dp"/>
+</menu>

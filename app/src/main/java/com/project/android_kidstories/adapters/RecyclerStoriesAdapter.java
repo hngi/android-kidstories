@@ -82,7 +82,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         Glide.with(context).load(storiesList.getData().get(position).getImageUrl()).into(holder.storyImage);
 
         holder.storyTitle.setText(storiesList.getData().get(position).getTitle());
-        holder.authorName.setText("By "+storiesList.getData().get(position).getAuthor());
+        holder.authorName.setText(storiesList.getData().get(position).getAuthor());
 
         holder.ageRange.setText("For kids ages "+storiesList.getData().get(position).getAge());
         holder.likes.setText(storiesList.getData().get(position).getLikesCount()+"");
@@ -114,11 +114,19 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                     holder.like.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
                     holder.like.setTag(R.drawable.ic_thumb_up_blue_24dp);
 
+                    int count = Integer.parseInt(holder.likes.getText().toString());
+                    count++;
+                    holder.likes.setText(""+count);
+
                     holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
                     holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
                 }else{
                     holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
                     holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);
+
+                    int count = Integer.parseInt(holder.likes.getText().toString());
+                    count--;
+                    holder.likes.setText(""+count);
                 }
             }
         });
@@ -135,9 +143,17 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
                     holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
                     holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);
+
+                    int count = Integer.parseInt(holder.dislikes.getText().toString());
+                    count++;
+                    holder.dislikes.setText(""+count);
                 }else{
                     holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
                     holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
+
+                    int count = Integer.parseInt(holder.dislikes.getText().toString());
+                    count--;
+                    holder.dislikes.setText(""+count);
                 }
             }
         });

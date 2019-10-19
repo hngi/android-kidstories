@@ -53,6 +53,7 @@ import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,10 +74,11 @@ public class RegisterActivity extends AppCompatActivity {
     Button regFacebook, regGoogle, signUp;
     TextView loginText;
     ProgressBar progressBar;
-    ProgressDialog regProgress;
+    //ProgressDialog regProgress;
 
     Repository repository;
     SharedPreferences sharedPreferences;
+    SharePref sharePref;
 
 
     @Override
@@ -98,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
         printHashKey(this);
         checkLoginStatus();
 
+        repository = Repository.getInstance(getApplication());
         phone = findViewById(R.id.reg_contact);
         password = findViewById(R.id.reg_password);
         firstName = findViewById(R.id.reg_first_name);
@@ -108,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailET = findViewById(R.id.reg_email);
         confirmPassword = findViewById(R.id.reg_confirm_password);
 
-        regProgress = new ProgressDialog(RegisterActivity.this);
+       // regProgress = new ProgressDialog(RegisterActivity.this);
 
 //        regFacebook = findViewById(R.id.reg_facebook);
 //        regGoogle = findViewById(R.id.reg_google);
@@ -119,6 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
 
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
+        sharePref = SharePref.getINSTANCE(getApplicationContext());
 
 //
 //        regFacebook.setOnClickListener(new View.OnClickListener() {
@@ -176,10 +180,10 @@ public class RegisterActivity extends AppCompatActivity {
             this.confirmPassword.setError("Passwords do not match");
 
         } else {
-            regProgress.setTitle("Creating new user");
-            regProgress.setMessage("Please wait while we create your account");
-            regProgress.setCanceledOnTouchOutside(false);
-            regProgress.show();
+           // regProgress.setTitle("Creating new user");
+           // regProgress.setMessage("Please wait while we create your account");
+           // regProgress.setCanceledOnTouchOutside(false);
+           // regProgress.show();
             newUser = new User(firstName, lastName, email);
             newUser.setPhoneNumber(phone);
             newUser.setPassword(confirmPassword);
@@ -192,7 +196,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                         editor.putString("Token", response.body().getData().getToken());
                         editor.apply();
-                        progressBar.setVisibility(View.INVISIBLE);
+                        sharePref.setIsUserLoggedIn(true);
+
 
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -200,12 +205,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                         finish();
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
-
-                        regProgress.dismiss();
+                        progressBar.setVisibility(View.INVISIBLE);
+                      //  regProgress.dismiss();
                     } else {
                         Snackbar.make(findViewById(R.id.registration_parent_layout),
                                 "User with that email already exists", Snackbar.LENGTH_LONG).show();
-                        regProgress.hide();
+                        progressBar.setVisibility(View.INVISIBLE);
+                     //   regProgress.hide();
                     }
                 }
 
@@ -214,7 +220,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Network Failure", Toast.LENGTH_LONG).show();
                     Snackbar.make(findViewById(R.id.registration_parent_layout),
                             "Network Failure", Snackbar.LENGTH_LONG).show();
-                    regProgress.hide();
+                    progressBar.setVisibility(View.INVISIBLE);
+                  //  regProgress.hide();
                 }
             });
         }

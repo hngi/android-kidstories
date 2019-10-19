@@ -14,6 +14,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -67,13 +68,15 @@ public class LoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button btn;
-    ProgressDialog LoginProgress;
+   // ProgressDialog LoginProgress;
     TextView createAccount;
+    ProgressBar loginProg;
 
 
     private Repository repository;
 
     SharedPreferences sharedPreferences;
+    SharePref sharePref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,15 +96,16 @@ public class LoginActivity extends AppCompatActivity {
         transText2.startAnimation(transit);
         bounceImage.startAnimation(bounce);
 
-;
+          loginProg = findViewById(R.id.login_progress);
         email = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);
         btn = findViewById(R.id.login_button);
 
-        LoginProgress = new ProgressDialog(LoginActivity.this);
+       // LoginProgress = new ProgressDialog(LoginActivity.this);
 
         googleSignInButton = findViewById(R.id.google_auth_button);
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
+        sharePref = SharePref.getINSTANCE(getApplicationContext());
 
 
         // Configure sign-in to request the user's ID, email address, and basic
@@ -194,10 +198,11 @@ public class LoginActivity extends AppCompatActivity {
             return;
 
         } else {
-            LoginProgress.setTitle("Signing In");
-            LoginProgress.setMessage("Please wait...");
-            LoginProgress.setCanceledOnTouchOutside(false);
-            LoginProgress.show();
+          //  LoginProgress.setTitle("Signing In");
+            //LoginProgress.setMessage("Please wait...");
+            //LoginProgress.setCanceledOnTouchOutside(false);
+            //LoginProgress.show();
+            loginProg.setVisibility(View.VISIBLE);
             repository.getStoryApi().loginUser(email_string, password_string).enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -209,7 +214,9 @@ public class LoginActivity extends AppCompatActivity {
 
                         editor.putString("Token", response.body().getUser().getToken());
                         editor.apply();
-                        LoginProgress.dismiss();
+                        sharePref.setIsUserLoggedIn(true);
+                        loginProg.setVisibility(View.INVISIBLE);
+                     //   LoginProgress.dismiss();
 
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -217,7 +224,8 @@ public class LoginActivity extends AppCompatActivity {
                   finish();
 
                     } else {
-                        LoginProgress.hide();
+                        loginProg.setVisibility(View.INVISIBLE);
+                       // LoginProgress.hide();
                         Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"
                                 , Snackbar.LENGTH_LONG).show();
                     }
@@ -225,7 +233,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    LoginProgress.hide();
+                    loginProg.setVisibility(View.INVISIBLE);
+                   // LoginProgress.hide();
                     Snackbar.make(findViewById(R.id.login_parent_layout), "Network Failure"
                             , Snackbar.LENGTH_LONG).show();
 

@@ -39,9 +39,9 @@ public class Repository {
     //private UserDao userDao;
 
 
-    public static synchronized Repository getInstance(Context context){
+    public static synchronized Repository getInstance(Application application){
         if(INSTANCE==null){
-            return new Repository(context);
+            return new Repository(application);
         }
         return INSTANCE;
     }

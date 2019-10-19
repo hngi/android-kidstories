@@ -41,7 +41,7 @@
         >
 
         <ImageView
-            android:id="@+id/sigle_story_thumbnail"
+            android:id="@+id/story_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/story_bg_ic"
@@ -49,24 +49,24 @@
             />
 
         <ImageView
-            android:id="@+id/fav_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_below="@id/sigle_story_thumbnail"
+            android:id="@+id/button_favourite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/story_pic"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="-33dp"
             android:layout_marginEnd="37dp"
             android:layout_marginBottom="20dp"
-            android:onClick="fav"
-            android:src="@drawable/ic_fav_border" />
+
+            android:src="@drawable/ic_favourite" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_below="@+id/fav_btn"
+            android:layout_below="@+id/button_favourite"
             android:textStyle="bold"
-            android:id="@+id/author_name_tv"
+            android:id="@+id/author"
             android:hint="@string/by_author_name"
             android:text="@string/by_author_name"/>
 
@@ -86,7 +86,7 @@
             android:padding="10dp"
             android:textAlignment="gravity"
             android:hint="Afterward, Mom has noticed that the boys haven't been getting along so she devises 'Mom Bucks' to pay them if they spend time together where they can trade in for one real dollar, but this unwittingly makes things worse. Meanwhile, Greg and Rowley try to make a funny YouTube video by Rowley lip-syncing to 'Tik Tok' by Kesha, unfortunately (despite Rowley at one point sitting on a tinfoil ball with spikes made by Manny) it proves to be awful, getting only 4 hits. After a talent show is advertised on TV, the brothers see this as a big opportunity – Rowley suggests that he and Greg perform magic tricks, but Greg rejects the idea whilst Rodrick sees this as his band's big break."
-            android:id="@+id/story_content_tv"
+            android:id="@+id/story_content"
 
             />
 

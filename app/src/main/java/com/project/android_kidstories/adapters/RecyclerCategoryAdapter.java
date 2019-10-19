@@ -12,12 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
-import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.StoryListingActivity;
-
-
-import java.util.List;
 
 /**
  * @author .: Oluwajuwon Fawole
@@ -25,11 +21,11 @@ import java.util.List;
  */
 public class RecyclerCategoryAdapter extends RecyclerView.Adapter<RecyclerCategoryAdapter.CustomViewHolder>{
 
-        private List<Category> categoryList;
+        private CategoriesAllResponse categoryList;
         private Context context;
 
 
-        public RecyclerCategoryAdapter(Context context,  List<Category> categoryList){
+        public RecyclerCategoryAdapter(Context context, CategoriesAllResponse categoryList){
             this.context = context;
             this.categoryList = categoryList;
         }
@@ -59,15 +55,15 @@ public class RecyclerCategoryAdapter extends RecyclerView.Adapter<RecyclerCatego
 
         @Override
         public void onBindViewHolder(CustomViewHolder holder, int position) {
-            holder.categoryName.setText(categoryList.get(position).getName());
+            holder.categoryName.setText(categoryList.getData().get(position).getName());
 
-            Glide.with(context).load(categoryList.get(position).getImageUrl()).into(holder.categoryImage);
+            Glide.with(context).load(categoryList.getData().get(position).getImageUrl()).into(holder.categoryImage);
 
             holder.categoryImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int categoryId = categoryList.get(position).getId();
-                    String categoryName = categoryList.get(position).getName();
+                    int categoryId = categoryList.getData().get(position).getId();
+                    String categoryName = categoryList.getData().get(position).getName();
                     Intent intent = new Intent(context, StoryListingActivity.class);
                     intent.putExtra("categoryId", categoryId );
                     intent.putExtra("categoryName",categoryName);
@@ -80,6 +76,6 @@ public class RecyclerCategoryAdapter extends RecyclerView.Adapter<RecyclerCatego
 
         @Override
         public int getItemCount() {
-            return categoryList.size();
+            return categoryList.getData().size();
         }
 }

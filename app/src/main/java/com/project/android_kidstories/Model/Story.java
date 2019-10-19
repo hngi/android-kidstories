@@ -1,9 +1,6 @@
 
 package com.project.android_kidstories.Model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -15,7 +12,7 @@ import java.util.Objects;
 
 
 @Entity
-public class Story implements Parcelable {
+public class Story {
 
     @PrimaryKey
     @SerializedName("id")
@@ -72,42 +69,6 @@ public class Story implements Parcelable {
 
     private boolean liked;
     private boolean disliked;
-
-    protected Story(Parcel in) {
-        id = in.readInt();
-        title = in.readString();
-        body = in.readString();
-        categoryId = in.readInt();
-        userId = in.readInt();
-        imageUrl = in.readString();
-        imageName = in.readString();
-        age = in.readString();
-        author = in.readString();
-        storyDuration = in.readString();
-        isPremium = in.readInt();
-        likesCount = in.readInt();
-        dislikesCount = in.readInt();
-        reaction = in.readString();
-        bookmark = in.readByte() != 0;
-        liked = in.readByte() != 0;
-        disliked = in.readByte() != 0;
-    }
-
-    public static final Creator<Story> CREATOR = new Creator<Story>() {
-        @Override
-        public Story createFromParcel(Parcel in) {
-            return new Story(in);
-        }
-
-        @Override
-        public Story[] newArray(int size) {
-            return new Story[size];
-        }
-    };
-
-    public Story() {
-       //Please do not delete
-    }
 
     public boolean isLiked() {
         return liked;
@@ -269,31 +230,5 @@ public class Story implements Parcelable {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeString(title);
-        parcel.writeString(body);
-        parcel.writeInt(categoryId);
-        parcel.writeInt(userId);
-        parcel.writeString(imageUrl);
-        parcel.writeString(imageName);
-        parcel.writeString(age);
-        parcel.writeString(author);
-        parcel.writeString(storyDuration);
-        parcel.writeInt(isPremium);
-        parcel.writeInt(likesCount);
-        parcel.writeInt(dislikesCount);
-        parcel.writeString(reaction);
-        parcel.writeByte((byte) (bookmark ? 1 : 0));
-        parcel.writeByte((byte) (liked ? 1 : 0));
-        parcel.writeByte((byte) (disliked ? 1 : 0));
     }
 }

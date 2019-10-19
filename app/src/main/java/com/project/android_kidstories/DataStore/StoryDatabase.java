@@ -19,7 +19,6 @@ import com.project.android_kidstories.Model.User;
 public abstract class StoryDatabase extends RoomDatabase {
     private static StoryDatabase INSTANCE;
 
-
     public static synchronized StoryDatabase getInstance(Context context) {
         if (INSTANCE == null) {
             return Room.databaseBuilder(context, StoryDatabase.class, "story_database")

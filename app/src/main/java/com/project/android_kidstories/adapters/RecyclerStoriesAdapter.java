@@ -19,11 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.Resource;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
-import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
-
-import java.util.List;
 
 /**
  * @author .: Oluwajuwon Fawole
@@ -33,16 +30,11 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
 
     private Context context;
-    private List<Story> storiesList;
-    StoryOnclickListener mListener;
-
-    public interface  StoryOnclickListener{
-        void onClick(int position);
-    }
+    private StoryAllResponse storiesList;
 
 
 
-    public RecyclerStoriesAdapter(Context context, List<Story> storiesList) {
+    public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList) {
         this.context = context;
         this.storiesList = storiesList;
     }
@@ -71,20 +63,10 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             ageRange = view.findViewById(R.id.tv3);
             likes = view.findViewById(R.id.count1);
             dislikes = view.findViewById(R.id.count2);
+            like = view.findViewById(R.id.img_like);
+            dislike = view.findViewById(R.id.img_dislike);
             bookmark = view.findViewById(R.id.bookmark);
             list_item = view.findViewById(R.id.l_clickable);
-
-
-            storyImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Story story = storiesList.get(getAdapterPosition());
-                    Intent intent = new Intent(context, SingleStoryActivity.class);
-                    intent.putExtra("story", story);
-                    context.startActivity(intent);
-                }
-            });
-
         }
     }
 
@@ -97,36 +79,35 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        Glide.with(context).load(storiesList.get(position).getImageUrl()).into(holder.storyImage);
+        Glide.with(context).load(storiesList.getData().get(position).getImageUrl()).into(holder.storyImage);
 
-        holder.storyTitle.setText(storiesList.get(position).getTitle());
-        holder.authorName.setText(storiesList.get(position).getAuthor());
+        holder.storyTitle.setText(storiesList.getData().get(position).getTitle());
+        holder.authorName.setText(storiesList.getData().get(position).getAuthor());
 
-        holder.ageRange.setText("For kids ages "+storiesList.get(position).getAge());
-        holder.likes.setText(storiesList.get(position).getLikesCount()+"");
-        holder.dislikes.setText(storiesList.get(position).getDislikesCount()+"");
+        holder.ageRange.setText("For kids ages "+storiesList.getData().get(position).getAge());
+        holder.likes.setText(storiesList.getData().get(position).getLikesCount()+"");
+        holder.dislikes.setText(storiesList.getData().get(position).getDislikesCount()+"");
 
 
         holder.list_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int story_id = storiesList.get(position).getId();
+                int story_id = storiesList.getData().get(position).getId();
                 Intent intent = new Intent(context, SingleStoryActivity.class);
                 intent.putExtra("story_id", story_id);
                 context.startActivity(intent);
             }
         });
 
-        holder.likes.setTag(R.drawable.ic_thumb_up_black_24dp);    //When you change the drawable
-        holder.dislikes.setTag(R.drawable.ic_thumb_down_black_24dp);
+        holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);    //When you change the drawable
+        holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
 
         holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
-        //holder.favourite.setTag(R.drawable.ic_favorite_border);
 
-        holder.likes.setOnClickListener(new View.OnClickListener() {
+        holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int like_drawableId = (Integer)holder.likes.getTag();
+                int like_drawableId = (Integer)holder.like.getTag();
                 int dislike_drawableId = (Integer)holder.dislike.getTag();
 
                 if(like_drawableId == R.drawable.ic_thumb_up_black_24dp ||  dislike_drawableId == R.drawable.ic_thumb_down_blue_24dp) {
@@ -150,7 +131,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             }
         });
 
-        holder.dislikes.setOnClickListener(new View.OnClickListener() {
+        holder.dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int dislike_drawableId = (Integer)holder.dislike.getTag();
@@ -193,28 +174,10 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             }
         });
 
-//        holder.favourite.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int favourite_drawableId = (Integer)holder.favourite.getTag();
-//
-//                if(favourite_drawableId == R.drawable.ic_favorite_border) {
-//                    holder.favourite.setImageResource(R.drawable.ic_favorite);
-//                    holder.favourite.setTag(R.drawable.ic_favorite);
-//
-//                }else{
-//                    holder.favourite.setImageResource(R.drawable.ic_favorite_border);
-//                    holder.favourite.setTag(R.drawable.ic_favorite_border);
-//                }
-//            }
-//        });
-
     }
 
     @Override
     public int getItemCount() {
-        return storiesList.size();
+        return storiesList.getData().size();
     }
-
-
 }

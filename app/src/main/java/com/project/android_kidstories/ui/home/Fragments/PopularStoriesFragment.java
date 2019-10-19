@@ -58,14 +58,9 @@ public class PopularStoriesFragment extends Fragment {
                 progressDoalog.dismiss();
 
                 recyclerView = v.findViewById(R.id.recyclerView);
-
-                adapter = new RecyclerStoriesAdapter(getContext(),response.body().getData());
-                GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
                 if (response.isSuccessful()) {
-                    adapter = new RecyclerStoriesAdapter(getContext(), sortList(response.body()).getData());
-                    //GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+                    adapter = new RecyclerStoriesAdapter(getContext(), sortList(response.body()));
+                    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
                 }else{

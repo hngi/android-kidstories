@@ -71,7 +71,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 recyclerView = v.findViewById(R.id.recyclerView);
 
                 if (response.isSuccessful()) {
-                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body());
+                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body().getData());
                     GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(storyAdapter);

@@ -19,11 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
+import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.adapters.RecyclerCategoryAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,7 +73,7 @@ public class CategoriesFragment extends Fragment {
                 recyclerView = v.findViewById(R.id.category_recycler);
 
                 if (response.isSuccessful()) {
-                    adapter = new RecyclerCategoryAdapter(getContext(),response.body());
+                    adapter = new RecyclerCategoryAdapter(getContext(),response.body().getData());
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
@@ -96,7 +98,7 @@ public class CategoriesFragment extends Fragment {
     }
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
-    private void generateCategoryList(CategoriesAllResponse categoryList, View view) {
+    private void generateCategoryList(List<Category> categoryList, View view) {
         recyclerView = view.findViewById(R.id.category_recycler);
         adapter = new RecyclerCategoryAdapter(getContext(),categoryList);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);

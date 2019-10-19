@@ -1,5 +1,6 @@
 package com.project.android_kidstories.Views.main;
 
+import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,7 +31,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
+import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.sharePref.SharePref;
@@ -40,6 +43,8 @@ import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
+
+import java.util.List;
 
 /**
  * @author .: Ehma Ugbogo
@@ -57,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Toolbar toolbar;
     private Repository repository;
     private StoryAdapter storyAdapter;
+    static List<Story> storiesList;
     private GoogleApiClient mGoogleApiClient;
 
     private SharePref sharePref;
@@ -116,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setAdapter(storyAdapter);*/
         repository = Repository.getInstance(this.getApplication());
 
+        storyAdapter = new StoryAdapter(repository);
         storyAdapter = new StoryAdapter(repository);
 
 

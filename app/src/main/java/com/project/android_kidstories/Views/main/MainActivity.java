@@ -34,11 +34,11 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
-import com.project.android_kidstories.ui.profile.ProfileFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
 
 /**
@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.nav_about:
                         fragment = new AboutFragment();
                         msg="About";
+                        showToast("Add New Account Nav Clicked");
                         break;
                     case R.id.nav_log_out:
                         showToast("Logging Out");
@@ -159,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.nav_edit_profile:
                         fragment = new ProfileFragment();
-                        msg="Profile";
+                        msg="Edit Profile";
                         break;
                 }
 

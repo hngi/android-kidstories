@@ -65,6 +65,13 @@
                 android:onClick="getCategoryStoriesWithIdOne"
                 android:text="get Category Stories With Id One" />
 
+            <Button
+                android:id="@+id/test_postComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="postComment"
+                android:text="Post Comment" />
+
             <TextView
                 android:id="@+id/test_textView"
                 android:layout_width="match_parent"

@@ -1,5 +1,7 @@
 package com.project.android_kidstories.Views.main;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -33,12 +36,15 @@ import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.SettingsActivity;
+import com.project.android_kidstories.base.BaseActivity;
+import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
+import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
-import com.project.android_kidstories.ui.profile.ProfileFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
 
 /**
@@ -48,7 +54,7 @@ import com.project.android_kidstories.ui.support.DonateFragment;
  */
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "kidstories";
@@ -248,15 +254,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
 
     //TODO: Ehma Refactor to BaseActivity
-    private void showToast(String message) {
-        Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
-    }
+
 
     private void showSnackBar(View view,String msg){
         Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
@@ -271,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (navigationView.getCheckedItem().getItemId()!=R.id.nav_home) {
             openHomeFragment();
         } else {
-            super.onBackPressed();
+            doExit();
         }
     }
 
@@ -281,5 +285,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    public void openSettings(){
+        Intent intent = new Intent(this, SettingsActivity.class);
+
+        startActivity(intent);
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.action_settings) {
+            openSettings();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void doExit() {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                MainActivity.this);
+
+        alertDialog.setPositiveButton("Yes", (dialog, which) -> finishAffinity());
+
+        alertDialog.setNegativeButton("No", null);
+
+        alertDialog.setMessage("Do you want to exit?");
+        alertDialog.setTitle(R.string.app_name);
+        alertDialog.show();
+    }
 
 }

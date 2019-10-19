@@ -52,6 +52,7 @@ import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
+import com.project.android_kidstories.Views.main.BaseActivity;
 import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 
@@ -59,7 +60,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     private static final String TAG = "RegisterActivity";
     public static final int LOGIN_TEXT_REQUEST_CODE = 11;
@@ -469,6 +470,12 @@ public class RegisterActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e(TAG, "printHashKey: Error: " + e.getMessage());
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recreate();
     }
 }
 

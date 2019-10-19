@@ -15,9 +15,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.base.BaseActivity;
 
 
-public class AddStoryActivity extends AppCompatActivity {
+public class AddStoryActivity extends BaseActivity {
     public final int PERMISSION_REQUEST_CODE = 100;
     public final int PICTURE_REQUEST_CODE = 200;
     private TextView imagePathText;

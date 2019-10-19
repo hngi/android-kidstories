@@ -74,6 +74,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             bookmark = view.findViewById(R.id.bookmark);
             list_item = view.findViewById(R.id.l_clickable);
 
+
             storyImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -120,6 +121,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         holder.dislikes.setTag(R.drawable.ic_thumb_down_black_24dp);
 
         holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
+        //holder.favourite.setTag(R.drawable.ic_favorite_border);
 
         holder.likes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,6 +192,22 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                 }
             }
         });
+
+//        holder.favourite.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int favourite_drawableId = (Integer)holder.favourite.getTag();
+//
+//                if(favourite_drawableId == R.drawable.ic_favorite_border) {
+//                    holder.favourite.setImageResource(R.drawable.ic_favorite);
+//                    holder.favourite.setTag(R.drawable.ic_favorite);
+//
+//                }else{
+//                    holder.favourite.setImageResource(R.drawable.ic_favorite_border);
+//                    holder.favourite.setTag(R.drawable.ic_favorite_border);
+//                }
+//            }
+//        });
 
     }
 

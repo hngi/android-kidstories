@@ -38,15 +38,6 @@ public class HomeFragment extends Fragment {
         viewPager = root.findViewById(R.id.home_frag_container);
         appBarLayout = root.findViewById(R.id.home_frag_appbar);;
 
-        FloatingActionButton floatingActionButton = root.findViewById(R.id.home_frag_calculate_fab);
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeFragment.this.getActivity(), AddStoryActivity.class);
-                startActivity(intent);
-            }
-        });
 
 
         SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());

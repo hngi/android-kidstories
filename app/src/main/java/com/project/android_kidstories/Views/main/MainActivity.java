@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private GoogleApiClient mGoogleApiClient;
 
     private SharePref sharePref;
-
+    private String msg;
+    private String msg1;
 
 
     @Override
@@ -133,25 +134,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Fragment fragment = null;
-                String msg = "";
+                msg1 = "";
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
                         fragment = new HomeFragment();
                         setUpFragment(fragment);
+
                         navigationView.setCheckedItem(R.id.nav_home);
-                        msg="Stories";
+                        msg1 ="Stories";
                         break;
                     case R.id.nav_categories:
                         fragment = new CategoriesFragment();
-                        msg="Categories";
+                        msg1 ="Categories";
                         break;
                     case R.id.nav_donate:
                         fragment = new DonateFragment();
-                        msg="Donate";
+                        msg1 ="Donate";
                         break;
                     case R.id.nav_about:
                         fragment = new AboutFragment();
-                        msg="About";
+                        msg1 ="About";
                         showToast("Add New Account Nav Clicked");
                         break;
                     case R.id.nav_log_out:
@@ -160,12 +162,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.nav_edit_profile:
                         fragment = new ProfileFragment();
-                        msg="Edit Profile";
+                        msg1 ="Edit Profile";
                         break;
                 }
 
                 drawer.closeDrawer(GravityCompat.START);
-                toolbar.setTitle(msg);
+                toolbar.setTitle(msg1);
                 if (fragment != null) {
                     setUpFragment(fragment);
                 }
@@ -179,7 +181,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void openHomeFragment() {
         HomeFragment holderFragment = new HomeFragment();
+        msg1 ="Stories";
+        toolbar.setTitle(msg1);
         setUpFragment(holderFragment);
+        repository = Repository.getInstance(this.getApplication());
+        storyAdapter = new StoryAdapter(repository);
         navigationView.setCheckedItem(R.id.nav_home);
     }
 

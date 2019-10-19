@@ -248,7 +248,8 @@ public class TestActivity extends AppCompatActivity {
         showProgressbar();
         RequestBody storyId = RequestBody.create(okhttp3.MultipartBody.FORM, "1");
         RequestBody comment = RequestBody.create(okhttp3.MultipartBody.FORM, "Amazing Story");
-        repository.getStoryApi().addComment(Prefs.getString("Token",""),storyId,comment).enqueue(new Callback<BaseResponse<CommentResponse>>() {
+        String token = "Bearer "+Prefs.getString("Token","");
+        repository.getStoryApi().addComment(token,storyId,comment).enqueue(new Callback<BaseResponse<CommentResponse>>() {
             @Override
             public void onResponse(Call<BaseResponse<CommentResponse>> call, Response<BaseResponse<CommentResponse>> response) {
                 if (response.isSuccessful()) {
@@ -256,7 +257,7 @@ public class TestActivity extends AppCompatActivity {
                     String message = response.body().getMessage();
                     textView.setText("Response Status " + status + ": " + message+"\n");
 
-                    textView.append("PostedComment: " + response.body().getData().toString()+"\n");
+                    textView.append("PostedComment: " + response.body().getData().getBody().toString()+"\n");
                 }else {
                     textView.setText("Success Error " +response.message());
                     textView.append("Code " +response.code());

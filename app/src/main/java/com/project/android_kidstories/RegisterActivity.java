@@ -111,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailET = findViewById(R.id.reg_email);
         confirmPassword = findViewById(R.id.reg_confirm_password);
 
-       // regProgress = new ProgressDialog(RegisterActivity.this);
+        // regProgress = new ProgressDialog(RegisterActivity.this);
 
 //        regFacebook = findViewById(R.id.reg_facebook);
 //        regGoogle = findViewById(R.id.reg_google);
@@ -150,7 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
+
                 registerUser();
             }
         });
@@ -180,10 +180,11 @@ public class RegisterActivity extends AppCompatActivity {
             this.confirmPassword.setError("Passwords do not match");
 
         } else {
-           // regProgress.setTitle("Creating new user");
-           // regProgress.setMessage("Please wait while we create your account");
-           // regProgress.setCanceledOnTouchOutside(false);
-           // regProgress.show();
+            // regProgress.setTitle("Creating new user");
+            // regProgress.setMessage("Please wait while we create your account");
+            // regProgress.setCanceledOnTouchOutside(false);
+            // regProgress.show();
+            progressBar.setVisibility(View.VISIBLE);
             newUser = new User(firstName, lastName, email);
             newUser.setPhoneNumber(phone);
             newUser.setPassword(confirmPassword);
@@ -206,12 +207,12 @@ public class RegisterActivity extends AppCompatActivity {
                         finish();
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.INVISIBLE);
-                      //  regProgress.dismiss();
+                        //  regProgress.dismiss();
                     } else {
                         Snackbar.make(findViewById(R.id.registration_parent_layout),
                                 "User with that email already exists", Snackbar.LENGTH_LONG).show();
                         progressBar.setVisibility(View.INVISIBLE);
-                     //   regProgress.hide();
+                        //   regProgress.hide();
                     }
                 }
 
@@ -221,7 +222,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Snackbar.make(findViewById(R.id.registration_parent_layout),
                             "Network Failure", Snackbar.LENGTH_LONG).show();
                     progressBar.setVisibility(View.INVISIBLE);
-                  //  regProgress.hide();
+                    //  regProgress.hide();
                 }
             });
         }

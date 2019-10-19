@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -53,6 +52,8 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_newstories, container, false);
 
+        FloatingActionButton fab = v.findViewById(R.id.new_story_frag_fab);
+        fab.setOnClickListener(this);
 
         progressDoalog = new ProgressDialog(getActivity());
         progressDoalog.setMessage("Loading....");
@@ -71,7 +72,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
                 if (response.isSuccessful()) {
                     storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body());
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(storyAdapter);
                 }else{
@@ -140,6 +141,8 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
     @Override
     public void onClick(View view) {
-
+        if (view.getId() == R.id.new_story_frag_fab) {
+            showToast("Clicked");
+        }
     }
 }

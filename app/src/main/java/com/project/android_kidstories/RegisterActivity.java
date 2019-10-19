@@ -53,6 +53,7 @@ import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,17 +69,16 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText emailET;
     EditText phone;
-    EditText firstName;
-    EditText lastName;
+    EditText firstName, lastName;
     EditText password, confirmPassword;
     Button regFacebook, regGoogle, signUp;
     TextView loginText;
     ProgressBar progressBar;
     ProgressDialog regProgress;
 
-    Context context = getApplicationContext();
-    Repository repository = Repository.getInstance(getApplicationContext());
+    Repository repository;
     SharedPreferences sharedPreferences;
+    SharePref sharePref;
 
 
     @Override
@@ -97,13 +97,9 @@ public class RegisterActivity extends AppCompatActivity {
         printHashKey(this);
         checkLoginStatus();
 
-        Repository repository = Repository.getInstance(getApplicationContext());
-
-
+        repository = Repository.getInstance(getApplication());
         phone = findViewById(R.id.reg_contact);
         password = findViewById(R.id.reg_password);
-        firstName = findViewById(R.id.reg_first_name);
-        lastName = findViewById(R.id.reg_last_name);
         firstName = findViewById(R.id.reg_first_name);
         progressBar = findViewById(R.id.reg_progress_bar);
 
@@ -123,6 +119,7 @@ public class RegisterActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
 
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
+        sharePref = SharePref.getINSTANCE(getApplicationContext());
 
 //
 //        regFacebook.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +166,6 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailET.setError("Please enter a valid email");
         }
-        //TODO: Add this before final push !Patterns.PHONE.matcher(phone_string).matches()
         else if (phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches()) {
             this.phone.setError("Please enter a valid phone number");
         } else if (password.isEmpty() || password.length() < 8) {
@@ -194,8 +190,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                         editor.putString("Token", response.body().getData().getToken());
                         editor.apply();
+                        sharePref.setIsUserLoggedIn(true);
                         progressBar.setVisibility(View.INVISIBLE);
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
 
                         regProgress.dismiss();
@@ -221,8 +219,6 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
             if (currentAccessToken == null) {
-                firstName.setText("");
-                lastName.setText("");
                 firstName.setText("");
                 lastName.setText("");
 
@@ -252,7 +248,6 @@ public class RegisterActivity extends AppCompatActivity {
                     emailET.setText(email);
                     firstName.setText(First_Name + " " + Last_Name);
 
-                    firstName.setText(First_Name + " " + Last_Name);
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
 
@@ -379,8 +374,6 @@ public class RegisterActivity extends AppCompatActivity {
    /* private void signInUser() {
         String email_string = emailET.getText().toString();
         String phone_string = phone.getText().toString();
-        String firstName_string = firstName.getText().toString();
-        String lastName_string = lastName.getText().toString();
 
         String firstname_string = firstName.getText().toString();
         String Lastname_string = Lastname.getText().toString();
@@ -403,13 +396,6 @@ public class RegisterActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(firstname_string) || TextUtils.isEmpty(password_string)) {
 
             firstName.setError("Please enter a valid phone number");
-        if (TextUtils.isEmpty(firstName_string) || TextUtils.isEmpty(password_string)) {
-            firstName.setError("Please enter a valid phone number");
-            password.setError("Enter a password");
-            return;
-        }
-        if (TextUtils.isEmpty(lastName_string) || TextUtils.isEmpty(password_string)) {
-            lastName.setError("Please enter a valid phone number");
             password.setError("Enter a password");
             return;
         }

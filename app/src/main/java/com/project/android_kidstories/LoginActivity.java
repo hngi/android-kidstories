@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     private Repository repository;
 
     SharedPreferences sharedPreferences;
+    SharePref sharePref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
 
         googleSignInButton = findViewById(R.id.google_auth_button);
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
+        sharePref = SharePref.getINSTANCE(getApplicationContext());
 
 
         // Configure sign-in to request the user's ID, email address, and basic
@@ -202,8 +204,10 @@ public class LoginActivity extends AppCompatActivity {
 
                         editor.putString("Token", response.body().getUser().getToken());
                         editor.apply();
+                        sharePref.setIsUserLoggedIn(true);
                         LoginProgress.dismiss();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
 
                     }
                     else{

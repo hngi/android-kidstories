@@ -95,6 +95,7 @@
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/rounded_triangle_blue"
                 android:text="@string/type_content"
+                android:onClick="TypeContent"
                 android:textColor="#F2FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/linearLayout"

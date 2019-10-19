@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.android_kidstories.Api.Api;
@@ -70,13 +72,9 @@ public class CategoriesFragment extends Fragment {
                 progressDoalog.dismiss();
                 recyclerView = v.findViewById(R.id.category_recycler);
 
-                adapter = new RecyclerCategoryAdapter(getContext(),response.body().getData());
-                GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
                 if (response.isSuccessful()) {
                     adapter = new RecyclerCategoryAdapter(getContext(),response.body().getData());
-                   // GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
                 }else{

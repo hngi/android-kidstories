@@ -36,6 +36,7 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
@@ -60,9 +61,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NavigationView navigationView;
     private Toolbar toolbar;
     private Repository repository;
-    private com.project.android_kidstories.ui.home.StoryAdapter storyAdapter;
+    private StoryAdapter storyAdapter;
     static List<Story> storiesList;
     private GoogleApiClient mGoogleApiClient;
+
+    private SharePref sharePref;
 
 
 
@@ -71,7 +74,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.main_toolbar);
+        toolbar.setTitle("Stories");
         setSupportActionBar(toolbar);
+        sharePref = SharePref.getINSTANCE(getApplicationContext());
 
         initViews();
 
@@ -117,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setAdapter(storyAdapter);*/
         repository = Repository.getInstance(this.getApplication());
 
-        storyAdapter = new com.project.android_kidstories.ui.home.StoryAdapter(repository);
+        storyAdapter = new StoryAdapter(repository);
         storyAdapter = new StoryAdapter(repository);
 
 
@@ -139,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
                         fragment = new HomeFragment();
+                        setUpFragment(fragment);
+                        navigationView.setCheckedItem(R.id.nav_home);
                         msg="Stories";
                         break;
                     case R.id.nav_categories:
@@ -204,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     });
         }
+        sharePref.setIsUserLoggedIn(false);
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finish();
     }
@@ -279,6 +287,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void hideDrawer() {
         drawer.closeDrawer(GravityCompat.START);
     }
+
 
 
 }

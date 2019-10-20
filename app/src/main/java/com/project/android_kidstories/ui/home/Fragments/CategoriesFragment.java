@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views.main.ui.home.Fragments;
+package com.project.android_kidstories.ui.home.Fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -6,15 +6,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.android_kidstories.Adapters.RecyclerAdapter;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
@@ -31,7 +33,7 @@ import retrofit2.Response;
 
 public class CategoriesFragment extends Fragment {
     private RecyclerCategoryAdapter adapter;
-    ProgressDialog progressDoalog;
+    private ProgressBar progressBar;
     RecyclerView recyclerView;
 
 
@@ -53,9 +55,9 @@ public class CategoriesFragment extends Fragment {
        /* RecyclerStoriesAdapter recyclerAdapter = new RecyclerStoriesAdapter(getContext(), images, authors);
         recyclerView.setAdapter(recyclerAdapter);*/
 
-        progressDoalog = new ProgressDialog(getActivity());
-        progressDoalog.setMessage("Loading....");
-        progressDoalog.show();
+        progressBar = v.findViewById(R.id.category_bar);
+
+        progressBar.setVisibility(View.VISIBLE);
 
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
@@ -66,18 +68,22 @@ public class CategoriesFragment extends Fragment {
             @Override
             public void onResponse(Call<CategoriesAllResponse> call, Response<CategoriesAllResponse> response) {
                 //  generateCategoryList(response.body(),v);
-                progressDoalog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 recyclerView = v.findViewById(R.id.category_recycler);
 
-                adapter = new RecyclerCategoryAdapter(getContext(),response.body());
-                GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+                if (response.isSuccessful()) {
+                    adapter = new RecyclerCategoryAdapter(getContext(),response.body());
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+                }else{
+                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<CategoriesAllResponse> call, Throwable t) {
-                progressDoalog.dismiss();
+                progressBar.setVisibility(View.INVISIBLE);
 
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bedtime Stories</string>
+    <string name="app_name">Kids Stories</string>
     <string name="Amount">Enter Amount to Donate</string>
     <string name="expiry_date">Expiry Date</string>
     <string name="card_expiry_month">Month</string>
@@ -103,7 +103,7 @@
     <string name="for_2_year_olds">For 2 year olds</string>
     <string name="ehma_ugbogo">Ehma Ugbogo</string>
     <string name="for_kids_4_years_old">For Kids - 4 years old</string>
-    <string name="add_story_label">Add Story</string>
+    <string name="add_story_label">Type Content</string>
     <string name="title_hint">title</string>
     <string name="wite_story_hint">Write Your Story Here...</string>
     <string name="author">Author</string>
@@ -112,6 +112,7 @@
     <string name="no_image_uploaded">No image uploaded</string>
     <string name="register_btn_label">Register</string>
     <string name="write_your_story_here">Write your story here...</string>
+
     <string name="diary_of_a_wimpy_kids">Diary of a Wimpy Kid</string>
     <string name="thumb_up1">thumb_up1</string>
    <!-- <string name="todo">TODO</string>
@@ -131,5 +132,21 @@
     <string name="ic_main_card_blue">ic_main_card_blue</string>
     <string name="ic_main_card_blue1">ic_main_card_blue1</string>
     <string name="ic_main_card_blue2">ic_main_card_blue2</string>
+
+    <string name="book_description">Book Description</string>
+    <string name="book_title">Book Title</string>
+    <string name="by">By</string>
+    <string name="bookmark">bookmark</string>
+    <string name="comment">comment</string>
+    <string name="_0">0</string>
+    <string name="add_story">Add Story</string>
+    <string name="upload_image_new">Upload image</string>
+    <string name="type_content">Type Content</string>
+    <string name="title_label_new">Title</string>
+    <string name="cover_image">Cover Image</string>
+    <string name="kids_stories">kids_stories</string>
+    <string name="hnginterns">hnginterns</string>
+    <string name="unable">Unable to load Story</string>
+
 
 </resources>

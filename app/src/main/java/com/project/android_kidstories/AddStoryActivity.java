@@ -5,11 +5,13 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,6 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.Views.main.MainActivity;
 
 
 public class AddStoryActivity extends AppCompatActivity {
@@ -31,8 +34,6 @@ public class AddStoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_story);
 
         imagePathText = findViewById(R.id.textView3);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         Button uploadButton = findViewById(R.id.btn_upload);
         uploadButton.setOnClickListener(new View.OnClickListener() {
@@ -82,4 +83,11 @@ public class AddStoryActivity extends AppCompatActivity {
             startActivity(i);
         }
     }
+    @Override
+    public void onBackPressed() {
+        Intent home = new Intent(getApplicationContext(), MainActivity.class);
+        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+        startActivity(home);
+    }
+
 }

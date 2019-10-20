@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/story_image"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:tint="#D33F9FF7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

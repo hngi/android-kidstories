@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+
 import android.util.Log;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -21,6 +24,8 @@ import com.project.android_kidstories.Model.Story;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import com.project.android_kidstories.Views.main.MainActivity;
 
 public class SingleStoryActivity extends AppCompatActivity {
 
@@ -92,4 +97,21 @@ public class SingleStoryActivity extends AppCompatActivity {
 
 
     }
+
+    public void home(View view) {
+        Intent intent = new Intent(SingleStoryActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void add_story(View view) {
+        Intent intent = new Intent(SingleStoryActivity.this, AddStoryActivity.class);
+        startActivity(intent);
+    }
+
+    public void bookmark(View view) {
+        Intent intent = new Intent(SingleStoryActivity.this, BookMark.class);
+        startActivity(intent);
+    }
+
+
 }

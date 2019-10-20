@@ -38,7 +38,7 @@
     <string name="upload_image">Upload Image</string>
     <string name="save">Save</string>
     <string name="image_status">No image uploaded</string>
-    <string name="web_client_id">559987297928-vu5are06bfmbvkc5v6isvebf4sjn7sdl.apps.googleusercontent.com</string>
+    <string name="web_client_id">329699341749-4hrhrbbgds6791vkupd2t5ua4h4ehvp8.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -87,6 +87,7 @@
     <string name="comments">Comments</string>
     <string name="featured_image_desc">ImgeView for the story\'s featured image</string>
     <string name="tools_text_test">Diary of a wimpy kid</string>
+    <string name="by">By</string>
     <string name="author_name">Jim Walker</string>
     <string name="for_kids_0_to_4_years">For kids 0 to 4 years</string>
     <string name="comment_author">Sammy</string>
@@ -111,6 +112,27 @@
     <string name="no_image_uploaded">No image uploaded</string>
     <string name="register_btn_label">Register</string>
     <string name="write_your_story_here">Write your story here...</string>
+
+    <string name="diary_of_a_wimpy_kids">Diary of a Wimpy Kid</string>
+    <string name="thumb_up1">thumb_up1</string>
+   <!-- <string name="todo">TODO</string>
+    <string name="todo">TODO</string>
+    <string name="todo">TODO</string>
+    <string name="todo">TODO</string>
+    <string name="todo">TODO</string>
+    <string name="todo">TODO</string>
+    -->
+    <string name="thumb_up2">thumb_up2</string>
+    <!--
+    <string name="todo">TODO</string>
+    <string name="todo">TODO</string>
+    <string name="todo">TODO</string>
+    <string name="todo">TODO</string>
+    -->
+    <string name="ic_main_card_blue">ic_main_card_blue</string>
+    <string name="ic_main_card_blue1">ic_main_card_blue1</string>
+    <string name="ic_main_card_blue2">ic_main_card_blue2</string>
+
     <string name="book_description">Book Description</string>
     <string name="book_title">Book Title</string>
     <string name="by">By</string>
@@ -125,5 +147,6 @@
     <string name="kids_stories">kids_stories</string>
     <string name="hnginterns">hnginterns</string>
     <string name="unable">Unable to load Story</string>
+
 
 </resources>

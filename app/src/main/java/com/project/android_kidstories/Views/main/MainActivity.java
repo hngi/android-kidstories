@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Intent home = new Intent(getApplicationContext(), MainActivity.class);
                         home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
                         startActivity(home);
-
+                        openHomeFragment();
                         navigationView.setCheckedItem(R.id.nav_home);
                         bottomNavigationView.setVisibility(View.VISIBLE);
                         msg ="Stories";
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Intent home = new Intent(getApplicationContext(), MainActivity.class);
                         home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
                         startActivity(home);
-
+                        openHomeFragment();
                         msg = "Stories";
                         break;
                     case R.id.addStory:
@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void openHomeFragment() {
         HomeFragment holderFragment = new HomeFragment();
+
         setUpFragment(holderFragment);
         navigationView.setCheckedItem(R.id.nav_home);
         bottomNavigationView.setSelectedItemId(0);
@@ -268,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         mGoogleApiClient.connect();
+
         super.onStart();
     }
 
@@ -328,6 +330,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bottomNavigationView.setSelectedItemId(0);
                 bottomNavigationView.setVisibility(View.VISIBLE);
                 toolbar.setTitle("Stories");
+                openHomeFragment();
         } else {
             super.onBackPressed();
         }

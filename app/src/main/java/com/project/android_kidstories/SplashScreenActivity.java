@@ -31,7 +31,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         sharePref = SharePref.getINSTANCE(getApplicationContext());
 
 
-        Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        Animation bounce = AnimationUtils.loadAnimation(this, R.anim.fade__in);
         ImageView bounceImage = findViewById(R.id.logo);
         bounceImage.startAnimation(bounce);
 

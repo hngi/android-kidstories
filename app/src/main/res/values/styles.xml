@@ -12,7 +12,7 @@
         <item name="backgroundBoxColor">#ffffff</item>
         <item name="tintColor">@color/colorPrimary</item>
         <item name="editTextColor">@color/black</item>
-        <item name="buttonStyle">@style/ButtonColor</item>
+<!--        <item name="buttonStyle">@style/ButtonColor</item>-->
 
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
     </style>

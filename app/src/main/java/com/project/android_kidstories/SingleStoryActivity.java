@@ -61,11 +61,11 @@ public class SingleStoryActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
                 try{
-                    progressBar.setVisibility(View.VISIBLE);
                     Story currentStory = response.body().getData();
                     getSupportActionBar().setTitle(currentStory.getTitle());
                     story_author.setText(currentStory.getAuthor());
                     story_content.setText(currentStory.getBody());
+                    progressBar.setVisibility(View.INVISIBLE);
                 } catch(Exception e){
                     Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong ... story specific issue",Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);

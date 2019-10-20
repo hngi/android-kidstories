@@ -144,7 +144,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
                         Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
                         startActivity(home);
+
                         navigationView.setCheckedItem(R.id.nav_home);
                         bottomNavigationView.setVisibility(View.VISIBLE);
                         msg ="Stories";
@@ -194,13 +196,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (menuItem.getItemId()) {
                     case R.id.home:
                         Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
                         startActivity(home);
+
                         msg = "Stories";
                         break;
                     case R.id.addStory:
                         Intent i = new Intent(getApplicationContext(), AddStoryActivity.class);
                         startActivity(i);
-                        msg = "Add Story";
                         break;
                     case R.id.bookmark_fragment:
                         fragment = new BookmarksFragment();
@@ -250,7 +253,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     });
         }
         sharePref.setIsUserLoggedIn(false);
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        Intent logout = new Intent(MainActivity.this, LoginActivity.class);
+        logout.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+        startActivity(logout);
         finish();
     }
 
@@ -316,8 +321,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             hideDrawer();
         } else if (navigationView.getCheckedItem().getItemId()!=R.id.nav_home) {
-            toolbar.setTitle("Stories");
-            openHomeFragment();
+                Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+                startActivity(home);
+                navigationView.setCheckedItem(R.id.nav_home);
+                bottomNavigationView.setSelectedItemId(0);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                toolbar.setTitle("Stories");
         } else {
             super.onBackPressed();
         }

@@ -36,12 +36,12 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
-import com.project.android_kidstories.ui.profile.ProfileFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
 
 /**
@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private GoogleApiClient mGoogleApiClient;
     private BottomNavigationView bottomNavigationView;
     private SharePref sharePref;
+    public static int LastTabPosition = 0;
+
 
 
 
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toggle.syncState();
 
 
+
         //For test
         /*RecyclerView recyclerView=findViewById(R.id.main_recycler);
 
@@ -144,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startActivity(home);
                         navigationView.setCheckedItem(R.id.nav_home);
                         bottomNavigationView.setVisibility(View.VISIBLE);
-                        msg="Stories";
+                        msg ="Stories";
                         break;
                     case R.id.nav_categories:
                         fragment = new CategoriesFragment();
@@ -313,6 +316,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             hideDrawer();
         } else if (navigationView.getCheckedItem().getItemId()!=R.id.nav_home) {
+            toolbar.setTitle("Stories");
             openHomeFragment();
         } else {
             super.onBackPressed();

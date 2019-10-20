@@ -28,9 +28,18 @@ public class HomeFragment extends Fragment {
     AppBarLayout appBarLayout;
 
     private com.project.android_kidstories.ui.home.HomeViewModel homeViewModel;
+    private SectionsPageAdapter adapter;
 
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt("postion", tabLayout.getSelectedTabPosition());
+        super.onSaveInstanceState(outState);
+
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         homeViewModel = ViewModelProviders.of(this).get(com.project.android_kidstories.ui.home.HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -49,19 +58,23 @@ public class HomeFragment extends Fragment {
         });
 
 
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());
+        adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());
         adapter.addFragment(NewStoriesFragment.newInstance(), "New Stories");
         adapter.addFragment(PopularStoriesFragment.newInstance(), "Popular Stories");
         adapter.addFragment(CategoriesFragment.newInstance(), "Categories");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
+        if (savedInstanceState != null) {
+            tabLayout.getTabAt(savedInstanceState.getInt("postion")).select();
+        }
+
 
         return root;
     }
     @Override
     public void onDestroyView () {
-        super.onDestroyView ();super . onDestroyView ();
+        super.onDestroyView ();
         appBarLayout.removeView(tabLayout);
     }
 }

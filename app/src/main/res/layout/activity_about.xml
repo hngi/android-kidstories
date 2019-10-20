@@ -102,16 +102,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/kidstory" />
 
-            <ImageView
-                android:id="@+id/hnginterns"
-                android:layout_width="239dp"
-                android:layout_height="62dp"
-                android:contentDescription="@string/hnginterns"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/develop"
-                app:srcCompat="@drawable/hnginterns" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

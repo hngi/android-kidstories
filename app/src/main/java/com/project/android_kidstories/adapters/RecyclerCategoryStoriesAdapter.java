@@ -68,6 +68,7 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
             dislike = view.findViewById(R.id.dislike_button);
             bookmark = view.findViewById(R.id.bookmark_button);
             list_item = view.findViewById(R.id.cardView);
+            ageRange = view.findViewById(R.id.book_description);
 
         }
     }
@@ -84,10 +85,12 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
         Glide.with(context).load(storiesList.get(position).getImageUrl()).into(holder.storyImage);
 
         holder.storyTitle.setText(storiesList.get(position).getTitle());
-        holder.authorName.setText("By "+storiesList.get(position).getAuthor());
+        holder.authorName.setText(storiesList.get(position).getAuthor());
 
-        holder.likes.setText(storiesList.get(position).getLikesCount()+"");
-        holder.dislikes.setText(storiesList.get(position).getDislikesCount()+"");
+        holder.likes.setText(String.valueOf(storiesList.get(position).getLikesCount()));
+        holder.dislikes.setText(String.valueOf(storiesList.get(position).getDislikesCount()));
+
+        holder.ageRange.setText("For kids aged " + storiesList.get(position).getAge());
 
 
         holder.list_item.setOnClickListener(new View.OnClickListener() {

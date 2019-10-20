@@ -30,6 +30,8 @@ public class HomeFragment extends Fragment {
     AppBarLayout appBarLayout;
     private com.project.android_kidstories.ui.home.HomeViewModel homeViewModel;
     private SectionsPageAdapter adapter;
+    public static int LastTabPosition = 0;
+
 
 
     @Override
@@ -40,7 +42,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        MainActivity.LastTabPosition = tabLayout.getSelectedTabPosition();
+        LastTabPosition = tabLayout.getSelectedTabPosition();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class HomeFragment extends Fragment {
         adapter.addFragment(CategoriesFragment.newInstance(), "Categories");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(MainActivity.LastTabPosition).select();
+        tabLayout.getTabAt(LastTabPosition).select();
 
 
         return root;

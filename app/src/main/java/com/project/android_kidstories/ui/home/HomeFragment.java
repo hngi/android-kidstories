@@ -25,15 +25,15 @@ import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.PopularStoriesFragment;
 
+import static com.project.android_kidstories.Views.main.MainActivity.LastTabPosition;
+
 public class HomeFragment extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
     AppBarLayout appBarLayout;
     private BottomNavigationView bottomNavigationView;
-
     private com.project.android_kidstories.ui.home.HomeViewModel homeViewModel;
     private SectionsPageAdapter adapter;
-    public static int LastTabPosition = 0;
 
 
 

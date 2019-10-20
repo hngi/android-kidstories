@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bedtime Stories</string>
+    <string name="app_name">Kids Stories</string>
     <string name="Amount">Enter Amount to Donate</string>
     <string name="expiry_date">Expiry Date</string>
     <string name="card_expiry_month">Month</string>

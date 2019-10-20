@@ -131,9 +131,9 @@
             android:src="@drawable/ic_bookmark_border_black_24dp"
             android:layout_alignParentEnd="true"
             android:padding="20dp"
+
+
 android:onClick="bookmark"
-
-
             />
 
     </RelativeLayout>

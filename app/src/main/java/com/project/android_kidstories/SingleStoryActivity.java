@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.project.android_kidstories.Views.main.MainActivity;
 
@@ -64,8 +63,8 @@ public class SingleStoryActivity extends AppCompatActivity {
     }
 
     public void home(View view) {
-     Intent intent = new Intent(SingleStoryActivity.this, MainActivity.class);
-     startActivity(intent);
+        Intent intent = new Intent(SingleStoryActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void add_story(View view) {
@@ -77,4 +76,6 @@ public class SingleStoryActivity extends AppCompatActivity {
         Intent intent = new Intent(SingleStoryActivity.this, BookMark.class);
         startActivity(intent);
     }
+
+
 }

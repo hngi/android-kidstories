@@ -122,5 +122,8 @@
     <string name="type_content">Type Content</string>
     <string name="title_label_new">Title</string>
     <string name="cover_image">Cover Image</string>
+    <string name="kids_stories">kids_stories</string>
+    <string name="hnginterns">hnginterns</string>
+    <string name="unable">Unable to load Story</string>
 
 </resources>

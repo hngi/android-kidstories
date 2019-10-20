@@ -14,6 +14,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -67,7 +68,10 @@ public class LoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button btn;
-    ProgressDialog LoginProgress;
+    // ProgressDialog LoginProgress;
+    TextView createAccount;
+    ProgressBar loginProg;
+
 
     private Repository repository;
 
@@ -81,22 +85,23 @@ public class LoginActivity extends AppCompatActivity {
         repository = Repository.getInstance(getApplication());
 
 
-        Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade__in);
         Animation transit = AnimationUtils.loadAnimation(this, R.anim.ttb);
 
         TextView transText = findViewById(R.id.welcome);
         TextView transText2 = findViewById(R.id.welcome);
-        ImageView bounceImage = findViewById(R.id.imageMain);
+        ImageView fadeInImage = findViewById(R.id.imageMain);
 
         transText.startAnimation(transit);
         transText2.startAnimation(transit);
-        bounceImage.startAnimation(bounce);
+        fadeInImage.startAnimation(fadeIn);
 
+        loginProg = findViewById(R.id.login_progress);
         email = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);
         btn = findViewById(R.id.login_button);
 
-        LoginProgress = new ProgressDialog(LoginActivity.this);
+        // LoginProgress = new ProgressDialog(LoginActivity.this);
 
         googleSignInButton = findViewById(R.id.google_auth_button);
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
@@ -118,11 +123,14 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInSetUp();
 
 
-        TextView createAccount = findViewById(R.id.create_account);
+        createAccount = findViewById(R.id.create_account);
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 
             }
@@ -187,12 +195,12 @@ public class LoginActivity extends AppCompatActivity {
             password.setError("Please enter a password");
             return;
 
-        }
-        else{
-            LoginProgress.setTitle("Signing In");
-            LoginProgress.setMessage("Please wait...");
-            LoginProgress.setCanceledOnTouchOutside(false);
-            LoginProgress.show();
+        } else {
+            //  LoginProgress.setTitle("Signing In");
+            //LoginProgress.setMessage("Please wait...");
+            //LoginProgress.setCanceledOnTouchOutside(false);
+            //LoginProgress.show();
+            loginProg.setVisibility(View.VISIBLE);
             repository.getStoryApi().loginUser(email_string, password_string).enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -203,15 +211,20 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
                         editor.putString("Token", response.body().getUser().getToken());
+                        editor.putString("Username",response.body().getUser().getFirstName() +" "+ response.body().getUser().getLastName());
                         editor.apply();
                         sharePref.setIsUserLoggedIn(true);
-                        LoginProgress.dismiss();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        loginProg.setVisibility(View.INVISIBLE);
+                        //   LoginProgress.dismiss();
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                         finish();
 
-                    }
-                    else{
-                        LoginProgress.hide();
+                    } else {
+                        loginProg.setVisibility(View.INVISIBLE);
+                        // LoginProgress.hide();
                         Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"
                                 , Snackbar.LENGTH_LONG).show();
                     }
@@ -219,7 +232,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    LoginProgress.hide();
+                    loginProg.setVisibility(View.INVISIBLE);
+                    // LoginProgress.hide();
                     Snackbar.make(findViewById(R.id.login_parent_layout), "Network Failure"
                             , Snackbar.LENGTH_LONG).show();
 
@@ -311,17 +325,17 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "Not logged in");
         }
-
-
+        // Check if user is logged in through facebook
+        checkLoginStatus();
     }
 
-   /* private void checkLoginStatus() {
+    private void checkLoginStatus() {
         if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
             // user already signed in
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
-    }*/
+    }
 
     public void facebookLogin() {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -46,28 +47,28 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
         TextView storyTitle;
         TextView authorName;
         TextView ageRange;
-        TextView likes;
-        TextView dislikes;
+        TextView num_likes;
+        TextView num_dislikes;
         ImageView like;
         ImageView dislike;
         ImageView bookmark;
-        LinearLayout list_item;
+        CardView list_item;
 
 
         CustomViewHolder(View itemView) {
             super(itemView);
             view = itemView;
 
-            storyImage = view.findViewById(R.id.recyclerImage);
-            storyTitle = view.findViewById(R.id.recyclerName);
-            authorName = view.findViewById(R.id.tv2);
-            ageRange = view.findViewById(R.id.tv3);
-            likes = view.findViewById(R.id.count1);
-            dislikes = view.findViewById(R.id.count2);
-            like = view.findViewById(R.id.img_like);
-            dislike = view.findViewById(R.id.img_dislike);
-            bookmark = view.findViewById(R.id.bookmark);
-            list_item = view.findViewById(R.id.l_clickable);
+            storyImage = view.findViewById(R.id.book_image);
+            storyTitle = view.findViewById(R.id.book_title);
+            authorName = view.findViewById(R.id.author_name);
+            num_likes = view.findViewById(R.id.like_count);
+            num_dislikes = view.findViewById(R.id.dislike_count);
+            like = view.findViewById(R.id.like_button);
+            dislike = view.findViewById(R.id.dislike_button);
+            bookmark = view.findViewById(R.id.bookmark_button);
+            list_item = view.findViewById(R.id.cardView);
+            ageRange = view.findViewById(R.id.book_description);
 
         }
     }
@@ -75,7 +76,7 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.recycler_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.story_listing_item, parent, false);
         return new CustomViewHolder(view);
     }
 
@@ -84,11 +85,12 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
         Glide.with(context).load(storiesList.get(position).getImageUrl()).into(holder.storyImage);
 
         holder.storyTitle.setText(storiesList.get(position).getTitle());
-        holder.authorName.setText("By "+storiesList.get(position).getAuthor());
+        holder.authorName.setText(storiesList.get(position).getAuthor());
 
-        holder.ageRange.setText("For kids ages "+storiesList.get(position).getAge());
-        holder.likes.setText(storiesList.get(position).getLikesCount()+"");
-        holder.dislikes.setText(storiesList.get(position).getDislikesCount()+"");
+        holder.num_likes.setText(String.valueOf(storiesList.get(position).getLikesCount()));
+        holder.num_dislikes.setText(String.valueOf(storiesList.get(position).getDislikesCount()));
+
+        holder.ageRange.setText("For kids aged " + storiesList.get(position).getAge());
 
 
         holder.list_item.setOnClickListener(new View.OnClickListener() {
@@ -106,21 +108,41 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
 
         holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
 
+        int like_image_black = R.drawable.ic_thumb_up_black_24dp;
+        int like_image_blue  = R.drawable.ic_thumb_up_blue_24dp;
+
+        int dislike_image_black = R.drawable.ic_thumb_down_black_24dp;
+        int dislike_image_blue  = R.drawable.ic_thumb_down_blue_24dp;
+
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int like_drawableId = (Integer)holder.like.getTag();
                 int dislike_drawableId = (Integer)holder.dislike.getTag();
 
-                if(like_drawableId == R.drawable.ic_thumb_up_black_24dp ||  dislike_drawableId == R.drawable.ic_thumb_down_blue_24dp) {
-                    holder.like.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
-                    holder.like.setTag(R.drawable.ic_thumb_up_blue_24dp);
+                if(like_drawableId == like_image_black ||  dislike_drawableId == dislike_image_blue) {
+                    holder.like.setImageResource(like_image_blue);
+                    holder.like.setTag(like_image_blue);
 
-                    holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
-                    holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
+                    int like_count = Integer.parseInt(holder.num_likes.getText().toString());
+                    like_count++;
+                    holder.num_likes.setText(String.valueOf(like_count));
+
+                    if(dislike_drawableId == dislike_image_blue){
+                        holder.dislike.setImageResource(dislike_image_blue);
+                        holder.dislike.setTag(dislike_image_black);
+
+                        int dislike_count = Integer.parseInt(holder.num_dislikes.getText().toString());
+                        dislike_count--;
+                        holder.num_dislikes.setText(String.valueOf(dislike_count));
+                    }
                 }else{
-                    holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
-                    holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);
+                    holder.like.setImageResource(like_image_black);
+                    holder.like.setTag(like_image_black);
+
+                    int like_count = Integer.parseInt(holder.num_likes.getText().toString());
+                    like_count--;
+                    holder.num_likes.setText(String.valueOf(like_count));
                 }
             }
         });
@@ -132,14 +154,29 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
                 int like_drawableId = (Integer)holder.like.getTag();
 
                 if(dislike_drawableId == R.drawable.ic_thumb_down_black_24dp || like_drawableId == R.drawable.ic_thumb_up_blue_24dp) {
-                    holder.dislike.setImageResource(R.drawable.ic_thumb_down_blue_24dp);
-                    holder.dislike.setTag(R.drawable.ic_thumb_down_blue_24dp);
+                    holder.dislike.setImageResource(dislike_image_blue);
+                    holder.dislike.setTag(dislike_image_blue);
 
-                    holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
-                    holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);
+                    int dislike_count = Integer.parseInt(holder.num_dislikes.getText().toString());
+                    dislike_count++;
+                    holder.num_dislikes.setText(String.valueOf(dislike_count));
+
+                    if(like_drawableId == like_image_blue){
+                        holder.like.setImageResource(like_image_black);
+                        holder.like.setTag(like_image_black);
+
+                        int like_count = Integer.parseInt(holder.num_likes.getText().toString());
+                        like_count--;
+                        holder.num_likes.setText(String.valueOf(like_count));
+                    }
+
                 }else{
-                    holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
-                    holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
+                    holder.dislike.setImageResource(dislike_image_black);
+                    holder.dislike.setTag(dislike_image_black);
+
+                    int dislike_count = Integer.parseInt(holder.num_dislikes.getText().toString());
+                    dislike_count--;
+                    holder.num_dislikes.setText(String.valueOf(dislike_count));
                 }
             }
         });

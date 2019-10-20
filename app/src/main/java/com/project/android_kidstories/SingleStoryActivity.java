@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,8 +26,8 @@ public class SingleStoryActivity extends AppCompatActivity {
     private ImageView story_pic, like_btn;
     private TextView story_author , story_content;
     int story_id = 0;
-
-    ProgressDialog progressDialog;
+    private Toolbar toolbar;
+    private ProgressBar progressBar;
     private Repository repository;
     private Api storyApi;
 
@@ -35,15 +36,17 @@ public class SingleStoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_story);
+        toolbar = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         repository = Repository.getInstance(this.getApplication());
         storyApi = repository.getStoryApi();
         story_id = getIntent().getIntExtra("story_id", 0);
 
 
-        progressDialog = new ProgressDialog(SingleStoryActivity.this);
-        progressDialog.setMessage("Loading....");
-        progressDialog.show();
+        progressBar = findViewById(R.id.story_content_bar);
+        progressBar.setVisibility(View.VISIBLE);
 
         story_author = findViewById(R.id.author);
         story_content = findViewById(R.id.story_content);
@@ -58,20 +61,20 @@ public class SingleStoryActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
                 try{
-                    progressDialog.dismiss();
-
                     Story currentStory = response.body().getData();
+                    getSupportActionBar().setTitle(currentStory.getTitle());
                     story_author.setText(currentStory.getAuthor());
                     story_content.setText(currentStory.getBody());
+                    progressBar.setVisibility(View.INVISIBLE);
                 } catch(Exception e){
                     Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong ... story specific issue",Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
-
             }
 
             @Override
             public void onFailure(Call<StoryBaseResponse> call, Throwable t) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });

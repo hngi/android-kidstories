@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:text="@string/by" android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="10sp"
             app:layout_constraintStart_toStartOf="@+id/book_title"
             app:layout_constraintTop_toBottomOf="@+id/book_title"/>
         <TextView
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_marginStart="4dp"
             android:text="@string/by_author_name" android:textColor="@color/colorPrimary"
-            android:textSize="12sp"
+            android:textSize="10sp"
             app:layout_constraintStart_toEndOf="@+id/by" app:layout_constraintTop_toTopOf="@+id/by"/>
         <View
             android:id="@+id/divider"
@@ -61,7 +61,7 @@
             android:ellipsize="end"
             android:text="@string/book_description"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="@+id/book_title"
             app:layout_constraintStart_toStartOf="@+id/by" app:layout_constraintTop_toBottomOf="@+id/divider"/>
         <View
@@ -83,7 +83,7 @@
             android:id="@+id/bookmark_button"
             android:layout_width="15dp" android:layout_height="15dp"
             android:layout_marginEnd="8dp"
-            android:contentDescription="@string/bookmarks_label"
+            android:contentDescription="@string/bookmark"
             app:layout_constraintEnd_toEndOf="@+id/divider2" app:layout_constraintTop_toTopOf="@+id/like_button"
             app:srcCompat="@drawable/ic_bookmark_border_black_24dp"/>
         <androidx.constraintlayout.widget.Guideline android:id="@+id/guideline5"
@@ -96,27 +96,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@string/like_button"
+            android:text="@string/_0"
             android:textSize="12sp" app:layout_constraintBottom_toBottomOf="@+id/like_button"
             app:layout_constraintStart_toEndOf="@+id/like_button" app:layout_constraintTop_toTopOf="@+id/like_button"/>
         <ImageView
             android:id="@+id/comment"
             android:layout_width="15dp" android:layout_height="15dp"
             android:layout_marginStart="24dp"
-            android:contentDescription="@string/comments"
+            android:contentDescription="@string/comment"
             app:layout_constraintStart_toEndOf="@+id/like_count" app:layout_constraintTop_toTopOf="@+id/like_button"
             app:srcCompat="@drawable/ic_comment_alt_solid"/>
-
         <TextView
             android:id="@+id/comment_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/comments"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/comment"
-            app:layout_constraintStart_toEndOf="@+id/comment"
-            app:layout_constraintTop_toTopOf="@+id/comment"
-            app:layout_constraintVertical_bias="0.4" />
+            android:layout_marginStart="4dp"
+            android:text="@string/_0"
+            android:textSize="12sp" app:layout_constraintBottom_toBottomOf="@+id/comment"
+            app:layout_constraintStart_toEndOf="@+id/comment" app:layout_constraintTop_toTopOf="@+id/comment"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

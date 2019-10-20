@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.DataStore.Repository;
@@ -66,6 +67,7 @@ public class SingleStoryActivity extends AppCompatActivity {
                     getSupportActionBar().setTitle(currentStory.getTitle());
                     story_author.setText(currentStory.getAuthor());
                     story_content.setText(currentStory.getBody());
+                    Glide.with(getApplicationContext()).load(currentStory.getImageUrl()).placeholder(R.drawable.story_bg_ic).into(story_pic);
                     story_author.setVisibility(View.VISIBLE);
                     story_content.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);

@@ -119,7 +119,7 @@
 
         <ImageView
             android:background="@drawable/ic_thumb_up_blue_24dp"
-            android:contentDescription="@string/todo"
+
             android:id="@+id/imageView5"
             android:layout_height="wrap_content"
             android:layout_marginBottom="31dp"
@@ -136,7 +136,7 @@
 
         <ImageView
             android:background="@drawable/ic_thumb_down_black_24dp"
-            android:contentDescription="@string/todo"
+
             android:id="@+id/imageView"
             android:layout_height="26dp"
             android:layout_width="19dp"
@@ -179,7 +179,7 @@
 
         <ImageView
             android:background="@drawable/ic_thumb_up_blue_24dp"
-            android:contentDescription="@string/todo"
+
             android:id="@+id/imageView6"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -192,7 +192,7 @@
 
         <ImageView
             android:background="@drawable/ic_thumb_down_black_24dp"
-            android:contentDescription="@string/todo"
+
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:src="@drawable/ic_thumb_down_black_24dp"
@@ -206,7 +206,7 @@
 
         <ImageView
             android:background="@drawable/ic_main_card_blue"
-            android:contentDescription="@string/todo"
+
             android:id="@+id/imageView11"
             android:layout_height="73dp"
             android:layout_marginStart="16dp"
@@ -235,7 +235,7 @@
 
         <ImageView
             android:background="@drawable/ic_thumb_up_blue_24dp"
-            android:contentDescription="@string/todo"
+
             android:id="@+id/imageView7"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -249,7 +249,7 @@
 
         <ImageView
             android:background="@drawable/ic_thumb_down_black_24dp"
-            android:contentDescription="@string/todo"
+
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:src="@drawable/ic_thumb_down_black_24dp"
@@ -291,7 +291,7 @@
 
         <ImageView
             android:background="@drawable/ic_thumb_up_blue_24dp"
-            android:contentDescription="@string/todo"
+
             android:id="@+id/imageView8"
             android:layout_height="24dp"
             android:layout_width="25dp"
@@ -305,7 +305,7 @@
 
         <ImageView
             android:background="@drawable/ic_thumb_down_black_24dp"
-            android:contentDescription="@string/todo"
+
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:src="@drawable/ic_thumb_down_black_24dp"
@@ -317,7 +317,7 @@
 
         <ImageView
             android:background="@drawable/ic_main_card_blue"
-            android:contentDescription="@string/todo"
+
             android:id="@+id/imageView9"
             android:layout_height="76dp"
             android:layout_marginStart="16dp"
@@ -330,11 +330,12 @@
 
         <ImageView
             android:background="@drawable/ic_action_home"
-            android:contentDescription="@string/todo"
-            android:id="@+id/imageView10"
+
+            android:id="@+id/home"
             android:layout_height="59dp"
             android:layout_marginTop="104dp"
             android:layout_width="68dp"
+        
             android:src="@drawable/ic_action_home"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.203"
@@ -343,8 +344,8 @@
 
         <ImageView
             android:background="@drawable/ic_bookmark_border_black_24dp"
-            android:contentDescription="@string/todo"
-            android:id="@+id/imageView1"
+
+            android:id="@+id/add_story"
             android:layout_height="59dp"
             android:layout_marginTop="104dp"
             android:layout_width="68dp"
@@ -356,16 +357,16 @@
 
         <ImageView
             android:background="@drawable/ic_add_black_24dp"
-            android:contentDescription="@string/todo"
-            android:id="@+id/imageView19"
+
+            android:id="@+id/bookmark"
             android:layout_height="59dp"
             android:layout_marginBottom="128dp"
             android:layout_width="68dp"
             android:src="@drawable/ic_add_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView1"
+            app:layout_constraintEnd_toStartOf="@+id/add_story"
             app:layout_constraintHorizontal_bias="0.554"
-            app:layout_constraintStart_toEndOf="@+id/imageView10" />
+            app:layout_constraintStart_toEndOf="@+id/home" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

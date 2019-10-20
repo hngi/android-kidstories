@@ -43,6 +43,7 @@
             android:inputType="textPersonName"
             android:textColorHint="#646669" />
 
+
         <EditText
             android:id="@+id/reg_last_name"
             style="@style/EditTextWhite"

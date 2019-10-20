@@ -211,6 +211,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
                         editor.putString("Token", response.body().getUser().getToken());
+                        editor.putString("Username",response.body().getUser().getFirstName() +" "+ response.body().getUser().getLastName());
                         editor.apply();
                         sharePref.setIsUserLoggedIn(true);
                         loginProg.setVisibility(View.INVISIBLE);

@@ -4,8 +4,11 @@
 
     <string-array name="items_class">
         <item>Category</item>
-        <item>Poem</item>
-        <item>Fantasy</item>
-        <item>Moral</item>
+        <item>Moral Story</item>
+        <item>Fable</item>
+        <item>African Bedtime Stories</item>
+        <item>Morals</item>
+        <item>Fairytale</item>
+        <item>Folklore</item>
     </string-array>
 </resources>

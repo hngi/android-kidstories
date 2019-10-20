@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String msg = "";
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
-                        fragment = new HomeFragment();
-                        setUpFragment(fragment);
+                        Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(home);
                         navigationView.setCheckedItem(R.id.nav_home);
                         bottomNavigationView.setVisibility(View.VISIBLE);
                         msg="Stories";
@@ -220,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         HomeFragment holderFragment = new HomeFragment();
         setUpFragment(holderFragment);
         navigationView.setCheckedItem(R.id.nav_home);
+        bottomNavigationView.setSelectedItemId(0);
         bottomNavigationView.setVisibility(View.VISIBLE);
         toolbar.setTitle("Stories");
     }

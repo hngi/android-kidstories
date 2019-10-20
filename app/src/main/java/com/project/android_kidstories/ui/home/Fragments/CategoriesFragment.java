@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,7 @@ import retrofit2.Response;
 
 public class CategoriesFragment extends Fragment {
     private RecyclerCategoryAdapter adapter;
-    ProgressDialog progressDoalog;
+    private ProgressBar progressBar;
     RecyclerView recyclerView;
 
 
@@ -54,9 +55,9 @@ public class CategoriesFragment extends Fragment {
        /* RecyclerStoriesAdapter recyclerAdapter = new RecyclerStoriesAdapter(getContext(), images, authors);
         recyclerView.setAdapter(recyclerAdapter);*/
 
-        progressDoalog = new ProgressDialog(getActivity());
-        progressDoalog.setMessage("Loading....");
-        progressDoalog.show();
+        progressBar = v.findViewById(R.id.category_bar);
+
+        progressBar.setVisibility(View.VISIBLE);
 
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
@@ -67,7 +68,7 @@ public class CategoriesFragment extends Fragment {
             @Override
             public void onResponse(Call<CategoriesAllResponse> call, Response<CategoriesAllResponse> response) {
                 //  generateCategoryList(response.body(),v);
-                progressDoalog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 recyclerView = v.findViewById(R.id.category_recycler);
 
                 if (response.isSuccessful()) {
@@ -82,7 +83,7 @@ public class CategoriesFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CategoriesAllResponse> call, Throwable t) {
-                progressDoalog.dismiss();
+                progressBar.setVisibility(View.INVISIBLE);
 
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }

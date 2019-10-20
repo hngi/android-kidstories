@@ -93,6 +93,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/rounded_triangle_blue"
+                android:onClick="saveContent"
                 android:text="@string/save"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"

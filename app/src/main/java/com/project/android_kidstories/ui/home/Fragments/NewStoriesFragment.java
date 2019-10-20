@@ -52,8 +52,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_newstories, container, false);
 
-        FloatingActionButton fab = v.findViewById(R.id.new_story_frag_fab);
-        fab.setOnClickListener(this);
 
         progressDoalog = new ProgressDialog(getActivity());
         progressDoalog.setMessage("Loading....");
@@ -141,8 +139,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.new_story_frag_fab) {
-            showToast("Clicked");
-        }
+
     }
 }

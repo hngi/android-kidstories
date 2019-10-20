@@ -26,9 +26,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.project.android_kidstories.AddStoryActivity;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
@@ -39,6 +41,7 @@ import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
+import com.project.android_kidstories.ui.profile.BookmarksFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
 
 /**
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Repository repository;
     private StoryAdapter storyAdapter;
     private GoogleApiClient mGoogleApiClient;
-
+    private BottomNavigationView bottomNavigationView;
     private SharePref sharePref;
 
 
@@ -102,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         drawer = findViewById(R.id.main_drawer_layout);
         navigationView = findViewById(R.id.main_nav_view);
+        bottomNavigationView = findViewById(R.id.bottom_nav_view);
         View headerView = navigationView.getHeaderView(0);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawer.addDrawerListener(toggle);
@@ -140,27 +144,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         fragment = new HomeFragment();
                         setUpFragment(fragment);
                         navigationView.setCheckedItem(R.id.nav_home);
+                        bottomNavigationView.setVisibility(View.VISIBLE);
                         msg ="Stories";
                         break;
                     case R.id.nav_categories:
                         fragment = new CategoriesFragment();
-                        msg ="Categories";
+                        msg="Categories";
+                        bottomNavigationView.setVisibility(View.GONE);
                         break;
                     case R.id.nav_donate:
                         fragment = new DonateFragment();
                         msg="Donate";
+                        bottomNavigationView.setVisibility(View.GONE);
                         break;
                     case R.id.nav_about:
                         fragment = new AboutFragment();
                         msg="About";
+                        bottomNavigationView.setVisibility(View.GONE);
                         break;
                     case R.id.nav_log_out:
                         showToast("Logging Out");
                         signout();
+                        bottomNavigationView.setVisibility(View.GONE);
                         break;
                     case R.id.nav_edit_profile:
                         fragment = new ProfileFragment();
                         msg="Profile";
+                        bottomNavigationView.setVisibility(View.GONE);
                         break;
                 }
 
@@ -169,6 +179,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (fragment != null) {
                     setUpFragment(fragment);
                 }
+                return true;
+            }
+        });
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Fragment fragment = null;
+                String msg = "";
+                switch (menuItem.getItemId()) {
+                    case R.id.home:
+                        Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(home);
+                        msg = "Stories";
+                        break;
+                    case R.id.addStory:
+                        Intent i = new Intent(getApplicationContext(), AddStoryActivity.class);
+                        startActivity(i);
+                        msg = "Add Story";
+                        break;
+                    case R.id.bookmark_fragment:
+                        fragment = new BookmarksFragment();
+                        msg = "Bookmarks";
+                        break;
+                }
+                if (fragment != null) {
+                    setUpFragment(fragment);
+                }
+                toolbar.setTitle(msg);
                 return true;
             }
         });
@@ -181,6 +221,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         HomeFragment holderFragment = new HomeFragment();
         setUpFragment(holderFragment);
         navigationView.setCheckedItem(R.id.nav_home);
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        toolbar.setTitle("Stories");
     }
 
     private void setUpFragment(Fragment fragment) {
@@ -220,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mGoogleApiClient.connect();
         super.onStart();
     }
+
 
 
     private void setupProfile(View view) {
@@ -275,6 +318,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             super.onBackPressed();
         }
+
     }
 
 

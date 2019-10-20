@@ -64,17 +64,7 @@
                 android:paddingLeft="20dp"
                 android:textAllCaps="false" />
 
-            <ProgressBar
-                android:id="@+id/login_progress"
-                style="@style/Widget.AppCompat.ProgressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+
 
             <EditText
                 android:id="@+id/et_password"
@@ -144,7 +134,7 @@
                 android:id="@+id/tv_create_account"
                 android:layout_width="366dp"
                 android:layout_height="19dp"
-                android:layout_below="@id/authentication_holder"
+                android:layout_below="@id/login_progress"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
@@ -175,7 +165,22 @@
                     android:text="@string/create_an_account"
                     android:textColor="@color/colorPrimary" />
             </LinearLayout>
+
+            <ProgressBar
+                android:layout_below="@id/authentication_holder"
+                android:id="@+id/login_progress"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="invisible"
+
+                />
+
         </RelativeLayout>
+
 
     </ScrollView>
 </RelativeLayout>

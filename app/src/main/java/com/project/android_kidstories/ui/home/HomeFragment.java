@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
@@ -17,6 +18,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.AddStoryActivity;
 import com.project.android_kidstories.R;
 
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.ui.home.Adapters.SectionsPageAdapter;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
@@ -26,16 +28,19 @@ public class HomeFragment extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
     AppBarLayout appBarLayout;
-
     private com.project.android_kidstories.ui.home.HomeViewModel homeViewModel;
     private SectionsPageAdapter adapter;
 
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt("postion", tabLayout.getSelectedTabPosition());
         super.onSaveInstanceState(outState);
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        MainActivity.LastTabPosition = tabLayout.getSelectedTabPosition();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,16 +63,13 @@ public class HomeFragment extends Fragment {
         });
 
 
-        adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());
+        adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         adapter.addFragment(NewStoriesFragment.newInstance(), "New Stories");
         adapter.addFragment(PopularStoriesFragment.newInstance(), "Popular Stories");
         adapter.addFragment(CategoriesFragment.newInstance(), "Categories");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-
-        if (savedInstanceState != null) {
-            tabLayout.getTabAt(savedInstanceState.getInt("postion")).select();
-        }
+        tabLayout.getTabAt(MainActivity.LastTabPosition).select();
 
 
         return root;

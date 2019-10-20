@@ -1,5 +1,6 @@
 package com.project.android_kidstories.Views.main;
 
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +16,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
@@ -24,6 +28,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.pixplicity.easyprefs.library.Prefs;
+import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.R;
@@ -52,9 +58,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Repository repository;
     private StoryAdapter storyAdapter;
     private GoogleApiClient mGoogleApiClient;
+    public static int LastTabPosition = 0;
 
     private SharePref sharePref;
-    private String msg;
+
 
 
     @Override
@@ -102,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toggle.syncState();
 
 
+
         //For test
         /*RecyclerView recyclerView=findViewById(R.id.main_recycler);
 
@@ -127,12 +135,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Fragment fragment = null;
-                msg = "";
+                String msg = "";
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
                         fragment = new HomeFragment();
                         setUpFragment(fragment);
-
                         navigationView.setCheckedItem(R.id.nav_home);
                         msg ="Stories";
                         break;
@@ -142,12 +149,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.nav_donate:
                         fragment = new DonateFragment();
-                        msg ="Donate";
+                        msg="Donate";
                         break;
                     case R.id.nav_about:
                         fragment = new AboutFragment();
-                        msg ="About";
-                        showToast("Add New Account Nav Clicked");
+                        msg="About";
                         break;
                     case R.id.nav_log_out:
                         showToast("Logging Out");
@@ -155,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.nav_edit_profile:
                         fragment = new ProfileFragment();
-                        msg ="Edit Profile";
+                        msg="Profile";
                         break;
                 }
 
@@ -174,11 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void openHomeFragment() {
         HomeFragment holderFragment = new HomeFragment();
-        msg ="Stories";
-        toolbar.setTitle(msg);
         setUpFragment(holderFragment);
-        repository = Repository.getInstance(this.getApplication());
-        storyAdapter = new StoryAdapter(repository);
         navigationView.setCheckedItem(R.id.nav_home);
     }
 
@@ -269,6 +271,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             hideDrawer();
         } else if (navigationView.getCheckedItem().getItemId()!=R.id.nav_home) {
+            toolbar.setTitle("Stories");
             openHomeFragment();
         } else {
             super.onBackPressed();

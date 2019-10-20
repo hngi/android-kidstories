@@ -71,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText phone;
     EditText firstName, lastName;
     EditText password, confirmPassword;
-    Button regFacebook, regGoogle, signUp;
+    Button regGoogle, signUp;
     TextView loginText;
     ProgressBar progressBar;
     //ProgressDialog regProgress;
@@ -97,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         repository = Repository.getInstance(getApplication());
 
-        printHashKey(this);
+        printHashKey(this);  /* OnF8yB2LEowq5sp9VXjyI6p3s3Q= */
         checkLoginStatus();
 
         repository = Repository.getInstance(getApplication());
@@ -124,22 +124,11 @@ public class RegisterActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
         sharePref = SharePref.getINSTANCE(getApplicationContext());
 
-//
-//        regFacebook.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                LoginManager.getInstance().setAuthType(AUTH_TYPE)
-//                        .logInWithReadPermissions(RegisterActivity.this, Arrays.asList(EMAIL));
-//                facebookLogin();
-//            }
-//        });
-
 
         // if user is already registered
         loginText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivityForResult(intent, LOGIN_TEXT_REQUEST_CODE);
@@ -286,46 +275,6 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
         }
     }
-
-    public void facebookLogin() {
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(RegisterActivity.this, "Successful", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "onSuccess: " + loginResult);
-                setResult(RESULT_OK);
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                finish();
-                /*call : loginResult.getAccessToken().getUserId() to get userId and save to database;*/
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Toast.makeText(RegisterActivity.this, "Error " + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

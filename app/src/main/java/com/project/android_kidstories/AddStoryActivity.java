@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,6 +23,7 @@ public class AddStoryActivity extends AppCompatActivity {
     public final int PERMISSION_REQUEST_CODE = 100;
     public final int PICTURE_REQUEST_CODE = 200;
     private TextView imagePathText;
+    private EditText storyTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +41,8 @@ public class AddStoryActivity extends AppCompatActivity {
                 choosePicture();
             }
         });
+
+        storyTitle = findViewById(R.id.title_edt);
     }
 
     private void checkPermission() {
@@ -69,7 +74,12 @@ public class AddStoryActivity extends AppCompatActivity {
     }
 
     public void TypeContent(View view){
-        Intent i = new Intent(AddStoryActivity.this, AddStoriesContentActivity.class);
-        startActivity(i);
+
+        if(TextUtils.isEmpty(storyTitle.getText())){
+            storyTitle.setError("Title cannot be empty");
+        }else {
+            Intent i = new Intent(AddStoryActivity.this, AddStoriesContentActivity.class);
+            startActivity(i);
+        }
     }
 }

@@ -85,16 +85,16 @@ public class LoginActivity extends AppCompatActivity {
         repository = Repository.getInstance(getApplication());
 
 
-        Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade__in);
         Animation transit = AnimationUtils.loadAnimation(this, R.anim.ttb);
 
         TextView transText = findViewById(R.id.welcome);
         TextView transText2 = findViewById(R.id.welcome);
-        ImageView bounceImage = findViewById(R.id.imageMain);
+        ImageView fadeInImage = findViewById(R.id.imageMain);
 
         transText.startAnimation(transit);
         transText2.startAnimation(transit);
-        bounceImage.startAnimation(bounce);
+        fadeInImage.startAnimation(fadeIn);
 
         loginProg = findViewById(R.id.login_progress);
         email = findViewById(R.id.et_email);

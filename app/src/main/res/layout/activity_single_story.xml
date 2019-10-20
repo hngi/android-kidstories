@@ -39,11 +39,12 @@
         android:id="@+id/author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:hint="@string/by_author_name"
         android:text="@string/by_author_name"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/story_pic" />
 
@@ -57,6 +58,7 @@
         android:padding="10dp"
 
         android:textAlignment="gravity"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/author" />
@@ -71,6 +73,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/toolbar2" />
+
+    <TextView
+        android:id="@+id/error_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/unable"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/story_content"
+        app:layout_constraintEnd_toEndOf="@+id/story_content"
+        app:layout_constraintStart_toStartOf="@+id/story_content"
+        app:layout_constraintTop_toBottomOf="@+id/story_pic" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

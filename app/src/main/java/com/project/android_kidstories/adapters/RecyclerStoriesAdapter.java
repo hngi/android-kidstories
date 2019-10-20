@@ -125,7 +125,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                     holder.num_likes.setText(String.valueOf(like_count));
 
                     if(dislike_drawableId == dislike_image_blue){
-                        holder.dislike.setImageResource(dislike_image_blue);
+                        holder.dislike.setImageResource(dislike_image_black);
                         holder.dislike.setTag(dislike_image_black);
 
                         int dislike_count = Integer.parseInt(holder.num_dislikes.getText().toString());

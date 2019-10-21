@@ -8,24 +8,24 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/home_frag_appbar"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.tabs.TabLayout
-            android:background="@color/white"
             android:id="@+id/home_frag_tablayout"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            app:tabTextColor="@color/black" />
+            android:layout_height="wrap_content"/>
+<!--            app:tabTextColor="@color/black"-->
+<!--            android:background="@color/white"-->
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:background="@color/white"
         android:id="@+id/home_frag_container"
         android:layout_height="0dp"
         android:layout_width="match_parent"

@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
     tools:context=".LoginActivity"
     android:id="@+id/login_parent_layout">
 
@@ -161,9 +159,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/roboto_regular"
+                    android:clickable="true"
                     android:gravity="center"
                     android:text="@string/create_an_account"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    android:focusable="true" />
             </LinearLayout>
 
             <ProgressBar

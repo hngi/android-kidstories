@@ -58,7 +58,7 @@ public class AddStoriesContentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_stories_content);
 
         story_title = getIntent().getStringExtra("story_title");
-        image_uri = getIntent().getStringExtra("image_uri");
+        //image_uri = getIntent().getStringExtra("image_uri");
 
         storyContent = findViewById(R.id.story_content_field);
         categories = findViewById(R.id.choose_category);
@@ -71,10 +71,11 @@ public class AddStoriesContentActivity extends AppCompatActivity {
     public static boolean addStory(Story story, String imageUri) {
        // Uri uri = Uri.parse(imageUri);
         //File imageFile = new File(Uri.decode(imageUri));
-        File imageFile = new File(imageUri);
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
+//        File imageFile = new File(imageUri);
+        String filename = story.getTitle();
+        RequestBody requestFile = RequestBody.create(okhttp3.MultipartBody.FORM,"http://lorempixel.com/400/200/");
 
-        MultipartBody.Part image = MultipartBody.Part.createFormData("Image", imageFile.getName(), requestFile);
+        MultipartBody.Part image = MultipartBody.Part.createFormData("Image", filename, requestFile);
         RequestBody title = RequestBody.create(okhttp3.MultipartBody.FORM, story.getTitle());
         RequestBody body = RequestBody.create(okhttp3.MultipartBody.FORM, story.getBody());
         RequestBody category = RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(story.getCategoryId()));

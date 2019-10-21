@@ -28,7 +28,6 @@
             android:fontFamily="@font/roboto_light"
             android:text="@string/username"
             android:textAlignment="center"
-            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/img_user"

@@ -7,18 +7,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
@@ -32,9 +31,15 @@ import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.AddStoryActivity;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
+import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.NightmodeActivity;
+import com.project.android_kidstories.base.BaseActivity;
+import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
+import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
@@ -44,6 +49,10 @@ import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * @author .: Ehma Ugbogo
  * @email ..: ehmaugbogo@gmail.com
@@ -51,7 +60,7 @@ import com.project.android_kidstories.ui.support.DonateFragment;
  */
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "kidstories";
@@ -64,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BottomNavigationView bottomNavigationView;
     private SharePref sharePref;
     public static int LastTabPosition = 0;
-
-
+    private String token;
+    private String firstname, lastname, name;
 
 
     @Override
@@ -77,22 +86,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
         sharePref = SharePref.getINSTANCE(getApplicationContext());
 
+//        Get token from SharedPref
+        getUserDetails();
+
         initViews();
 
         if (savedInstanceState == null) {
             openHomeFragment();
         }
 
-
         setupProfile(navigationView);
+
+//        Preparing token to be parsed to fragments
+        Bundle data = new Bundle();
+        data.putString("token", token);
 
         // Making the header image clickable
         View headerView = navigationView.getHeaderView(0);
+
+        TextView userName = headerView.findViewById(R.id.nav_header_name);
+        name = firstname + " " + lastname;
+        userName.setText(name);
+
         ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
         navImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 com.project.android_kidstories.ui.profile.ProfileFragment profileFragment = new com.project.android_kidstories.ui.profile.ProfileFragment();
+//                Add bundle data containing "token" before parsing to profileFragment
+                profileFragment.setArguments(data);
                 setUpFragment(profileFragment);
                 getSupportActionBar().setTitle("Profile");
                 drawer.closeDrawer(GravityCompat.START);
@@ -276,6 +298,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void setupProfile(View view) {
+
+//        repository.getUserProfileApi().getUserProfile(token).enqueue(new Callback<BaseResponse<User>>() {
+//            @Override
+//            public void onResponse(Call<BaseResponse<User>> call, Response<BaseResponse<User>> response) {
+//                if (response.isSuccessful()){
+//
+//                } else {
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<BaseResponse<User>> call, Throwable t) {
+//                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+//            }
+//        });
         /*CircleImageView navHeaderCircleImage = view.findViewById(R.id.nav_header_imageView);
         TextView navHeaderNameTv = view.findViewById(R.id.nav_header_name);
         navHeaderCircleImage.setOnClickListener(this);
@@ -287,6 +325,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .centerCrop()
                 .placeholder(R.drawable.profile_pic)
                 .into(navHeaderCircleImage);*/
+    }
+
+    private void getUserDetails(){
+        token = new SharePref(this).getMyToken();
+        firstname = new SharePref(this).getUserFirstname();
+        lastname = new SharePref(this).getUserLastname();
+        //Toast.makeText(MainActivity.this, token,Toast.LENGTH_LONG).show();
     }
 
 
@@ -302,15 +347,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
 
     //TODO: Ehma Refactor to BaseActivity
-    private void showToast(String message) {
-        Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
-    }
+
 
     private void showSnackBar(View view,String msg){
         Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
@@ -332,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 toolbar.setTitle("Stories");
                 openHomeFragment();
         } else {
-            super.onBackPressed();
+            doExit();
         }
 
     }
@@ -343,5 +386,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    public void openSettings(){
+        Intent intent = new Intent(this, NightmodeActivity.class);
+
+        startActivity(intent);
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.action_settings) {
+            openSettings();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void doExit() {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                MainActivity.this);
+
+        alertDialog.setPositiveButton("Yes", (dialog, which) -> finishAffinity());
+
+        alertDialog.setNegativeButton("No", null);
+
+        alertDialog.setMessage("Do you want to exit?");
+        alertDialog.setTitle(R.string.app_name);
+        alertDialog.show();
+    }
 
 }

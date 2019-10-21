@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,8 +31,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.AddStoryActivity;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
+import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.NightmodeActivity;
 import com.project.android_kidstories.base.BaseActivity;
@@ -45,6 +48,10 @@ import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author .: Ehma Ugbogo
@@ -66,8 +73,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private BottomNavigationView bottomNavigationView;
     private SharePref sharePref;
     public static int LastTabPosition = 0;
-
-
+    private String token;
+    private String firstname, lastname, name;
 
 
     @Override
@@ -79,22 +86,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setSupportActionBar(toolbar);
         sharePref = SharePref.getINSTANCE(getApplicationContext());
 
+//        Get token from SharedPref
+        getUserDetails();
+
         initViews();
 
         if (savedInstanceState == null) {
             openHomeFragment();
         }
 
-
         setupProfile(navigationView);
+
+//        Preparing token to be parsed to fragments
+        Bundle data = new Bundle();
+        data.putString("token", token);
 
         // Making the header image clickable
         View headerView = navigationView.getHeaderView(0);
+
+        TextView userName = headerView.findViewById(R.id.nav_header_name);
+        name = firstname + " " + lastname;
+        userName.setText(name);
+
         ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
         navImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 com.project.android_kidstories.ui.profile.ProfileFragment profileFragment = new com.project.android_kidstories.ui.profile.ProfileFragment();
+//                Add bundle data containing "token" before parsing to profileFragment
+                profileFragment.setArguments(data);
                 setUpFragment(profileFragment);
                 getSupportActionBar().setTitle("Profile");
                 drawer.closeDrawer(GravityCompat.START);
@@ -278,6 +298,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
     private void setupProfile(View view) {
+
+//        repository.getUserProfileApi().getUserProfile(token).enqueue(new Callback<BaseResponse<User>>() {
+//            @Override
+//            public void onResponse(Call<BaseResponse<User>> call, Response<BaseResponse<User>> response) {
+//                if (response.isSuccessful()){
+//
+//                } else {
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<BaseResponse<User>> call, Throwable t) {
+//                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+//            }
+//        });
         /*CircleImageView navHeaderCircleImage = view.findViewById(R.id.nav_header_imageView);
         TextView navHeaderNameTv = view.findViewById(R.id.nav_header_name);
         navHeaderCircleImage.setOnClickListener(this);
@@ -289,6 +325,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .centerCrop()
                 .placeholder(R.drawable.profile_pic)
                 .into(navHeaderCircleImage);*/
+    }
+
+    private void getUserDetails(){
+        token = new SharePref(this).getMyToken();
+        firstname = new SharePref(this).getUserFirstname();
+        lastname = new SharePref(this).getUserLastname();
+        Toast.makeText(MainActivity.this, token,Toast.LENGTH_LONG).show();
     }
 
 

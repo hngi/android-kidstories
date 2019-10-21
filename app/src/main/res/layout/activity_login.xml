@@ -161,9 +161,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/roboto_regular"
+                    android:clickable="true"
                     android:gravity="center"
                     android:text="@string/create_an_account"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    android:focusable="true" />
             </LinearLayout>
 
             <ProgressBar

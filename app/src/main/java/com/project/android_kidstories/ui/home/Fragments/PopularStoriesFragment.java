@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,7 @@ import retrofit2.Response;
 
 public class PopularStoriesFragment extends Fragment {
     private RecyclerStoriesAdapter adapter;
-    ProgressDialog progressDoalog;
+    private ProgressBar popular_bar;
     RecyclerView recyclerView;
 
     public static PopularStoriesFragment newInstance(){return new PopularStoriesFragment();}
@@ -43,9 +44,9 @@ public class PopularStoriesFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_popularstories,container,false);
         ButterKnife.bind(this,v);
 
-        progressDoalog = new ProgressDialog(getActivity());
-        progressDoalog.setMessage("Loading....");
-        progressDoalog.show();
+        popular_bar = v.findViewById(R.id.popular_stories_bar);
+
+        popular_bar.setVisibility(View.VISIBLE);
 
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
@@ -55,7 +56,7 @@ public class PopularStoriesFragment extends Fragment {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 //  generateCategoryList(response.body(),v);
-                progressDoalog.dismiss();
+                popular_bar.setVisibility(View.GONE);
 
                 recyclerView = v.findViewById(R.id.recyclerView);
                 if (response.isSuccessful()) {
@@ -70,7 +71,7 @@ public class PopularStoriesFragment extends Fragment {
 
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
-                progressDoalog.dismiss();
+                popular_bar.setVisibility(View.INVISIBLE);
 
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }

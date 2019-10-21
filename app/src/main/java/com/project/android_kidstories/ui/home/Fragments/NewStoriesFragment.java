@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,7 +38,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private static final String TAG = "kidstories";
     private RecyclerView recyclerView;
     private RecyclerStoriesAdapter adapter;
-    ProgressDialog progressDoalog;
+    private ProgressBar progressBar;
     private Repository repository;
 //    private StoryAdapter storyAdapter;
     private RecyclerStoriesAdapter storyAdapter;
@@ -52,12 +53,9 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_newstories, container, false);
 
-        FloatingActionButton fab = v.findViewById(R.id.new_story_frag_fab);
-        fab.setOnClickListener(this);
+        progressBar = v.findViewById(R.id.new_stories_bar);
 
-        progressDoalog = new ProgressDialog(getActivity());
-        progressDoalog.setMessage("Loading....");
-        progressDoalog.show();
+        progressBar.setVisibility(View.VISIBLE);
 
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
@@ -67,7 +65,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 //  generateCategoryList(response.body(),v);
-                progressDoalog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 recyclerView = v.findViewById(R.id.recyclerView);
 
                 if (response.isSuccessful()) {
@@ -82,7 +80,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
-                progressDoalog.dismiss();
+                progressBar.setVisibility(View.INVISIBLE);
 
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
@@ -141,8 +139,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.new_story_frag_fab) {
-            showToast("Clicked");
-        }
+
     }
 }

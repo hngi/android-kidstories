@@ -33,6 +33,12 @@ public class SharePref {
         }
         return INSTANCE;
     }
+    public void setNightMode(boolean nightMode){
+        sharedPreferences.edit().putBoolean(NIGHT_MODE , nightMode).apply();
+    }
+    public boolean getNightMode(){
+        return sharedPreferences.getBoolean(NIGHT_MODE,false);
+    }
 
     public SharePref getSharePref() {
         return INSTANCE;
@@ -40,13 +46,6 @@ public class SharePref {
 
     public void setLastSunAccess(int hour){
         sharedPreferences.edit().putInt(LAST_LOGGED_IN,hour).apply();
-    }
-
-    public void setNightMode(boolean nightMode){
-        sharedPreferences.edit().putBoolean(NIGHT_MODE , nightMode).apply();
-    }
-    public boolean getNightMode(){
-        return sharedPreferences.getBoolean(NIGHT_MODE,false);
     }
 
     public int getLastLoginInHour(){

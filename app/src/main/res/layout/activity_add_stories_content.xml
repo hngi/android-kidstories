@@ -44,7 +44,6 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/content_label"
-                android:textColor="@color/main_color_grey_800"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView4" />
@@ -81,7 +80,6 @@
                 android:paddingBottom="8dp"
                 android:scrollbarAlwaysDrawVerticalTrack="true"
                 android:scrollbars="vertical"
-                android:textColor="@color/main_color_grey_800"
                 app:layout_constraintBottom_toTopOf="@+id/save_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

@@ -185,6 +185,7 @@ public class RegisterActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
                         editor.putString("Token", response.body().getData().getToken());
+                        editor.putString("Username",firstName +" "+ lastName);
                         editor.apply();
                         sharePref.setIsUserLoggedIn(true);
 

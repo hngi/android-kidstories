@@ -105,8 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
         googleSignInButton = findViewById(R.id.google_auth_button);
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
-        sharePref = SharePref.getINSTANCE(getApplicationContext());
-
+        sharePref = SharePref.getINSTANCE(getApplicationContext()).getSharePref();
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -181,6 +180,9 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+    private void saveUserDetails(String token, String firstname, String email){
+        new SharePref(this).saveLoginDetails(token, firstname, email);
+    }
 
     private void loginUser() {
         String email_string = email.getText().toString();
@@ -210,6 +212,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         assert response.body() != null;
                         String token = response.body().getUser().getToken();
+                        Toast.makeText(LoginActivity.this, token, Toast.LENGTH_LONG).show();
+
+                        String mFirstname = response.body().getUser().getFirstName();
+                        String mLastname = response.body().getUser().getLastName();
+                        String mEmail = response.body().getUser().getEmail();
+                        saveUserDetails(token, mFirstname + " " + mLastname, mEmail);
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -220,8 +228,8 @@ public class LoginActivity extends AppCompatActivity {
                         //   LoginProgress.dismiss();
 
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.putExtra("token", token);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("myToken", token);
                         startActivity(intent);
                         finish();
 

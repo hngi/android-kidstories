@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -71,8 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharePref sharePref;
     public static int LastTabPosition = 0;
     private String token;
-
-
+    private String firstname;
 
 
     @Override
@@ -83,8 +83,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toolbar.setTitle("Stories");
         setSupportActionBar(toolbar);
         sharePref = SharePref.getINSTANCE(getApplicationContext());
-        token = getIntent().getStringExtra("token");
-        Toast.makeText(MainActivity.this, token, Toast.LENGTH_LONG).show();
+
+//        Get token from SharedPref
+        getUserDetails();
 
         initViews();
 
@@ -92,16 +93,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             openHomeFragment();
         }
 
-
         setupProfile(navigationView);
+
+//        Preparing token to be parsed to fragments
+        Bundle data = new Bundle();
+        data.putString("token", token);
 
         // Making the header image clickable
         View headerView = navigationView.getHeaderView(0);
+
+        TextView userName = headerView.findViewById(R.id.nav_header_name);
+        userName.setText(firstname);
+
         ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
         navImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 com.project.android_kidstories.ui.profile.ProfileFragment profileFragment = new com.project.android_kidstories.ui.profile.ProfileFragment();
+//                Add bundle data containing "token" before parsing to profileFragment
+                profileFragment.setArguments(data);
                 setUpFragment(profileFragment);
                 getSupportActionBar().setTitle("Profile");
                 drawer.closeDrawer(GravityCompat.START);
@@ -153,7 +163,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
                         Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
                         startActivity(home);
+                        openHomeFragment();
                         navigationView.setCheckedItem(R.id.nav_home);
                         bottomNavigationView.setVisibility(View.VISIBLE);
                         msg ="Stories";
@@ -203,13 +215,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (menuItem.getItemId()) {
                     case R.id.home:
                         Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
                         startActivity(home);
+                        openHomeFragment();
                         msg = "Stories";
                         break;
                     case R.id.addStory:
                         Intent i = new Intent(getApplicationContext(), AddStoryActivity.class);
                         startActivity(i);
-                        msg = "Add Story";
                         break;
                     case R.id.bookmark_fragment:
                         fragment = new BookmarksFragment();
@@ -230,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void openHomeFragment() {
         HomeFragment holderFragment = new HomeFragment();
+
         setUpFragment(holderFragment);
         navigationView.setCheckedItem(R.id.nav_home);
         bottomNavigationView.setSelectedItemId(0);
@@ -259,7 +273,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     });
         }
         sharePref.setIsUserLoggedIn(false);
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        Intent logout = new Intent(MainActivity.this, LoginActivity.class);
+        logout.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+        startActivity(logout);
         finish();
     }
 
@@ -272,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         mGoogleApiClient.connect();
+
         super.onStart();
     }
 
@@ -279,21 +296,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setupProfile(View view) {
 
-        repository.getUserProfileApi().getUserProfile(token).enqueue(new Callback<BaseResponse<User>>() {
-            @Override
-            public void onResponse(Call<BaseResponse<User>> call, Response<BaseResponse<User>> response) {
-                if (response.isSuccessful()){
-
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BaseResponse<User>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+//        repository.getUserProfileApi().getUserProfile(token).enqueue(new Callback<BaseResponse<User>>() {
+//            @Override
+//            public void onResponse(Call<BaseResponse<User>> call, Response<BaseResponse<User>> response) {
+//                if (response.isSuccessful()){
+//
+//                } else {
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<BaseResponse<User>> call, Throwable t) {
+//                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+//            }
+//        });
         /*CircleImageView navHeaderCircleImage = view.findViewById(R.id.nav_header_imageView);
         TextView navHeaderNameTv = view.findViewById(R.id.nav_header_name);
         navHeaderCircleImage.setOnClickListener(this);
@@ -305,6 +322,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .centerCrop()
                 .placeholder(R.drawable.profile_pic)
                 .into(navHeaderCircleImage);*/
+    }
+
+    private void getUserDetails(){
+        token = new SharePref(this).getMyToken();
+        firstname = new SharePref(this).getUserFirstname();
+        Toast.makeText(MainActivity.this, token,Toast.LENGTH_LONG).show();
     }
 
 
@@ -341,8 +364,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             hideDrawer();
         } else if (navigationView.getCheckedItem().getItemId()!=R.id.nav_home) {
-            toolbar.setTitle("Stories");
-            openHomeFragment();
+                Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+                startActivity(home);
+                navigationView.setCheckedItem(R.id.nav_home);
+                bottomNavigationView.setSelectedItemId(0);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                toolbar.setTitle("Stories");
+                openHomeFragment();
         } else {
             super.onBackPressed();
         }

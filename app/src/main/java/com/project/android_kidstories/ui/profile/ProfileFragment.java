@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -69,8 +70,13 @@ public class ProfileFragment extends Fragment {
         userName = root.findViewById(R.id.profile_name);
         userEmail = root.findViewById(R.id.profile_email);
 
+//        Get token from bundle
+        if (getArguments() != null) {
+            token = getArguments().getString("token");
+        }
+
 //        Displays the user information
-        displayProfile();
+//        displayProfile();
 
         // TODO: Causes the app to crash
         /*Bitmap image = imageConversion.convertByteArraytoBitMap(getImage(client_id));

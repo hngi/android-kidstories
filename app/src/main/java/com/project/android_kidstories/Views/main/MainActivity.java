@@ -1,8 +1,5 @@
 package com.project.android_kidstories.Views.main;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,14 +11,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
@@ -31,17 +24,14 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.SettingsActivity;
+import com.project.android_kidstories.NightmodeActivity;
 import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.sharePref.SharePref;
-import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
@@ -286,7 +276,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
     public void openSettings(){
-        Intent intent = new Intent(this, SettingsActivity.class);
+        Intent intent = new Intent(this, NightmodeActivity.class);
 
         startActivity(intent);
     }

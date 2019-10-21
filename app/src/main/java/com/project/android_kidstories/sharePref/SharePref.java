@@ -12,6 +12,7 @@ public class SharePref {
     private static final String NIGHT_MODE = "NIGHT MODE";
 
     private static SharePref INSTANCE;
+    Context context;
 
     //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,10 @@ public class SharePref {
     private SharePref(SharedPreferences sharedPreferences) {
         this.sharedPreferences=sharedPreferences;
 
+    }
+
+    public SharePref(Context context){
+        this.context = context;
     }
 
     public static synchronized SharePref getINSTANCE(Context context) {
@@ -43,6 +48,37 @@ public class SharePref {
     public SharePref getSharePref() {
         return INSTANCE;
     }
+
+    public void saveLoginDetails(String token, String firstname, String lastname, String email){
+        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Token", token);
+        editor.putString("Firstname", firstname);
+        editor.putString("Lastname", lastname);
+        editor.putString("Email", email);
+        editor.apply();
+    }
+
+    public String getMyToken(){
+        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("Token", "");
+    }
+
+    public String getUserFirstname(){
+        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("Firstname", "");
+    }
+
+    public String getUserLastname(){
+        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("Lastname", "");
+    }
+
+    public String getUserEmail(){
+        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("Email", "");
+    }
+
 
     public void setLastSunAccess(int hour){
         sharedPreferences.edit().putInt(LAST_LOGGED_IN,hour).apply();

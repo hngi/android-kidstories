@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharePref sharePref;
     public static int LastTabPosition = 0;
     private String token;
-    private String firstname;
+    private String firstname, lastname, name;
 
 
     @Override
@@ -103,7 +103,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         View headerView = navigationView.getHeaderView(0);
 
         TextView userName = headerView.findViewById(R.id.nav_header_name);
-        userName.setText(firstname);
+        name = firstname + " " + lastname;
+        userName.setText(name);
 
         ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
         navImage.setOnClickListener(new View.OnClickListener() {
@@ -327,6 +328,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void getUserDetails(){
         token = new SharePref(this).getMyToken();
         firstname = new SharePref(this).getUserFirstname();
+        lastname = new SharePref(this).getUserLastname();
         Toast.makeText(MainActivity.this, token,Toast.LENGTH_LONG).show();
     }
 

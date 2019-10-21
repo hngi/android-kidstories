@@ -180,8 +180,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-    private void saveUserDetails(String token, String firstname, String email){
-        new SharePref(this).saveLoginDetails(token, firstname, email);
+    private void saveUserDetails(String token, String firstname, String lastname, String email){
+        new SharePref(this).saveLoginDetails(token, firstname, lastname, email);
     }
 
     private void loginUser() {
@@ -217,7 +217,7 @@ public class LoginActivity extends AppCompatActivity {
                         String mFirstname = response.body().getUser().getFirstName();
                         String mLastname = response.body().getUser().getLastName();
                         String mEmail = response.body().getUser().getEmail();
-                        saveUserDetails(token, mFirstname + " " + mLastname, mEmail);
+                        saveUserDetails(token, mFirstname, mLastname, mEmail);
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 

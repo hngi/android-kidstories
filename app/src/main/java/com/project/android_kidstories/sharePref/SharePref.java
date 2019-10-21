@@ -42,11 +42,12 @@ public class SharePref {
         return INSTANCE;
     }
 
-    public void saveLoginDetails(String token, String firstname, String email){
+    public void saveLoginDetails(String token, String firstname, String lastname, String email){
         sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("Token", token);
         editor.putString("Firstname", firstname);
+        editor.putString("Lastname", lastname);
         editor.putString("Email", email);
         editor.apply();
     }
@@ -59,6 +60,16 @@ public class SharePref {
     public String getUserFirstname(){
         sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Firstname", "");
+    }
+
+    public String getUserLastname(){
+        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("Lastname", "");
+    }
+
+    public String getUserEmail(){
+        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("Email", "");
     }
 
 

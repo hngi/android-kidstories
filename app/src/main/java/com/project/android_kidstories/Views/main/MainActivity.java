@@ -13,13 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
@@ -38,6 +36,10 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.NightmodeActivity;
+import com.project.android_kidstories.base.BaseActivity;
+import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
+import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
@@ -58,7 +60,7 @@ import retrofit2.Response;
  */
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "kidstories";
@@ -345,15 +347,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
 
     //TODO: Ehma Refactor to BaseActivity
-    private void showToast(String message) {
-        Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
-    }
+
 
     private void showSnackBar(View view,String msg){
         Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
@@ -375,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 toolbar.setTitle("Stories");
                 openHomeFragment();
         } else {
-            super.onBackPressed();
+            doExit();
         }
 
     }
@@ -386,5 +386,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    public void openSettings(){
+        Intent intent = new Intent(this, NightmodeActivity.class);
+
+        startActivity(intent);
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.action_settings) {
+            openSettings();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void doExit() {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                MainActivity.this);
+
+        alertDialog.setPositiveButton("Yes", (dialog, which) -> finishAffinity());
+
+        alertDialog.setNegativeButton("No", null);
+
+        alertDialog.setMessage("Do you want to exit?");
+        alertDialog.setTitle(R.string.app_name);
+        alertDialog.show();
+    }
 
 }

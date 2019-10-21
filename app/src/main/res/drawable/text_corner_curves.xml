@@ -3,7 +3,7 @@
     android:shape="rectangle"
     android:viewportWidth="360"
     android:viewportHeight="122">
-    <solid android:color="#FFFFFF"/>
+    <solid android:color="@color/colorAccent"/>
     <corners android:radius="20dp"
         />
 </shape>

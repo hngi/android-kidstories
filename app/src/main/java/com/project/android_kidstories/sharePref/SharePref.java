@@ -9,6 +9,7 @@ public class SharePref {
     private static final String LAST_LOGGED_IN ="LAST_LOGGED_IN";
     private static final String ID_KEY="com.project.android_kidstories_ID_KEY";
     private static final String USER_LOGIN_STATE = "isUserLoggedIn";
+    private static final String NIGHT_MODE = "NIGHT MODE";
 
     private static SharePref INSTANCE;
 
@@ -31,6 +32,12 @@ public class SharePref {
             INSTANCE = new SharePref(PreferenceManager.getDefaultSharedPreferences(context));
         }
         return INSTANCE;
+    }
+    public void setNightMode(boolean nightMode){
+        sharedPreferences.edit().putBoolean(NIGHT_MODE , nightMode).apply();
+    }
+    public boolean getNightMode(){
+        return sharedPreferences.getBoolean(NIGHT_MODE,false);
     }
 
     public SharePref getSharePref() {

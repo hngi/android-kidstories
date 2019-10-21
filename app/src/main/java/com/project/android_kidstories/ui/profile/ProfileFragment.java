@@ -17,8 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.RetrofitClient;
+import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
 import com.project.android_kidstories.adapters.ProfilePagerAdapter;
@@ -27,10 +33,17 @@ import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
 import com.project.android_kidstories.ui.profile.MyStoriesFragment;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ProfileFragment extends Fragment {
     public ImageView imageView;
     BedTimeDbHelper helper;
     ImageConversion imageConversion;
+    TextView userName, userEmail;
+    String token;
+    private Repository repository;
 
     private com.project.android_kidstories.ui.profile.ProfileViewModel mViewModel;
 
@@ -53,6 +66,11 @@ public class ProfileFragment extends Fragment {
         View root = inflater.inflate(R.layout.profile_fragment, container, false);
 
         imageView = root.findViewById(R.id.profile);
+        userName = root.findViewById(R.id.profile_name);
+        userEmail = root.findViewById(R.id.profile_email);
+
+//        Displays the user information
+        displayProfile();
 
         // TODO: Causes the app to crash
         /*Bitmap image = imageConversion.convertByteArraytoBitMap(getImage(client_id));
@@ -107,5 +125,31 @@ public class ProfileFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void displayProfile(){
+        repository.getUserProfileApi().getUserProfile(token).enqueue(new Callback<BaseResponse<User>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<User>> call, Response<BaseResponse<User>> response) {
+                if (response.isSuccessful()){
+                    assert response.body() != null;
+                    Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_LONG).show();
+                    User user = response.body().getData();
+                    String name = user.getFirstName() + " " + user.getLastName();
+                    userName.setText(name);
+                    userEmail.setText(user.getEmail());
+                } else {
+                    assert response.errorBody() != null;
+                    String error = response.errorBody().toString();
+                    Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<User>> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 }

@@ -331,7 +331,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         token = new SharePref(this).getMyToken();
         firstname = new SharePref(this).getUserFirstname();
         lastname = new SharePref(this).getUserLastname();
-        Toast.makeText(MainActivity.this, token,Toast.LENGTH_LONG).show();
+        //Toast.makeText(MainActivity.this, token,Toast.LENGTH_LONG).show();
     }
 
 

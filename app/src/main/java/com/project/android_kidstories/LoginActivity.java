@@ -105,8 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
         googleSignInButton = findViewById(R.id.google_auth_button);
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
-        sharePref = SharePref.getINSTANCE(getApplicationContext());
-
+        sharePref = SharePref.getINSTANCE(getApplicationContext()).getSharePref();
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -181,6 +180,9 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+    private void saveUserDetails(String token, String firstname, String lastname, String email){
+        new SharePref(this).saveLoginDetails(token, firstname, lastname, email);
+    }
 
     private void loginUser() {
         String email_string = email.getText().toString();
@@ -208,10 +210,18 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (response.isSuccessful()) {
 
+                        assert response.body() != null;
+                        String token = response.body().getUser().getToken();
+                        Toast.makeText(LoginActivity.this, token, Toast.LENGTH_LONG).show();
+
+                        String mFirstname = response.body().getUser().getFirstName();
+                        String mLastname = response.body().getUser().getLastName();
+                        String mEmail = response.body().getUser().getEmail();
+                        saveUserDetails(token, mFirstname, mLastname, mEmail);
+
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                        editor.putString("Token", response.body().getUser().getToken());
-                        editor.putString("Username",response.body().getUser().getFirstName() +" "+ response.body().getUser().getLastName());
+                        editor.putString("Token", token);
                         editor.apply();
                         sharePref.setIsUserLoggedIn(true);
                         loginProg.setVisibility(View.INVISIBLE);
@@ -219,6 +229,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("myToken", token);
                         startActivity(intent);
                         finish();
 

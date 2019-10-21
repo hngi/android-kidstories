@@ -44,14 +44,14 @@ public class ProfileFragment extends Fragment {
     BedTimeDbHelper helper;
 
 
-    private ProfileViewModel profileViewModel;
+    private EditProfileViewModel editProfileViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         helper = new BedTimeDbHelper(getContext());
 
         imageConversion = new ImageConversion();
 
-        profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+        editProfileViewModel = ViewModelProviders.of(this).get(EditProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_edit, container, false);
 
         imagePath = root.findViewById(R.id.selected_image_path);

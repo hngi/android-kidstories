@@ -36,7 +36,6 @@ public class Repository {
     private static Repository INSTANCE;
     private final Api api;
     private StoryDao storyDao;
-    //private UserDao userDao;
 
 
     public static synchronized Repository getInstance(Application application){
@@ -60,6 +59,8 @@ public class Repository {
     public Api getStoryApi() {
         return api;
     }
+
+    public Api getUserProfileApi(){return api;}
 
     //******************** `Getters for Locally storing Stories *************************
 

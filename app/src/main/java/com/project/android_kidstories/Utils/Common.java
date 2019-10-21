@@ -37,7 +37,7 @@ public class Common extends Application {
                 .build();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Map<String, ?> map1 = new HashMap<>();
+        Map<String, ?> map1;
         Gson gson = new Gson();
         map1 = prefs.getAll();
         Log.d(TAG, "map = " + map1);

@@ -33,6 +33,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/story_bg_ic"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:hint="Afterward, Mom has noticed that the boys haven't been getting along so she devises 'Mom Bucks' to pay them if they spend time together where they can trade in for one real dollar, but this unwittingly makes things worse. Meanwhile, Greg and Rowley try to make a funny YouTube video by Rowley lip-syncing to 'Tik Tok' by Kesha, unfortunately (despite Rowley at one point sitting on a tinfoil ball with spikes made by Manny) it proves to be awful, getting only 4 hits. After a talent show is advertised on TV, the brothers see this as a big opportunity – Rowley suggests that he and Greg perform magic tricks, but Greg rejects the idea whilst Rodrick sees this as his band's big break."
+                android:hint="Afterward, Mom has noticed that the boys haven't been getting along so she devises 'Mom Bucks' to pay them if they spend time together where they can trade in for one real dollar, but this unwittingly makes things worse. Meanwhile, Greg and Rowley try to make a funny YouTube video by Rowley lip-syncing to 'Tik Tok' by Kesha, unfortunately (despite Rowley at one point sitting on a tinfoil ball with spikes made by Manny) it proves to be awful, getting only 4 hits. After a talent show is advertised on TV, the brothers see this as a big opportunity â€“ Rowley suggests that he and Greg perform magic tricks, but Greg rejects the idea whilst Rodrick sees this as his band's big break."
                 android:padding="10dp"
 
                 android:textAlignment="gravity"
@@ -99,7 +100,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

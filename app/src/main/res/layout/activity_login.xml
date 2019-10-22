@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:gravity="center_vertical"
     android:orientation="vertical"
     tools:context=".LoginActivity">
@@ -143,11 +144,12 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-              <TextView
+            <TextView
                 android:id="@+id/not_registered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/not_registered"
+                android:textColor="#000000"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"/>
 
@@ -165,8 +167,4 @@
     </LinearLayout>
 
 
-</LinearLayout>
-
-
-
-
+</ScrollView>

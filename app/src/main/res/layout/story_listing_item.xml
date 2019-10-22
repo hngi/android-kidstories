@@ -56,7 +56,6 @@
             android:ellipsize="end"
             android:fontFamily="@font/roboto_lite"
             android:text="@string/by"
-
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="@+id/book_title"
             app:layout_constraintTop_toBottomOf="@+id/book_title" />

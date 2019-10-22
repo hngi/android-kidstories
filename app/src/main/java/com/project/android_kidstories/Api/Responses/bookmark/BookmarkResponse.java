@@ -4,6 +4,9 @@ package com.project.android_kidstories.Api.Responses.bookmark;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.project.android_kidstories.Model.Story;
+
+import java.util.List;
 
 /**
  * @author .: Ukeje Emeka
@@ -25,7 +28,7 @@ public class BookmarkResponse {
     private String message;
     @SerializedName("data")
     @Expose
-    private Boolean data;
+    private List<Story> data;
 
     public String getStatus() {
         return status;
@@ -51,11 +54,11 @@ public class BookmarkResponse {
         this.message = message;
     }
 
-    public Boolean getData() {
+    public List<Story> getData() {
         return data;
     }
 
-    public void setData(Boolean data) {
+    public void setData(List<Story> data) {
         this.data = data;
     }
 }

@@ -13,6 +13,7 @@ import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
+import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
@@ -50,6 +51,7 @@ public class TestActivity extends AppCompatActivity {
     private TextView textView;
     private Api storyApi;
     private ProgressBar progressBar;
+    private String token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -248,7 +250,7 @@ public class TestActivity extends AppCompatActivity {
         showProgressbar();
         RequestBody storyId = RequestBody.create(okhttp3.MultipartBody.FORM, "1");
         RequestBody comment = RequestBody.create(okhttp3.MultipartBody.FORM, "Amazing Story");
-        String token = "Bearer "+Prefs.getString("Token","");
+        token = "Bearer "+Prefs.getString("Token","");
         repository.getStoryApi().addComment(token,storyId,comment).enqueue(new Callback<BaseResponse<CommentResponse>>() {
             @Override
             public void onResponse(Call<BaseResponse<CommentResponse>> call, Response<BaseResponse<CommentResponse>> response) {
@@ -273,6 +275,31 @@ public class TestActivity extends AppCompatActivity {
         });
     }
 
+    public void bookmark(View view) {
+        showProgressbar();
+        repository.getStoryApi().bookmarkStory(token,41).enqueue(new Callback<BookmarkResponse>() {
+            @Override
+            public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
+                if (response.isSuccessful()) {
+                    String status = String.valueOf(response.body().getStatus());
+                    String message = response.body().getMessage();
+                    textView.setText("Response Status " + status + ": " + message+"\n");
+
+                    textView.append("Bookmarks: " + response.body().getData().toString()+"\n");
+                }else {
+                    textView.setText("Success Error " +response.message());
+                    textView.append("Code " +response.code());
+                }
+                hideProgressbar();
+            }
+
+            @Override
+            public void onFailure(Call<BookmarkResponse> call, Throwable t) {
+                textView.setText("Response Error " + t.getMessage());
+                hideProgressbar();
+            }
+        });
+    }
 
     public void showToken(View view) {
         String token = Prefs.getString("Token", "Nothing to display Ehma");
@@ -290,5 +317,4 @@ public class TestActivity extends AppCompatActivity {
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
-
 }

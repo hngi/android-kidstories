@@ -94,18 +94,32 @@ public interface Api {
      * @param image
      * @return
      */
+//    @Multipart
+//    @POST("stories")
+//    Call<BaseResponse<Story>> addStory(
+//            @Header("Authorization") String token,
+//            @Part("title") RequestBody title,
+//            @Part("body") RequestBody story,
+//            @Part("category_id") RequestBody categoryId,
+//            @Part("age") RequestBody ageInRange,
+//            @Part("author") RequestBody author,
+//           // @Part("story_duration") RequestBody storyDuration,
+//            @Part("image\"; filename=\"myfile.jpg\" ") RequestBody image
+////            @Part MultipartBody.Part image
+//    );
+
     @Multipart
     @POST("stories")
     Call<BaseResponse<Story>> addStory(
             @Header("Authorization") String token,
-            @Part("title") RequestBody title,
-            @Part("body") RequestBody story,
-            @Part("category_id") RequestBody categoryId,
-            @Part("age") RequestBody ageInRange,
-            @Part("author") RequestBody author,
-           // @Part("story_duration") RequestBody storyDuration,
-            @Part MultipartBody.Part image
+            @Field("title") String title,
+            @Field("body") String story,
+            @Field("category_id") int categoryId,
+            @Part MultipartBody.Part image,
+            @Field("age") String ageInRange,
+            @Field("author") String author
     );
+
 
 
     /***

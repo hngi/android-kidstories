@@ -48,7 +48,7 @@ public class ProfileFragment extends Fragment {
     String token;
     private Repository repository;
 
-    private com.project.android_kidstories.ui.profile.ProfileViewModel mViewModel;
+    private com.project.android_kidstories.Views.main.ui.profile.ProfileViewModel mViewModel;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -109,7 +109,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(com.project.android_kidstories.ui.profile.ProfileViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(com.project.android_kidstories.Views.main.ui.profile.ProfileViewModel.class);
         // TODO: Use the ViewModel
     }
 

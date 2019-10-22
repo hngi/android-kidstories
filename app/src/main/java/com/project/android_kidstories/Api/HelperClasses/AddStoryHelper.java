@@ -32,6 +32,14 @@ public class AddStoryHelper {
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
 
         MultipartBody.Part image = MultipartBody.Part.createFormData("Image", imageFile.getName(), requestFile);
+
+        String mtitle = story.getTitle();
+        String mbody = story.getBody();
+        int mcategory = story.getCategoryId();
+        String mageInrange = story.getAge();
+        String mauthor = story.getAuthor();
+        String mduration = story.getStoryDuration();
+
         RequestBody title = RequestBody.create(okhttp3.MultipartBody.FORM, story.getTitle());
         RequestBody body = RequestBody.create(okhttp3.MultipartBody.FORM, story.getBody());
         RequestBody category = RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(story.getCategoryId()));
@@ -40,15 +48,15 @@ public class AddStoryHelper {
         RequestBody duration = RequestBody.create(okhttp3.MultipartBody.FORM, story.getStoryDuration());
 
         if(isANewStory){
-            return addStory(title, body, category, ageInrange, author, duration, image);
+            return addStory(mtitle, mbody, mcategory, image, mageInrange, mauthor, mduration);
         } else {
             return updateStory(story.getId(), title, body, category, ageInrange, author, duration, image);
         }
 
     }
 
-    private static boolean addStory(RequestBody title, RequestBody body, RequestBody category, RequestBody ageInrange, RequestBody author, RequestBody duration, MultipartBody.Part image) {
-        RetrofitClient.getInstance().create(Api.class).addStory(token, title, body, category, ageInrange, author, image)
+    private static boolean addStory(String title, String  body, int category,  MultipartBody.Part image, String ageInrange, String author, String duration) {
+        RetrofitClient.getInstance().create(Api.class).addStory(token, title, body, category, image, ageInrange, author)
                 .enqueue(new Callback<BaseResponse<Story>>() {
                     @Override
                     public void onResponse(Call<BaseResponse<Story>> call, Response<BaseResponse<Story>> response) {

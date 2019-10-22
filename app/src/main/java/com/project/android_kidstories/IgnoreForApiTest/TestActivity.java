@@ -14,6 +14,7 @@ import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
+import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
@@ -277,6 +278,7 @@ public class TestActivity extends AppCompatActivity {
 
     public void bookmark(View view) {
         showProgressbar();
+        token = "Bearer "+Prefs.getString("Token","");
         repository.getStoryApi().bookmarkStory(token,41).enqueue(new Callback<BookmarkResponse>() {
             @Override
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
@@ -316,5 +318,35 @@ public class TestActivity extends AppCompatActivity {
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    public void getBookmark(View view) {
+        showProgressbar();
+        token = "Bearer "+Prefs.getString("Token","");
+        repository.getStoryApi().getUserBookmarks(token).enqueue(new Callback<UserBookmarkResponse>() {
+            @Override
+            public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
+                if (response.isSuccessful()) {
+                    String status = String.valueOf(response.body().getStatus());
+                    String message = response.body().getMessage();
+                    textView.setText("Response Status " + status + ": " + message+"\n");
+
+                    List<Story> data = response.body().getData();
+                    for(Story s: data){
+                        textView.append("User Bookmarks: " + s.getTitle()+"\n");
+                    }
+                }else {
+                    textView.setText("Success Error " +response.message());
+                    textView.append("Code " +response.code());
+                }
+                hideProgressbar();
+            }
+
+            @Override
+            public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
+                textView.setText("Response Error " + t.getMessage());
+                hideProgressbar();
+            }
+        });
     }
 }

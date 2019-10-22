@@ -79,6 +79,13 @@
                 android:onClick="bookmark"
                 android:text="Bookmark" />
 
+            <Button
+                android:id="@+id/test_get_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="getBookmark"
+                android:text="User Bookmark" />
+
             <TextView
                 android:id="@+id/test_textView"
                 android:layout_width="match_parent"

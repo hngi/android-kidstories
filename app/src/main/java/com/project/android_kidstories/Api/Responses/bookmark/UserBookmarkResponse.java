@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 
-public class BookmarkResponse {
+public class UserBookmarkResponse {
 
     @SerializedName("status")
     @Expose
@@ -28,7 +28,7 @@ public class BookmarkResponse {
     private String message;
     @SerializedName("data")
     @Expose
-    private Boolean data;
+    private List<Story> data;
 
     public String getStatus() {
         return status;
@@ -54,11 +54,11 @@ public class BookmarkResponse {
         this.message = message;
     }
 
-    public Boolean getData() {
+    public List<Story> getData() {
         return data;
     }
 
-    public void setData(Boolean data) {
+    public void setData(List<Story> data) {
         this.data = data;
     }
 }

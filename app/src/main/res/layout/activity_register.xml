@@ -22,7 +22,7 @@
             android:layout_width="87dp"
             android:layout_height="33dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="2dp"
             android:fontFamily="@font/comic_sans"
             android:text="@string/sign_up_label"
             android:textColor="#3f9FF7"
@@ -31,7 +31,7 @@
         <EditText
             android:id="@+id/reg_first_name"
             style="@style/EditTextWhite"
-            android:layout_width="260dp"
+            android:layout_width="288dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
@@ -46,7 +46,7 @@
         <EditText
             android:id="@+id/reg_last_name"
             style="@style/EditTextWhite"
-            android:layout_width="260dp"
+            android:layout_width="288dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
@@ -61,7 +61,7 @@
         <EditText
             android:id="@+id/reg_email"
             style="@style/EditTextWhite"
-            android:layout_width="260dp"
+            android:layout_width="288dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
@@ -76,7 +76,7 @@
         <EditText
             android:id="@+id/reg_contact"
             style="@style/EditTextWhite"
-            android:layout_width="260dp"
+            android:layout_width="288dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
@@ -91,7 +91,7 @@
         <EditText
             android:id="@+id/reg_password"
             style="@style/EditTextWhite"
-            android:layout_width="260dp"
+            android:layout_width="288dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
@@ -106,7 +106,7 @@
         <EditText
             android:id="@+id/reg_confirm_password"
             style="@style/EditTextWhite"
-            android:layout_width="260dp"
+            android:layout_width="288dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
@@ -181,6 +181,7 @@
                 android:id="@+id/not_reg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="3dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"

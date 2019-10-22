@@ -2,10 +2,10 @@ package com.project.android_kidstories;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
@@ -15,8 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.request.RequestOptions;
 import com.facebook.*;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
@@ -44,11 +42,15 @@ public class RegisterActivity extends AppCompatActivity {
     EditText phone;
     EditText firstName, lastName;
     EditText password, confirmPassword;
-    Button regFacebook, regGoogle, signUp;
+    Button regGoogle, signUp;
     TextView loginText;
     ProgressBar progressBar;
+    //ProgressDialog regProgress;
 
-    Repository repository = Repository.getInstance(getApplication());
+    Repository repository;
+    SharedPreferences sharedPreferences;
+    SharePref sharePref;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -63,6 +65,8 @@ public class RegisterActivity extends AppCompatActivity {
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
             if (currentAccessToken == null) {
                 firstName.setText("");
+                lastName.setText("");
+
                 emailET.setText("");
                 Toast.makeText(RegisterActivity.this, "User Logged Out", Toast.LENGTH_LONG).show();
 
@@ -78,15 +82,23 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        printHashKey(this);
+        repository = Repository.getInstance(getApplication());
+
+        printHashKey(this);  /* OnF8yB2LEowq5sp9VXjyI6p3s3Q= */
         checkLoginStatus();
 
+        repository = Repository.getInstance(getApplication());
         phone = findViewById(R.id.reg_contact);
         password = findViewById(R.id.reg_password);
         firstName = findViewById(R.id.reg_first_name);
+        progressBar = findViewById(R.id.reg_progress_bar);
+
         lastName = findViewById(R.id.reg_last_name);
+
         emailET = findViewById(R.id.reg_email);
         confirmPassword = findViewById(R.id.reg_confirm_password);
+
+        // regProgress = new ProgressDialog(RegisterActivity.this);
 
 //        regFacebook = findViewById(R.id.reg_facebook);
 //        regGoogle = findViewById(R.id.reg_google);
@@ -96,27 +108,25 @@ public class RegisterActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(this);
         callbackManager = CallbackManager.Factory.create();
 
-//
-//        regFacebook.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                LoginManager.getInstance().setAuthType(AUTH_TYPE)
-//                        .logInWithReadPermissions(RegisterActivity.this, Arrays.asList(EMAIL));
-//                facebookLogin();
-//            }
-//        });
+        sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
+        sharePref = SharePref.getINSTANCE(getApplicationContext());
+
 
         // if user is already registered
         loginText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(RegisterActivity.this, LoginActivity.class), LOGIN_TEXT_REQUEST_CODE);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivityForResult(intent, LOGIN_TEXT_REQUEST_CODE);
+                finish();
             }
         });
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 registerUser();
             }
         });
@@ -138,15 +148,19 @@ public class RegisterActivity extends AppCompatActivity {
             this.lastName.setError("Please enter your last name");
         } else if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailET.setError("Please enter a valid email");
-        }
-        //TODO: Add this before final push !Patterns.PHONE.matcher(phone_string).matches()
-        else if (phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches()) {
+        } else if (phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches()) {
             this.phone.setError("Please enter a valid phone number");
         } else if (password.isEmpty() || password.length() < 8) {
             this.password.setError("Please enter a valid password");
         } else if (confirmPassword.isEmpty() || !confirmPassword.contentEquals(password)) {
             this.confirmPassword.setError("Passwords do not match");
+
         } else {
+            // regProgress.setTitle("Creating new user");
+            // regProgress.setMessage("Please wait while we create your account");
+            // regProgress.setCanceledOnTouchOutside(false);
+            // regProgress.show();
+            progressBar.setVisibility(View.VISIBLE);
             newUser = new User(firstName, lastName, email);
             newUser.setPhoneNumber(phone);
             newUser.setPassword(confirmPassword);
@@ -155,14 +169,27 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
                     if (response.isSuccessful()) {
 
-                        SharePref editor = SharePref.getINSTANCE(getApplicationContext());
-                        editor.setString("Token", response.body().getData().getToken());
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        editor.putString("Token", response.body().getData().getToken());
+                        editor.putString("Username", firstName + " " + lastName);
+                        editor.apply();
+                        sharePref.setIsUserLoggedIn(true);
+
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+
+                        finish();
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        //  regProgress.dismiss();
                     } else {
                         Snackbar.make(findViewById(R.id.registration_parent_layout),
                                 "User with that email already exists", Snackbar.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        //   regProgress.hide();
                     }
                 }
 
@@ -171,7 +198,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Network Failure", Toast.LENGTH_LONG).show();
                     Snackbar.make(findViewById(R.id.registration_parent_layout),
                             "Network Failure", Snackbar.LENGTH_LONG).show();
-
+                    progressBar.setVisibility(View.INVISIBLE);
+                    //  regProgress.hide();
                 }
             });
         }
@@ -190,8 +218,8 @@ public class RegisterActivity extends AppCompatActivity {
                     String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
 
                     emailET.setText(email);
-
                     firstName.setText(First_Name + " " + Last_Name);
+
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
 
@@ -217,46 +245,6 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
         }
     }
-
-    public void facebookLogin() {
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(RegisterActivity.this, "Successful", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "onSuccess: " + loginResult);
-                setResult(RESULT_OK);
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                finish();
-                /*call : loginResult.getAccessToken().getUserId() to get userId and save to database;*/
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Toast.makeText(RegisterActivity.this, "Error " + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -315,10 +303,13 @@ public class RegisterActivity extends AppCompatActivity {
 //
 //    }
 
-    private void signInUser() {
+   /* private void signInUser() {
         String email_string = emailET.getText().toString();
         String phone_string = phone.getText().toString();
-        String fullName_string = firstName.getText().toString();
+
+        String firstname_string = firstName.getText().toString();
+        String Lastname_string = Lastname.getText().toString();
+
         String password_string = password.getText().toString();
 
         //validating text fields
@@ -333,14 +324,56 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(fullName_string) || TextUtils.isEmpty(password_string)) {
+
+        if (TextUtils.isEmpty(firstname_string) || TextUtils.isEmpty(password_string)) {
+
             firstName.setError("Please enter a valid phone number");
             password.setError("Enter a password");
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
-    }
+
+        User user = new User(firstname_string, Lastname_string, email_string);
+        user.setPassword(password_string);
+        user.setPhoneNumber(phone_string);
+        Repository repository = new Repository(this.getApplication());
+        Call<BaseResponse<DataResponse>> call = repository.getStoryApi().registerUser(user);
+
+
+        call.enqueue(new Callback<BaseResponse<DataResponse>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
+
+
+                if (response.code() == 201) {
+                    String s = response.message();
+                    Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
+
+
+                } else {
+
+                    try {
+                        String s = response.errorBody().string();
+                        Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+            //This is weird, but the Method below actually registers the user.
+
+            @Override
+            public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, "Welcome!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+    }  */
 
     // Getting app hash key for facebook login registration
     private static void printHashKey(Context context) {

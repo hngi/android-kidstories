@@ -1,10 +1,8 @@
 package com.project.android_kidstories.DataStore;
 
 import android.content.Context;
-
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
 
@@ -15,13 +13,13 @@ import com.project.android_kidstories.Model.User;
  */
 
 
-@androidx.room.Database(entities = {Story.class, User.class},version = 4,exportSchema = false)
+@androidx.room.Database(entities = {Story.class, User.class}, version = 4, exportSchema = false)
 public abstract class StoryDatabase extends RoomDatabase {
     private static StoryDatabase INSTANCE;
 
-    public static synchronized StoryDatabase getInstance(Context context){
-        if(INSTANCE==null){
-            return Room.databaseBuilder(context, StoryDatabase.class,"story_database")
+    public static synchronized StoryDatabase getInstance(Context context) {
+        if (INSTANCE == null) {
+            return Room.databaseBuilder(context, StoryDatabase.class, "story_database")
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .build();

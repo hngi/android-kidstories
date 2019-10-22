@@ -1,8 +1,9 @@
 package com.project.android_kidstories;
 
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -19,9 +20,9 @@ import retrofit2.Response;
 
 public class StoryListingActivity extends AppCompatActivity {
 
-    ProgressDialog progressDialog;
     private Repository repository;
     private Api storyApi;
+    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private RecyclerCategoryStoriesAdapter adapter;
 
@@ -44,9 +45,8 @@ public class StoryListingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading....");
-        progressDialog.show();
+        progressBar = findViewById(R.id.story_listing_bar);
+        progressBar.setVisibility(View.VISIBLE);
 
         getCategoryStoriesWithId(categoryId);
 
@@ -61,15 +61,13 @@ public class StoryListingActivity extends AppCompatActivity {
 
                 recyclerView = findViewById(R.id.rv_list);
                 if (response.isSuccessful()) {
-
                     adapter = new RecyclerCategoryStoriesAdapter(StoryListingActivity.this, response.body().getData().getStories());
                     GridLayoutManager layoutManager = new GridLayoutManager(StoryListingActivity.this, 1);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
 
-                    progressDialog.hide();
+                    progressBar.setVisibility(View.INVISIBLE);
 //
-
                 } else {
                     // textView.setText("Success Error " +response.message());
                 }
@@ -78,7 +76,7 @@ public class StoryListingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<BaseResponse<CategoryStoriesResponse>> call, Throwable t) {
-                progressDialog.hide();
+                progressBar.setVisibility(View.INVISIBLE);
                 //textView.setText("Response Error " + t.getMessage());
             }
         });

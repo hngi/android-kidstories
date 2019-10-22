@@ -1,68 +1,90 @@
 package com.project.android_kidstories;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import com.bumptech.glide.Glide;
+import com.project.android_kidstories.Api.Api;
+import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
+import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.Story;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SingleStoryActivity extends AppCompatActivity {
 
     private ImageView story_pic, like_btn;
-    private TextView story_author , story_content;
-    int story_id = 2;
-
-    ProgressDialog progressDoalog;
+    int story_id = 0;
+    private TextView story_author, story_content, error_msg;
+    private Toolbar toolbar;
+    private ProgressBar progressBar;
+    private Repository repository;
+    private Api storyApi;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_story);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        progressDoalog = new ProgressDialog(SingleStoryActivity.this);
-        progressDoalog.setMessage("Loading....");
-        progressDoalog.show();
+        repository = Repository.getInstance(this.getApplication());
+        storyApi = repository.getStoryApi();
+        story_id = getIntent().getIntExtra("story_id", 0);
 
-        findViewById(R.id.image_arrow_back)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        finish();
-                    }
-                });
 
-        story_author = findViewById(R.id.author_name);
+        progressBar = findViewById(R.id.story_content_bar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        story_author = findViewById(R.id.author);
         story_content = findViewById(R.id.story_content);
         story_pic = findViewById(R.id.story_pic);
         like_btn = findViewById(R.id.like_button);
-        int story_id = getIntent().getIntExtra("story_id", 0);
+        error_msg = findViewById(R.id.error_msg);
+        //todo : check authorization for premium stories
+        getStoryWithId(story_id);
+    }
 
-       /* ApiInterface service = Client.getInstance().create(ApiInterface.class);
-        Call<StoryResponse> story = service.getStory(story_id);
-
-        story.enqueue(new Callback<StoryResponse>() {
+    public void getStoryWithId(int id) {
+        storyApi.getStory(id).enqueue(new Callback<StoryBaseResponse>() {
             @Override
-            public void onResponse(Call<StoryResponse> call, Response<StoryResponse> response) {
-                progressDoalog.dismiss();
-                Log.i("apple", response.message());
-                Story currentStory = response.body().getData();
-                story_author.setText(currentStory.getAuthor());
-                story_content.setText(currentStory.getBody());
-
-                getSupportActionBar().setTitle(currentStory.getTitle());
+            public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
+                try {
+                    Story currentStory = response.body().getData();
+                    getSupportActionBar().setTitle(currentStory.getTitle());
+                    story_author.setText(currentStory.getAuthor());
+                    story_content.setText(currentStory.getBody());
+                    Glide.with(getApplicationContext()).load(currentStory.getImageUrl()).placeholder(R.drawable.story_bg_ic).into(story_pic);
+                    story_author.setVisibility(View.VISIBLE);
+                    story_content.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
+                } catch (Exception e) {
+                    Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong ... story specific issue", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    error_msg.setVisibility(View.VISIBLE);
+                    story_author.setVisibility(View.INVISIBLE);
+                    story_content.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override
-            public void onFailure(Call<StoryResponse> call, Throwable t) {
-                progressDoalog.dismiss();
-                Toast.makeText(SingleStoryActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<StoryBaseResponse> call, Throwable t) {
+                progressBar.setVisibility(View.INVISIBLE);
+                story_author.setVisibility(View.INVISIBLE);
+                story_content.setVisibility(View.INVISIBLE);
+                error_msg.setVisibility(View.VISIBLE);
+                Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
+
+
     }
 }

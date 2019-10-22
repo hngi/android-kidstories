@@ -1,10 +1,10 @@
-package com.project.android_kidstories.Views.main.ui.home.Fragments;
+package com.project.android_kidstories.ui.home.Fragments;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,9 +27,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public class PopularStoriesFragment extends Fragment {
-    ProgressDialog progressDoalog;
-    RecyclerView recyclerView;
     private RecyclerStoriesAdapter adapter;
+    RecyclerView recyclerView;
+    private ProgressBar popular_bar;
 
     public static PopularStoriesFragment newInstance() {
         return new PopularStoriesFragment();
@@ -41,9 +41,9 @@ public class PopularStoriesFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_popularstories, container, false);
         ButterKnife.bind(this, v);
 
-        progressDoalog = new ProgressDialog(getActivity());
-        progressDoalog.setMessage("Loading....");
-        progressDoalog.show();
+        popular_bar = v.findViewById(R.id.popular_stories_bar);
+
+        popular_bar.setVisibility(View.VISIBLE);
 
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
@@ -53,19 +53,22 @@ public class PopularStoriesFragment extends Fragment {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 //  generateCategoryList(response.body(),v);
-                progressDoalog.dismiss();
+                popular_bar.setVisibility(View.GONE);
 
                 recyclerView = v.findViewById(R.id.recyclerView);
-
-                adapter = new RecyclerStoriesAdapter(getContext(), sortList(response.body()));
-                GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+                if (response.isSuccessful()) {
+                    adapter = new RecyclerStoriesAdapter(getContext(), sortList(response.body()));
+                    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+                } else {
+                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
-                progressDoalog.dismiss();
+                popular_bar.setVisibility(View.INVISIBLE);
 
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }

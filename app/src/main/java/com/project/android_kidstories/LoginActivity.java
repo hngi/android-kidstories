@@ -1,21 +1,19 @@
 package com.project.android_kidstories;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
+import com.facebook.*;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -46,36 +44,67 @@ public class LoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button btn;
-
-    private Repository repository = Repository.getInstance(getApplication());
+    // ProgressDialog LoginProgress;
+    TextView createAccount;
+    ProgressBar loginProg;
+    SharedPreferences sharedPreferences;
+    SharePref sharePref;
+    private Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        repository = Repository.getInstance(getApplication());
 
-        SharePref sharePref = SharePref.getINSTANCE(getApplicationContext());
-        String userToken = sharePref.getString("Token");
-        if (!TextUtils.isEmpty(userToken)) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
 
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade__in);
+        Animation transit = AnimationUtils.loadAnimation(this, R.anim.ttb);
+
+        TextView transText = findViewById(R.id.welcome);
+        TextView transText2 = findViewById(R.id.welcome);
+        ImageView fadeInImage = findViewById(R.id.imageMain);
+
+        transText.startAnimation(transit);
+        transText2.startAnimation(transit);
+        fadeInImage.startAnimation(fadeIn);
+
+        loginProg = findViewById(R.id.login_progress);
         email = findViewById(R.id.et_email);
         password = findViewById(R.id.et_password);
         btn = findViewById(R.id.login_button);
 
+        // LoginProgress = new ProgressDialog(LoginActivity.this);
+
         googleSignInButton = findViewById(R.id.google_auth_button);
+        sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
+        sharePref = SharePref.getINSTANCE(getApplicationContext()).getSharePref();
+
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+
+
+      /*  GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getResources().getString(R.string.web_client_id))
+                .requestServerAuthCode("473866473162-4k87knredq3nnb19d4el239n1ja6r3ae.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso);*/
 
         googleSignInSetUp();
 
 
-        TextView createAccount = findViewById(R.id.create_account);
+        createAccount = findViewById(R.id.create_account);
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
             }
         });
 
@@ -83,6 +112,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loginUser();
+                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
             }
         });
 
@@ -116,9 +147,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent signInIntent = googleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, 101);
+                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
             }
         });
 
+    }
+
+    private void saveUserDetails(String token, String firstname, String lastname, String email) {
+        new SharePref(this).saveLoginDetails(token, firstname, lastname, email);
     }
 
     private void loginUser() {
@@ -133,18 +170,46 @@ public class LoginActivity extends AppCompatActivity {
         } else if (TextUtils.isEmpty(password_string)) {
             password.setError("Please enter a password");
             return;
+
         } else {
+            //  LoginProgress.setTitle("Signing In");
+            //LoginProgress.setMessage("Please wait...");
+            //LoginProgress.setCanceledOnTouchOutside(false);
+            //LoginProgress.show();
+            loginProg.setVisibility(View.VISIBLE);
             repository.getStoryApi().loginUser(email_string, password_string).enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
+
                     if (response.isSuccessful()) {
 
-                        SharePref editor = SharePref.getINSTANCE(getApplicationContext());
-                        editor.setString("Token", response.body().getUser().getToken());
+                        assert response.body() != null;
+                        String token = response.body().getUser().getToken();
+                        Toast.makeText(LoginActivity.this, token, Toast.LENGTH_LONG).show();
 
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        String mFirstname = response.body().getUser().getFirstName();
+                        String mLastname = response.body().getUser().getLastName();
+                        String mEmail = response.body().getUser().getEmail();
+                        saveUserDetails(token, mFirstname, mLastname, mEmail);
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        editor.putString("Token", token);
+                        editor.apply();
+                        sharePref.setIsUserLoggedIn(true);
+                        loginProg.setVisibility(View.INVISIBLE);
+                        //   LoginProgress.dismiss();
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("myToken", token);
+                        startActivity(intent);
+                        finish();
+
                     } else {
+                        loginProg.setVisibility(View.INVISIBLE);
+                        // LoginProgress.hide();
                         Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"
                                 , Snackbar.LENGTH_LONG).show();
                     }
@@ -152,6 +217,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    loginProg.setVisibility(View.INVISIBLE);
+                    // LoginProgress.hide();
                     Snackbar.make(findViewById(R.id.login_parent_layout), "Network Failure"
                             , Snackbar.LENGTH_LONG).show();
 
@@ -187,17 +254,30 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 101) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+
     }
 
-       /* private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-            try {
-                GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-                // Signed in successfully, show authenticated UI.
-                String idToken = account.getIdToken();
-                /*
-                      send this id token to server using HTTPS
-                     */
 
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            // Signed in successfully, show authenticated UI.
+            String idToken = account.getIdToken();
+
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            // updateUI(null);
+        }
                /* Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } catch (ApiException e) {
@@ -207,6 +287,10 @@ public class LoginActivity extends AppCompatActivity {
                // updateUI(null);
             }
         }*/
+
+
+    }
+
 
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
         Intent intent = new Intent(this, MainActivity.class);
@@ -226,15 +310,17 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "Not logged in");
         }
+        // Check if user is logged in through facebook
+        checkLoginStatus();
     }
 
-   /* private void checkLoginStatus() {
+    private void checkLoginStatus() {
         if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
             // user already signed in
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
-    }*/
+    }
 
     public void facebookLogin() {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -259,4 +345,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
+
+

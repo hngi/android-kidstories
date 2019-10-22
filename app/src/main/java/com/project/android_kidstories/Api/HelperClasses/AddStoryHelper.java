@@ -2,22 +2,20 @@ package com.project.android_kidstories.Api.HelperClasses;
 
 import android.net.Uri;
 import android.util.Log;
-
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
+import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Story;
-
-import java.io.File;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.io.File;
 
 public class AddStoryHelper {
     public static final String TOKEN_KEY="token";
@@ -48,7 +46,7 @@ public class AddStoryHelper {
     }
 
     private static boolean addStory(RequestBody title, RequestBody body, RequestBody category, RequestBody ageInrange, RequestBody author, RequestBody duration, MultipartBody.Part image) {
-        RetrofitClient.getInstance().create(Api.class).addStory(token, title, body, category, ageInrange, author, duration, image)
+        RetrofitClient.getInstance().create(Api.class).addStory(token, title, body, category, ageInrange, author, image)
                 .enqueue(new Callback<BaseResponse<Story>>() {
                     @Override
                     public void onResponse(Call<BaseResponse<Story>> call, Response<BaseResponse<Story>> response) {

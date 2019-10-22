@@ -1,10 +1,7 @@
 package com.project.android_kidstories;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
-import com.project.android_kidstories.R;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class About extends AppCompatActivity {
 
@@ -12,5 +9,9 @@ public class About extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+
+        /*Animation fade = AnimationUtils.loadAnimation(this, R.anim.fade__in);
+        TextView transText = findViewById(R.id.about);
+        transText.startAnimation(fade);*/
     }
 }

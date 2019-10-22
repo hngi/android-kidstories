@@ -7,7 +7,7 @@
         android:fromYScale="0.0"
         android:toXScale="1.0"
         android:toYScale="1.0"
-        android:repeatCount="4"
+        android:repeatCount="2"
         android:repeatMode="reverse"
         android:duration="1000"/>
 

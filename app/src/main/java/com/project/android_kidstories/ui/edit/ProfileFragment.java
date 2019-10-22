@@ -22,9 +22,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.Glide;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
+import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
 
 import java.io.FileNotFoundException;
 
@@ -44,14 +47,13 @@ public class ProfileFragment extends Fragment {
     BedTimeDbHelper helper;
 
 
-    private EditProfileViewModel editProfileViewModel;
+    private FragmentsSharedViewModel viewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         helper = new BedTimeDbHelper(getContext());
 
         imageConversion = new ImageConversion();
 
-        editProfileViewModel = ViewModelProviders.of(this).get(EditProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_edit, container, false);
 
         imagePath = root.findViewById(R.id.selected_image_path);
@@ -89,6 +91,19 @@ public class ProfileFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        viewModel = ViewModelProviders.of(getActivity()).get(FragmentsSharedViewModel.class);
+
+        username.setText(viewModel.currentUser.getFirstName() + " " + viewModel.currentUser.getLastName());
+        if(viewModel.currentUser.getImage() != null){
+            Glide.with(getActivity().getApplicationContext())
+                    .load(viewModel.currentUser.getImage())
+                    .into(imageView);
+        }
     }
 
     @Override

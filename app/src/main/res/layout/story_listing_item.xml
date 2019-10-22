@@ -42,8 +42,8 @@
             android:fontFamily="@font/roboto_regular"
             android:singleLine="true"
             android:text="@string/book_title"
-            android:textColor="@color/black"
             android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/by"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/book_image"
             app:layout_constraintTop_toTopOf="@+id/book_image" />
@@ -52,10 +52,11 @@
             android:id="@+id/by"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:fontFamily="@font/roboto_lite"
             android:text="@string/by"
-            android:textColor="@color/black"
+
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="@+id/book_title"
             app:layout_constraintTop_toBottomOf="@+id/book_title" />
@@ -65,10 +66,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginEnd="115dp"
             android:fontFamily="@font/roboto_lite"
             android:text="@string/by_author_name"
             android:textColor="@color/colorPrimary"
             android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/by"
             app:layout_constraintTop_toTopOf="@+id/by" />
 

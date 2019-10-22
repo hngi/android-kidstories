@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,22 +18,40 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
+import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
+import com.project.android_kidstories.Api.RetrofitClient;
+import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.adapters.ProfilePagerAdapter;
 import com.project.android_kidstories.db.Helper.AddUsers;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
+import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
 import com.project.android_kidstories.ui.profile.MyStoriesFragment;
+import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
     public ImageView imageView;
     BedTimeDbHelper helper;
     ImageConversion imageConversion;
+    TextView userName, userEmail;
+    String token;
 
-    private com.project.android_kidstories.Views.main.ui.profile.ProfileViewModel mViewModel;
+    private Repository repository;
+    public FragmentsSharedViewModel viewModel;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -53,7 +72,15 @@ public class ProfileFragment extends Fragment {
         View root = inflater.inflate(R.layout.profile_fragment, container, false);
 
         imageView = root.findViewById(R.id.profile);
+        userName = root.findViewById(R.id.profile_name);
+        userEmail = root.findViewById(R.id.profile_email);
 
+//        Get token from bundle
+//        if (getArguments() != null) {
+//            token = getArguments().getString("token");
+//        }
+
+//
         // TODO: Causes the app to crash
         /*Bitmap image = imageConversion.convertByteArraytoBitMap(getImage(client_id));
         Bitmap resizedImage = imageConversion.fitBitMaptoImageView(image, 178, 178);
@@ -83,7 +110,12 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(com.project.android_kidstories.Views.main.ui.profile.ProfileViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(FragmentsSharedViewModel.class);
+        repository = Repository.getInstance(getActivity().getApplication());
+
+       // Displays the user information
+        displayProfile();
+
         // TODO: Use the ViewModel
     }
 
@@ -107,5 +139,34 @@ public class ProfileFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void displayProfile(){
+        token = new SharePref(getActivity()).getMyToken();
+        String firstname = new SharePref(getActivity()).getUserFirstname();
+        String lastname = new SharePref(getActivity()).getUserLastname();
+        String email = new SharePref(getActivity()).getUserEmail();
+        //Toast.makeText(getActivity(), token,Toast.LENGTH_LONG).show();
+
+        String name = firstname + " " + lastname;
+
+        if(viewModel.currentUser.getLastName() != null && viewModel.currentUser.getFirstName() != null
+        && viewModel.currentUser.getEmail() != null) {
+            userName.setText(viewModel.currentUser.getFirstName() + " " + viewModel.currentUser.getLastName());
+            userEmail.setText(viewModel.currentUser.getEmail());
+        }
+        else{
+            userEmail.setText(email);
+            userName.setText(name);
+        }
+
+        if(viewModel.currentUser.getImage() != null){
+            Glide.with(getActivity().getApplicationContext())
+                    .load(viewModel.currentUser.getImage())
+                    .into(imageView);
+        }
+
+
+
     }
 }

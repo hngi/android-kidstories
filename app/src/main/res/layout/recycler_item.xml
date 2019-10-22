@@ -26,9 +26,9 @@
             <ImageView
                 android:id="@+id/recyclerImage"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@drawable/amex" />
 
             <LinearLayout
@@ -46,7 +46,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="Diary of a wimpy kid"
-                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView

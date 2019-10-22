@@ -48,7 +48,7 @@ public class AddStoryHelper {
     }
 
     private static boolean addStory(RequestBody title, RequestBody body, RequestBody category, RequestBody ageInrange, RequestBody author, RequestBody duration, MultipartBody.Part image) {
-        RetrofitClient.getInstance().create(Api.class).addStory(token, title, body, category, ageInrange, author, duration, image)
+        RetrofitClient.getInstance().create(Api.class).addStory(token, title, body, category, ageInrange, author, image)
                 .enqueue(new Callback<BaseResponse<Story>>() {
                     @Override
                     public void onResponse(Call<BaseResponse<Story>> call, Response<BaseResponse<Story>> response) {

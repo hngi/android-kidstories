@@ -18,7 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/sym_def_app_icon" />
+            app:srcCompat="@drawable/account_icon" />
 
         <TextView
             android:id="@+id/tv_username"
@@ -28,7 +28,6 @@
             android:fontFamily="@font/roboto_light"
             android:text="@string/username"
             android:textAlignment="center"
-            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/img_user"

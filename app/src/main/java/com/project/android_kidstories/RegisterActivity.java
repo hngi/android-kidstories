@@ -71,10 +71,10 @@ public class RegisterActivity extends AppCompatActivity {
     EditText phone;
     EditText firstName, lastName;
     EditText password, confirmPassword;
-    Button regFacebook, regGoogle, signUp;
+    Button regGoogle, signUp;
     TextView loginText;
     ProgressBar progressBar;
-    ProgressDialog regProgress;
+    //ProgressDialog regProgress;
 
     Repository repository;
     SharedPreferences sharedPreferences;
@@ -95,7 +95,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        printHashKey(this);
+        repository = Repository.getInstance(getApplication());
+
+        printHashKey(this);  /* OnF8yB2LEowq5sp9VXjyI6p3s3Q= */
         checkLoginStatus();
 
         repository = Repository.getInstance(getApplication());
@@ -109,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailET = findViewById(R.id.reg_email);
         confirmPassword = findViewById(R.id.reg_confirm_password);
 
-        regProgress = new ProgressDialog(RegisterActivity.this);
+        // regProgress = new ProgressDialog(RegisterActivity.this);
 
 //        regFacebook = findViewById(R.id.reg_facebook);
 //        regGoogle = findViewById(R.id.reg_google);
@@ -122,29 +124,22 @@ public class RegisterActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
         sharePref = SharePref.getINSTANCE(getApplicationContext());
 
-//
-//        regFacebook.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                LoginManager.getInstance().setAuthType(AUTH_TYPE)
-//                        .logInWithReadPermissions(RegisterActivity.this, Arrays.asList(EMAIL));
-//                facebookLogin();
-//            }
-//        });
-
 
         // if user is already registered
         loginText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(RegisterActivity.this, LoginActivity.class), LOGIN_TEXT_REQUEST_CODE);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivityForResult(intent, LOGIN_TEXT_REQUEST_CODE);
+                finish();
             }
         });
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
+
                 registerUser();
             }
         });
@@ -166,8 +161,7 @@ public class RegisterActivity extends AppCompatActivity {
             this.lastName.setError("Please enter your last name");
         } else if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailET.setError("Please enter a valid email");
-        }
-        else if (phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches()) {
+        } else if (phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches()) {
             this.phone.setError("Please enter a valid phone number");
         } else if (password.isEmpty() || password.length() < 8) {
             this.password.setError("Please enter a valid password");
@@ -175,10 +169,11 @@ public class RegisterActivity extends AppCompatActivity {
             this.confirmPassword.setError("Passwords do not match");
 
         } else {
-            regProgress.setTitle("Creating new user");
-            regProgress.setMessage("Please wait while we create your account");
-            regProgress.setCanceledOnTouchOutside(false);
-            regProgress.show();
+            // regProgress.setTitle("Creating new user");
+            // regProgress.setMessage("Please wait while we create your account");
+            // regProgress.setCanceledOnTouchOutside(false);
+            // regProgress.show();
+            progressBar.setVisibility(View.VISIBLE);
             newUser = new User(firstName, lastName, email);
             newUser.setPhoneNumber(phone);
             newUser.setPassword(confirmPassword);
@@ -190,18 +185,24 @@ public class RegisterActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
                         editor.putString("Token", response.body().getData().getToken());
+                        editor.putString("Username",firstName +" "+ lastName);
                         editor.apply();
                         sharePref.setIsUserLoggedIn(true);
-                        progressBar.setVisibility(View.INVISIBLE);
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+
                         finish();
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
-
-                        regProgress.dismiss();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        //  regProgress.dismiss();
                     } else {
                         Snackbar.make(findViewById(R.id.registration_parent_layout),
                                 "User with that email already exists", Snackbar.LENGTH_LONG).show();
-                        regProgress.hide();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        //   regProgress.hide();
                     }
                 }
 
@@ -210,7 +211,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Network Failure", Toast.LENGTH_LONG).show();
                     Snackbar.make(findViewById(R.id.registration_parent_layout),
                             "Network Failure", Snackbar.LENGTH_LONG).show();
-                    regProgress.hide();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    //  regProgress.hide();
                 }
             });
         }
@@ -274,46 +276,6 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
         }
     }
-
-    public void facebookLogin() {
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(RegisterActivity.this, "Successful", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "onSuccess: " + loginResult);
-                setResult(RESULT_OK);
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                finish();
-                /*call : loginResult.getAccessToken().getUserId() to get userId and save to database;*/
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Toast.makeText(RegisterActivity.this, "Error " + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

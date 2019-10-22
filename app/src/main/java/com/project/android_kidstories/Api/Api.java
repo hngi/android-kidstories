@@ -51,7 +51,7 @@ public interface Api {
     Call<BaseResponse<DataResponse>> logoutUser(@Header("Authorization") String token);
 
     @GET("auth/user")
-    Call<DataResponse> getUser(@Header("Authorization")String token);
+    Call<BaseResponse<DataResponse>> getUser(@Header("Authorization")String token);
 
     @GET("auth/change-password")
     Call<BaseResponse<DataResponse>> changeUserPassword(@Header("Authorization") String token,
@@ -90,7 +90,7 @@ public interface Api {
      * @param categoryId
      * @param ageInRange: this field should be entered in a range format like 1-5, 5-37, 45-78
      * @param author
-     * @param storyDuration
+     * @param //storyDuration
      * @param image
      * @return
      */
@@ -103,7 +103,7 @@ public interface Api {
             @Part("category_id") RequestBody categoryId,
             @Part("age") RequestBody ageInRange,
             @Part("author") RequestBody author,
-            @Part("story_duration") RequestBody storyDuration,
+           // @Part("story_duration") RequestBody storyDuration,
             @Part MultipartBody.Part image
     );
 

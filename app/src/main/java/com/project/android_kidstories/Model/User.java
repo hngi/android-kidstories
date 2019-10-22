@@ -96,6 +96,8 @@ public class User implements Parcelable, Serializable {
         this.email = email;
     }
 
+    public User(){}
+
     public User(Parcel in) {
         token = in.readString();
         id = in.readLong();

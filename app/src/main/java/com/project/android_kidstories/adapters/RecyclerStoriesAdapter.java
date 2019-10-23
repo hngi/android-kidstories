@@ -19,8 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.Resource;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
+import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author .: Oluwajuwon Fawole
@@ -31,12 +36,18 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
     private Context context;
     private StoryAllResponse storiesList;
+    private OnBookmarked bookmarked;
+    List<Story> stories;
 
+    public interface OnBookmarked{
+        boolean onBookmarkAdded(int storyId);
+        boolean isAlreadyBookmarked(int storyId);
+    }
 
-
-    public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList) {
+    public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList,OnBookmarked bookmarked) {
         this.context = context;
         this.storiesList = storiesList;
+        this.bookmarked = bookmarked;
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -79,6 +90,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
+        stories = storiesList.getData();
         Glide.with(context).load(storiesList.getData().get(position).getImageUrl()).into(holder.storyImage);
 
         holder.storyTitle.setText(storiesList.getData().get(position).getTitle());
@@ -102,7 +114,11 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);    //When you change the drawable
         holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
 
+        if(bookmarked.isAlreadyBookmarked(storiesList.getData().get(position).getId())){
+            
+        }
         holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
+
 
         int like_image_black = R.drawable.ic_thumb_up_black_24dp;
         int like_image_blue  = R.drawable.ic_thumb_up_blue_24dp;
@@ -182,19 +198,29 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             public void onClick(View v) {
                 int bookmark_drawableId = (Integer)holder.bookmark.getTag();
 
-                if(bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp) {
-                    holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
-                    holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
+                boolean successfulBookmark = bookmarked.onBookmarkAdded(storiesList.getData()
+                        .get(position).getId());
+
+
+
+                if((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp)&&
+                        successfulBookmark) {
+                        holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
+                        holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
 
                 }else{
                     holder.bookmark.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
                     holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
+                    Toast.makeText(context,"Oops Something went wrong, bookmark not added",Toast.LENGTH_LONG).show();
                 }
             }
         });
 
     }
 
+    private void replaceStory(Story story,int position){
+        this.stories.set(position,story);
+    }
     @Override
     public int getItemCount() {
         return storiesList.getData().size();

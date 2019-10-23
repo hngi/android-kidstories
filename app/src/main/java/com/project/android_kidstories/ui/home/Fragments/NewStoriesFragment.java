@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
+import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
+import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
@@ -33,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener {
+public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener , RecyclerStoriesAdapter.OnBookmarked {
 
     private static final String TAG = "kidstories";
     private RecyclerView recyclerView;
@@ -42,7 +45,8 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private Repository repository;
 //    private StoryAdapter storyAdapter;
     private RecyclerStoriesAdapter storyAdapter;
-
+    private Api service;
+    private boolean isAddSuccessful,initBookmark;
 
 
     public static NewStoriesFragment newInstance() {
@@ -58,7 +62,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         progressBar.setVisibility(View.VISIBLE);
 
         /*Create handle for the RetrofitInstance interface*/
-        Api service = RetrofitClient.getInstance().create(Api.class);
+        service = RetrofitClient.getInstance().create(Api.class);
         Call<StoryAllResponse> stories = service.getAllStories();
 
         stories.enqueue(new Callback<StoryAllResponse>() {
@@ -69,7 +73,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 recyclerView = v.findViewById(R.id.recyclerView);
 
                 if (response.isSuccessful()) {
-                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body());
+                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(),NewStoriesFragment.this);
                     GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(storyAdapter);
@@ -140,5 +144,63 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     @Override
     public void onClick(View view) {
 
+    }
+
+    @Override
+    public boolean onBookmarkAdded(int storyId) {
+
+        String token = "Bearer "+ Prefs.getString("Token","");
+        Call<BookmarkResponse> addBookmark= service.bookmarkStory(token,storyId);
+        addBookmark.enqueue(new Callback<BookmarkResponse>() {
+            @Override
+            public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
+                if (response.isSuccessful()) {
+                    isAddSuccessful = response.body().getData();
+                }else {
+                    isAddSuccessful = false;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookmarkResponse> call, Throwable t) {
+                isAddSuccessful = false;
+            }
+        });
+        Log.e("ISADDSUCCESSFUL",isAddSuccessful+"");
+        return isAddSuccessful;
+    }
+
+    @Override
+    public boolean isAlreadyBookmarked(int storyId) {
+        String token = "Bearer "+ Prefs.getString("Token","");
+
+        Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
+
+        bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
+            @Override
+            public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
+                if (response.isSuccessful()) {
+                    List<Story> data = response.body().getData();
+                    for(Story s: data){
+                        if(s.getId() == storyId){
+
+                            Log.e("STORYID",storyId+"");
+                            initBookmark = true;
+                        }
+                    }
+                }else {
+                    initBookmark = false;
+                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
+                initBookmark = false;
+                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Log.e("INITBOOKMARK",initBookmark+"");
+        return initBookmark;
     }
 }

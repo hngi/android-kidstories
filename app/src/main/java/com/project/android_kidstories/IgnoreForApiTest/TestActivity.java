@@ -303,23 +303,6 @@ public class TestActivity extends AppCompatActivity {
         });
     }
 
-    public void showToken(View view) {
-        String token = Prefs.getString("Token", "Nothing to display Ehma");
-        showToast("Your token : "+token);
-    }
-
-    private void hideProgressbar(){
-        progressBar.setVisibility(View.GONE);
-    }
-
-    private void showProgressbar(){
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
     public void getBookmark(View view) {
         showProgressbar();
         token = "Bearer "+Prefs.getString("Token","");
@@ -348,5 +331,22 @@ public class TestActivity extends AppCompatActivity {
                 hideProgressbar();
             }
         });
+    }
+
+    public void showToken(View view) {
+        String token = Prefs.getString("Token", "Nothing to display Ehma");
+        showToast("Your token : "+token);
+    }
+
+    private void hideProgressbar(){
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void showProgressbar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

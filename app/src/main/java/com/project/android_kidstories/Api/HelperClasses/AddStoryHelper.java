@@ -1,6 +1,7 @@
 package com.project.android_kidstories.Api.HelperClasses;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
@@ -25,8 +26,8 @@ import retrofit2.Response;
 public class AddStoryHelper {
     public static final String TOKEN_KEY="token";
     private static final String TAG = "kidstories";
-    public static SharePref sharePref;
-    public String token = new SharePref(this).getMyToken();
+    public static String token;
+//    public static SharedPreferences sharePref = new Prefs(TOKEN_KEY, token);
     private static boolean isStoryAdded=false;
     private static Integer likesCount;
 

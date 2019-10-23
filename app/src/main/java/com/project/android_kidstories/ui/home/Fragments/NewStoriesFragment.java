@@ -36,22 +36,23 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private RecyclerStoriesAdapter adapter;
     private ProgressBar progressBar;
     private Repository repository;
-//    private StoryAdapter storyAdapter;
-    private RecyclerStoriesAdapter storyAdapter;
+    int initBookmarkId;
     private Api service;
     private boolean isAddSuccessful;
-    int initBookmarkId;
+    //    private StoryAdapter storyAdapter;
+    private RecyclerStoriesAdapter storyAdapter;
     private String token;
 
 
     public static NewStoriesFragment newInstance() {
         return new NewStoriesFragment();
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_newstories, container, false);
-        token = "Bearer "+ new SharePref(getContext()).getMyToken();
+        token = "Bearer " + new SharePref(getContext()).getMyToken();
         progressBar = v.findViewById(R.id.new_stories_bar);
 
         progressBar.setVisibility(View.VISIBLE);
@@ -68,11 +69,17 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 recyclerView = v.findViewById(R.id.recyclerView);
 
                 if (response.isSuccessful()) {
-                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(),NewStoriesFragment.this);
-                    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(), NewStoriesFragment.this);
+                    int spanCount;
+                    try {
+                        spanCount = getContext().getResources().getInteger(R.integer.home_fragment_gridspan);
+                    } catch (NullPointerException e) {
+                        spanCount = 1;
+                    }
+                    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(storyAdapter);
-                }else{
+                } else {
                     Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -143,14 +150,14 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     @Override
     public boolean onBookmarkAdded(int storyId) {
 
-        Call<BookmarkResponse> addBookmark= service.bookmarkStory(token,storyId);
+        Call<BookmarkResponse> addBookmark = service.bookmarkStory(token, storyId);
         addBookmark.enqueue(new Callback<BookmarkResponse>() {
             @Override
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "Bookmark added", Toast.LENGTH_SHORT).show();
                     isAddSuccessful = response.body().getData() != null;
-                }else {
+                } else {
                     isAddSuccessful = false;
                 }
             }
@@ -160,7 +167,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 isAddSuccessful = false;
             }
         });
-        Log.e("ISADDSUCCESSFUL",isAddSuccessful+"");
+        Log.e("ISADDSUCCESSFUL", isAddSuccessful + "");
         return isAddSuccessful;
     }
 
@@ -174,13 +181,13 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
                 if (response.isSuccessful()) {
                     List<Story> data = response.body().getData();
-                    for(Story s: data){
-                        if(s.getId() == storyId){
-                            Log.e("STORYID",storyId+"");
+                    for (Story s : data) {
+                        if (s.getId() == storyId) {
+                            Log.e("STORYID", storyId + "");
                             initBookmarkId = s.getId();
                         }
                     }
-                }else {
+                } else {
                     Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -190,7 +197,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
-        Log.e("INITBOOKMARK", initBookmarkId +"");
+        Log.e("INITBOOKMARK", initBookmarkId + "");
         return initBookmarkId;
     }
 }

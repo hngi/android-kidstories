@@ -11,8 +11,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
@@ -30,11 +28,9 @@ import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
-import com.project.android_kidstories.R;
 
 import java.io.File;
 
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -45,7 +41,7 @@ public class AddStoriesContentActivity extends AppCompatActivity {
     public static final String TOKEN_KEY="token";
     private static final String TAG = "kidstories";
     public static String token = Prefs.getString(TOKEN_KEY, "");
-    private static boolean isStoryAdded=false;
+    private static boolean isStoryAdded = false;
     private String title, body, ageInrange, author;
     private int category;
     private Repository repository;
@@ -109,16 +105,6 @@ public class AddStoriesContentActivity extends AppCompatActivity {
     }
 
 
-    private String getRealPathFromURI(Uri contentUri){
-        String[] proj = {MediaStore.Images.Media.DATA};
-        CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);
-        Cursor cursor = loader.loadInBackground();
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String result = cursor.getString(column_index);
-        cursor.close();
-        return result;
-    }
 
 //    public boolean addStory(Story story, String imageUri) {
 //       // Uri uri = Uri.parse(imageUri);

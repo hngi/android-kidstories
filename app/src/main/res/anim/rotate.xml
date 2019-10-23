@@ -2,9 +2,9 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <rotate
+        android:duration="1000"
         android:fromDegrees="0"
         android:interpolator="@android:anim/cycle_interpolator"
-        android:toDegrees="360"
-        android:duration="1000"/>
+        android:toDegrees="360"/>
 
 </set>

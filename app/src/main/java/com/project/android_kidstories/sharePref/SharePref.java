@@ -28,7 +28,7 @@ public class SharePref {
 
     }
 
-    public SharePref(Context context){
+    public SharePref(Context context) {
         this.context = context;
     }
 
@@ -39,18 +39,36 @@ public class SharePref {
         }
         return INSTANCE;
     }
-    public void setNightMode(boolean nightMode){
-        sharedPreferences.edit().putBoolean(NIGHT_MODE , nightMode).apply();
+
+    public boolean getNightMode() {
+        return sharedPreferences.getBoolean(NIGHT_MODE, false);
     }
-    public boolean getNightMode(){
-        return sharedPreferences.getBoolean(NIGHT_MODE,false);
+
+    public void setNightMode(boolean nightMode) {
+        sharedPreferences.edit().putBoolean(NIGHT_MODE, nightMode).apply();
+    }
+
+    public void setString(String key, String data) {
+        sharedPreferences.edit().putString(key, data).apply();
+    }
+
+    public void setBool(String key, boolean data) {
+        sharedPreferences.edit().putBoolean(key, data).apply();
+    }
+
+    public String getString(String key) {
+        return sharedPreferences.getString(key, "");
+    }
+
+    public boolean getBool(String key) {
+        return sharedPreferences.getBoolean(key, false);
     }
 
     public SharePref getSharePref() {
         return INSTANCE;
     }
 
-    public void saveLoginDetails(String token, String firstname, String lastname, String email){
+    public void saveLoginDetails(String token, String firstname, String lastname, String email) {
         sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("Token", token);
@@ -60,22 +78,22 @@ public class SharePref {
         editor.apply();
     }
 
-    public String getMyToken(){
+    public String getMyToken() {
         sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Token", "");
     }
 
-    public String getUserFirstname(){
+    public String getUserFirstname() {
         sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Firstname", "");
     }
 
-    public String getUserLastname(){
+    public String getUserLastname() {
         sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Lastname", "");
     }
 
-    public String getUserEmail(){
+    public String getUserEmail() {
         sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Email", "");
     }
@@ -101,7 +119,7 @@ public class SharePref {
         return sharedPreferences.getBoolean(USER_LOGIN_STATE, false);
     }
 
-    public  void setIsUserLoggedIn(Boolean isUserLoggedIn) {
+    public void setIsUserLoggedIn(Boolean isUserLoggedIn) {
         sharedPreferences.edit().putBoolean(USER_LOGIN_STATE, isUserLoggedIn).apply();
     }
 

@@ -1,16 +1,14 @@
 package com.project.android_kidstories.Api.HelperClasses;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
+import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.sharePref.SharePref;
 
@@ -23,11 +21,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.File;
+
 public class AddStoryHelper {
     public static final String TOKEN_KEY="token";
     private static final String TAG = "kidstories";
-    public static String token;
-//    public static SharedPreferences sharePref = new Prefs(TOKEN_KEY, token);
+    public static String token = Prefs.getString(TOKEN_KEY, "");
     private static boolean isStoryAdded=false;
     private static Integer likesCount;
 
@@ -37,14 +36,6 @@ public class AddStoryHelper {
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
 
         MultipartBody.Part photo = MultipartBody.Part.createFormData("Image", imageFile.getName(), requestFile);
-
-//        String mtitle = story.getTitle();
-//        String mbody = story.getBody();
-//        int mcategory = story.getCategoryId();
-//        String mageInrange = story.getAge();
-//        String mauthor = story.getAuthor();
-//        String mduration = story.getStoryDuration();
-
         RequestBody title = RequestBody.create(okhttp3.MultipartBody.FORM, story.getTitle());
         RequestBody body = RequestBody.create(okhttp3.MultipartBody.FORM, story.getBody());
         RequestBody category = RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(story.getCategoryId()));

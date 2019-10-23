@@ -1,107 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginStart="14dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddStoriesContentActivity">
+    android:layout_marginEnd="14dp"
+    android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/add_story_label"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <Spinner
+        android:id="@+id/choose_category"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/border"
+        android:entries="@array/items_class"
+        android:paddingStart="10dp" />
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="500dp"
-                android:fontFamily="@font/comicsans_regular"
-                android:text="@string/add_story_label"
-                android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/story_content_field"
+        android:layout_width="match_parent"
+        android:layout_height="350sp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/border"
+        android:ems="10"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="start|top"
+        android:hint="@string/write_your_story_here"
+        android:inputType="textMultiLine"
+        android:isScrollContainer="true"
+        android:paddingStart="11dp"
+        android:paddingTop="3dp"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbars="vertical" />
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/content_label"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView4" />
-
-            <Spinner
-                android:id="@+id/choose_category"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/com_facebook_tooltip_blue_background"
-                android:entries="@array/items_class"
-                android:textAlignment="center"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <EditText
-                android:id="@+id/story_content_field"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/border"
-                android:ems="10"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="start|top"
-                android:hint="@string/write_your_story_here"
-                android:inputType="textMultiLine"
-                android:isScrollContainer="true"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="8dp"
-                android:scrollbarAlwaysDrawVerticalTrack="true"
-                android:scrollbars="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/save_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-            <Button
-                android:id="@+id/save_content"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/rounded_triangle_blue"
-                android:onClick="saveContent"
-                android:text="@string/save"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/save_content"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_triangle_blue"
+        android:fontFamily="@font/roboto_regular"
+        android:onClick="saveContent"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+</LinearLayout>

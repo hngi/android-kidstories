@@ -1,19 +1,19 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/activity_horizontal_margin"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="@dimen/activity_horizontal_margin"
-    android:background="@drawable/rv_ripple"
-    android:elevation="6dp"
-    android:translationZ="12dp"
-    app:cardCornerRadius="10dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   xmlns:tools="http://schemas.android.com/tools"
+                                   android:id="@+id/cardView"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginStart="@dimen/activity_horizontal_margin"
+                                   android:layout_marginTop="8dp"
+                                   android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                                   android:background="@drawable/rv_ripple"
+                                   android:elevation="6dp"
+                                   android:translationZ="12dp"
+                                   app:cardCornerRadius="10dp"
+                                   app:layout_constraintEnd_toEndOf="parent"
+                                   app:layout_constraintStart_toStartOf="parent"
+                                   app:layout_constraintTop_toTopOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -56,7 +56,6 @@
             android:ellipsize="end"
             android:fontFamily="@font/roboto_lite"
             android:text="@string/by"
-
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="@+id/book_title"
             app:layout_constraintTop_toBottomOf="@+id/book_title" />
@@ -136,7 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.43" />
+            app:layout_constraintGuide_percent="0.43"/>
 
         <TextView
             android:id="@+id/like_count"
@@ -180,7 +179,7 @@
             android:contentDescription="@string/comment"
             app:layout_constraintStart_toEndOf="@+id/like_count"
             app:layout_constraintTop_toTopOf="@+id/like_button"
-            app:srcCompat="@drawable/ic_thumb_down_black_24dp" />
+            app:srcCompat="@drawable/ic_thumb_down_black_24dp"/>
 
         <TextView
             android:id="@+id/dislike_count"
@@ -192,7 +191,7 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/dislike_button"
             app:layout_constraintStart_toEndOf="@+id/dislike_button"
-            app:layout_constraintTop_toTopOf="@+id/dislike_button" />
+            app:layout_constraintTop_toTopOf="@+id/dislike_button"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

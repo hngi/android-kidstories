@@ -1,25 +1,19 @@
 package com.project.android_kidstories;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
-
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
 import com.project.android_kidstories.DataStore.Repository;
-import com.project.android_kidstories.R;
 import com.project.android_kidstories.adapters.RecyclerCategoryStoriesAdapter;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,6 +33,7 @@ public class StoryListingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_story_listing);
 
         String categoryName = getIntent().getStringExtra("categoryName");
+
         int categoryId = getIntent().getIntExtra("categoryId", -1);
 
         repository = Repository.getInstance(this.getApplication());
@@ -47,6 +42,7 @@ public class StoryListingActivity extends AppCompatActivity {
         CollapsingToolbarLayout toolbar = findViewById(R.id.Collapse_toolbar);
         Toolbar toolbar1 = findViewById(R.id.toolbar);
         toolbar.setTitle(categoryName);
+
         setSupportActionBar(toolbar1);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -67,14 +63,20 @@ public class StoryListingActivity extends AppCompatActivity {
 
                 recyclerView = findViewById(R.id.rv_list);
                 if (response.isSuccessful()) {
-                    adapter = new RecyclerCategoryStoriesAdapter(StoryListingActivity.this,response.body().getData().getStories() );
-                    GridLayoutManager layoutManager = new GridLayoutManager(StoryListingActivity.this, 1);
+                    adapter = new RecyclerCategoryStoriesAdapter(StoryListingActivity.this, response.body().getData().getStories());
+                    int spanCount;
+                    try {
+                        spanCount = getResources().getInteger(R.integer.home_fragment_gridspan);
+                    } catch (NullPointerException e) {
+                        spanCount = 1;
+                    }
+                    GridLayoutManager layoutManager = new GridLayoutManager(StoryListingActivity.this, spanCount);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
 
                     progressBar.setVisibility(View.INVISIBLE);
 //
-                }else {
+                } else {
                     // textView.setText("Success Error " +response.message());
                 }
 

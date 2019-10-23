@@ -199,11 +199,10 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.INVISIBLE);
                         //  regProgress.dismiss();
-                    } else {
-                        Snackbar.make(findViewById(R.id.registration_parent_layout),
-                                "User with that email already exists", Snackbar.LENGTH_LONG).show();
-                        progressBar.setVisibility(View.INVISIBLE);
-                        //   regProgress.hide();
+                    }
+                    else {
+                       Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
+                       startActivity(intent);
                     }
                 }
 

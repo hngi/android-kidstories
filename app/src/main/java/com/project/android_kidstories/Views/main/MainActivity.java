@@ -449,9 +449,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 MainActivity.this);
 
         alertDialog.setPositiveButton("Yes", (dialog, which) -> finishAffinity());
-
         alertDialog.setNegativeButton("No", null);
-
         alertDialog.setMessage("Do you want to exit?");
         alertDialog.setTitle(R.string.app_name);
         alertDialog.show();

@@ -4,6 +4,9 @@ package com.project.android_kidstories.Api.Responses.bookmark;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.project.android_kidstories.Model.Story;
+
+import java.util.List;
 
 /**
  * @author .: Ukeje Emeka

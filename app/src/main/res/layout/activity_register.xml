@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/registration_parent_layout"
     android:layout_width="match_parent"
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginEnd="14dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <TextView
@@ -164,4 +165,4 @@
 
 
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

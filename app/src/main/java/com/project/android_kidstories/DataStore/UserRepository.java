@@ -1,20 +1,11 @@
 package com.project.android_kidstories.DataStore;
 
-import android.content.SharedPreferences;
-
-import androidx.lifecycle.MutableLiveData;
-
-import com.project.android_kidstories.Model.User;
-import com.project.android_kidstories.db.DbUserClass;
-
-import static android.content.Context.MODE_PRIVATE;
-
 public class UserRepository {
 
     private static UserRepository instance;
 
-    public static UserRepository getInstance(){
-        if(instance == null){
+    public static UserRepository getInstance() {
+        if (instance == null) {
             instance = new UserRepository();
         }
         return instance;

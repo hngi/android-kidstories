@@ -7,14 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.pixplicity.easyprefs.library.Prefs;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
@@ -23,15 +22,12 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
 import com.project.android_kidstories.adapters.BookmarksAdapter;
 import com.project.android_kidstories.sharePref.SharePref;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBookmarkClickListener {
 
@@ -48,8 +44,8 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_bookmarks,container,false);
-        ButterKnife.bind(this,v);
+        View v = inflater.inflate(R.layout.fragment_bookmarks, container, false);
+        ButterKnife.bind(this, v);
         stories = new ArrayList<>();
         recyclerView.setAdapter(null);
        /* recyclerView = v.findViewById(R.id.category_recycler);
@@ -65,7 +61,7 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
 
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
-        token = "Bearer "+ new SharePref(getContext()).getMyToken();
+        token = "Bearer " + new SharePref(getContext()).getMyToken();
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
         bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
@@ -78,13 +74,13 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
                     recyclerView.setLayoutManager(layoutManager);
 
                     List<Story> data = response.body().getData();
-                    for(Story s: data){
+                    for (Story s : data) {
                         stories.add(s);
                     }
-                    adapter = new BookmarksAdapter(stories,BookmarksFragment.this);
+                    adapter = new BookmarksAdapter(stories, BookmarksFragment.this);
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
-                }else {
+                } else {
                     Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }

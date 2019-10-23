@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/registration_parent_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:gravity="center_vertical"
-    tools:context=".RegisterActivity">
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/registration_parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            tools:context=".RegisterActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -39,7 +39,7 @@
             android:fontFamily="@font/roboto_light"
             android:hint="First Name"
             android:inputType="textPersonName"
-            android:paddingStart="20dp" />
+            android:paddingStart="20dp"/>
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -52,7 +52,7 @@
             android:fontFamily="@font/roboto_light"
             android:hint="Last Name"
             android:inputType="textPersonName"
-            android:paddingStart="20dp" />
+            android:paddingStart="20dp"/>
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -65,7 +65,7 @@
             android:fontFamily="@font/roboto_light"
             android:hint="@string/e_mail_hint"
             android:inputType="textEmailAddress"
-            android:paddingStart="20dp" />
+            android:paddingStart="20dp"/>
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -78,7 +78,7 @@
             android:fontFamily="@font/roboto_light"
             android:hint="@string/phone_no_hint"
             android:inputType="phone"
-            android:paddingStart="20dp" />
+            android:paddingStart="20dp"/>
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -91,7 +91,7 @@
             android:fontFamily="@font/roboto_light"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
-            android:paddingStart="20dp" />
+            android:paddingStart="20dp"/>
 
 
         <RelativeLayout
@@ -108,7 +108,7 @@
                 android:fontFamily="@font/roboto_light"
                 android:hint="@string/confirm_password_hint"
                 android:inputType="textPassword"
-                android:paddingStart="20dp" />
+                android:paddingStart="20dp"/>
 
             <ProgressBar
                 android:id="@+id/reg_progress_bar"
@@ -116,7 +116,7 @@
                 android:layout_height="45dp"
                 android:layout_centerInParent="true"
                 android:layout_margin="8dp"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
         </RelativeLayout>
 
 

@@ -18,8 +18,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:text="Who we are"
             android:textSize="28sp"
@@ -51,11 +51,11 @@
             android:textSize="14sp" />
         ​
         <TextView
-            android:paddingTop="16dp"
+            android:fontFamily="@font/comic_sans"
             android:id="@+id/develop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/comic_sans"
+            android:paddingTop="16dp"
             android:text="@string/developers"
             android:textAlignment="center"
             android:textSize="14sp" />

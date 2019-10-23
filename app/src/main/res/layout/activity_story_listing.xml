@@ -56,5 +56,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="invisible"
-        tools:visibility="invisible" />
+        tools:visibility="invisible"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

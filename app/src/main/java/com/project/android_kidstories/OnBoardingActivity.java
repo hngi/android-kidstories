@@ -1,23 +1,23 @@
 package com.project.android_kidstories;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.tabs.TabLayout;
-import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.sharePref.SharePref;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OnBoardingActivity extends AppCompatActivity {
+
+    public static final String HAS_LAUNCHED_BEFORE = "HAS_LAUNCHED_BEFORE";
+
     private ViewPager viewPager;
     private OnboardingPageAdapter onboardingPageAdapter;
     private List<OnboardingItem> mList;
@@ -30,14 +30,6 @@ public class OnBoardingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_on_boarding);
-
-        //When this  activity is about to get launched, we need to check if that is the apps initial launching
-        if (restorePrefData()){
-            Intent mainActivity = new Intent(OnBoardingActivity.this, MainActivity.class);
-            startActivity(mainActivity);
-            finish();
-        }
 
         setContentView(R.layout.activity_on_boarding);
 
@@ -112,27 +104,22 @@ public class OnBoardingActivity extends AppCompatActivity {
         btnGetStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(OnBoardingActivity.this, MainActivity.class));
                 //Save value to storage to indicate that user has already seen the onboarding in order not to repeat
                 //use sharepref
                 savePrefData();
+                startActivity(new Intent(OnBoardingActivity.this, LoginActivity.class));
                 finish();
             }
         });
     }
 
     private boolean restorePrefData() {
-        boolean isOnboardingDone;
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("onboardingPref", MODE_PRIVATE);
-        isOnboardingDone = sharedPreferences.getBoolean("isOnboarding", false);
-        return isOnboardingDone;
+        return SharePref.getINSTANCE(getApplicationContext()).getBool(HAS_LAUNCHED_BEFORE);
     }
 
     private void savePrefData() {
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("onboardingPref", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("isOnboarding", true);
-        editor.apply();
+        SharePref sharePref = SharePref.getINSTANCE(getApplicationContext());
+        sharePref.setBool(HAS_LAUNCHED_BEFORE, true);
     }
 
 

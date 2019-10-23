@@ -10,6 +10,7 @@ import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkRespons
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.RegistrationDataResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
@@ -41,7 +42,7 @@ public interface Api {
 
     //Authentication APIs
     @POST("auth/register")
-    Call<BaseResponse<DataResponse>> registerUser(@Body User user);
+    Call<BaseResponse<RegistrationDataResponse>> registerUser(@Body User user);
 
     @POST("auth/login")
     @FormUrlEncoded

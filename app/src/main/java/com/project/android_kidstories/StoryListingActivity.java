@@ -39,6 +39,7 @@ public class StoryListingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_story_listing);
 
         String categoryName = getIntent().getStringExtra("categoryName");
+
         int categoryId = getIntent().getIntExtra("categoryId", -1);
 
         repository = Repository.getInstance(this.getApplication());
@@ -47,6 +48,7 @@ public class StoryListingActivity extends AppCompatActivity {
         CollapsingToolbarLayout toolbar = findViewById(R.id.Collapse_toolbar);
         Toolbar toolbar1 = findViewById(R.id.toolbar);
         toolbar.setTitle(categoryName);
+
         setSupportActionBar(toolbar1);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

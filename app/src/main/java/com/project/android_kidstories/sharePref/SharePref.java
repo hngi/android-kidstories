@@ -13,7 +13,7 @@ public class SharePref {
     private static final String NIGHT_MODE = "NIGHT MODE";
 
     private static SharePref INSTANCE;
-    Context context;
+    public static Context context;
 
     //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {

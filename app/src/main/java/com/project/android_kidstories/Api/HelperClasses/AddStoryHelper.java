@@ -37,12 +37,12 @@ public class AddStoryHelper {
 
         MultipartBody.Part photo = MultipartBody.Part.createFormData("Image", imageFile.getName(), requestFile);
 
-        String mtitle = story.getTitle();
-        String mbody = story.getBody();
-        int mcategory = story.getCategoryId();
-        String mageInrange = story.getAge();
-        String mauthor = story.getAuthor();
-        String mduration = story.getStoryDuration();
+//        String mtitle = story.getTitle();
+//        String mbody = story.getBody();
+//        int mcategory = story.getCategoryId();
+//        String mageInrange = story.getAge();
+//        String mauthor = story.getAuthor();
+//        String mduration = story.getStoryDuration();
 
         RequestBody title = RequestBody.create(okhttp3.MultipartBody.FORM, story.getTitle());
         RequestBody body = RequestBody.create(okhttp3.MultipartBody.FORM, story.getBody());

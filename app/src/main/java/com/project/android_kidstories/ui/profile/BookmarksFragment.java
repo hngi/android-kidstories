@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
@@ -22,6 +21,7 @@ import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
 import com.project.android_kidstories.adapters.BookmarksAdapter;
+import com.project.android_kidstories.sharePref.SharePref;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,6 +39,7 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
 
     BookmarksAdapter adapter;
     ArrayList<Story> stories;
+    String token;
 
     @Nullable
     @Override
@@ -60,15 +61,15 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
 
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
-        String token = "Bearer " + Prefs.getString("Token", "");
+        token = "Bearer " + new SharePref(getContext()).getMyToken();
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
         bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
             @Override
             public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
+                stories.clear();
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    stories.clear();
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                     recyclerView.setLayoutManager(layoutManager);
 
@@ -98,6 +99,7 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
     }
+
 
     @Override
     public void onStoryClick(int storyId) {

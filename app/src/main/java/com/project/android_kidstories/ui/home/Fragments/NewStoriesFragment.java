@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
@@ -21,6 +20,7 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
+import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.home.BaseFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import retrofit2.Call;
@@ -37,21 +37,21 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private ProgressBar progressBar;
     private Repository repository;
     int initBookmarkId;
-    //    private StoryAdapter storyAdapter;
-    private RecyclerStoriesAdapter storyAdapter;
     private Api service;
     private boolean isAddSuccessful;
+    //    private StoryAdapter storyAdapter;
+    private RecyclerStoriesAdapter storyAdapter;
+    private String token;
 
 
     public static NewStoriesFragment newInstance() {
         return new NewStoriesFragment();
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_newstories, container, false);
-
+        token = "Bearer " + new SharePref(getContext()).getMyToken();
         progressBar = v.findViewById(R.id.new_stories_bar);
 
         progressBar.setVisibility(View.VISIBLE);
@@ -143,7 +143,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     @Override
     public boolean onBookmarkAdded(int storyId) {
 
-        String token = "Bearer " + Prefs.getString("Token", "");
         Call<BookmarkResponse> addBookmark = service.bookmarkStory(token, storyId);
         addBookmark.enqueue(new Callback<BookmarkResponse>() {
             @Override
@@ -167,7 +166,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
     @Override
     public int isAlreadyBookmarked(int storyId, int pos) {
-        String token = "Bearer " + Prefs.getString("Token", "");
+
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
         bookmarks.enqueue(new Callback<UserBookmarkResponse>() {

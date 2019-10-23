@@ -81,7 +81,7 @@ public class DonateFragment extends Fragment {
                 if (editText.getText().toString().trim().matches("")) {
                     Toast.makeText(getApplicationContext(), "Donation should not be empty", Toast.LENGTH_LONG).show();
                 } else if (editText.getText().length() < 3 && (!editText.getText().toString().trim().matches(""))) {
-                    Toast.makeText(getApplicationContext(), "The minimun donation is 100", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "The minimum donation is 100", Toast.LENGTH_LONG).show();
                 } else {
                     amount = editText.getText().toString();
                     new RavePayManager(DonateFragment.this.getActivity()).setAmount(Integer.valueOf(amount))

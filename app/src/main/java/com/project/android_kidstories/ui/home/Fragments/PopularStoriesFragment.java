@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
@@ -22,6 +21,7 @@ import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
+import com.project.android_kidstories.sharePref.SharePref;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,9 +34,10 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     private RecyclerStoriesAdapter adapter;
     private ProgressBar popular_bar;
     RecyclerView recyclerView;
-    int initBookmarkId;
     private Api service;
     private boolean isAddSuccessful;
+    int initBookmarkId;
+    private String token;
 
     public static PopularStoriesFragment newInstance() {
         return new PopularStoriesFragment();
@@ -49,7 +50,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
         ButterKnife.bind(this, v);
 
         popular_bar = v.findViewById(R.id.popular_stories_bar);
-
+        token = "Bearer " + new SharePref(getContext()).getMyToken();
         popular_bar.setVisibility(View.VISIBLE);
 
         /*Create handle for the RetrofitInstance interface*/
@@ -103,7 +104,6 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
 
     @Override
     public boolean onBookmarkAdded(int storyId) {
-        String token = "Bearer " + Prefs.getString("Token", "");
         Call<BookmarkResponse> addBookmark = service.bookmarkStory(token, storyId);
         addBookmark.enqueue(new Callback<BookmarkResponse>() {
             @Override
@@ -126,8 +126,6 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
 
     @Override
     public int isAlreadyBookmarked(int storyId, int pos) {
-        String token = "Bearer " + Prefs.getString("Token", "");
-
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
         bookmarks.enqueue(new Callback<UserBookmarkResponse>() {

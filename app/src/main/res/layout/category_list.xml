@@ -38,6 +38,7 @@
                 android:id="@+id/textView1_cat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
                 android:text="@string/diary_of_a_wimpy_kid"
                 android:textColor="@color/white"
                 android:textSize="18sp"/>

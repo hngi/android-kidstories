@@ -65,6 +65,27 @@
                 android:onClick="getCategoryStoriesWithIdOne"
                 android:text="get Category Stories With Id One" />
 
+            <Button
+                android:id="@+id/test_postComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="postComment"
+                android:text="Post Comment"/>
+
+            <Button
+                android:id="@+id/test_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="bookmark"
+                android:text="Bookmark"/>
+
+            <Button
+                android:id="@+id/test_get_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="getBookmark"
+                android:text="User Bookmark"/>
+
             <TextView
                 android:id="@+id/test_textView"
                 android:layout_width="match_parent"

@@ -32,8 +32,8 @@ import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.Model.User;
-import com.project.android_kidstories.NightmodeActivity;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.SettingsActivity;
 import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
@@ -419,7 +419,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
     public void openSettings() {
-        Intent intent = new Intent(this, NightmodeActivity.class);
+        Intent intent = new Intent(this, SettingsActivity.class);
 
         startActivity(intent);
     }

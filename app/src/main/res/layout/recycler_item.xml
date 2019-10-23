@@ -35,42 +35,46 @@
                 android:id="@+id/l2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/recyclerName"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="12dp"
                     android:text="Diary of a wimpy kid"
+                    android:fontFamily="@font/roboto_regular"
                     android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv2"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="By Someone"
                     android:textColor="@color/colorAccent"
                     android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/tv3"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="For 2 year olds"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="For 2 year old"
                     android:textSize="12sp"/>
 
-                <View
-                    android:id="@+id/view2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/browser_actions_title_color"/>
             </LinearLayout>
 
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="18dp"
+                android:background="#818080"/>
         </LinearLayout>
 
         <LinearLayout
@@ -79,7 +83,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp">
+            android:layout_marginBottom="5dp">
 
 
             <ImageView
@@ -93,6 +97,7 @@
                 android:id="@+id/count1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="20"
@@ -110,10 +115,18 @@
                 android:id="@+id/count2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="20"
                 android:textSize="12sp"/>
+
+            <ImageView
+                android:id="@+id/share_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_menu_share"/>
 
             <ImageView
                 android:id="@+id/bookmark"

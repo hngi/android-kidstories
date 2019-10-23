@@ -109,6 +109,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setSupportActionBar(toolbar);
         sharePref = SharePref.getINSTANCE(getApplicationContext());
         viewModel = ViewModelProviders.of(this).get(FragmentsSharedViewModel.class);
+        viewModel.currentUser = new User();
 
 //        Get token from SharedPref
         getUserDetails();
@@ -131,7 +132,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         userName = headerView.findViewById(R.id.nav_header_name);
         navProfilePic = headerView.findViewById(R.id.nav_header_imageView);
         name = firstname + " " + lastname;
-
+        userName.setText(name);
 
 
         ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
@@ -193,7 +194,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
 
-                viewModel.currentUser = new User();
+
 
                 if (response.isSuccessful()) {
                     Log.d("User Details", response.body().getData().toString());

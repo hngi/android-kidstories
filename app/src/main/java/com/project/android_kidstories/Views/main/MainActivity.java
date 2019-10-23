@@ -78,6 +78,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static int LastTabPosition = 0;
     private String token;
     private String firstname, lastname, name;
+    TextView userName;
 
     private FragmentsSharedViewModel viewModel;
     CircleImageView navProfilePic;
@@ -108,6 +109,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setSupportActionBar(toolbar);
         sharePref = SharePref.getINSTANCE(getApplicationContext());
         viewModel = ViewModelProviders.of(this).get(FragmentsSharedViewModel.class);
+        viewModel.currentUser = new User();
 
 //        Get token from SharedPref
         getUserDetails();
@@ -127,7 +129,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         // Making the header image clickable
         View headerView = navigationView.getHeaderView(0);
 
-        TextView userName = headerView.findViewById(R.id.nav_header_name);
+        userName = headerView.findViewById(R.id.nav_header_name);
         navProfilePic = headerView.findViewById(R.id.nav_header_imageView);
         name = firstname + " " + lastname;
         userName.setText(name);
@@ -192,7 +194,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
 
-                viewModel.currentUser = new User();
+
 
                 if (response.isSuccessful()) {
                     Log.d("User Details", response.body().getData().toString());
@@ -205,6 +207,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         Glide.with(getApplicationContext())
                                 .load(viewModel.currentUser.getImage())
                                 .into(navProfilePic);
+                    }
+                    else{
+                        navProfilePic.setImageResource(R.drawable.account_icon);
+                    }
+
+                    if(viewModel.currentUser.getFirstName() != null && !viewModel.currentUser.getLastName().isEmpty()
+                    && viewModel.currentUser.getLastName() != null && !viewModel.currentUser.getLastName().isEmpty() ){
+                        userName.setText(viewModel.currentUser.getFirstName() + " "
+                        + viewModel.currentUser.getLastName());
+                    }
+                    else{
+                        userName.setText("Username");
                     }
 
                 } else {

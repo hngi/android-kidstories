@@ -43,7 +43,6 @@
         <activity android:name=".SingleStoryActivity" />
         <activity
             android:name=".RegisterActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WhiteStatusBar" />
 
         <activity android:name=".ProfileRegisterActivity" />
@@ -52,7 +51,6 @@
 
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WhiteStatusBar" />
 
         <activity android:name=".BookMark" />

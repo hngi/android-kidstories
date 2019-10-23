@@ -1,8 +1,5 @@
 package com.project.android_kidstories;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +12,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
@@ -31,8 +29,8 @@ import retrofit2.Response;
 public class SingleStoryActivity extends AppCompatActivity {
 
     private ImageView story_pic, like_btn;
-    private TextView story_author , story_content, error_msg;
     int story_id = 0;
+    private TextView story_author, story_content, error_msg;
     private Toolbar toolbar;
     private ProgressBar progressBar;
     private Repository repository;
@@ -68,11 +66,11 @@ public class SingleStoryActivity extends AppCompatActivity {
         getStoryWithId(story_id);
     }
 
-    public void getStoryWithId(int id){
+    public void getStoryWithId(int id) {
         storyApi.getStory(id).enqueue(new Callback<StoryBaseResponse>() {
             @Override
             public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
-                try{
+                try {
                     Story currentStory = response.body().getData();
                     getSupportActionBar().setTitle(currentStory.getTitle());
                     story_author.setText(currentStory.getAuthor());
@@ -81,8 +79,8 @@ public class SingleStoryActivity extends AppCompatActivity {
                     story_author.setVisibility(View.VISIBLE);
                     story_content.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);
-                } catch(Exception e){
-                    Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong ... story specific issue",Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong ... story specific issue", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);
                     error_msg.setVisibility(View.VISIBLE);
                     story_author.setVisibility(View.INVISIBLE);

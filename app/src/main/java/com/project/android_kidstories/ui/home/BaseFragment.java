@@ -2,9 +2,7 @@ package com.project.android_kidstories.ui.home;
 
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
-
 import com.google.android.material.snackbar.Snackbar;
 
 public class BaseFragment extends Fragment {

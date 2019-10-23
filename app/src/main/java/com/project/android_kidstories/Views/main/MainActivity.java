@@ -1,7 +1,9 @@
 package com.project.android_kidstories.Views.main;
 
-import android.content.ContextWrapper;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,17 +12,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-
+import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -30,32 +30,31 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.AddStoryActivity;
-import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.NightmodeActivity;
+import com.project.android_kidstories.SettingsActivity;
+import com.project.android_kidstories.alarm.AlarmReceiver;
 import com.project.android_kidstories.base.BaseActivity;
-import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
-import com.project.android_kidstories.ui.profile.ProfileFragment;
 import com.project.android_kidstories.sharePref.SharePref;
-//import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
+import com.project.android_kidstories.ui.profile.ProfileFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
-
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+//import com.project.android_kidstories.ui.edit.ProfileFragment;
 
 /**
  * @author .: Ehma Ugbogo
@@ -81,12 +80,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private String firstname, lastname, name;
 
     private FragmentsSharedViewModel viewModel;
+    CircleImageView navProfilePic;
 
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(AlarmReceiver.CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createNotificationChannel();
         toolbar = findViewById(R.id.main_toolbar);
         toolbar.setTitle("Stories");
         setSupportActionBar(toolbar);
@@ -112,8 +128,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         View headerView = navigationView.getHeaderView(0);
 
         TextView userName = headerView.findViewById(R.id.nav_header_name);
+        navProfilePic = headerView.findViewById(R.id.nav_header_imageView);
         name = firstname + " " + lastname;
         userName.setText(name);
+
 
         ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
         navImage.setOnClickListener(new View.OnClickListener() {
@@ -158,15 +176,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
 
+
         setupProfile(headerView);
         openHomeFragment();
         //fetchStories();
         navigationClickListeners();
 
 
+
     }
 
-    public void linkUserDetails(){
+    public void linkUserDetails() {
 
         repository.getStoryApi().getUser("Bearer " + token).enqueue(new Callback<BaseResponse<DataResponse>>() {
             @Override
@@ -174,16 +194,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 viewModel.currentUser = new User();
 
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Log.d("User Details", response.body().getData().toString());
                     Log.d("User Name", response.body().getData().getFirstName());
                     viewModel.currentUser.setFirstName(response.body().getData().getFirstName());
                     viewModel.currentUser.setLastName(response.body().getData().getLastName());
                     viewModel.currentUser.setImage(response.body().getData().getImageUrl());
                     viewModel.currentUser.setEmail(response.body().getData().getEmail());
+                    if(viewModel.currentUser.getImage() != null && !viewModel.currentUser.getImage().isEmpty()) {
+                        Glide.with(getApplicationContext())
+                                .load(viewModel.currentUser.getImage())
+                                .into(navProfilePic);
+                    }
 
-                }
-                else{
+                } else {
                     Log.d("User Details", "something went wrong");
                 }
             }
@@ -206,12 +230,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
                         Intent home = new Intent(getApplicationContext(), MainActivity.class);
-                        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+                        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(home);
                         openHomeFragment();
                         navigationView.setCheckedItem(R.id.nav_home);
                         bottomNavigationView.setVisibility(View.VISIBLE);
-                        msg ="Stories";
+                        msg = "Stories";
                         break;
                     case R.id.nav_categories:
                         fragment = new CategoriesFragment();
@@ -235,7 +259,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         break;
                     case R.id.nav_edit_profile:
                         fragment = new ProfileFragment();
-                        msg="Profile";
+                        msg = "Profile";
                         bottomNavigationView.setVisibility(View.GONE);
                         break;
                 }
@@ -258,7 +282,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 switch (menuItem.getItemId()) {
                     case R.id.home:
                         Intent home = new Intent(getApplicationContext(), MainActivity.class);
-                        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+                        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(home);
                         openHomeFragment();
                         msg = "Stories";
@@ -317,7 +341,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         sharePref.setIsUserLoggedIn(false);
         Intent logout = new Intent(MainActivity.this, LoginActivity.class);
-        logout.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+        logout.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(logout);
         finish();
     }
@@ -367,11 +391,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .into(navHeaderCircleImage);*/
     }
 
-    private void getUserDetails(){
+    private void getUserDetails() {
         token = new SharePref(this).getMyToken();
         firstname = new SharePref(this).getUserFirstname();
         lastname = new SharePref(this).getUserLastname();
-        //Toast.makeText(MainActivity.this, token,Toast.LENGTH_LONG).show();
     }
 
 
@@ -406,14 +429,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             hideDrawer();
         } else if (navigationView.getCheckedItem().getItemId()!=R.id.nav_home) {
-                Intent home = new Intent(getApplicationContext(), MainActivity.class);
-                home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
-                startActivity(home);
-                navigationView.setCheckedItem(R.id.nav_home);
-                bottomNavigationView.setSelectedItemId(0);
-                bottomNavigationView.setVisibility(View.VISIBLE);
-                toolbar.setTitle("Stories");
-                openHomeFragment();
+            Intent home = new Intent(getApplicationContext(), MainActivity.class);
+            home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(home);
+            navigationView.setCheckedItem(R.id.nav_home);
+            bottomNavigationView.setSelectedItemId(0);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+            toolbar.setTitle("Stories");
+            openHomeFragment();
         } else {
             doExit();
         }
@@ -426,12 +449,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
-    public void openSettings(){
-        Intent intent = new Intent(this, NightmodeActivity.class);
+    public void openSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
 
         startActivity(intent);
     }
-
 
 
     @Override
@@ -448,9 +470,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 MainActivity.this);
 
         alertDialog.setPositiveButton("Yes", (dialog, which) -> finishAffinity());
-
         alertDialog.setNegativeButton("No", null);
-
         alertDialog.setMessage("Do you want to exit?");
         alertDialog.setTitle(R.string.app_name);
         alertDialog.show();

@@ -1,25 +1,18 @@
 package com.project.android_kidstories.ui.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.project.android_kidstories.AddStoryActivity;
 import com.project.android_kidstories.R;
-
-import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.ui.home.Adapters.SectionsPageAdapter;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
@@ -34,7 +27,6 @@ public class HomeFragment extends Fragment {
     private BottomNavigationView bottomNavigationView;
     private com.project.android_kidstories.ui.home.HomeViewModel homeViewModel;
     private SectionsPageAdapter adapter;
-
 
 
     @Override
@@ -72,8 +64,8 @@ public class HomeFragment extends Fragment {
 
 
     @Override
-    public void onDestroyView () {
-        super.onDestroyView ();
+    public void onDestroyView() {
+        super.onDestroyView();
         appBarLayout.removeView(tabLayout);
     }
 }

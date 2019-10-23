@@ -1,6 +1,5 @@
 package com.project.android_kidstories.ui.home.Fragments;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,32 +7,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.android_kidstories.Api.Api;
+import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
+import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
+import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.home.BaseFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
-
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener {
+import java.util.List;
+
+public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener, RecyclerStoriesAdapter.OnBookmarked {
 
     private static final String TAG = "kidstories";
     private RecyclerView recyclerView;
@@ -42,7 +38,10 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private Repository repository;
 //    private StoryAdapter storyAdapter;
     private RecyclerStoriesAdapter storyAdapter;
-
+    private Api service;
+    private boolean isAddSuccessful;
+    int initBookmarkId;
+    private String token;
 
 
     public static NewStoriesFragment newInstance() {
@@ -52,13 +51,13 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_newstories, container, false);
-
+        token = "Bearer "+ new SharePref(getContext()).getMyToken();
         progressBar = v.findViewById(R.id.new_stories_bar);
 
         progressBar.setVisibility(View.VISIBLE);
 
         /*Create handle for the RetrofitInstance interface*/
-        Api service = RetrofitClient.getInstance().create(Api.class);
+        service = RetrofitClient.getInstance().create(Api.class);
         Call<StoryAllResponse> stories = service.getAllStories();
 
         stories.enqueue(new Callback<StoryAllResponse>() {
@@ -69,7 +68,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 recyclerView = v.findViewById(R.id.recyclerView);
 
                 if (response.isSuccessful()) {
-                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body());
+                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(),NewStoriesFragment.this);
                     GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(storyAdapter);
@@ -81,7 +80,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -140,5 +138,59 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     @Override
     public void onClick(View view) {
 
+    }
+
+    @Override
+    public boolean onBookmarkAdded(int storyId) {
+
+        Call<BookmarkResponse> addBookmark= service.bookmarkStory(token,storyId);
+        addBookmark.enqueue(new Callback<BookmarkResponse>() {
+            @Override
+            public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Bookmark added", Toast.LENGTH_SHORT).show();
+                    isAddSuccessful = response.body().getData() != null;
+                }else {
+                    isAddSuccessful = false;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookmarkResponse> call, Throwable t) {
+                isAddSuccessful = false;
+            }
+        });
+        Log.e("ISADDSUCCESSFUL",isAddSuccessful+"");
+        return isAddSuccessful;
+    }
+
+    @Override
+    public int isAlreadyBookmarked(int storyId, int pos) {
+
+        Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
+
+        bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
+            @Override
+            public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
+                if (response.isSuccessful()) {
+                    List<Story> data = response.body().getData();
+                    for(Story s: data){
+                        if(s.getId() == storyId){
+                            Log.e("STORYID",storyId+"");
+                            initBookmarkId = s.getId();
+                        }
+                    }
+                }else {
+                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Log.e("INITBOOKMARK", initBookmarkId +"");
+        return initBookmarkId;
     }
 }

@@ -2,28 +2,14 @@ package com.project.android_kidstories.DataStore;
 
 import android.app.Application;
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
-
-import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.Api.HelperClasses.AddCommentHelper;
-import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
-import com.project.android_kidstories.Api.RetrofitClient;
-import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
-import com.project.android_kidstories.Api.Responses.BaseResponse;
-import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
-import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
-import com.project.android_kidstories.Model.Category;
-import com.project.android_kidstories.Model.Story;
-import com.project.android_kidstories.Model.User;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.project.android_kidstories.Api.Api;
+import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
+import com.project.android_kidstories.Api.RetrofitClient;
+import com.project.android_kidstories.Model.Story;
+
+import java.util.List;
 
 /**
  * @author .: Ehma Ugbogo
@@ -38,14 +24,6 @@ public class Repository {
     private StoryDao storyDao;
 
 
-    public static synchronized Repository getInstance(Application application){
-        if(INSTANCE==null){
-            return new Repository(application);
-        }
-        return INSTANCE;
-    }
-
-
     public Repository(Context context) {
         StoryDatabase storyDatabase = StoryDatabase.getInstance(context);
         storyDao = storyDatabase.storyDao();
@@ -56,11 +34,20 @@ public class Repository {
         Log.d(TAG, "Repository: Created");
     }
 
+    public static synchronized Repository getInstance(Application application) {
+        if (INSTANCE == null) {
+            return new Repository(application);
+        }
+        return INSTANCE;
+    }
+
     public Api getStoryApi() {
         return api;
     }
 
-    public Api getUserProfileApi(){return api;}
+    public Api getUserProfileApi() {
+        return api;
+    }
 
     //******************** `Getters for Locally storing Stories *************************
 

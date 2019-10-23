@@ -64,7 +64,13 @@ public class StoryListingActivity extends AppCompatActivity {
                 recyclerView = findViewById(R.id.rv_list);
                 if (response.isSuccessful()) {
                     adapter = new RecyclerCategoryStoriesAdapter(StoryListingActivity.this, response.body().getData().getStories());
-                    GridLayoutManager layoutManager = new GridLayoutManager(StoryListingActivity.this, 1);
+                    int spanCount;
+                    try {
+                        spanCount = getResources().getInteger(R.integer.home_fragment_gridspan);
+                    } catch (NullPointerException e) {
+                        spanCount = 1;
+                    }
+                    GridLayoutManager layoutManager = new GridLayoutManager(StoryListingActivity.this, spanCount);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
 

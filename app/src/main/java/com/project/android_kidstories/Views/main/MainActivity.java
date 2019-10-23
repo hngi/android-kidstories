@@ -20,6 +20,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -48,6 +49,7 @@ import com.project.android_kidstories.ui.profile.BookmarksFragment;
 import com.project.android_kidstories.ui.profile.ProfileFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -78,7 +80,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private String firstname, lastname, name;
 
     private FragmentsSharedViewModel viewModel;
-
+    CircleImageView navProfilePic;
 
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -126,8 +128,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         View headerView = navigationView.getHeaderView(0);
 
         TextView userName = headerView.findViewById(R.id.nav_header_name);
+        navProfilePic = headerView.findViewById(R.id.nav_header_imageView);
         name = firstname + " " + lastname;
         userName.setText(name);
+
 
         ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
         navImage.setOnClickListener(new View.OnClickListener() {
@@ -172,10 +176,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
 
+
         setupProfile(headerView);
         openHomeFragment();
         //fetchStories();
         navigationClickListeners();
+
 
 
     }
@@ -195,6 +201,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     viewModel.currentUser.setLastName(response.body().getData().getLastName());
                     viewModel.currentUser.setImage(response.body().getData().getImageUrl());
                     viewModel.currentUser.setEmail(response.body().getData().getEmail());
+                    Glide.with(getApplicationContext())
+                            .load(viewModel.currentUser.getImage())
+                            .into(navProfilePic);
 
                 } else {
                     Log.d("User Details", "something went wrong");
@@ -384,7 +393,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         token = new SharePref(this).getMyToken();
         firstname = new SharePref(this).getUserFirstname();
         lastname = new SharePref(this).getUserLastname();
-        //Toast.makeText(MainActivity.this, token,Toast.LENGTH_LONG).show();
     }
 
 

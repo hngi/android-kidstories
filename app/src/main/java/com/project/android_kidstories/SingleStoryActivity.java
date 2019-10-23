@@ -1,7 +1,13 @@
 package com.project.android_kidstories;
 
+import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -13,6 +19,9 @@ import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
+
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,6 +35,10 @@ public class SingleStoryActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private Repository repository;
     private Api storyApi;
+
+    ImageButton btn_speak;
+    TextView speak_text;
+    TextToSpeech textToSpeech;
 
 
     @Override
@@ -86,5 +99,56 @@ public class SingleStoryActivity extends AppCompatActivity {
         });
 
 
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS)
+                {
+                    int result = textToSpeech.setLanguage(Locale.ENGLISH);
+                    if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED)
+                    {
+                        Toast.makeText(SingleStoryActivity.this, "This Language is not Supported", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                    btn_speak.setEnabled(true);
+                    textToSpeech.setPitch(0.6f);
+                    textToSpeech.setSpeechRate(0.9f);
+                    speak();}
+                }
+            }
+        });
+
+        speak_text = (TextView) findViewById(R.id.story_content);
+        btn_speak = (ImageButton) findViewById(R.id.play_story);
+        btn_speak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                speak();
+
+            }
+        });
+
+    }
+
+    private void speak() {
+
+        String text = speak_text.getText().toString();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null,null);
+        }
+        else {textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);}
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        if (textToSpeech != null){
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onDestroy();
     }
 }

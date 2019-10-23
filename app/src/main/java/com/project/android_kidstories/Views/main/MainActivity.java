@@ -189,9 +189,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     viewModel.currentUser.setLastName(response.body().getData().getLastName());
                     viewModel.currentUser.setImage(response.body().getData().getImageUrl());
                     viewModel.currentUser.setEmail(response.body().getData().getEmail());
-                    Glide.with(getApplicationContext())
-                            .load(viewModel.currentUser.getImage())
-                            .into(navProfilePic);
+                    if(viewModel.currentUser.getImage().isEmpty()) {
+                        Glide.with(getApplicationContext())
+                                .load(viewModel.currentUser.getImage())
+                                .into(navProfilePic);
+                    }
 
                 }
                 else{

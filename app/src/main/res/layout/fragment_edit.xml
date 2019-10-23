@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/account_icon" />
+            app:srcCompat="@drawable/account_icon"/>
 
         <TextView
             android:id="@+id/tv_username"
@@ -32,7 +32,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/img_user"
             app:layout_constraintStart_toStartOf="@id/img_user"
-            app:layout_constraintTop_toBottomOf="@id/img_user" />
+            app:layout_constraintTop_toBottomOf="@id/img_user"/>
 
         <EditText
             android:id="@+id/textInputEditText"
@@ -47,7 +47,7 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_username" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_username"/>
 
         <LinearLayout
             android:id="@+id/linearLayout3"
@@ -69,16 +69,16 @@
                 android:paddingEnd="24dp"
                 android:text="Upload Image"
                 android:textAllCaps="false"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/selected_image_path"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="No Image Uploaded"
+                android:ellipsize="end"
                 android:maxLines="1"
-                android:ellipsize="end"/>
+                android:text="No Image Uploaded"/>
         </LinearLayout>
 
         <Button
@@ -97,7 +97,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
             app:layout_constraintStart_toStartOf="@+id/linearLayout3"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -70,38 +70,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="postComment"
-                android:text="Post Comment" />
+                android:text="Post Comment"/>
 
             <Button
                 android:id="@+id/test_bookmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="bookmark"
-                android:text="Bookmark" />
+                android:text="Bookmark"/>
 
             <Button
                 android:id="@+id/test_get_bookmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="getBookmark"
-                android:text="User Bookmark" />
+                android:text="User Bookmark"/>
 
             <TextView
                 android:id="@+id/test_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Info shows here"
+                android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:layout_marginTop="16dp"/>
+                android:text="Info shows here" />
 
         </LinearLayout>
 
     </ScrollView>
+
     <ProgressBar
         android:id="@+id/test_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

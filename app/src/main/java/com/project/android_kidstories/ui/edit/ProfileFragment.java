@@ -17,30 +17,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
-import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Multipart;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -74,7 +69,7 @@ public class ProfileFragment extends Fragment {
         imageView = root.findViewById(R.id.img_user);
         username = root.findViewById(R.id.tv_username);
         btnUpload = root.findViewById(R.id.btn_upload);
-        btnUpload .setOnClickListener(new View.OnClickListener() {
+        btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent images = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -108,11 +103,10 @@ public class ProfileFragment extends Fragment {
                             part).enqueue(new Callback<BaseResponse<Void>>() {
                         @Override
                         public void onResponse(Call<BaseResponse<Void>> call, Response<BaseResponse<Void>> response) {
-                            if(response.isSuccessful()){
+                            if (response.isSuccessful()) {
                                 Log.d("Upload State", "Successful");
                                 Log.d("Upload State", response.body().getMessage());
-                            }
-                            else{
+                            } else {
                                 Log.d("Upload Status", "Something went wrong");
                             }
                         }
@@ -138,7 +132,7 @@ public class ProfileFragment extends Fragment {
         token = new SharePref(getActivity()).getMyToken();
 
         username.setText(viewModel.currentUser.getFirstName() + " " + viewModel.currentUser.getLastName());
-        if(viewModel.currentUser.getImage() != null){
+        if (viewModel.currentUser.getImage() != null) {
             Glide.with(getActivity().getApplicationContext())
                     .load(viewModel.currentUser.getImage())
                     .into(imageView);

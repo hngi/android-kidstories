@@ -1,16 +1,11 @@
 package com.project.android_kidstories.db.Helper;
 
-import android.bluetooth.le.AdvertiseData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import com.project.android_kidstories.Model.Story;
 
 public class BedTimeDbHelper extends SQLiteOpenHelper {
 

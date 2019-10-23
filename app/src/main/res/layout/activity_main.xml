@@ -29,7 +29,7 @@
                 android:theme="@style/AppToolbar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:subtitleTextColor="#ffffff"
-                app:titleTextColor="#ffffff" />
+                app:titleTextColor="#ffffff"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -63,7 +63,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_nav_bar" />
+            app:menu="@menu/bottom_nav_bar"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

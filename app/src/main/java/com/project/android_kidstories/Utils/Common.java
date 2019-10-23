@@ -8,16 +8,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
 import androidx.appcompat.app.AppCompatDelegate;
-
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
-import com.project.android_kidstories.Api.RetrofitClient;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Common extends Application {
@@ -45,14 +40,12 @@ public class Common extends Application {
         if (prefs.contains("NIGHT MODE")) {
             Boolean night1 = (Boolean) map1.get("NIGHT MODE");
 
-            if (night1){
+            if (night1) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            }
-            else
+            } else
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }else
+        } else
             prefs.edit().putBoolean("NIGHT MODE", false).apply();
-
 
 
         prefs.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
@@ -81,12 +74,12 @@ public class Common extends Application {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private void saveToken(String token){
-        Prefs.putString(AddStoryHelper.TOKEN_KEY,token);
+    private void saveToken(String token) {
+        Prefs.putString(AddStoryHelper.TOKEN_KEY, token);
     }
 
-    private String getSavedToken(String token){
-        return Prefs.getString(AddStoryHelper.TOKEN_KEY,"aTokenStringShouldBeHere");
+    private String getSavedToken(String token) {
+        return Prefs.getString(AddStoryHelper.TOKEN_KEY, "aTokenStringShouldBeHere");
     }
 
 

@@ -1,6 +1,9 @@
 package com.project.android_kidstories.Views.main;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,6 +37,7 @@ import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SettingsActivity;
+import com.project.android_kidstories.alarm.AlarmReceiver;
 import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
@@ -76,10 +80,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FragmentsSharedViewModel viewModel;
 
 
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(AlarmReceiver.CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createNotificationChannel();
         toolbar = findViewById(R.id.main_toolbar);
         toolbar.setTitle("Stories");
         setSupportActionBar(toolbar);

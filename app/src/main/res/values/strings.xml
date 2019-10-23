@@ -126,5 +126,7 @@
     <string name="hnginterns">hnginterns</string>
     <string name="unable">Unable to load Story</string>
     <string name="daily_reminder_text">Daily Reminder</string>
+    <string name="channel_name">Daily Reminder</string>
+    <string name="channel_description">Get notified to read your child a story</string>
 
 </resources>

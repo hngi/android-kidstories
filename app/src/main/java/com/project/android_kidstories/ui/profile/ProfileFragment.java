@@ -111,6 +111,12 @@ public class ProfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(getActivity()).get(FragmentsSharedViewModel.class);
+
+        String fName = new SharePref((requireContext())).getUserFirstname();
+        String lName = new SharePref((requireContext())).getUserLastname();
+        String email = new SharePref((requireContext())).getUserEmail();
+
+        viewModel.setUser(new User(fName,lName,email));
         repository = Repository.getInstance(getActivity().getApplication());
 
        // Displays the user information

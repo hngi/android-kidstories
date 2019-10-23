@@ -12,4 +12,9 @@ import com.project.android_kidstories.Model.User;
 public class FragmentsSharedViewModel extends ViewModel {
 
     public User currentUser;
+
+
+   public void setUser(User user){
+       currentUser = user;
+   }
 }

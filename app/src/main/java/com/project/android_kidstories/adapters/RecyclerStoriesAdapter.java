@@ -3,22 +3,16 @@ package com.project.android_kidstories.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.Resource;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
@@ -32,7 +26,6 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
     private Context context;
     private StoryAllResponse storiesList;
-    public final static String TAG = "RecyclerStoriesAdapter";
 
     public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList) {
         this.context = context;
@@ -186,7 +179,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                 String title = storiesList.getData().get(position).getTitle();
                 String body = storiesList.getData().get(position).getBody();
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                // share only 120 characters is body is longer than or equal to 120
+                // share only 120 characters if body is longer than or equal to 120
                 if (body.length() >= 120) {
                     intent.putExtra(Intent.EXTRA_TEXT, "KIDS STORIES APP \n"
                             + "Story Title: " + title + "\n"

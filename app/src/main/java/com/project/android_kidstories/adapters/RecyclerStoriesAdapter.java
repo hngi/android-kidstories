@@ -115,7 +115,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
 
         if(bookmarked.isAlreadyBookmarked(storiesList.getData().get(position).getId())){
-            
+
         }
         holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
 

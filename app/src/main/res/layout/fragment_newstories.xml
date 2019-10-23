@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:layout_margin="8dp"
             android:layout_width="match_parent"
-            tools:listitem="@layout/recycler_item"></androidx.recyclerview.widget.RecyclerView>
+            tools:listitem="@layout/recycler_item"/>
 
     </RelativeLayout>
 

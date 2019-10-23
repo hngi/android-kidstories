@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
@@ -64,7 +63,14 @@ public class CategoriesFragment extends Fragment {
 
                 if (response.isSuccessful()) {
                     adapter = new RecyclerCategoryAdapter(getContext(), response.body());
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    //LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    int spanCount;
+                    try {
+                        spanCount = getContext().getResources().getInteger(R.integer.home_fragment_gridspan);
+                    } catch (NullPointerException e) {
+                        spanCount = 1;
+                    }
+                    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
                 } else {

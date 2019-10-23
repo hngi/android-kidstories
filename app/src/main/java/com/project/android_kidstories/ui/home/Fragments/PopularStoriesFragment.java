@@ -66,7 +66,15 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                 recyclerView = v.findViewById(R.id.recyclerView);
                 if (response.isSuccessful()) {
                     adapter = new RecyclerStoriesAdapter(getContext(), sortList(response.body()), PopularStoriesFragment.this);
-                    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+
+                    int spanCount;
+                    try {
+                        spanCount = getContext().getResources().getInteger(R.integer.home_fragment_gridspan);
+                    } catch (NullPointerException e) {
+                        spanCount = 1;
+                    }
+
+                    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
                 } else {

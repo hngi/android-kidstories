@@ -69,7 +69,15 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
                 if (response.isSuccessful()) {
                     storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(), NewStoriesFragment.this);
-                    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+
+                    int spanCount;
+                    try {
+                        spanCount = getContext().getResources().getInteger(R.integer.home_fragment_gridspan);
+                    } catch (NullPointerException e) {
+                        spanCount = 1;
+                    }
+
+                    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(storyAdapter);
                 } else {

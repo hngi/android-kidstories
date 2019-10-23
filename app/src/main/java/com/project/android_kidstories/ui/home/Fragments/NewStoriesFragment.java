@@ -23,6 +23,7 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
+import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.home.BaseFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 
@@ -44,6 +45,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private Api service;
     private boolean isAddSuccessful;
     int initBookmarkId;
+    private String token;
 
 
     public static NewStoriesFragment newInstance() {
@@ -53,7 +55,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_newstories, container, false);
-
+        token = "Bearer "+ new SharePref(getContext()).getMyToken();
         progressBar = v.findViewById(R.id.new_stories_bar);
 
         progressBar.setVisibility(View.VISIBLE);
@@ -145,7 +147,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     @Override
     public boolean onBookmarkAdded(int storyId) {
 
-        String token = "Bearer "+ Prefs.getString("Token","");
         Call<BookmarkResponse> addBookmark= service.bookmarkStory(token,storyId);
         addBookmark.enqueue(new Callback<BookmarkResponse>() {
             @Override
@@ -169,7 +170,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
     @Override
     public int isAlreadyBookmarked(int storyId, int pos) {
-        String token = "Bearer "+ Prefs.getString("Token","");
+
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
         bookmarks.enqueue(new Callback<UserBookmarkResponse>() {

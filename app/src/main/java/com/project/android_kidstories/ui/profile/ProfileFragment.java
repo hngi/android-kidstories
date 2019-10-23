@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
+import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.R;
@@ -18,6 +18,7 @@ import com.project.android_kidstories.adapters.ProfilePagerAdapter;
 import com.project.android_kidstories.db.Helper.AddUsers;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
 
 public class ProfileFragment extends Fragment {
     public ImageView imageView;
@@ -25,9 +26,9 @@ public class ProfileFragment extends Fragment {
     ImageConversion imageConversion;
     TextView userName, userEmail;
     String token;
-    private Repository repository;
 
-    private com.project.android_kidstories.ui.profile.ProfileViewModel mViewModel;
+    private Repository repository;
+    public FragmentsSharedViewModel viewModel;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -56,9 +57,7 @@ public class ProfileFragment extends Fragment {
 //            token = getArguments().getString("token");
 //        }
 
-//        Displays the user information
-        displayProfile();
-
+//
         // TODO: Causes the app to crash
         /*Bitmap image = imageConversion.convertByteArraytoBitMap(getImage(client_id));
         Bitmap resizedImage = imageConversion.fitBitMaptoImageView(image, 178, 178);
@@ -88,7 +87,12 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(com.project.android_kidstories.ui.profile.ProfileViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(FragmentsSharedViewModel.class);
+        repository = Repository.getInstance(getActivity().getApplication());
+
+        // Displays the user information
+        displayProfile();
+
         // TODO: Use the ViewModel
     }
 
@@ -119,35 +123,26 @@ public class ProfileFragment extends Fragment {
         String firstname = new SharePref(getActivity()).getUserFirstname();
         String lastname = new SharePref(getActivity()).getUserLastname();
         String email = new SharePref(getActivity()).getUserEmail();
-        Toast.makeText(getActivity(), token, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(), token,Toast.LENGTH_LONG).show();
 
         String name = firstname + " " + lastname;
 
-        userName.setText(name);
-        userEmail.setText(email);
+        if (viewModel.currentUser.getLastName() != null && viewModel.currentUser.getFirstName() != null
+                && viewModel.currentUser.getEmail() != null) {
+            userName.setText(viewModel.currentUser.getFirstName() + " " + viewModel.currentUser.getLastName());
+            userEmail.setText(viewModel.currentUser.getEmail());
+        } else {
+            userEmail.setText(email);
+            userName.setText(name);
+        }
 
-//        repository.getUserProfileApi().getUserProfile(token).enqueue(new Callback<BaseResponse<User>>() {
-//            @Override
-//            public void onResponse(Call<BaseResponse<User>> call, Response<BaseResponse<User>> response) {
-//                if (response.isSuccessful()){
-//                    assert response.body() != null;
-//                    Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_LONG).show();
-//                    User user = response.body().getData();
-//                    String name = user.getFirstName() + " " + user.getLastName();
-//                    userName.setText(name);
-//                    userEmail.setText(user.getEmail());
-//                } else {
-//                    assert response.errorBody() != null;
-//                    String error = response.errorBody().toString();
-//                    Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<BaseResponse<User>> call, Throwable t) {
-//                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-//            }
-//        });
+        if (viewModel.currentUser.getImage() != null) {
+            Glide.with(getActivity().getApplicationContext())
+                    .load(viewModel.currentUser.getImage())
+                    .into(imageView);
+        }
+
+
 
     }
 }

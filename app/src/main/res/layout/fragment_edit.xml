@@ -18,7 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/sym_def_app_icon"/>
+            app:srcCompat="@drawable/account_icon"/>
 
         <TextView
             android:id="@+id/tv_username"
@@ -75,8 +75,8 @@
                 android:id="@+id/selected_image_path"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:gravity="center"
+                android:ellipsize="end"
                 android:maxLines="1"
                 android:text="No Image Uploaded"/>
         </LinearLayout>

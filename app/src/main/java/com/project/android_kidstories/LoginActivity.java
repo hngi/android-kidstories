@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         assert response.body() != null;
                         String token = response.body().getUser().getToken();
-                        Toast.makeText(LoginActivity.this, token, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(LoginActivity.this, token, Toast.LENGTH_LONG).show();
 
                         String mFirstname = response.body().getUser().getFirstName();
                         String mLastname = response.body().getUser().getLastName();

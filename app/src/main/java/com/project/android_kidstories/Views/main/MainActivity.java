@@ -2,6 +2,7 @@ package com.project.android_kidstories.Views.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -25,19 +27,28 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.AddStoryActivity;
+import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.NightmodeActivity;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.sharePref.SharePref;
-import com.project.android_kidstories.ui.edit.ProfileFragment;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
+import com.project.android_kidstories.ui.profile.ProfileFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
+import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+//import com.project.android_kidstories.ui.edit.ProfileFragment;
 
 /**
  * @author .: Ehma Ugbogo
@@ -55,12 +66,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Toolbar toolbar;
     private Repository repository;
     private StoryAdapter storyAdapter;
-    public static int LastTabPosition = 0;
     private GoogleApiClient mGoogleApiClient;
     private BottomNavigationView bottomNavigationView;
     private SharePref sharePref;
+    public static int LastTabPosition = 0;
     private String token;
     private String firstname, lastname, name;
+
+    private FragmentsSharedViewModel viewModel;
 
 
     @Override
@@ -71,6 +84,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         toolbar.setTitle("Stories");
         setSupportActionBar(toolbar);
         sharePref = SharePref.getINSTANCE(getApplicationContext());
+        viewModel = ViewModelProviders.of(this).get(FragmentsSharedViewModel.class);
 
 //        Get token from SharedPref
         getUserDetails();
@@ -133,6 +147,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         storyAdapter = new StoryAdapter(repository);
 
+        linkUserDetails();
+
 
 
         setupProfile(headerView);
@@ -141,6 +157,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         navigationClickListeners();
 
 
+    }
+
+    public void linkUserDetails() {
+
+        repository.getStoryApi().getUser("Bearer " + token).enqueue(new Callback<BaseResponse<DataResponse>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
+
+                viewModel.currentUser = new User();
+
+                if (response.isSuccessful()) {
+                    Log.d("User Details", response.body().getData().toString());
+                    Log.d("User Name", response.body().getData().getFirstName());
+                    viewModel.currentUser.setFirstName(response.body().getData().getFirstName());
+                    viewModel.currentUser.setLastName(response.body().getData().getLastName());
+                    viewModel.currentUser.setImage(response.body().getData().getImageUrl());
+                    viewModel.currentUser.setEmail(response.body().getData().getEmail());
+
+                } else {
+                    Log.d("User Details", "something went wrong");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
+
+                Log.d("User Details", "Network Failure");
+                Log.d("User Details", t.getMessage());
+            }
+        });
     }
 
     private void navigationClickListeners() {
@@ -387,16 +433,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         return super.onOptionsItemSelected(item);
     }
-
     private void doExit() {
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                 MainActivity.this);
 
         alertDialog.setPositiveButton("Yes", (dialog, which) -> finishAffinity());
-
         alertDialog.setNegativeButton("No", null);
-
         alertDialog.setMessage("Do you want to exit?");
         alertDialog.setTitle(R.string.app_name);
         alertDialog.show();

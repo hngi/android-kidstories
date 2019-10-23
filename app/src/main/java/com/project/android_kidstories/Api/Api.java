@@ -37,7 +37,7 @@ public interface Api {
     Call<BaseResponse<DataResponse>> logoutUser(@Header("Authorization") String token);
 
     @GET("auth/user")
-    Call<DataResponse> getUser(@Header("Authorization")String token);
+    Call<BaseResponse<DataResponse>> getUser(@Header("Authorization") String token);
 
     @GET("auth/change-password")
     Call<BaseResponse<DataResponse>> changeUserPassword(@Header("Authorization") String token,

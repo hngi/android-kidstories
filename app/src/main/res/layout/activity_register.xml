@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/registration_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".RegisterActivity"
-    android:id="@+id/registration_parent_layout">
+    android:gravity="center_vertical"
+    tools:context=".RegisterActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/reg_txt_view"
@@ -23,145 +23,108 @@
             android:layout_height="33dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
-            android:fontFamily="@font/comic_sans"
+            android:fontFamily="@font/roboto_regular"
             android:text="@string/sign_up_label"
             android:textColor="#3f9FF7"
             android:textSize="24sp" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/reg_first_name"
-            style="@style/EditTextWhite"
-            android:layout_width="288dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/edit_text_rectangle"
             android:ems="10"
+            android:fontFamily="@font/roboto_light"
             android:hint="First Name"
             android:inputType="textPersonName"
-            android:textColorHint="#646669" />
+            android:paddingStart="20dp" />
 
-        <EditText
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/reg_last_name"
-            style="@style/EditTextWhite"
-            android:layout_width="288dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/edit_text_rectangle"
             android:ems="10"
+            android:fontFamily="@font/roboto_light"
             android:hint="Last Name"
             android:inputType="textPersonName"
-            android:textColorHint="#646669" />
+            android:paddingStart="20dp" />
 
-        <EditText
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/reg_email"
-            style="@style/EditTextWhite"
-            android:layout_width="288dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/edit_text_rectangle"
             android:ems="10"
+            android:fontFamily="@font/roboto_light"
             android:hint="@string/e_mail_hint"
             android:inputType="textEmailAddress"
-            android:textColorHint="#646669" />
+            android:paddingStart="20dp" />
 
-        <EditText
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/reg_contact"
-            style="@style/EditTextWhite"
-            android:layout_width="288dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/edit_text_rectangle"
             android:ems="10"
+            android:fontFamily="@font/roboto_light"
             android:hint="@string/phone_no_hint"
             android:inputType="phone"
-            android:textColorHint="#646669" />
+            android:paddingStart="20dp" />
 
-        <EditText
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/reg_password"
-            style="@style/EditTextWhite"
-            android:layout_width="288dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/edit_text_rectangle"
             android:ems="10"
+            android:fontFamily="@font/roboto_light"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
-            android:textColorHint="#646669" />
-
-        <EditText
-            android:id="@+id/reg_confirm_password"
-            style="@style/EditTextWhite"
-            android:layout_width="288dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/edit_text_rectangle"
-            android:ems="10"
-            android:hint="@string/confirm_password_hint"
-            android:inputType="textPassword"
-            android:textColorHint="#646669" />
+            android:paddingStart="20dp" />
 
 
-        <!--.............Why is this widget here?? please use the button to call
-                            the google signup......
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#FF000000"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reg_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text_rectangle"
+                android:ems="10"
+                android:fontFamily="@font/roboto_light"
+                android:hint="@string/confirm_password_hint"
+                android:inputType="textPassword"
+                android:paddingStart="20dp" />
 
+            <ProgressBar
+                android:id="@+id/reg_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_centerInParent="true"
+                android:layout_margin="8dp"
+                android:visibility="invisible" />
+        </RelativeLayout>
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtview_re"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:textSize="18sp"
-            />
-
-
-        <!-.............Why is this widget here?? please use the button to call
-                                    the facebook signup......
-
-                <com.facebook.login.widget.LoginButton
-                    android:id="@+id/login_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    />
-
-              ....... -->
 
         <Button
             android:id="@+id/sign_up_button"
-            android:layout_width="260dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="40dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/register_round_button"
             android:fontFamily="@font/roboto_regular"
@@ -181,12 +144,13 @@
                 android:id="@+id/not_reg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="3dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"
+                android:padding="3dp"
                 android:text="@string/already_registered"
                 android:textColor="@color/black" />
+
 
             <TextView
                 android:id="@+id/create_act"
@@ -198,13 +162,6 @@
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/reg_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="8dp"
-            android:visibility="invisible" />
 
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

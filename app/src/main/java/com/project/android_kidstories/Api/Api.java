@@ -2,6 +2,7 @@ package com.project.android_kidstories.Api;
 
 import android.net.Uri;
 
+import com.google.gson.annotations.SerializedName;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
@@ -51,7 +52,7 @@ public interface Api {
     Call<BaseResponse<DataResponse>> logoutUser(@Header("Authorization") String token);
 
     @GET("auth/user")
-    Call<DataResponse> getUser(@Header("Authorization")String token);
+    Call<BaseResponse<DataResponse>> getUser(@Header("Authorization")String token);
 
     @GET("auth/change-password")
     Call<BaseResponse<DataResponse>> changeUserPassword(@Header("Authorization") String token,
@@ -112,12 +113,12 @@ public interface Api {
     @POST("stories")
     Call<BaseResponse<Story>> addStory(
             @Header("Authorization") String token,
-            @Field("title") String title,
-            @Field("body") String story,
-            @Field("category_id") int categoryId,
-            @Part MultipartBody.Part image,
-            @Field("age") String ageInRange,
-            @Field("author") String author
+            @Part("title") RequestBody title,
+            @Part("body") RequestBody body,
+            @Part("category_id") RequestBody categoryId,
+            @Part MultipartBody.Part photo,
+            @Part("age") RequestBody ageInRange,
+            @Part("author") RequestBody author
     );
 
 

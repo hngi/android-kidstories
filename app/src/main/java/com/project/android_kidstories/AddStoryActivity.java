@@ -93,8 +93,7 @@ public class AddStoryActivity extends AppCompatActivity {
 
 
             if(imageUri != null)
-            i.putExtra("image_uri",getPath(imageUri));
-            i.setData(imageUri);
+            i.putExtra("image_path", imagePath);
 
             startActivity(i);
         }

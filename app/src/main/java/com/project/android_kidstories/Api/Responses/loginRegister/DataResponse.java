@@ -21,7 +21,7 @@ public class DataResponse {
     private String lastName;
     @SerializedName("is_admin")
     @Expose
-    private Boolean isAdmin;
+    private Integer isAdmin;
     @SerializedName("email")
     @Expose
     private String email;
@@ -46,13 +46,27 @@ public class DataResponse {
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
+    @SerializedName("image_name")
+    @Expose
+    private String imageName;
+    @SerializedName("image_url")
+    @Expose
+    private String imageUrl;
 
-    public Boolean getAdmin() {
-        return isAdmin;
+    public String getImageName() {
+        return imageName;
     }
 
-    public void setAdmin(Boolean admin) {
-        isAdmin = admin;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getEmailVerifiedAt() {
@@ -103,11 +117,11 @@ public class DataResponse {
         this.lastName = lastName;
     }
 
-    public Boolean getIsAdmin() {
+    public Integer getIsAdmin() {
         return isAdmin;
     }
 
-    public void setIsAdmin(Boolean isAdmin) {
+    public void setIsAdmin(Integer isAdmin) {
         this.isAdmin = isAdmin;
     }
 

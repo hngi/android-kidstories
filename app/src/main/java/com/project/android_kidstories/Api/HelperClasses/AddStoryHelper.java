@@ -1,7 +1,9 @@
 package com.project.android_kidstories.Api.HelperClasses;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
@@ -9,6 +11,7 @@ import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Model.Story;
+import com.project.android_kidstories.sharePref.SharePref;
 
 import java.io.File;
 
@@ -22,7 +25,8 @@ import retrofit2.Response;
 public class AddStoryHelper {
     public static final String TOKEN_KEY="token";
     private static final String TAG = "kidstories";
-    public static String token = Prefs.getString(TOKEN_KEY, "");
+    public static SharePref sharePref;
+    public String token = new SharePref(this).getMyToken();
     private static boolean isStoryAdded=false;
     private static Integer likesCount;
 
@@ -31,7 +35,7 @@ public class AddStoryHelper {
         File imageFile = new File(Uri.decode(imageUri));
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
 
-        MultipartBody.Part image = MultipartBody.Part.createFormData("Image", imageFile.getName(), requestFile);
+        MultipartBody.Part photo = MultipartBody.Part.createFormData("Image", imageFile.getName(), requestFile);
 
         String mtitle = story.getTitle();
         String mbody = story.getBody();
@@ -48,15 +52,15 @@ public class AddStoryHelper {
         RequestBody duration = RequestBody.create(okhttp3.MultipartBody.FORM, story.getStoryDuration());
 
         if(isANewStory){
-            return addStory(mtitle, mbody, mcategory, image, mageInrange, mauthor, mduration);
+            return addStory(title, body, category, photo, ageInrange, author);
         } else {
-            return updateStory(story.getId(), title, body, category, ageInrange, author, duration, image);
+            return updateStory(story.getId(), title, body, category, ageInrange, author, duration, photo);
         }
 
     }
 
-    private static boolean addStory(String title, String  body, int category,  MultipartBody.Part image, String ageInrange, String author, String duration) {
-        RetrofitClient.getInstance().create(Api.class).addStory(token, title, body, category, image, ageInrange, author)
+    private static boolean addStory(RequestBody title, RequestBody  body, RequestBody category,  MultipartBody.Part photo, RequestBody ageInrange, RequestBody author) {
+        RetrofitClient.getInstance().create(Api.class).addStory(token, title, body, category, photo, ageInrange, author)
                 .enqueue(new Callback<BaseResponse<Story>>() {
                     @Override
                     public void onResponse(Call<BaseResponse<Story>> call, Response<BaseResponse<Story>> response) {

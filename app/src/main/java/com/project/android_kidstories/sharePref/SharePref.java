@@ -1,6 +1,7 @@
 package com.project.android_kidstories.sharePref;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -20,7 +21,7 @@ public class SharePref {
 //
 //        INSTANCE=SharePref.getINSTANCE(this);
 //    }
-    private SharedPreferences sharedPreferences;
+    private static SharedPreferences sharedPreferences;
 
     private SharePref(SharedPreferences sharedPreferences) {
         this.sharedPreferences=sharedPreferences;

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
     public interface OnBookmarked{
         boolean onBookmarkAdded(int storyId);
-        boolean isAlreadyBookmarked(int storyId);
+        int isAlreadyBookmarked(int storyId,int pos);
     }
 
     public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList,OnBookmarked bookmarked) {
@@ -114,10 +115,17 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);    //When you change the drawable
         holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
 
-        if(bookmarked.isAlreadyBookmarked(storiesList.getData().get(position).getId())){
+        Story story = stories.get(position);
 
+        boolean isBookmarked = bookmarked.isAlreadyBookmarked(story.getId(), position) == story.getId();
+        Log.e("STORYYyyyyyyyyyy",isBookmarked+"");
+        if(isBookmarked){
+            holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
+            holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
+        }else{
+
+            holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
         }
-        holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
 
 
         int like_image_black = R.drawable.ic_thumb_up_black_24dp;
@@ -216,10 +224,6 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             }
         });
 
-    }
-
-    private void replaceStory(Story story,int position){
-        this.stories.set(position,story);
     }
     @Override
     public int getItemCount() {

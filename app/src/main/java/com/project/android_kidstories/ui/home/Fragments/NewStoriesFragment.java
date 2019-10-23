@@ -1,6 +1,5 @@
 package com.project.android_kidstories.ui.home.Fragments;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,11 +10,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
@@ -25,7 +22,6 @@ import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.ui.home.BaseFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
@@ -46,7 +42,8 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 //    private StoryAdapter storyAdapter;
     private RecyclerStoriesAdapter storyAdapter;
     private Api service;
-    private boolean isAddSuccessful,initBookmark;
+    private boolean isAddSuccessful;
+    int initBookmarkId;
 
 
     public static NewStoriesFragment newInstance() {
@@ -85,7 +82,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -155,6 +151,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             @Override
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                 if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Bookmark added", Toast.LENGTH_SHORT).show();
                     isAddSuccessful = response.body().getData();
                 }else {
                     isAddSuccessful = false;
@@ -171,9 +168,8 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     }
 
     @Override
-    public boolean isAlreadyBookmarked(int storyId) {
+    public int isAlreadyBookmarked(int storyId, int pos) {
         String token = "Bearer "+ Prefs.getString("Token","");
-
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
         bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
@@ -183,24 +179,21 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                     List<Story> data = response.body().getData();
                     for(Story s: data){
                         if(s.getId() == storyId){
-
                             Log.e("STORYID",storyId+"");
-                            initBookmark = true;
+                            initBookmarkId = s.getId();
                         }
                     }
                 }else {
-                    initBookmark = false;
                     Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
-                initBookmark = false;
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
-        Log.e("INITBOOKMARK",initBookmark+"");
-        return initBookmark;
+        Log.e("INITBOOKMARK", initBookmarkId +"");
+        return initBookmarkId;
     }
 }

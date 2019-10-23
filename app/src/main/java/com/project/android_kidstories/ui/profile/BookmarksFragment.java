@@ -49,6 +49,7 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
         View v = inflater.inflate(R.layout.fragment_bookmarks,container,false);
         ButterKnife.bind(this,v);
         stories = new ArrayList<>();
+        recyclerView.setAdapter(null);
        /* recyclerView = v.findViewById(R.id.category_recycler);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);*/
@@ -79,6 +80,7 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
                         stories.add(s);
                     }
                     adapter = new BookmarksAdapter(stories,BookmarksFragment.this);
+                    adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
                 }else {
                     Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();

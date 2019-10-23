@@ -43,7 +43,8 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     private ProgressBar popular_bar;
     RecyclerView recyclerView;
     private Api service;
-    private boolean isAddSuccessful,initBookmark;
+    private boolean isAddSuccessful;
+    int initBookmarkId;
 
     public static PopularStoriesFragment newInstance(){return new PopularStoriesFragment();}
 
@@ -130,7 +131,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     }
 
     @Override
-    public boolean isAlreadyBookmarked(int storyId) {
+    public int isAlreadyBookmarked(int storyId, int pos) {
         String token = "Bearer "+ Prefs.getString("Token","");
 
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
@@ -142,23 +143,21 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                     List<Story> data = response.body().getData();
                     for(Story s: data){
                         if(s.getId() == storyId){
-                           initBookmark = true;
+                           initBookmarkId = s.getId();
                         }
                     }
                 }else {
-                    initBookmark = false;
                     Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
-                initBookmark = false;
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
-        Log.e("INITBOOKMARK",initBookmark+"");
-        return initBookmark;
+        Log.e("INITBOOKMARK",initBookmarkId+"");
+        return initBookmarkId;
     }
 
     public class StoryComparitor implements Comparator<Story> {

@@ -6,6 +6,7 @@ import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
+import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
@@ -167,6 +168,9 @@ public interface Api {
     @GET("bookmarks/stories/{storyId}/status")
     Call<BookmarkResponse> getStoryBookmarkStatus(@Header("Authorization") String token,
                                                   @Path("storyId") Integer storyId);
+
+    @GET("bookmarks/stories")
+    Call<UserBookmarkResponse> getUserBookmarks(@Header("Authorization") String token);
 
 
 

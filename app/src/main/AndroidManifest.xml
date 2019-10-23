@@ -40,13 +40,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StoryListingActivity" /> <!-- Do not edit this theme -->
+        <activity android:name=".StoryListingActivity" android:parentActivityName=".Views.main.MainActivity"/> <!-- Do not edit this theme -->
         <activity android:name=".StoryDetailActivity" />
 
-        <activity android:name=".SingleStoryActivity" />
+        <activity android:name=".SingleStoryActivity" android:parentActivityName=".Views.main.MainActivity"/>
         <activity
             android:name=".RegisterActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WhiteStatusBar" />
 
         <activity android:name=".ProfileRegisterActivity" />
@@ -55,7 +54,6 @@
 
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WhiteStatusBar" />
 
         <activity android:name=".BookMark" />

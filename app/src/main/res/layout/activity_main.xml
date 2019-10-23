@@ -27,10 +27,9 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/white"
                 android:theme="@style/AppToolbar"
-                app:navigationIcon="@drawable/ic_menu_black_24dp"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:subtitleTextColor="@color/black"
-                app:titleTextColor="@color/black" />
+                app:subtitleTextColor="#ffffff"
+                app:titleTextColor="#ffffff" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -60,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:fitsSystemWindows="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

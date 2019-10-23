@@ -15,11 +15,11 @@
 
         <ImageView
             android:id="@+id/category_image"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:contentDescription="@string/story_image"
             android:scaleType="centerCrop"
+            android:contentDescription="@string/story_image"
             android:tint="#D33F9FF7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,11 +36,10 @@
 
             <TextView
                 android:id="@+id/textView1_cat"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/diary_of_a_wimpy_kid"
-                android:textColor="@color/white"
+                android:layout_width="wrap_content"
                 android:textSize="18sp"/>
         </LinearLayout>
 

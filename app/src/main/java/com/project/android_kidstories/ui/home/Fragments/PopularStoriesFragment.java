@@ -117,7 +117,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
             @Override
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                 if (response.isSuccessful()) {
-                    isAddSuccessful = response.body().getData();
+                    isAddSuccessful = response.body().getData() != null;
                 } else {
                     isAddSuccessful = false;
                 }

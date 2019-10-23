@@ -29,20 +29,13 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
     private Context context;
     private StoryAllResponse storiesList;
-    List<Story> stories;
     private OnBookmarked bookmarked;
+    List<Story> stories;
 
     public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList, OnBookmarked bookmarked) {
         this.context = context;
         this.storiesList = storiesList;
         this.bookmarked = bookmarked;
-    }
-
-    @Override
-    public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.recycler_item, parent, false);
-        return new CustomViewHolder(view);
     }
 
     @Override
@@ -187,12 +180,9 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             public void onClick(View v) {
                 int bookmark_drawableId = (Integer) holder.bookmark.getTag();
 
-                boolean successfulBookmark = bookmarked.onBookmarkAdded(storiesList.getData()
-                        .get(position).getId());
-
-
-                if ((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp) &&
-                        successfulBookmark) {
+                if ((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp)) {
+                    bookmarked.onBookmarkAdded(storiesList.getData()
+                            .get(position).getId());
                     holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
                     holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
 
@@ -210,6 +200,13 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         boolean onBookmarkAdded(int storyId);
 
         int isAlreadyBookmarked(int storyId, int pos);
+    }
+
+    @Override
+    public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.recycler_item, parent, false);
+        return new CustomViewHolder(view);
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {

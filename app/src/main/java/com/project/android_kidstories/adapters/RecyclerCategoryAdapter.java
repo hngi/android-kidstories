@@ -44,11 +44,23 @@ public class RecyclerCategoryAdapter extends RecyclerView.Adapter<RecyclerCatego
         holder.categoryImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int categoryId = categoryList.getData().get(position).getId();
                 String categoryName = categoryList.getData().get(position).getName();
+                int categoryId = categoryList.getData().get(position).getId();
                 Intent intent = new Intent(context, StoryListingActivity.class);
-                intent.putExtra("categoryId", categoryId);
                 intent.putExtra("categoryName", categoryName);
+                intent.putExtra("categoryId", categoryId);
+                context.startActivity(intent);
+            }
+        });
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String categoryName = categoryList.getData().get(position).getName();
+                int categoryId = categoryList.getData().get(position).getId();
+                Intent intent = new Intent(context, StoryListingActivity.class);
+                intent.putExtra("categoryName", categoryName);
+                intent.putExtra("categoryId", categoryId);
                 context.startActivity(intent);
             }
         });

@@ -47,6 +47,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     public static NewStoriesFragment newInstance() {
         return new NewStoriesFragment();
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,14 +70,12 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
                 if (response.isSuccessful()) {
                     storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(), NewStoriesFragment.this);
-
                     int spanCount;
                     try {
                         spanCount = getContext().getResources().getInteger(R.integer.home_fragment_gridspan);
                     } catch (NullPointerException e) {
                         spanCount = 1;
                     }
-
                     GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(storyAdapter);
@@ -157,7 +156,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "Bookmark added", Toast.LENGTH_SHORT).show();
-                    isAddSuccessful = response.body().getData();
+                    isAddSuccessful = response.body().getData() != null;
                 } else {
                     isAddSuccessful = false;
                 }

@@ -153,7 +153,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "Bookmark added", Toast.LENGTH_SHORT).show();
-                    isAddSuccessful = response.body().getData();
+                    isAddSuccessful = response.body().getData() != null;
                 }else {
                     isAddSuccessful = false;
                 }

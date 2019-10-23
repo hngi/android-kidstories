@@ -1,7 +1,9 @@
 package com.project.android_kidstories;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
 import com.project.android_kidstories.base.BaseActivity;
 
 public class SettingsActivity extends BaseActivity {
@@ -27,6 +29,10 @@ public class SettingsActivity extends BaseActivity {
             }
         });
 
+    }
+
+    public void reminderClicked(View view) {
+        Toast.makeText(this, "Reminder Clicked", Toast.LENGTH_SHORT).show();
     }
 
 }

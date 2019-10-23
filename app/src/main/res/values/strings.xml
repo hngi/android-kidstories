@@ -125,5 +125,6 @@
     <string name="kids_stories">kids_stories</string>
     <string name="hnginterns">hnginterns</string>
     <string name="unable">Unable to load Story</string>
+    <string name="daily_reminder_text">Daily Reminder</string>
 
 </resources>

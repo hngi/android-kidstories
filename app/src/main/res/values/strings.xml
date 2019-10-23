@@ -64,7 +64,13 @@
     <string name="open_drawer">Open Drawer</string>
     <string name="close_drawer">Close Drawer</string>
     <string name="about_label">About</string>
-    <string name="about_description">Kiddies stories is a mobile app that gives the best of value to your child.</string>
+    <string name="about_description">There is nothing more beautiful as a lovely childhood memory. With Kidstories you
+        can recreate those memories, and become a part of a beautiful one too. Kidstories is a platform where you can
+        access an ever expanding library of stories that celebrates the uniqueness of a child\'s mind. Covering a wide
+        range of ages, our stories are age and genre grouped, making it easy for you to browse through. It also offers
+        you an opportunity to explore your creative writing abilities, by uploading your very own story. You can like,
+        dislike, and comment on stories you and/or your child fancies.
+    </string>
     <string name="developed_by">Developed by mobile track HNG6 2019</string>
     <string name="bookmarks_label">Bookmarks</string>
     <string name="sign_in_image_desc">Image showing two kids reading books</string>
@@ -93,7 +99,9 @@
     <string name="content">This is a comment</string>
     <string name="date">3 DAYS AGO</string>
     <string name="app_description">Kiddies stories is a mobile app that gives the best of value to your child.</string>
-    <string name="developers">Developed by mobile track HNG6 2019</string>
+    <string name="developers">Created by the HNG6.0 Interns, Kidstories is a whole new world of creative possibilities
+        and we are delighted to welcome you in and to have you here.
+    </string>
     <string name="currency">Currency</string>
     <string name="new_stories_label">NEW STORIES</string>
     <string name="popular_stories_label">POPULAR STORIES</string>
@@ -125,5 +133,8 @@
     <string name="kids_stories">kids_stories</string>
     <string name="hnginterns">hnginterns</string>
     <string name="unable">Unable to load Story</string>
+    <string name="daily_reminder_text">Daily Reminder</string>
+    <string name="channel_name">Daily Reminder</string>
+    <string name="channel_description">Get notified to read your child a story</string>
 
 </resources>

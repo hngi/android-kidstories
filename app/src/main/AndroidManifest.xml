@@ -17,15 +17,20 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IgnoreForApiTest.TestActivity"></activity>
+        <receiver
+            android:name=".alarm.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false"></receiver>
+
+        <activity android:name=".IgnoreForApiTest.TestActivity" />
         <activity
-            android:name=".NightmodeActivity"
+            android:name=".SettingsActivity"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning" />
         <activity
             android:name=".Views.main.MainActivity"
             android:label="@string/title_activity_the_main"
-            android:theme="@style/AppTheme.WhiteStatusBar"></activity>
+            android:theme="@style/AppTheme.WhiteStatusBar" />
         <activity
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -37,31 +42,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StoryListingActivity" android:parentActivityName=".Views.main.MainActivity"/> <!-- Do not edit this theme -->
+        <activity
+            android:name=".StoryListingActivity"
+            android:parentActivityName=".Views.main.MainActivity" /> <!-- Do not edit this theme -->
         <activity android:name=".StoryDetailActivity" />
-
-        <activity android:name=".SingleStoryActivity" android:parentActivityName=".Views.main.MainActivity"/>
+        <activity
+            android:name=".SingleStoryActivity"
+            android:parentActivityName=".Views.main.MainActivity" />
         <activity
             android:name=".RegisterActivity"
             android:theme="@style/AppTheme.WhiteStatusBar" />
-
         <activity android:name=".ProfileRegisterActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".OnBoardingActivity" />
-
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.WhiteStatusBar" />
-
         <activity android:name=".BookMark" />
         <activity android:name=".AddStoryActivity" />
-
         <activity android:name=".AddStoriesContentActivity" />
         <activity android:name=".Views.main.BaseActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
     </application>
 
 </manifest>

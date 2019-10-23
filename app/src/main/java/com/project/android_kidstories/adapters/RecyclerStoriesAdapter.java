@@ -233,7 +233,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             @Override
             public void onClick(View v) {
                 int bookmark_drawableId = (Integer)holder.bookmark.getTag();
-                
+
                 if((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp)) {
                     bookmarked.onBookmarkAdded(storiesList.getData()
                             .get(position).getId());

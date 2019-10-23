@@ -7,13 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
@@ -26,14 +23,13 @@ import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.home.BaseFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
-
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener , RecyclerStoriesAdapter.OnBookmarked {
+import java.util.List;
+
+public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener, RecyclerStoriesAdapter.OnBookmarked {
 
     private static final String TAG = "kidstories";
     private RecyclerView recyclerView;

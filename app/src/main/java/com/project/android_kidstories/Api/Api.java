@@ -1,40 +1,25 @@
 package com.project.android_kidstories.Api;
 
-import android.net.Uri;
-
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
-import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
+import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
-import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
+import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
-
-
-import java.util.List;
-
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Part;
-import retrofit2.http.Path;
+import retrofit2.http.*;
+
+import java.util.List;
 
 public interface Api {
 
@@ -52,7 +37,7 @@ public interface Api {
     Call<BaseResponse<DataResponse>> logoutUser(@Header("Authorization") String token);
 
     @GET("auth/user")
-    Call<BaseResponse<DataResponse>> getUser(@Header("Authorization")String token);
+    Call<BaseResponse<DataResponse>> getUser(@Header("Authorization") String token);
 
     @GET("auth/change-password")
     Call<BaseResponse<DataResponse>> changeUserPassword(@Header("Authorization") String token,
@@ -70,10 +55,9 @@ public interface Api {
     @PUT("users/profile")
     Call<BaseResponse<User>> updateUserProfile(@Header("Authorization") String token, @Body User user);
 
+    @Multipart
     @PUT("users/profile/update-image")
-    Call<BaseResponse<DataResponse>> updateUserProfilePicture(@Header("Authorization") String token,
-                                                              @Field("Authorization") String confirmToken,
-                                                              @Field("photo")Uri photoUri);
+    Call<BaseResponse<Void>> updateUserProfilePicture(@Header("Authorization") String token, @Part MultipartBody.Part file);
 
     //Story APIs
 
@@ -104,7 +88,7 @@ public interface Api {
             @Part("category_id") RequestBody categoryId,
             @Part("age") RequestBody ageInRange,
             @Part("author") RequestBody author,
-           // @Part("story_duration") RequestBody storyDuration,
+            // @Part("story_duration") RequestBody storyDuration,
             @Part MultipartBody.Part image
     );
 
@@ -141,7 +125,7 @@ public interface Api {
 
     @POST("stories/{storyId}/reactions/dislike")
     Call<ReactionResponse> dislikeStory(@Header("Authorization") String token,
-                                      @Path("storyId") Integer storyId);
+                                        @Path("storyId") Integer storyId);
 
 
 

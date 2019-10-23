@@ -5,9 +5,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
@@ -24,13 +22,12 @@ import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
-
-import java.util.List;
-
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.List;
 
 
 /**
@@ -69,9 +66,6 @@ public class TestActivity extends AppCompatActivity {
     }
 
 
-
-
-
     public void RegisterUser(View view) {
         User user = new User("Ehma", "Ugbogo", "ehmaugbogo@gmail.com");
         user.setPassword("12345678");
@@ -83,13 +77,13 @@ public class TestActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     String code = response.body().getCode();
                     String message = response.body().getMessage();
-                    textView.setText("Response Code " + code + ": " + message+"\n");
-                    textView.append("FirstName: " + response.body().getData().getFirstName()+"\n");
+                    textView.setText("Response Code " + code + ": " + message + "\n");
+                    textView.append("FirstName: " + response.body().getData().getFirstName() + "\n");
                     textView.append("Token: " + response.body().getData().getToken());
                     Prefs.putString("Token", response.body().getData().getToken());
-                }else {
-                    textView.setText("Success Error " +response.message());
-                    textView.append("Code " +response.code());
+                } else {
+                    textView.setText("Success Error " + response.message());
+                    textView.append("Code " + response.code());
 
                 }
                 hideProgressbar();
@@ -111,13 +105,13 @@ public class TestActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     String status = response.body().getStatus();
                     String message = response.body().getMessage();
-                    textView.setText("Response Status " + status + ": " + message+"\n");
-                    textView.append("FirstName: " + response.body().getUser().getFirstName()+"\n");
+                    textView.setText("Response Status " + status + ": " + message + "\n");
+                    textView.append("FirstName: " + response.body().getUser().getFirstName() + "\n");
                     textView.append("Token: " + response.body().getUser().getToken());
                     Prefs.putString("Token", response.body().getUser().getToken());
-                }else {
-                    textView.setText("Success Error " +response.message());
-                    textView.append("Code " +response.code());
+                } else {
+                    textView.setText("Success Error " + response.message());
+                    textView.append("Code " + response.code());
 
                 }
                 hideProgressbar();
@@ -140,15 +134,15 @@ public class TestActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     String status = response.body().getStatus();
                     String message = response.body().getMessage();
-                    textView.setText("Response Status " + status + ": " + message+"\n");
+                    textView.setText("Response Status " + status + ": " + message + "\n");
 
-                    for(Story s:response.body().getData()){
-                        textView.append("StoryTitle: " + s.getTitle()+"\n");
+                    for (Story s : response.body().getData()) {
+                        textView.append("StoryTitle: " + s.getTitle() + "\n");
                     }
 
-                }else {
-                    textView.setText("Success Error " +response.message());
-                    textView.append("Code " +response.code());
+                } else {
+                    textView.setText("Success Error " + response.message());
+                    textView.append("Code " + response.code());
 
                 }
                 hideProgressbar();
@@ -171,15 +165,15 @@ public class TestActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     String status = String.valueOf(response.body().getStatus());
                     String message = response.body().getMessage();
-                    textView.setText("Response Status " + status + ": " + message+"\n");
+                    textView.setText("Response Status " + status + ": " + message + "\n");
 
                     List<Category> data = response.body().getData();
-                    for(Category s: data){
-                        textView.append("CategoryTitle: " + s.getName()+"\n");
+                    for (Category s : data) {
+                        textView.append("CategoryTitle: " + s.getName() + "\n");
                     }
 
-                }else {
-                    textView.setText("Success Error " +response.message());
+                } else {
+                    textView.setText("Success Error " + response.message());
                 }
                 hideProgressbar();
             }
@@ -200,12 +194,12 @@ public class TestActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     String status = String.valueOf(response.body().getStatus());
                     String message = response.body().getMessage();
-                    textView.setText("Response Status " + status + ": " + message+"\n");
+                    textView.setText("Response Status " + status + ": " + message + "\n");
 
-                    textView.append("CategoryTitle: " + response.body().getData().getName()+"\n");
-                }else {
-                    textView.setText("Success Error " +response.message());
-                    textView.append("Code " +response.code());
+                    textView.append("CategoryTitle: " + response.body().getData().getName() + "\n");
+                } else {
+                    textView.setText("Success Error " + response.message());
+                    textView.append("Code " + response.code());
                 }
                 hideProgressbar();
             }
@@ -226,14 +220,14 @@ public class TestActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     String status = String.valueOf(response.body().getStatus());
                     String message = response.body().getMessage();
-                    textView.setText("Response Status " + status + ": " + message+"\n");
+                    textView.setText("Response Status " + status + ": " + message + "\n");
 
-                    for(Story s:response.body().getData().getStories()){
-                        textView.append("StoryTitle: " + s.getTitle()+"\n");
+                    for (Story s : response.body().getData().getStories()) {
+                        textView.append("StoryTitle: " + s.getTitle() + "\n");
                     }
 
-                }else {
-                    textView.setText("Success Error " +response.message());
+                } else {
+                    textView.setText("Success Error " + response.message());
                 }
                 hideProgressbar();
             }
@@ -251,19 +245,19 @@ public class TestActivity extends AppCompatActivity {
         showProgressbar();
         RequestBody storyId = RequestBody.create(okhttp3.MultipartBody.FORM, "1");
         RequestBody comment = RequestBody.create(okhttp3.MultipartBody.FORM, "Amazing Story");
-        token = "Bearer "+Prefs.getString("Token","");
-        repository.getStoryApi().addComment(token,storyId,comment).enqueue(new Callback<BaseResponse<CommentResponse>>() {
+        token = "Bearer " + Prefs.getString("Token", "");
+        repository.getStoryApi().addComment(token, storyId, comment).enqueue(new Callback<BaseResponse<CommentResponse>>() {
             @Override
             public void onResponse(Call<BaseResponse<CommentResponse>> call, Response<BaseResponse<CommentResponse>> response) {
                 if (response.isSuccessful()) {
                     String status = String.valueOf(response.body().getStatus());
                     String message = response.body().getMessage();
-                    textView.setText("Response Status " + status + ": " + message+"\n");
+                    textView.setText("Response Status " + status + ": " + message + "\n");
 
-                    textView.append("PostedComment: " + response.body().getData().getBody().toString()+"\n");
-                }else {
-                    textView.setText("Success Error " +response.message());
-                    textView.append("Code " +response.code());
+                    textView.append("PostedComment: " + response.body().getData().getBody() + "\n");
+                } else {
+                    textView.setText("Success Error " + response.message());
+                    textView.append("Code " + response.code());
                 }
                 hideProgressbar();
             }
@@ -278,19 +272,19 @@ public class TestActivity extends AppCompatActivity {
 
     public void bookmark(View view) {
         showProgressbar();
-        token = "Bearer "+Prefs.getString("Token","");
-        repository.getStoryApi().bookmarkStory(token,41).enqueue(new Callback<BookmarkResponse>() {
+        token = "Bearer " + Prefs.getString("Token", "");
+        repository.getStoryApi().bookmarkStory(token, 41).enqueue(new Callback<BookmarkResponse>() {
             @Override
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                 if (response.isSuccessful()) {
                     String status = String.valueOf(response.body().getStatus());
                     String message = response.body().getMessage();
-                    textView.setText("Response Status " + status + ": " + message+"\n");
+                    textView.setText("Response Status " + status + ": " + message + "\n");
 
-                    textView.append("Bookmarks: " + response.body().getData().toString()+"\n");
-                }else {
-                    textView.setText("Success Error " +response.message());
-                    textView.append("Code " +response.code());
+                    textView.append("Bookmarks: " + response.body().getData().toString() + "\n");
+                } else {
+                    textView.setText("Success Error " + response.message());
+                    textView.append("Code " + response.code());
                 }
                 hideProgressbar();
             }
@@ -305,22 +299,22 @@ public class TestActivity extends AppCompatActivity {
 
     public void getBookmark(View view) {
         showProgressbar();
-        token = "Bearer "+Prefs.getString("Token","");
+        token = "Bearer " + Prefs.getString("Token", "");
         repository.getStoryApi().getUserBookmarks(token).enqueue(new Callback<UserBookmarkResponse>() {
             @Override
             public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
                 if (response.isSuccessful()) {
                     String status = String.valueOf(response.body().getStatus());
                     String message = response.body().getMessage();
-                    textView.setText("Response Status " + status + ": " + message+"\n");
+                    textView.setText("Response Status " + status + ": " + message + "\n");
 
                     List<Story> data = response.body().getData();
-                    for(Story s: data){
-                        textView.append("User Bookmarks: " + s.getTitle()+"\n");
+                    for (Story s : data) {
+                        textView.append("User Bookmarks: " + s.getTitle() + "\n");
                     }
-                }else {
-                    textView.setText("Success Error " +response.message());
-                    textView.append("Code " +response.code());
+                } else {
+                    textView.setText("Success Error " + response.message());
+                    textView.append("Code " + response.code());
                 }
                 hideProgressbar();
             }
@@ -335,14 +329,14 @@ public class TestActivity extends AppCompatActivity {
 
     public void showToken(View view) {
         String token = Prefs.getString("Token", "Nothing to display Ehma");
-        showToast("Your token : "+token);
+        showToast("Your token : " + token);
     }
 
-    private void hideProgressbar(){
+    private void hideProgressbar() {
         progressBar.setVisibility(View.GONE);
     }
 
-    private void showProgressbar(){
+    private void showProgressbar() {
         progressBar.setVisibility(View.VISIBLE);
     }
 

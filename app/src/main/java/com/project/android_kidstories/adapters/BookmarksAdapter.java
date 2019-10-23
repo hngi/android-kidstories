@@ -5,10 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 
@@ -20,15 +18,10 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
 
     private OnBookmarkClickListener listener;
 
-    public interface OnBookmarkClickListener {
-        void onStoryClick(int storyId);
-    }
-
-    public BookmarksAdapter(List<Story> stories,OnBookmarkClickListener listener) {
-        this.stories=stories;
+    public BookmarksAdapter(List<Story> stories, OnBookmarkClickListener listener) {
+        this.stories = stories;
         this.listener = listener;
     }
-
 
     @NonNull
     @Override
@@ -47,6 +40,9 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         return stories.size();
     }
 
+    public interface OnBookmarkClickListener {
+        void onStoryClick(int storyId);
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView image;
@@ -71,10 +67,10 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
             itemView.setOnClickListener(this);
         }
 
-        void bind(int position){
+        void bind(int position) {
             currentStory = stories.get(position);
             title.setText(currentStory.getTitle());
-            author.setText("by "+currentStory.getAuthor());
+            author.setText("by " + currentStory.getAuthor());
             likeCount.setText(String.valueOf(currentStory.getLikesCount()));
             dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
 

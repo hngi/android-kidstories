@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp"
-    android:elevation="4dp"
-    android:id="@+id/cat_card"
-    app:cardCornerRadius="10dp"
-    android:background="@drawable/border">
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   android:id="@+id/cat_card"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="80dp"
+                                   android:layout_margin="8dp"
+                                   android:background="@drawable/border"
+                                   android:elevation="4dp"
+                                   app:cardCornerRadius="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,19 +24,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_weight="1"
             android:gravity="center_vertical"
-            android:padding="4dp"
-            android:layout_weight="1">
+            android:orientation="vertical"
+            android:padding="4dp">
 
             <TextView
                 android:id="@+id/bookmark_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Category Name"
                 android:layout_gravity="center"
-                android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:text="Category Name"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/bookmark_author"
@@ -50,10 +50,10 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
             android:orientation="horizontal"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:layout_gravity="center_vertical|end">
+            android:paddingBottom="5dp">
 
 
             <ImageView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:tint="@color/colorPrimary"
-                app:srcCompat="@drawable/ic_thumb_up_black_24dp" />
+                app:srcCompat="@drawable/ic_thumb_up_black_24dp"/>
 
             <TextView
                 android:id="@+id/bkmrkcount1"
@@ -71,7 +71,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="20"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <ImageView
                 android:id="@+id/bkmrk_dislike"
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_thumb_down_black_24dp" />
+                app:srcCompat="@drawable/ic_thumb_down_black_24dp"/>
 
             <TextView
                 android:id="@+id/bkmrkcount2"
@@ -88,7 +88,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="20"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
         </LinearLayout>
 

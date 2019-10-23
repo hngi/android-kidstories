@@ -1,86 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginEnd="12dp"
-    android:layout_marginStart="12dp"
     tools:context=".AddStoryActivity">
 
-    <TextView
-        android:id="@+id/add_story_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        android:fontFamily="@font/roboto_regular"
-        android:text="@string/add_story"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
-        android:textStyle="bold"/>
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/title_edt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:ems="10"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/roboto_regular"
-        android:hint="@string/title_hint"
-        android:inputType="textCapWords"
-        android:paddingStart="16dp"
-        android:paddingTop="12dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="12dp"
-        android:textSize="13sp"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="45sp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="64dp"
-        android:background="@drawable/border"
-        android:orientation="horizontal">
+            <TextView
+                android:id="@+id/add_story_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/comicsans_regular"
+                android:text="@string/add_story"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/title_edt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread" />
 
-        <Button
-            android:id="@+id/btn_upload"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/upload_image_button"
-            android:textColor="#484949"
-            android:fontFamily="@font/roboto_regular"
-            android:text="@string/upload_image_new"
-            android:textAllCaps="false"
-            android:textSize="11sp" />
+            <EditText
+                android:id="@+id/title_edt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/border"
+                android:ems="10"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/title_hint"
+                android:inputType="textCapWords"
+                android:paddingStart="16dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="12dp"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/add_story_label" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="8dp"
-            android:hint="@string/no_image_uploaded"
-            android:fontFamily="@font/roboto_regular"
-            android:textSize="12sp" />
-    </LinearLayout>
+<!--            android:textColor="@color/main_color_grey_800"-->
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/title_label_new"
+                android:textColor="@color/main_color_grey_800"
+                app:layout_constraintBottom_toTopOf="@+id/title_edt"
+                app:layout_constraintStart_toStartOf="@+id/title_edt" />
 
-    <Button
-        android:id="@+id/button_type_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:fontFamily="@font/roboto_regular"
-        android:textSize="16sp"
-        android:background="@drawable/rounded_triangle_blue"
-        android:text="@string/type_content"
-        android:onClick="TypeContent"
-        android:textColor="#F2FFFFFF"/>
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/cover_image"
+                android:textColor="@color/main_color_grey_800"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout" />
 
+            <Button
+                android:id="@+id/button_type_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/rounded_triangle_blue"
+                android:text="@string/type_content"
+                android:onClick="TypeContent"
+                android:textColor="#F2FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout" />
 
-</LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="64dp"
+                android:background="@drawable/border"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/button_type_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_edt">
+
+                <Button
+                    android:id="@+id/btn_upload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/upload_image_button"
+                    android:text="@string/upload_image_new"
+                    android:textAllCaps="false"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:hint="@string/no_image_uploaded"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

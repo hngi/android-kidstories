@@ -52,7 +52,6 @@ public class ProfileFragment extends Fragment {
     String token;
 
     BedTimeDbHelper helper;
-    String token;
     Uri selected_image;
 
 

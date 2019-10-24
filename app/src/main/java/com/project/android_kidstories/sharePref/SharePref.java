@@ -79,7 +79,7 @@ public class SharePref {
     }
 
     public String getMyToken() {
-        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+//        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Token", "");
     }
 

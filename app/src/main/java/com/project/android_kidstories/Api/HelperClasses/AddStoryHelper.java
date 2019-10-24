@@ -26,7 +26,14 @@ import java.io.File;
 public class AddStoryHelper {
     public static final String TOKEN_KEY="token";
     private static final String TAG = "kidstories";
-    public static String token = Prefs.getString(TOKEN_KEY, "");
+//    public static String token = Prefs.getString(TOKEN_KEY, "");
+    public static SharePref sharePref;
+
+    public static SharePref getSharePref() {
+        return sharePref;
+    }
+    public static String token = getSharePref().getMyToken();
+
     private static boolean isStoryAdded=false;
     private static Integer likesCount;
 

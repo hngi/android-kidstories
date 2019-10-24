@@ -1,6 +1,7 @@
 package com.project.android_kidstories.adapters;
 
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -13,12 +14,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.project.android_kidstories.Api.Api;
+import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
+import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
+import com.project.android_kidstories.sharePref.SharePref;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author .: Oluwajuwon Fawole
@@ -27,9 +36,11 @@ import java.util.List;
 public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStoriesAdapter.CustomViewHolder> {
 
 
+    public static String token = "";
     private Context context;
     private StoryAllResponse storiesList;
     private OnBookmarked bookmarked;
+    private Api service;
     List<Story> stories;
 
     public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList, OnBookmarked bookmarked) {
@@ -50,6 +61,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         holder.num_likes.setText(String.valueOf(storiesList.getData().get(position).getLikesCount()));
         holder.num_dislikes.setText(String.valueOf(storiesList.getData().get(position).getDislikesCount()));
 
+        int storyId = storiesList.getData().get(position).getId();
 
         holder.list_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,10 +198,30 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                     holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
                     holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
 
-                } else {
+                }
+
+                else {
+                    service = RetrofitClient.getInstance().create(Api.class);
+                    Call<Void> deleteBookmarkedStory = service.deleteBookmarkedStory(token, storyId);
+                    deleteBookmarkedStory.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+
+                            if (response.isSuccessful()) Toast.makeText(context, "bookmark removed", Toast.LENGTH_LONG).show();
+
+                            else Toast.makeText(context, "Could not remove bookmark", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+
+                        }
+                    });
+
+
                     holder.bookmark.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
                     holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
-                    Toast.makeText(context, "Oops Something went wrong, bookmark not added", Toast.LENGTH_LONG).show();
+
                 }
             }
         });

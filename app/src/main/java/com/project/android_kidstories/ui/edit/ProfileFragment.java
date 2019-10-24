@@ -49,9 +49,9 @@ public class ProfileFragment extends Fragment {
     ImageConversion imageConversion;
     TextView username;
     TextView imagePath;
+    String token;
 
     BedTimeDbHelper helper;
-    String token;
     Uri selected_image;
 
 

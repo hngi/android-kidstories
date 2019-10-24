@@ -303,6 +303,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         break;
                     case R.id.addStory:
                         Intent i = new Intent(getApplicationContext(), AddStoryActivity.class);
+                        i.putExtra("token", token);
                         startActivity(i);
                         break;
                     case R.id.bookmark_fragment:

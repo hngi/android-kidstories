@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.loader.content.CursorLoader;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -28,6 +29,7 @@ import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 
 import java.io.File;
@@ -43,7 +45,8 @@ public class AddStoriesContentActivity extends AppCompatActivity {
     public static final String TOKEN_KEY="token";
     private static final String TAG = "kidstories";
     private static boolean isStoryAdded = false;
-    private static String title, token;
+    private static String title;
+    private static String token;
 
     public final int PERMISSION_REQUEST_CODE = 100;
 
@@ -66,7 +69,7 @@ public class AddStoriesContentActivity extends AppCompatActivity {
         String image_path = getIntent().getStringExtra("image_path");
         assert image_path != null;
         imageUri_str = Uri.fromFile(new File(image_path)).toString();
-        token = sharePref.getMyToken();
+        token = new SharePref(getApplicationContext()).getMyToken();
 
         storyContent = findViewById(R.id.story_content_field);
         categories = findViewById(R.id.choose_category);
@@ -90,7 +93,11 @@ public class AddStoriesContentActivity extends AppCompatActivity {
                     String author = Prefs.getString("Username", "");
                     story.setAuthor(author);
 
+                    progressBar.setVisibility(View.VISIBLE);
+
                     addOrUpdateStory(story, imageUri_str);
+
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         });

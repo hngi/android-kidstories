@@ -1,6 +1,7 @@
 package com.project.android_kidstories.sharePref;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -12,7 +13,7 @@ public class SharePref {
     private static final String NIGHT_MODE = "NIGHT MODE";
 
     private static SharePref INSTANCE;
-    Context context;
+    public static Context context;
 
     //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,7 @@ public class SharePref {
 //
 //        INSTANCE=SharePref.getINSTANCE(this);
 //    }
-    private SharedPreferences sharedPreferences;
+    private static SharedPreferences sharedPreferences;
 
     private SharePref(SharedPreferences sharedPreferences) {
         this.sharedPreferences=sharedPreferences;
@@ -78,7 +79,7 @@ public class SharePref {
     }
 
     public String getMyToken() {
-        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+//        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Token", "");
     }
 

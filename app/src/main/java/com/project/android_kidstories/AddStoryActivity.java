@@ -26,6 +26,7 @@ public class AddStoryActivity extends AppCompatActivity {
     private EditText storyTitle;
     private Uri imageUri;
     private String imagePath;
+    private String stringUri;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class AddStoryActivity extends AppCompatActivity {
             if (requestCode == PICTURE_REQUEST_CODE && data != null) {
                 imageUri = data.getData();
                 assert imageUri != null;
+                stringUri = imageUri.toString();
                 imagePath = imageUri.getPath();
                 imagePathText.setText(imagePath);
             }
@@ -85,6 +87,7 @@ public class AddStoryActivity extends AppCompatActivity {
 
             if(imageUri != null)
             i.putExtra("image_path", imagePath);
+            i.putExtra("image_uri", stringUri);
 
             startActivity(i);
         }

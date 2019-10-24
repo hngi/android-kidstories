@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
@@ -29,10 +32,13 @@ import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
+import com.project.android_kidstories.Utils.FileUtil;
 import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -67,14 +73,22 @@ public class AddStoriesContentActivity extends AppCompatActivity {
 
         title = getIntent().getStringExtra("story_title");
         String image_path = getIntent().getStringExtra("image_path");
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.containsKey("image_uri")) {
+            imageUri_str = extras.getString("image_uri");
+        }
+
+        image_uri = Uri.parse(imageUri_str);
         assert image_path != null;
-        imageUri_str = Uri.fromFile(new File(image_path)).toString();
+        image_uri = Uri.fromFile(new File(image_path));
         token = new SharePref(getApplicationContext()).getMyToken();
 
         storyContent = findViewById(R.id.story_content_field);
         categories = findViewById(R.id.choose_category);
         storyCategoriesId = categories.getSelectedItemId();
         saveContent = findViewById(R.id.save_content);
+        progressBar = findViewById(R.id.add_story_progress);
 
         saveContent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +109,7 @@ public class AddStoriesContentActivity extends AppCompatActivity {
 
                     progressBar.setVisibility(View.VISIBLE);
 
-                    addOrUpdateStory(story, imageUri_str);
+                    addOrUpdateStory(story, image_uri);
 
                     progressBar.setVisibility(View.INVISIBLE);
                 }
@@ -103,8 +117,15 @@ public class AddStoriesContentActivity extends AppCompatActivity {
         });
     }
 
-    public static boolean addOrUpdateStory(Story story, String imageUri) {
-        File imageFile = new File(Uri.decode(imageUri));
+    public boolean addOrUpdateStory(Story story, Uri imageUri) {
+        File imageFile = null;
+        try {
+            imageFile = new File(Objects.requireNonNull(FileUtil.getPath(this, imageUri)));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+//        File imageFile = new File(Uri.decode(imageUri));
+        assert imageFile != null;
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
 
         MultipartBody.Part photo = MultipartBody.Part.createFormData("Image", imageFile.getName(), requestFile);
@@ -126,6 +147,7 @@ public class AddStoriesContentActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Log.d(TAG, "onResponse: " + response.message());
                             isStoryAdded=true;
+//                            Snackbar.make()
                         } else {
                             isStoryAdded=false;
                         }
@@ -138,6 +160,17 @@ public class AddStoriesContentActivity extends AppCompatActivity {
                     }
                 });
         return isStoryAdded;
+    }
+
+    private String getRealPathFromURI(Uri contentUri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);
+        Cursor cursor = loader.loadInBackground();
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String result = cursor.getString(column_index);
+        cursor.close();
+        return result;
     }
 
 }

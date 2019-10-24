@@ -75,6 +75,7 @@ public class AddStoriesContentActivity extends AppCompatActivity {
         categories = findViewById(R.id.choose_category);
         storyCategoriesId = categories.getSelectedItemId();
         saveContent = findViewById(R.id.save_content);
+        progressBar = findViewById(R.id.add_story_progress);
 
         saveContent.setOnClickListener(new View.OnClickListener() {
             @Override

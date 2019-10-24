@@ -37,6 +37,7 @@ import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 
 import java.io.File;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
 
@@ -81,7 +82,7 @@ public class AddStoriesContentActivity extends AppCompatActivity {
 
         image_uri = Uri.parse(imageUri_str);
         assert image_path != null;
-        image_uri = Uri.fromFile(new File(image_path));
+//        image_uri = Uri.fromFile(new File(image_path));
         token = new SharePref(getApplicationContext()).getMyToken();
 
         storyContent = findViewById(R.id.story_content_field);
@@ -118,17 +119,13 @@ public class AddStoriesContentActivity extends AppCompatActivity {
     }
 
     public boolean addOrUpdateStory(Story story, Uri imageUri) {
-        File imageFile = null;
-        try {
-            imageFile = new File(Objects.requireNonNull(FileUtil.getPath(this, imageUri)));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        String path = FileUtil.getPath(getApplicationContext(), imageUri);
+        assert path != null;
+        File file = new File(path);
 //        File imageFile = new File(Uri.decode(imageUri));
-        assert imageFile != null;
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
 
-        MultipartBody.Part photo = MultipartBody.Part.createFormData("Image", imageFile.getName(), requestFile);
+        MultipartBody.Part photo = MultipartBody.Part.createFormData("Image", file.getName(), requestFile);
         RequestBody title = RequestBody.create(okhttp3.MultipartBody.FORM, story.getTitle());
         RequestBody body = RequestBody.create(okhttp3.MultipartBody.FORM, story.getBody());
         RequestBody category = RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(story.getCategoryId()));
@@ -138,39 +135,32 @@ public class AddStoriesContentActivity extends AppCompatActivity {
         return addStory(title, body, category, photo, ageInrange, author);
     }
 
-    private static boolean addStory(RequestBody title, RequestBody  body, RequestBody category,  MultipartBody.Part photo, RequestBody ageInrange, RequestBody author) {
+    private boolean addStory(RequestBody title, RequestBody  body, RequestBody category,  MultipartBody.Part photo, RequestBody ageInrange, RequestBody author) {
 
         RetrofitClient.getInstance().create(Api.class).addStory(token, title, body, category, photo, ageInrange, author)
                 .enqueue(new Callback<BaseResponse<Story>>() {
                     @Override
                     public void onResponse(Call<BaseResponse<Story>> call, Response<BaseResponse<Story>> response) {
-                        if (response.isSuccessful()) {
-                            Log.d(TAG, "onResponse: " + response.message());
-                            isStoryAdded=true;
-//                            Snackbar.make()
+                        assert response.body() != null;
+                        String messageResp = response.body().getMessage();
+                        if (response.isSuccessful()){
+                            isStoryAdded = true;
+                            Toast.makeText(getApplicationContext(), messageResp, Toast.LENGTH_LONG).show();
                         } else {
-                            isStoryAdded=false;
+                            isStoryAdded = false;
+                            Toast.makeText(getApplicationContext(), messageResp, Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<BaseResponse<Story>> call, Throwable t) {
-                        isStoryAdded=false;
-                        Log.d(TAG, "onFailure: "+t.getMessage());
+                        isStoryAdded = false;
+                        Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-        return isStoryAdded;
-    }
 
-    private String getRealPathFromURI(Uri contentUri) {
-        String[] proj = {MediaStore.Images.Media.DATA};
-        CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);
-        Cursor cursor = loader.loadInBackground();
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String result = cursor.getString(column_index);
-        cursor.close();
-        return result;
+        return isStoryAdded;
+
     }
 
 }

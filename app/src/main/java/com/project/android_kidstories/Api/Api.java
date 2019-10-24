@@ -2,33 +2,47 @@ package com.project.android_kidstories.Api;
 
 import android.net.Uri;
 
-import com.google.gson.annotations.SerializedName;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
-import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
+import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.RegistrationDataResponse;
+import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
-import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
+
+
+import java.io.File;
+import java.util.List;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.http.*;
-
-import java.util.List;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface Api {
 
     //Authentication APIs
     @POST("auth/register")
-    Call<BaseResponse<DataResponse>> registerUser(@Body User user);
+    Call<BaseResponse<RegistrationDataResponse>> registerUser(@Body User user);
 
     @POST("auth/login")
     @FormUrlEncoded
@@ -40,7 +54,7 @@ public interface Api {
     Call<BaseResponse<DataResponse>> logoutUser(@Header("Authorization") String token);
 
     @GET("auth/user")
-    Call<BaseResponse<DataResponse>> getUser(@Header("Authorization") String token);
+    Call<BaseResponse<DataResponse>> getUser(@Header("Authorization")String token);
 
     @GET("auth/change-password")
     Call<BaseResponse<DataResponse>> changeUserPassword(@Header("Authorization") String token,
@@ -142,7 +156,7 @@ public interface Api {
 
     @POST("stories/{storyId}/reactions/dislike")
     Call<ReactionResponse> dislikeStory(@Header("Authorization") String token,
-                                        @Path("storyId") Integer storyId);
+                                      @Path("storyId") Integer storyId);
 
 
 

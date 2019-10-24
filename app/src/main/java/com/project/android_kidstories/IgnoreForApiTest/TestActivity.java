@@ -16,6 +16,7 @@ import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkRespons
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.RegistrationDataResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Category;
@@ -71,9 +72,9 @@ public class TestActivity extends AppCompatActivity {
         user.setPassword("12345678");
         user.setPhoneNumber("08107535626");
         showProgressbar();
-        repository.getStoryApi().registerUser(user).enqueue(new Callback<BaseResponse<DataResponse>>() {
+        repository.getStoryApi().registerUser(user).enqueue(new Callback<BaseResponse<RegistrationDataResponse>>() {
             @Override
-            public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
+            public void onResponse(Call<BaseResponse<RegistrationDataResponse>> call, Response<BaseResponse<RegistrationDataResponse>> response) {
                 if (response.isSuccessful()) {
                     String code = response.body().getCode();
                     String message = response.body().getMessage();
@@ -90,7 +91,7 @@ public class TestActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
+            public void onFailure(Call<BaseResponse<RegistrationDataResponse>> call, Throwable t) {
                 textView.setText("Response Error " + t.getMessage());
                 hideProgressbar();
             }

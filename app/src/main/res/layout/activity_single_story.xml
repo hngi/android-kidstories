@@ -98,6 +98,19 @@
                 app:layout_constraintStart_toStartOf="@+id/story_content"
                 app:layout_constraintTop_toBottomOf="@+id/story_pic"/>
 
+            <ImageButton
+                android:id="@+id/play_story"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled ="false"
+                app:layout_constraintBottom_toTopOf="@+id/button_favourite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.955"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.122"
+                app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -88,12 +88,12 @@ public interface Api {
      *
      * @param token
      * @param title
-     * @param story
+     * @param body
      * @param categoryId
+     * @param photo
      * @param ageInRange: this field should be entered in a range format like 1-5, 5-37, 45-78
      * @param author
      * @param //storyDuration
-     * @param image
      * @return
      */
     @Multipart
@@ -101,13 +101,27 @@ public interface Api {
     Call<BaseResponse<Story>> addStory(
             @Header("Authorization") String token,
             @Part("title") RequestBody title,
-            @Part("body") RequestBody story,
+            @Part("body") RequestBody body,
             @Part("category_id") RequestBody categoryId,
+            @Part MultipartBody.Part photo,
             @Part("age") RequestBody ageInRange,
-            @Part("author") RequestBody author,
-           // @Part("story_duration") RequestBody storyDuration,
-            @Part MultipartBody.Part image
+            @Part("author") RequestBody author
     );
+
+    //    @Multipart
+//    @POST("stories")
+//    Call<BaseResponse<Story>> addStory(
+//            @Header("Authorization") String token,
+//            @Part("title") RequestBody title,
+//            @Part("body") RequestBody story,
+//            @Part("category_id") RequestBody categoryId,
+//            @Part("age") RequestBody ageInRange,
+//            @Part("author") RequestBody author,
+//           // @Part("story_duration") RequestBody storyDuration,
+//            @Part("image\"; filename=\"myfile.jpg\" ") RequestBody image
+////            @Part MultipartBody.Part image
+//    );
+
 
 
     /***

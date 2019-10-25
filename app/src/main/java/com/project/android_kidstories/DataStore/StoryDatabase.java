@@ -13,7 +13,7 @@ import com.project.android_kidstories.Model.User;
  */
 
 
-@androidx.room.Database(entities = {Story.class, User.class}, version = 4, exportSchema = false)
+@androidx.room.Database(entities = {Story.class, User.class, ReadStory.class}, version = 4, exportSchema = false)
 public abstract class StoryDatabase extends RoomDatabase {
     private static StoryDatabase INSTANCE;
 
@@ -29,5 +29,6 @@ public abstract class StoryDatabase extends RoomDatabase {
 
     public abstract StoryDao storyDao();
     //public abstract UserDao userDao();
+    public abstract ReadStoryDao readStoryDao();
 }
 

@@ -74,7 +74,7 @@ public interface Api {
     Call<BaseResponse<User>> updateUserProfile(@Header("Authorization") String token, @Body User user);
 
     @Multipart
-    @PUT("users/profile/update-image")
+    @POST("users/profile/update-image")
     Call<BaseResponse<Void>> updateUserProfilePicture(@Header("Authorization") String token, @Part MultipartBody.Part file);
 
 

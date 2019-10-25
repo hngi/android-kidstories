@@ -34,7 +34,7 @@ public class RetrofitClient {
             return new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .addConverterFactory(GsonConverterFactory.create())
                     .build();
         } else {
             return INSTANCE;

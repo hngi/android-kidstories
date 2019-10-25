@@ -94,13 +94,13 @@ public class Repository {
 
     //Story APIs
 
-    public boolean addStory(Story story, String imageUri){
-        return AddStoryHelper.addOrUpdateStory(story, imageUri,true);
-    }
-
-    public void updateStory(Story newStory, String imageUri){
-        AddStoryHelper.addOrUpdateStory(newStory, imageUri,false);
-    }
+//    public boolean addStory(Story story, String imageUri){
+//        return AddStoryHelper.addOrUpdateStory(story, imageUri,true);
+//    }
+//
+//    public void updateStory(Story newStory, String imageUri){
+//        AddStoryHelper.addOrUpdateStory(newStory, imageUri,false);
+//    }
 
 
 }

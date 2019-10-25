@@ -1,45 +1,28 @@
 package com.project.android_kidstories;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.loader.content.CursorLoader;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
-import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Utils.FileUtil;
-import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -47,8 +30,9 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Multipart;
 
-public class AddStoriesContentActivity extends AppCompatActivity {
+public class AddStoriesContentActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TOKEN_KEY="token";
     private static final String TAG = "kidstories";
     private static boolean isStoryAdded = false;
@@ -59,13 +43,15 @@ public class AddStoriesContentActivity extends AppCompatActivity {
 
     EditText storyContent;
     Spinner categories;
+    String storyBody;
     Button saveContent;
     public ProgressBar progressBar;
     public SharePref sharePref;
 
     Uri image_uri;
     String imageUri_str;
-    Long storyCategoriesId;
+    String storyCategoriesId;
+    private RequestBody storyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,12 +70,21 @@ public class AddStoriesContentActivity extends AppCompatActivity {
         assert image_path != null;
 //        image_uri = Uri.fromFile(new File(image_path));
         token = new SharePref(getApplicationContext()).getMyToken();
+        token = "Bearer " + token;
 
         storyContent = findViewById(R.id.story_content_field);
+
         categories = findViewById(R.id.choose_category);
-        storyCategoriesId = categories.getSelectedItemId();
+        categories.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.items_class,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categories.setAdapter(adapter);
         saveContent = findViewById(R.id.save_content);
         progressBar = findViewById(R.id.add_story_progress);
+
+
 
         saveContent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,14 +103,23 @@ public class AddStoriesContentActivity extends AppCompatActivity {
                     String author = Prefs.getString("Username", "");
                     story.setAuthor(author);
 
-                    progressBar.setVisibility(View.VISIBLE);
-
                     addOrUpdateStory(story, image_uri);
 
-                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         });
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Long storyCategory = parent.getItemIdAtPosition(position);
+        storyCategoriesId = storyCategory.toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     public boolean addOrUpdateStory(Story story, Uri imageUri) {
@@ -126,17 +130,21 @@ public class AddStoriesContentActivity extends AppCompatActivity {
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
 
         MultipartBody.Part photo = MultipartBody.Part.createFormData("Image", file.getName(), requestFile);
-        RequestBody title = RequestBody.create(okhttp3.MultipartBody.FORM, story.getTitle());
-        RequestBody body = RequestBody.create(okhttp3.MultipartBody.FORM, story.getBody());
-        RequestBody category = RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(story.getCategoryId()));
-        RequestBody ageInrange = RequestBody.create(okhttp3.MultipartBody.FORM, story.getAge());
-        RequestBody author = RequestBody.create(okhttp3.MultipartBody.FORM, story.getTitle());
 
-        return addStory(title, body, category, photo, ageInrange, author);
+        assert story != null;
+
+        RequestBody title = RequestBody.create(MediaType.parse("text/plain"), story.getTitle());
+        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), story.getBody());
+        RequestBody category_id = RequestBody.create(MediaType.parse("multipart/form-data"), storyCategoriesId);
+        RequestBody ageInrange = RequestBody.create(MediaType.parse("multipart/form-data"), story.getAge());
+        RequestBody author = RequestBody.create(MediaType.parse("multipart/form-data"), story.getAuthor());
+
+
+        return addStory(title, body, category_id, photo, ageInrange, author);
     }
 
     private boolean addStory(RequestBody title, RequestBody  body, RequestBody category,  MultipartBody.Part photo, RequestBody ageInrange, RequestBody author) {
-
+        progressBar.setVisibility(View.VISIBLE);
         RetrofitClient.getInstance().create(Api.class).addStory(token, title, body, category, photo, ageInrange, author)
                 .enqueue(new Callback<BaseResponse<Story>>() {
                     @Override
@@ -146,9 +154,11 @@ public class AddStoriesContentActivity extends AppCompatActivity {
                         if (response.isSuccessful()){
                             isStoryAdded = true;
                             Toast.makeText(getApplicationContext(), messageResp, Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.INVISIBLE);
                         } else {
                             isStoryAdded = false;
                             Toast.makeText(getApplicationContext(), messageResp, Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     }
 
@@ -156,6 +166,7 @@ public class AddStoriesContentActivity extends AppCompatActivity {
                     public void onFailure(Call<BaseResponse<Story>> call, Throwable t) {
                         isStoryAdded = false;
                         Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
 

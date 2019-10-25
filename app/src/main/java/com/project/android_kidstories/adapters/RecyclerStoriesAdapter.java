@@ -48,6 +48,12 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         this.storiesList = storiesList;
         this.bookmarked = bookmarked;
     }
+    @Override
+    public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.recycler_item, parent, false);
+        return new CustomViewHolder(view);
+    }
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
@@ -228,19 +234,12 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
     }
 
-    public interface OnBookmarked {
-        boolean onBookmarkAdded(int storyId);
-
-        int isAlreadyBookmarked(int storyId, int pos);
-    }
-
     @Override
-    public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.recycler_item, parent, false);
-        return new CustomViewHolder(view);
+    public int getItemCount() {
+        return storiesList.getData().size();
     }
 
+    //View Holder Class
     class CustomViewHolder extends RecyclerView.ViewHolder {
 
         public final View view;
@@ -273,8 +272,12 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             list_item = view.findViewById(R.id.l_clickable);
         }
     }
-    @Override
-    public int getItemCount() {
-        return storiesList.getData().size();
+
+    public interface OnBookmarked {
+        boolean onBookmarkAdded(int storyId);
+
+        int isAlreadyBookmarked(int storyId, int pos);
     }
+
+
 }

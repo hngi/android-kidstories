@@ -1,13 +1,7 @@
 package com.project.android_kidstories;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.TextView;
-
-import com.project.android_kidstories.R;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class About extends AppCompatActivity {
 

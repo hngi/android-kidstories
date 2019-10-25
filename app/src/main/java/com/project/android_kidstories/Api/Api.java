@@ -10,6 +10,7 @@ import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkRespons
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.RegistrationDataResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
@@ -18,6 +19,7 @@ import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
 
 
+import java.io.File;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -41,7 +43,7 @@ public interface Api {
 
     //Authentication APIs
     @POST("auth/register")
-    Call<BaseResponse<DataResponse>> registerUser(@Body User user);
+    Call<BaseResponse<RegistrationDataResponse>> registerUser(@Body User user);
 
     @POST("auth/login")
     @FormUrlEncoded
@@ -71,10 +73,9 @@ public interface Api {
     @PUT("users/profile")
     Call<BaseResponse<User>> updateUserProfile(@Header("Authorization") String token, @Body User user);
 
+    @Multipart
     @PUT("users/profile/update-image")
-    Call<BaseResponse<DataResponse>> updateUserProfilePicture(@Header("Authorization") String token,
-                                                              @Field("Authorization") String confirmToken,
-                                                              @Field("photo")Uri photoUri);
+    Call<BaseResponse<Void>> updateUserProfilePicture(@Header("Authorization") String token, @Part MultipartBody.Part file);
 
 
     @Multipart

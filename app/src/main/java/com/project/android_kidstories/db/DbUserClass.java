@@ -2,8 +2,6 @@ package com.project.android_kidstories.db;
 
 import android.graphics.Bitmap;
 
-import java.io.ByteArrayOutputStream;
-
 public class DbUserClass {
     int dbUserId;
     int id;

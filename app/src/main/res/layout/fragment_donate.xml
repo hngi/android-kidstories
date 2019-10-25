@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="12dp"
         android:gravity="center"
         android:orientation="vertical">
@@ -32,8 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:orientation="horizontal"
-            android:weightSum="10"
             android:padding="10dp"
+            android:weightSum="10"
             app:layout_constraintEnd_toEndOf="@+id/text_enter_amount_to_donate"
             app:layout_constraintHorizontal_bias="0.425"
             app:layout_constraintStart_toStartOf="@+id/text_enter_amount_to_donate"
@@ -42,19 +42,19 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:layout_weight="1"
+                android:padding="10dp"
                 android:src="@drawable/ic_action_naira"/>
 
             <EditText
                 android:id="@+id/editText_amount"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="9"
                 android:background="@drawable/edittext_white_background"
+                android:ems="10"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="Amount"
-                android:ems="10"
-                android:layout_weight="9"
                 android:inputType="number"
                 android:paddingStart="20dp"/>
 
@@ -67,10 +67,10 @@
             android:layout_marginTop="32dp"
             android:background="@drawable/rounded_triangle_blue"
             android:fontFamily="@font/roboto_regular"
-            android:textSize="16dp"
             android:text="@string/donate_now_btn"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textSize="16dp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

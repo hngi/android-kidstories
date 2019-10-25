@@ -44,6 +44,7 @@ import java.security.MessageDigest;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
+import com.project.android_kidstories.Api.Responses.loginRegister.RegistrationDataResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -177,9 +178,9 @@ public class RegisterActivity extends AppCompatActivity {
             newUser = new User(firstName, lastName, email);
             newUser.setPhoneNumber(phone);
             newUser.setPassword(confirmPassword);
-            repository.getStoryApi().registerUser(newUser).enqueue(new Callback<BaseResponse<DataResponse>>() {
+            repository.getStoryApi().registerUser(newUser).enqueue(new Callback<BaseResponse<RegistrationDataResponse>>() {
                 @Override
-                public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
+                public void onResponse(Call<BaseResponse<RegistrationDataResponse>> call, Response<BaseResponse<RegistrationDataResponse>> response) {
                     if (response.isSuccessful()) {
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -198,16 +199,15 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.INVISIBLE);
                         //  regProgress.dismiss();
-                    } else {
-                        Snackbar.make(findViewById(R.id.registration_parent_layout),
-                                "User with that email already exists", Snackbar.LENGTH_LONG).show();
-                        progressBar.setVisibility(View.INVISIBLE);
-                        //   regProgress.hide();
+                    }
+                    else {
+                       Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
+                       startActivity(intent);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
+                public void onFailure(Call<BaseResponse<RegistrationDataResponse>> call, Throwable t) {
                     Toast.makeText(getApplicationContext(), "Network Failure", Toast.LENGTH_LONG).show();
                     Snackbar.make(findViewById(R.id.registration_parent_layout),
                             "Network Failure", Snackbar.LENGTH_LONG).show();

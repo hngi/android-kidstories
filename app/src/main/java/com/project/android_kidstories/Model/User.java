@@ -2,12 +2,10 @@ package com.project.android_kidstories.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -96,7 +94,8 @@ public class User implements Parcelable, Serializable {
         this.email = email;
     }
 
-    public User(){}
+    public User() {
+    }
 
     public User(Parcel in) {
         token = in.readString();

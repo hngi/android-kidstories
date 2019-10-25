@@ -2,6 +2,7 @@ package com.project.android_kidstories.Api.Responses;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.project.android_kidstories.Model.Story;
 
 public class BaseResponse<T> {
 
@@ -16,7 +17,8 @@ public class BaseResponse<T> {
     private String message;
     @SerializedName("data")
     @Expose
-    private T data;
+    T dataObject;
+
 
     public String getStatus() {
         return status;
@@ -43,11 +45,11 @@ public class BaseResponse<T> {
     }
 
     public T getData() {
-        return data;
+        return dataObject;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public void setData(T dataObject) {
+        this.dataObject = dataObject;
     }
 
 }

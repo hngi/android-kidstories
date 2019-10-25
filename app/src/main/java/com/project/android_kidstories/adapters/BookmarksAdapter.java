@@ -1,26 +1,43 @@
 package com.project.android_kidstories.adapters;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.project.android_kidstories.Api.Api;
+import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.ui.profile.BookmarksFragment;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.ViewHolder> {
+    public static String token = "";
+    private final Context context;
     private List<Story> stories;
+    private Api service;
 
     private OnBookmarkClickListener listener;
 
-    public BookmarksAdapter(List<Story> stories, OnBookmarkClickListener listener) {
+    public BookmarksAdapter(List<Story> stories, OnBookmarkClickListener listener, Context context) {
         this.stories = stories;
         this.listener = listener;
+        this.context = context;
     }
 
     @NonNull
@@ -33,6 +50,15 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(position);
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showDeleteDialog(holder.currentStory.getTitle(), holder.currentStory.getId());
+                return true;
+
+            }
+        });
     }
 
     @Override
@@ -81,4 +107,47 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
             listener.onStoryClick(currentStory.getId());
         }
     }
+
+    private void showDeleteDialog(String storyName, int storyId) {
+
+        androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(
+                context);
+
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                deleteStory(storyId);
+            }
+        });
+        alertDialog.setNegativeButton("No", null);
+        alertDialog.setMessage("Remove " + storyName + " from bookmarks?");
+        alertDialog.setTitle(R.string.app_name);
+        alertDialog.show();
+    }
+
+    private void deleteStory(int storyId){
+//        Intent intent = new Intent(context,BookmarksFragment.class);
+        service = RetrofitClient.getInstance().create(Api .class);
+        Call<Void> deleteBookmarkedStory = service.deleteBookmarkedStory(token, storyId);
+        deleteBookmarkedStory.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, "bookmark removed", Toast.LENGTH_LONG).show();
+
+//                    context.startActivity(intent);
+                }
+                else Toast.makeText(context, "Could not remove bookmark", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+
 }

@@ -112,7 +112,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         viewModel = ViewModelProviders.of(this).get(FragmentsSharedViewModel.class);
         viewModel.currentUser = new User();
 
-        RecyclerStoriesAdapter.token = new SharePref(this).getMyToken();
+//        RecyclerStoriesAdapter.token = new SharePref(this).getMyToken();
 
 //        Get token from SharedPref
         getUserDetails();

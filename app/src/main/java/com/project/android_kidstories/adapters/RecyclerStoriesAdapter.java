@@ -186,6 +186,13 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                 context.startActivity(Intent.createChooser(intent, "Send to"));
             }
         });
+        holder.bookmark.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
+
 
         holder.bookmark.setOnClickListener(new View.OnClickListener() {
             @Override

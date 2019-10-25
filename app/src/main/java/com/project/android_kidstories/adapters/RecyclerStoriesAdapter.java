@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
@@ -42,6 +43,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     private OnBookmarked bookmarked;
     private Api service;
     List<Story> stories;
+    private boolean isBookmarked;
 
     public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList, OnBookmarked bookmarked) {
         this.context = context;
@@ -52,6 +54,8 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         stories = storiesList.getData();
+        int storyId = stories.get(position).getId();
+        isBookmarked = bookmarked.isAlreadyBookmarked(storyId, position);
         Glide.with(context).load(storiesList.getData().get(position).getImageUrl()).into(holder.storyImage);
 
         holder.storyTitle.setText(storiesList.getData().get(position).getTitle());
@@ -61,7 +65,6 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         holder.num_likes.setText(String.valueOf(storiesList.getData().get(position).getLikesCount()));
         holder.num_dislikes.setText(String.valueOf(storiesList.getData().get(position).getDislikesCount()));
 
-        int storyId = storiesList.getData().get(position).getId();
 
         holder.list_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,13 +81,14 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
         Story story = stories.get(position);
 
-        boolean isBookmarked = bookmarked.isAlreadyBookmarked(story.getId(), position) == story.getId();
+
         Log.e("STORYYyyyyyyyyyy", isBookmarked + "");
-        if (isBookmarked) {
+        boolean bools = Prefs.getBoolean(String.valueOf(storyId),false);
+        Log.e("Boolssss", bools + "");
+        if (bools) {
             holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
             holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
         } else {
-
             holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
         }
 
@@ -192,9 +196,8 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             public void onClick(View v) {
                 int bookmark_drawableId = (Integer) holder.bookmark.getTag();
 
-                if ((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp)) {
-                    bookmarked.onBookmarkAdded(storiesList.getData()
-                            .get(position).getId());
+                boolean bookmark = bookmarked.onBookmarkAdded(storyId);
+                if ((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp)&&bookmark) {
                     holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
                     holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
 
@@ -207,8 +210,10 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
 
-                            if (response.isSuccessful()) Toast.makeText(context, "bookmark removed", Toast.LENGTH_LONG).show();
-
+                            if (response.isSuccessful()){
+                                Prefs.putBoolean(String.valueOf(storyId),false);
+                                Toast.makeText(context, "bookmark removed", Toast.LENGTH_LONG).show();
+                            }
                             else Toast.makeText(context, "Could not remove bookmark", Toast.LENGTH_LONG).show();
                         }
 
@@ -231,7 +236,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     public interface OnBookmarked {
         boolean onBookmarkAdded(int storyId);
 
-        int isAlreadyBookmarked(int storyId, int pos);
+        boolean isAlreadyBookmarked(int storyId, int pos);
     }
 
     @Override

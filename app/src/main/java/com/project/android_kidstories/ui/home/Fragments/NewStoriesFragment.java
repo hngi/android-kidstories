@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
@@ -36,9 +38,8 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private RecyclerStoriesAdapter adapter;
     private ProgressBar progressBar;
     private Repository repository;
-    int initBookmarkId;
     private Api service;
-    private boolean isAddSuccessful;
+    private boolean isAddSuccessful, initBookmark;
     //    private StoryAdapter storyAdapter;
     private RecyclerStoriesAdapter storyAdapter;
     private String token;
@@ -155,8 +156,9 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             @Override
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                 if (response.isSuccessful()) {
+                    Prefs.putBoolean(String.valueOf(storyId),true);
                     Toast.makeText(getContext(), "Bookmark added", Toast.LENGTH_SHORT).show();
-                    isAddSuccessful = response.body().getData() != null;
+                    isAddSuccessful = true;
                 } else {
                     isAddSuccessful = false;
                 }
@@ -172,7 +174,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     }
 
     @Override
-    public int isAlreadyBookmarked(int storyId, int pos) {
+    public boolean isAlreadyBookmarked(int storyId, int pos) {
 
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
@@ -184,7 +186,8 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                     for (Story s : data) {
                         if (s.getId() == storyId) {
                             Log.e("STORYID", storyId + "");
-                            initBookmarkId = s.getId();
+                            Prefs.putBoolean(String.valueOf(storyId),true);
+                            initBookmark = true;
                         }
                     }
                 } else {
@@ -197,7 +200,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
-        Log.e("INITBOOKMARK", initBookmarkId + "");
-        return initBookmarkId;
+        Log.e("INITBOOKMARK", initBookmark + "");
+        return initBookmark;
     }
 }

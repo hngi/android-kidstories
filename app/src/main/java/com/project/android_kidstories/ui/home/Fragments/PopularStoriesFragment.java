@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
+
+import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
@@ -35,8 +37,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     private ProgressBar popular_bar;
     RecyclerView recyclerView;
     private Api service;
-    private boolean isAddSuccessful;
-    int initBookmarkId;
+    private boolean isAddSuccessful, initBookmark;
     private String token;
 
     public static PopularStoriesFragment newInstance() {
@@ -117,7 +118,8 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
             @Override
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                 if (response.isSuccessful()) {
-                    isAddSuccessful = response.body().getData() != null;
+                    Prefs.putBoolean(String.valueOf(storyId),true);
+                    isAddSuccessful = true;
                 } else {
                     isAddSuccessful = false;
                 }
@@ -133,7 +135,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     }
 
     @Override
-    public int isAlreadyBookmarked(int storyId, int pos) {
+    public boolean isAlreadyBookmarked(int storyId, int pos) {
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
         bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
@@ -143,7 +145,8 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                     List<Story> data = response.body().getData();
                     for (Story s : data) {
                         if (s.getId() == storyId) {
-                            initBookmarkId = s.getId();
+                            Prefs.putBoolean(String.valueOf(storyId),true);
+                            initBookmark = true;
                         }
                     }
                 } else {
@@ -156,8 +159,8 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
-        Log.e("INITBOOKMARK", initBookmarkId + "");
-        return initBookmarkId;
+        Log.e("INITBOOKMARK", initBookmark + "");
+        return initBookmark;
     }
 
     public class StoryComparitor implements Comparator<Story> {

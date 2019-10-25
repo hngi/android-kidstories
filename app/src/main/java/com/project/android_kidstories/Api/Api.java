@@ -83,6 +83,10 @@ public interface Api {
     @GET("stories")
     Call<StoryAllResponse> getAllStories();
 
+    @GET("stories")
+    Call<StoryAllResponse> getAllStoriesWithAuth(@Header("Authorization") String token);
+
+
     /***
      *
      * @param token

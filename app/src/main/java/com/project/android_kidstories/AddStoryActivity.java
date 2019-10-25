@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -88,8 +90,13 @@ public class AddStoryActivity extends AppCompatActivity {
             if(imageUri != null)
             i.putExtra("image_path", imagePath);
             i.putExtra("image_uri", stringUri);
+            if(imageUri != null){
+                i.putExtra("image_path", imagePath);
 
-            startActivity(i);
+                startActivity(i);
+            }else{
+                Toast.makeText(this,"Please input an Image to proceed",Toast.LENGTH_LONG).show();
+            }
         }
 
     }

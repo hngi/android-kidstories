@@ -63,6 +63,7 @@
         <activity android:name=".AddStoryActivity" />
         <activity android:name=".AddStoriesContentActivity" />
         <activity android:name=".Views.main.BaseActivity" />
+        <activity android:name=".streak.StreakActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

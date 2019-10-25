@@ -38,6 +38,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private Repository repository;
     int initBookmarkId;
     private Api service;
+
     private boolean isAddSuccessful;
     //    private StoryAdapter storyAdapter;
     private RecyclerStoriesAdapter storyAdapter;
@@ -53,13 +54,14 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_newstories, container, false);
         token = "Bearer " + new SharePref(getContext()).getMyToken();
-        progressBar = v.findViewById(R.id.new_stories_bar);
+        repository = Repository.getInstance(getActivity().getApplication());
 
+        progressBar = v.findViewById(R.id.new_stories_bar);
         progressBar.setVisibility(View.VISIBLE);
 
         /*Create handle for the RetrofitInstance interface*/
         service = RetrofitClient.getInstance().create(Api.class);
-        Call<StoryAllResponse> stories = service.getAllStories();
+        Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token);
 
         stories.enqueue(new Callback<StoryAllResponse>() {
             @Override
@@ -69,7 +71,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 recyclerView = v.findViewById(R.id.recyclerView);
 
                 if (response.isSuccessful()) {
-                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(), NewStoriesFragment.this);
+                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(), NewStoriesFragment.this,repository);
                     int spanCount;
                     try {
                         spanCount = getContext().getResources().getInteger(R.integer.home_fragment_gridspan);

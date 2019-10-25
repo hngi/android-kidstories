@@ -84,8 +84,6 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
         saveContent = findViewById(R.id.save_content);
         progressBar = findViewById(R.id.add_story_progress);
 
-
-
         saveContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +98,7 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
                     story.setAge("2-5");
                     story.setTitle(title);
                     story.setBody(storyContent.getText().toString());
-                    String author = Prefs.getString("Username", "");
+                    String author = new SharePref(getApplicationContext()).getUserFirstname();
                     story.setAuthor(author);
 
                     addOrUpdateStory(story, image_uri);
@@ -133,8 +131,8 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
 
         assert story != null;
 
-        RequestBody title = RequestBody.create(MediaType.parse("text/plain"), story.getTitle());
-        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), story.getBody());
+        RequestBody title = RequestBody.create(MediaType.parse("multipart/form-data"), story.getTitle());
+        RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), story.getBody());
         RequestBody category_id = RequestBody.create(MediaType.parse("multipart/form-data"), storyCategoriesId);
         RequestBody ageInrange = RequestBody.create(MediaType.parse("multipart/form-data"), story.getAge());
         RequestBody author = RequestBody.create(MediaType.parse("multipart/form-data"), story.getAuthor());
@@ -150,7 +148,7 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
                     @Override
                     public void onResponse(Call<BaseResponse<Story>> call, Response<BaseResponse<Story>> response) {
                         assert response.body() != null;
-                        String messageResp = response.body().getMessage();
+                        String messageResp = response.message();
                         if (response.isSuccessful()){
                             isStoryAdded = true;
                             Toast.makeText(getApplicationContext(), messageResp, Toast.LENGTH_LONG).show();

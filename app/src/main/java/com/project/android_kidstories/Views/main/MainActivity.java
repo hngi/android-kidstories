@@ -38,6 +38,7 @@ import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SettingsActivity;
+import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.alarm.AlarmReceiver;
 import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.sharePref.SharePref;
@@ -110,6 +111,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         sharePref = SharePref.getINSTANCE(getApplicationContext());
         viewModel = ViewModelProviders.of(this).get(FragmentsSharedViewModel.class);
         viewModel.currentUser = new User();
+
+        RecyclerStoriesAdapter.token = new SharePref(this).getMyToken();
 
 //        Get token from SharedPref
         getUserDetails();
@@ -303,6 +306,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         break;
                     case R.id.addStory:
                         Intent i = new Intent(getApplicationContext(), AddStoryActivity.class);
+                        i.putExtra("token", token);
                         startActivity(i);
                         break;
                     case R.id.bookmark_fragment:

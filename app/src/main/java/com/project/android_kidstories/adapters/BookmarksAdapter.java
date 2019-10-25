@@ -17,6 +17,7 @@ import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
 
 import java.util.List;
@@ -54,7 +55,9 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showDeleteDialog(holder.currentStory.getTitle(), holder.currentStory.getId());
+                showDeleteDialog(holder.currentStory.getTitle(), holder.currentStory);
+
+
                 return true;
 
             }
@@ -108,7 +111,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         }
     }
 
-    private void showDeleteDialog(String storyName, int storyId) {
+    private void showDeleteDialog(String storyName, Story story) {
 
         androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(
                 context);
@@ -116,8 +119,9 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                removeStory(story);
+                RecyclerStoriesAdapter.deleteStory(context,story.getId());
 
-                deleteStory(storyId);
             }
         });
         alertDialog.setNegativeButton("No", null);
@@ -126,28 +130,12 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         alertDialog.show();
     }
 
-    private void deleteStory(int storyId){
-//        Intent intent = new Intent(context,BookmarksFragment.class);
-        service = RetrofitClient.getInstance().create(Api .class);
-        Call<Void> deleteBookmarkedStory = service.deleteBookmarkedStory(token, storyId);
-        deleteBookmarkedStory.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-
-                if (response.isSuccessful()) {
-                    Toast.makeText(context, "bookmark removed", Toast.LENGTH_LONG).show();
-
-//                    context.startActivity(intent);
-                }
-                else Toast.makeText(context, "Could not remove bookmark", Toast.LENGTH_LONG).show();
+    private void removeStory(Story currentStory){
+        for (Story story : stories){
+            if (story == currentStory){
+                stories.remove(story);
             }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-
-            }
-        });
+        }
     }
-
 
 }

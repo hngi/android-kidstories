@@ -21,6 +21,7 @@ import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.home.BaseFragment;
@@ -38,6 +39,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private RecyclerStoriesAdapter adapter;
     private ProgressBar progressBar;
     private Repository repository;
+    int initBookmarkId;
     private Api service;
     private boolean isAddSuccessful, initBookmark;
     //    private StoryAdapter storyAdapter;
@@ -54,13 +56,14 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_newstories, container, false);
         token = "Bearer " + new SharePref(getContext()).getMyToken();
-        progressBar = v.findViewById(R.id.new_stories_bar);
+        repository = Repository.getInstance(getActivity().getApplication());
 
+        progressBar = v.findViewById(R.id.new_stories_bar);
         progressBar.setVisibility(View.VISIBLE);
 
         /*Create handle for the RetrofitInstance interface*/
         service = RetrofitClient.getInstance().create(Api.class);
-        Call<StoryAllResponse> stories = service.getAllStories();
+        Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token);
 
         stories.enqueue(new Callback<StoryAllResponse>() {
             @Override
@@ -70,7 +73,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 recyclerView = v.findViewById(R.id.recyclerView);
 
                 if (response.isSuccessful()) {
-                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(), NewStoriesFragment.this);
+                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(), NewStoriesFragment.this,repository);
                     int spanCount;
                     try {
                         spanCount = getContext().getResources().getInteger(R.integer.home_fragment_gridspan);
@@ -156,7 +159,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             @Override
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                 if (response.isSuccessful()) {
-                    Prefs.putBoolean(String.valueOf(storyId),true);
+                    Common.updateSharedPref(storyId,true);
                     Toast.makeText(getContext(), "Bookmark added", Toast.LENGTH_SHORT).show();
                     isAddSuccessful = true;
                 } else {
@@ -186,12 +189,13 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                     for (Story s : data) {
                         if (s.getId() == storyId) {
                             Log.e("STORYID", storyId + "");
-                            Prefs.putBoolean(String.valueOf(storyId),true);
+                            Common.updateSharedPref(storyId,true);
                             initBookmark = true;
                         }
                     }
                 } else {
-                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+
+                    Common.updateSharedPref(storyId,false);
                 }
             }
 

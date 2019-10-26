@@ -17,11 +17,14 @@ import com.bumptech.glide.Glide;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
+import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
+import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
+import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.sharePref.SharePref;
 
 import java.util.List;
@@ -42,20 +45,25 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     private StoryAllResponse storiesList;
     private OnBookmarked bookmarked;
     private Api service;
+    Api storyApi;
     List<Story> stories;
-    private boolean isBookmarked;
 
-    public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList, OnBookmarked bookmarked) {
+    public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList, OnBookmarked bookmarked, Repository repository) {
         this.context = context;
         this.storiesList = storiesList;
         this.bookmarked = bookmarked;
+        this.storyApi = repository.getStoryApi();
+    }
+    @Override
+    public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.recycler_item, parent, false);
+        return new CustomViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         stories = storiesList.getData();
-        int storyId = stories.get(position).getId();
-        isBookmarked = bookmarked.isAlreadyBookmarked(storyId, position);
         Glide.with(context).load(storiesList.getData().get(position).getImageUrl()).into(holder.storyImage);
 
         holder.storyTitle.setText(storiesList.getData().get(position).getTitle());
@@ -65,6 +73,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         holder.num_likes.setText(String.valueOf(storiesList.getData().get(position).getLikesCount()));
         holder.num_dislikes.setText(String.valueOf(storiesList.getData().get(position).getDislikesCount()));
 
+        int storyId = storiesList.getData().get(position).getId();
 
         holder.list_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,88 +90,50 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
         Story story = stories.get(position);
 
-
+        boolean isBookmarked = bookmarked.isAlreadyBookmarked(storyId, position);
+        boolean check = Prefs.getBoolean(String.valueOf(storyId),false);
         Log.e("STORYYyyyyyyyyyy", isBookmarked + "");
-        boolean bools = Prefs.getBoolean(String.valueOf(storyId),false);
-        Log.e("Boolssss", bools + "");
-        if (bools) {
+        if (check) {
             holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
             holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
         } else {
+
             holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
         }
 
 
-        int like_image_black = R.drawable.ic_thumb_up_black_24dp;
-        int like_image_blue = R.drawable.ic_thumb_up_blue_24dp;
+        //toggleReaction
+        if(story.getReaction().equals("1")){
+            holder.like.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
+            holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+        }
+        else if(story.getReaction().equals("0")){
+            holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+            holder.dislike.setImageResource(R.drawable.ic_thumb_down_blue_24dp);
+        }
+        else{
+            holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+            holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+        }
 
-        int dislike_image_black = R.drawable.ic_thumb_down_black_24dp;
-        int dislike_image_blue = R.drawable.ic_thumb_down_blue_24dp;
 
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int like_drawableId = (Integer) holder.like.getTag();
-                int dislike_drawableId = (Integer) holder.dislike.getTag();
+                Story story = stories.get(position);
+                toggleReaction(1,story,holder);
+                likeStory(story, story.getId(),
+                        holder);
 
-                if (like_drawableId == like_image_black || dislike_drawableId == dislike_image_blue) {
-                    holder.like.setImageResource(like_image_blue);
-                    holder.like.setTag(like_image_blue);
-
-                    int like_count = Integer.parseInt(holder.num_likes.getText().toString());
-                    like_count++;
-                    holder.num_likes.setText(String.valueOf(like_count));
-
-                    if (dislike_drawableId == dislike_image_blue) {
-                        holder.dislike.setImageResource(dislike_image_black);
-                        holder.dislike.setTag(dislike_image_black);
-
-                        int dislike_count = Integer.parseInt(holder.num_dislikes.getText().toString());
-                        dislike_count--;
-                        holder.num_dislikes.setText(String.valueOf(dislike_count));
-                    }
-                } else {
-                    holder.like.setImageResource(like_image_black);
-                    holder.like.setTag(like_image_black);
-
-                    int like_count = Integer.parseInt(holder.num_likes.getText().toString());
-                    like_count--;
-                    holder.num_likes.setText(String.valueOf(like_count));
-                }
             }
         });
-
         holder.dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int dislike_drawableId = (Integer) holder.dislike.getTag();
-                int like_drawableId = (Integer) holder.like.getTag();
+                Story story = stories.get(position);
+                toggleReaction(0,story,holder);
+                dislikeStory(story, story.getId());
 
-                if (dislike_drawableId == R.drawable.ic_thumb_down_black_24dp || like_drawableId == R.drawable.ic_thumb_up_blue_24dp) {
-                    holder.dislike.setImageResource(dislike_image_blue);
-                    holder.dislike.setTag(dislike_image_blue);
-
-                    int dislike_count = Integer.parseInt(holder.num_dislikes.getText().toString());
-                    dislike_count++;
-                    holder.num_dislikes.setText(String.valueOf(dislike_count));
-
-                    if (like_drawableId == like_image_blue) {
-                        holder.like.setImageResource(like_image_black);
-                        holder.like.setTag(like_image_black);
-
-                        int like_count = Integer.parseInt(holder.num_likes.getText().toString());
-                        like_count--;
-                        holder.num_likes.setText(String.valueOf(like_count));
-                    }
-
-                } else {
-                    holder.dislike.setImageResource(dislike_image_black);
-                    holder.dislike.setTag(dislike_image_black);
-
-                    int dislike_count = Integer.parseInt(holder.num_dislikes.getText().toString());
-                    dislike_count--;
-                    holder.num_dislikes.setText(String.valueOf(dislike_count));
-                }
             }
         });
 
@@ -190,14 +161,23 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                 context.startActivity(Intent.createChooser(intent, "Send to"));
             }
         });
+        holder.bookmark.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
+
 
         holder.bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int bookmark_drawableId = (Integer) holder.bookmark.getTag();
 
-                boolean bookmark = bookmarked.onBookmarkAdded(storyId);
-                if ((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp)&&bookmark) {
+                boolean checked = bookmarked.onBookmarkAdded(storiesList.getData()
+                        .get(position).getId());
+                if ((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp)&&checked) {
+                    Common.updateSharedPref(storyId,true);
                     holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
                     holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
 
@@ -211,9 +191,10 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                         public void onResponse(Call<Void> call, Response<Void> response) {
 
                             if (response.isSuccessful()){
-                                Prefs.putBoolean(String.valueOf(storyId),false);
+                                Common.updateSharedPref(storyId,false);
                                 Toast.makeText(context, "bookmark removed", Toast.LENGTH_LONG).show();
                             }
+
                             else Toast.makeText(context, "Could not remove bookmark", Toast.LENGTH_LONG).show();
                         }
 
@@ -233,19 +214,144 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
     }
 
-    public interface OnBookmarked {
-        boolean onBookmarkAdded(int storyId);
-
-        boolean isAlreadyBookmarked(int storyId, int pos);
-    }
-
     @Override
-    public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.recycler_item, parent, false);
-        return new CustomViewHolder(view);
+    public int getItemCount() {
+        return storiesList.getData().size();
     }
 
+
+    public void likeStory(Story story ,int id ,CustomViewHolder holder){
+        //Story will be used for local like
+        //id will be used for remote like
+        //local like
+
+
+
+        //remote like
+        String token =  "Bearer " + new SharePref(context).getMyToken();
+        storyApi.likeStory(token,id).enqueue(new Callback<ReactionResponse>() {
+            @Override
+            public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
+                if (response.isSuccessful()){
+                    Log.i("LIKEEE" ,response.body().getMessage() + "\n "+
+                            response.body().getStatus()+"\n "+
+                            response.body().getAction()+"\n "+
+                            response.body().getLikesCount()+"\n "+
+                            response.body().getDislikesCount());
+                    return;
+                }
+                Log.i("LIKEEE" ,response.code()+" ");
+                return;
+            }
+
+            @Override
+            public void onFailure(Call<ReactionResponse> call, Throwable t) {
+                Log.i("LIKEEE FAILED " ,t.getMessage());
+            }
+        });
+    }
+
+    public void dislikeStory(Story story ,int id){
+
+        //Story will be used for local dislike
+        //id will be used for remote dislike
+
+
+        String token =  "Bearer " + new SharePref(context).getMyToken();
+        storyApi.dislikeStory(token,id).enqueue(new Callback<ReactionResponse>() {
+            @Override
+            public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
+                if (response.isSuccessful()){
+                    Log.i("DISLIKED" ,response.body().getMessage() + "\n "+
+                            response.body().getStatus()+"\n "+
+                            response.body().getAction()+"\n "+
+                            response.body().getLikesCount()+"\n "+
+                            response.body().getDislikesCount());
+                    return;
+                }
+                Log.i("RESPONSE NOT DISLIKED" ,response.code()+" ");
+                return;
+            }
+
+            @Override
+            public void onFailure(Call<ReactionResponse> call, Throwable t) {
+                Log.i("LIKEEE FAILED " ,t.getMessage());
+            }
+        });
+    }
+
+    public void  toggleReaction(int reaction, Story story, CustomViewHolder holder){
+        /**
+         * @author .: Erondu Joshua Emeka
+         * @created : 25/10/19
+         */
+        //reaction: 1= like, 0 = dislike;
+        if(reaction==1){
+            //if like was pressed
+            if(story.getReaction().equals("1")){
+                story.setReaction("Nil");
+                holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+                holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+                story.setLikesCount(story.getLikesCount()-1);
+                holder.num_likes.setText(String.valueOf(story.getLikesCount()));
+            }
+            else if(story.getReaction().equals("0")){
+                story.setReaction("1");
+                holder.like.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
+                holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+                story.setLikesCount(story.getLikesCount()+1);
+                story.setDislikesCount(story.getDislikesCount()-1);
+                holder.num_likes.setText(String.valueOf(story.getLikesCount()));
+                holder.num_dislikes.setText(String.valueOf(story.getDislikesCount()));
+
+
+            }
+            else{//nil
+                story.setReaction("1");
+                holder.like.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
+                holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+                story.setLikesCount(story.getLikesCount()+1);
+                holder.num_likes.setText(String.valueOf(story.getLikesCount()));
+
+            }
+
+
+        }
+        else if(reaction==0){
+            //if dislike was pressed
+            if(story.getReaction().equals("1")){
+                story.setReaction("0");
+                holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+                holder.dislike.setImageResource(R.drawable.ic_thumb_down_blue_24dp);
+                story.setLikesCount(story.getLikesCount()-1);
+                story.setDislikesCount(story.getDislikesCount()+1);
+                holder.num_likes.setText(String.valueOf(story.getLikesCount()));
+                holder.num_dislikes.setText(String.valueOf(story.getDislikesCount()));
+
+            }
+            else if(story.getReaction().equals("0")){
+                story.setReaction("Nil");
+                holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+                holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+                story.setDislikesCount(story.getDislikesCount()-1);
+                holder.num_dislikes.setText(String.valueOf(story.getDislikesCount()));
+
+
+            }
+            else{
+                story.setReaction("0");
+                holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+                holder.dislike.setImageResource(R.drawable.ic_thumb_down_blue_24dp);
+                story.setDislikesCount(story.getDislikesCount()+1);
+                holder.num_dislikes.setText(String.valueOf(story.getDislikesCount()));
+            }
+
+        }
+        else return;
+    }
+
+
+    //View Holder Class
     class CustomViewHolder extends RecyclerView.ViewHolder {
 
         public final View view;
@@ -278,8 +384,12 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             list_item = view.findViewById(R.id.l_clickable);
         }
     }
-    @Override
-    public int getItemCount() {
-        return storiesList.getData().size();
+
+    public interface OnBookmarked {
+        boolean onBookmarkAdded(int storyId);
+
+        boolean isAlreadyBookmarked(int storyId, int pos);
     }
+
+
 }

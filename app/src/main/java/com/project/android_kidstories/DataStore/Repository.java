@@ -22,16 +22,25 @@ public class Repository {
     private static Repository INSTANCE;
     private final Api api;
     private StoryDao storyDao;
-
+    private ReadStoryDao readStoryDao;
 
     public Repository(Context context) {
         StoryDatabase storyDatabase = StoryDatabase.getInstance(context);
         storyDao = storyDatabase.storyDao();
+        readStoryDao = storyDatabase.readStoryDao();
 
         //userDao = storyDatabase.userDao();
 //        api = ((Common)context.getApplicationContext()).getStoryApi();
         api = RetrofitClient.getInstance().create(Api.class);
         Log.d(TAG, "Repository: Created");
+    }
+
+    public LiveData<ReadStory> getStoryForId(String id) {
+        return readStoryDao.getStoryForId(id);
+    }
+
+    public void insertReadStoryId(ReadStory readStory) {
+        readStoryDao.insertReadStory(readStory);
     }
 
     public static synchronized Repository getInstance(Application application) {
@@ -94,13 +103,13 @@ public class Repository {
 
     //Story APIs
 
-    public boolean addStory(Story story, String imageUri){
-        return AddStoryHelper.addOrUpdateStory(story, imageUri,true);
-    }
-
-    public void updateStory(Story newStory, String imageUri){
-        AddStoryHelper.addOrUpdateStory(newStory, imageUri,false);
-    }
+//    public boolean addStory(Story story, String imageUri){
+//        return AddStoryHelper.addOrUpdateStory(story, imageUri,true);
+//    }
+//
+//    public void updateStory(Story newStory, String imageUri){
+//        AddStoryHelper.addOrUpdateStory(newStory, imageUri,false);
+//    }
 
 
 }

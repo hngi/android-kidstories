@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
 import com.project.android_kidstories.adapters.ProfilePagerAdapter;
@@ -88,6 +89,12 @@ public class ProfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(getActivity()).get(FragmentsSharedViewModel.class);
+
+        String fName = new SharePref((requireContext())).getUserFirstname();
+        String lName = new SharePref((requireContext())).getUserLastname();
+        String email = new SharePref((requireContext())).getUserEmail();
+
+        viewModel.setUser(new User(fName,lName,email));
         repository = Repository.getInstance(getActivity().getApplication());
 
         // Displays the user information

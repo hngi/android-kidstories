@@ -1,13 +1,17 @@
 package com.project.android_kidstories.ui.edit;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,13 +35,17 @@ import com.project.android_kidstories.Utils.ImageConversion;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
+
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URI;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -47,7 +57,6 @@ public class ProfileFragment extends Fragment {
     Button save;
     private static int RESULT_LOAD_IMAGE = 1;
     ImageConversion imageConversion;
-    TextView username;
     TextView imagePath;
     String token;
 
@@ -57,6 +66,9 @@ public class ProfileFragment extends Fragment {
 
     private FragmentsSharedViewModel viewModel;
     private Repository repository;
+    private String mediaPath;
+
+    private static final int REQUEST_WRITE_PERMISSION = 786;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         helper = new BedTimeDbHelper(getContext());
@@ -67,13 +79,20 @@ public class ProfileFragment extends Fragment {
 
         imagePath = root.findViewById(R.id.selected_image_path);
         imageView = root.findViewById(R.id.img_user);
-        username = root.findViewById(R.id.tv_username);
         btnUpload = root.findViewById(R.id.btn_upload);
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent images = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(images, RESULT_LOAD_IMAGE);
+
+                //request for permission if not granted
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_PERMISSION);
+                } else {
+                    Intent images = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(images, RESULT_LOAD_IMAGE);
+                }
+
+
             }
         });
 
@@ -81,9 +100,7 @@ public class ProfileFragment extends Fragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(TextUtils.isEmpty(username.getText().toString())){
-                    username.setError("Username cannot be empty");
-                }else {
+
                     Bitmap bitmap;
                     if (imageView.getDrawable() instanceof BitmapDrawable) {
                         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
@@ -97,13 +114,24 @@ public class ProfileFragment extends Fragment {
                     byte[] image_byte_array = imageConversion.convertBitMapToByteArray(bitmap);
                     helper.storeUserImage(image_byte_array, getContext());
 
-                    File file = new File(selected_image.getPath());
-                    MultipartBody.Part part = MultipartBody.Part.createFormData("photo", file.getName());
+                    File file = new File(mediaPath);
+
+
+
+                    // create RequestBody instance from file
+                    RequestBody requestFile =
+                            RequestBody.create(
+                                    file,
+                                    MediaType.parse(getActivity().getContentResolver().getType(selected_image))
+                            );
+
+                    MultipartBody.Part part = MultipartBody.Part.createFormData("photo", file.getName(),requestFile);
                     repository.getStoryApi().updateUserProfilePicture("Bearer" + token,
                             part).enqueue(new Callback<BaseResponse<Void>>() {
                         @Override
                         public void onResponse(Call<BaseResponse<Void>> call, Response<BaseResponse<Void>> response) {
                             if (response.isSuccessful()) {
+                                Toast.makeText(requireContext(),"upload successful",Toast.LENGTH_SHORT).show();
                                 Log.d("Upload State", "Successful");
                                 Log.d("Upload State", response.body().getMessage());
                             } else {
@@ -118,7 +146,7 @@ public class ProfileFragment extends Fragment {
                         }
                     });
 
-                }
+
             }
         });
         return root;
@@ -131,11 +159,19 @@ public class ProfileFragment extends Fragment {
         repository = Repository.getInstance(getActivity().getApplication());
         token = new SharePref(getActivity()).getMyToken();
 
-        username.setText(viewModel.currentUser.getFirstName() + " " + viewModel.currentUser.getLastName());
         if (viewModel.currentUser.getImage() != null) {
             Glide.with(getActivity().getApplicationContext())
                     .load(viewModel.currentUser.getImage())
                     .into(imageView);
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_WRITE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Intent images = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(images, RESULT_LOAD_IMAGE);
         }
     }
 
@@ -146,6 +182,17 @@ public class ProfileFragment extends Fragment {
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
             selected_image = data.getData();
             String image_text = selected_image.toString();
+
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getActivity().getContentResolver().query(selected_image, filePathColumn, null, null, null);
+            assert cursor != null;
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            mediaPath = cursor.getString(columnIndex);
+            cursor.close();
+
             imagePath.setText(image_text);
             Bitmap bitmap;
             try {

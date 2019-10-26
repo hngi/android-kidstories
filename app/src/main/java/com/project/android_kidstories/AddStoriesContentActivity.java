@@ -2,9 +2,11 @@ package com.project.android_kidstories;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,6 +22,7 @@ import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Utils.FileUtil;
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 
 import java.io.File;
@@ -84,8 +87,6 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
         saveContent = findViewById(R.id.save_content);
         progressBar = findViewById(R.id.add_story_progress);
 
-
-
         saveContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,8 +101,13 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
                     story.setAge("2-5");
                     story.setTitle(title);
                     story.setBody(storyContent.getText().toString());
-                    String author = Prefs.getString("Username", "");
+                    String author = new SharePref(getApplicationContext()).getUserFirstname();
                     story.setAuthor(author);
+
+                    Log.d("TAG", story.getTitle());
+                    Log.d("TAG", story.getAge());
+                    Log.d("TAG", story.getAuthor());
+                    Log.d("TAG", story.getBody());
 
                     addOrUpdateStory(story, image_uri);
 
@@ -115,6 +121,7 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Long storyCategory = parent.getItemIdAtPosition(position);
         storyCategoriesId = storyCategory.toString();
+        Log.d("TAG", storyCategoriesId);
     }
 
     @Override
@@ -129,31 +136,31 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
 //        File imageFile = new File(Uri.decode(imageUri));
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
 
-        MultipartBody.Part photo = MultipartBody.Part.createFormData("Image", file.getName(), requestFile);
+        MultipartBody.Part photo = MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
 
         assert story != null;
 
         RequestBody title = RequestBody.create(MediaType.parse("text/plain"), story.getTitle());
-        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), story.getBody());
+        RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), story.getBody());
         RequestBody category_id = RequestBody.create(MediaType.parse("multipart/form-data"), storyCategoriesId);
         RequestBody ageInrange = RequestBody.create(MediaType.parse("multipart/form-data"), story.getAge());
         RequestBody author = RequestBody.create(MediaType.parse("multipart/form-data"), story.getAuthor());
 
-
         return addStory(title, body, category_id, photo, ageInrange, author);
     }
 
-    private boolean addStory(RequestBody title, RequestBody  body, RequestBody category,  MultipartBody.Part photo, RequestBody ageInrange, RequestBody author) {
+    private boolean addStory(RequestBody title, RequestBody  body, RequestBody category_id,  MultipartBody.Part photo, RequestBody ageInrange, RequestBody author) {
         progressBar.setVisibility(View.VISIBLE);
-        RetrofitClient.getInstance().create(Api.class).addStory(token, title, body, category, photo, ageInrange, author)
+        RetrofitClient.getInstance().create(Api.class).addStory(token, title, body, category_id, photo, ageInrange, author)
                 .enqueue(new Callback<BaseResponse<Story>>() {
                     @Override
                     public void onResponse(Call<BaseResponse<Story>> call, Response<BaseResponse<Story>> response) {
                         assert response.body() != null;
-                        String messageResp = response.body().getMessage();
-                        if (response.isSuccessful()){
+                        String messageResp = response.message();
+                        if (response.code() == 200){
                             isStoryAdded = true;
-                            Toast.makeText(getApplicationContext(), messageResp, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Story Created", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(AddStoriesContentActivity.this, MainActivity.class));
                             progressBar.setVisibility(View.INVISIBLE);
                         } else {
                             isStoryAdded = false;

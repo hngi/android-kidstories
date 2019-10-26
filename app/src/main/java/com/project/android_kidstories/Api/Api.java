@@ -101,10 +101,11 @@ public interface Api {
      */
     @Multipart
     @POST("stories")
-    @Headers({
-            "Content-Type: application/json",
-            "Accept: application/json"
-    })
+//    @Headers({
+//            "Content-Type: application/json",
+//            "Accept: application/json",
+//            "Accept: multipart/form-data"
+//    })
     Call<BaseResponse<Story>> addStory(
             @Header("Authorization") String token,
             @Part("title") RequestBody title,

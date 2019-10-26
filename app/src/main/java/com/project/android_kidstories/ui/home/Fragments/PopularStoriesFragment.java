@@ -23,6 +23,7 @@ import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.sharePref.SharePref;
 import retrofit2.Call;
@@ -149,9 +150,13 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                         if (s.getId() == storyId) {
                             Prefs.putBoolean(String.valueOf(storyId),true);
                             initBookmark = true;
+                        }else{
+
+                            Common.updateSharedPref(storyId,false);
                         }
                     }
                 } else {
+                    Common.updateSharedPref(storyId,false);
                     //Toast.makeText(getContext(), "33 Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }

@@ -191,6 +191,9 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                             Log.e("STORYID", storyId + "");
                             Common.updateSharedPref(storyId,true);
                             initBookmark = true;
+                        }else{
+
+                            Common.updateSharedPref(storyId,false);
                         }
                     }
                 } else {

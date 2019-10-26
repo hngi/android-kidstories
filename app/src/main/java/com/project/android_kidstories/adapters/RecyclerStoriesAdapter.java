@@ -174,8 +174,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             public void onClick(View v) {
                 int bookmark_drawableId = (Integer) holder.bookmark.getTag();
 
-                boolean checked = bookmarked.onBookmarkAdded(storiesList.getData()
-                        .get(position).getId());
+                boolean checked = bookmarked.onBookmarkAdded(storyId);
                 if ((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp)&&checked) {
                     Common.updateSharedPref(storyId,true);
                     holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);

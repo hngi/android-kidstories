@@ -31,7 +31,12 @@
         <item name="backgroundColor">@color/main_color_grey_800</item>
         <item name="backgroundBoxColor">@color/main_color_grey_800</item>
         <item name="tintColor">@color/colorPrimary</item>
+        <item name="actionBarStyle">@style/ActionBar</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+    </style>
+
+    <style name="ActionBar" parent="DarkTheme">
+          <item name="actionBarTheme">@color/main_color_grey_900</item>
     </style>
 
     <style name="WindowAnimationTransition">

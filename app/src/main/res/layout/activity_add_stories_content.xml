@@ -55,16 +55,25 @@
                     android:entries="@array/items_class"
                     />
             </LinearLayout>
-
-            <jp.wasabeef.richeditor.RichEditor
-                android:id="@+id/editor"
-                android:layout_marginTop="30dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:background="@drawable/edit_text_rectangle"
+                >
+               <jp.wasabeef.richeditor.RichEditor
+                android:id="@+id/editor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginRight="2dp"
                 android:layout_gravity="center"
                 />
+            </LinearLayout>
             <Button
                 android:id="@+id/save_content"
                 android:layout_width="wrap_content"

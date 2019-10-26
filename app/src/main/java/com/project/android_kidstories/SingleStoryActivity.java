@@ -9,19 +9,23 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
+import com.project.android_kidstories.DataStore.ReadStory;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
-
-import java.util.Locale;
-
+import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.streak.StreakActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.Locale;
 
 public class SingleStoryActivity extends AppCompatActivity {
 
@@ -37,7 +41,7 @@ public class SingleStoryActivity extends AppCompatActivity {
     ImageButton btn_stop;
     TextView speak_text;
     TextToSpeech textToSpeech;
-
+    SharePref sharePref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,26 @@ public class SingleStoryActivity extends AppCompatActivity {
         storyApi = repository.getStoryApi();
         story_id = getIntent().getIntExtra("story_id", 0);
 
+        sharePref = SharePref.getINSTANCE(this);
+
+        Button markAsReadBtn = findViewById(R.id.btn_markasread);
+        // Check if story has been read already
+        repository.getStoryForId(String.valueOf(story_id)).observe(this, readStory -> {
+            if (readStory == null) {
+                markAsReadBtn.setVisibility(View.VISIBLE);
+            }
+        });
+
+        markAsReadBtn.setOnClickListener(view -> {
+            int storiesRead = sharePref.getInt(StreakActivity.STORIES_READ_KEY);
+            storiesRead += 1;
+            sharePref.setInt(StreakActivity.STORIES_READ_KEY, storiesRead);
+
+            StreakActivity.displayUserReadingStatus(this, storiesRead);
+
+            repository.insertReadStoryId(new ReadStory(String.valueOf(story_id)));
+            markAsReadBtn.setVisibility(View.GONE);
+        });
 
         progressBar = findViewById(R.id.story_content_bar);
         progressBar.setVisibility(View.VISIBLE);
@@ -120,6 +144,7 @@ public class SingleStoryActivity extends AppCompatActivity {
         speak_text = (TextView) findViewById(R.id.story_content);
         btn_speak = (ImageButton) findViewById(R.id.play_story);
         btn_stop = (ImageButton) findViewById(R.id.stop_story);
+
         btn_speak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

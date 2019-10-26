@@ -20,7 +20,9 @@ import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.adapters.BookmarksAdapter;
+import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.sharePref.SharePref;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,6 +64,7 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
         token = "Bearer " + new SharePref(getContext()).getMyToken();
+        RecyclerStoriesAdapter.token = token;
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
         bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
@@ -77,18 +80,18 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
                     for (Story s : data) {
                         stories.add(s);
                     }
-                    adapter = new BookmarksAdapter(stories, BookmarksFragment.this);
+                    adapter = new BookmarksAdapter(stories,BookmarksFragment.this, getContext());
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
                 } else {
-                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
 

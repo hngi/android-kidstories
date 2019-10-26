@@ -47,6 +47,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.0.1'
 
+    //Rich EditorLib
+    implementation 'jp.wasabeef:richeditor-android:1.2.2'
+
     // ViewModel and LiveData
     def lifecycle_version = "2.1.0"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"

@@ -34,31 +34,17 @@
             app:layout_constraintStart_toStartOf="@id/img_user"
             app:layout_constraintTop_toBottomOf="@id/img_user"/>
 
-        <EditText
-            android:id="@+id/textInputEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/edittext_white_background"
-            android:hint="Name"
-            android:padding="16dp"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_username"/>
 
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:background="@drawable/edittext_white_background"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@+id/textInputEditText"
-            app:layout_constraintStart_toStartOf="@+id/textInputEditText"
-            app:layout_constraintTop_toBottomOf="@+id/textInputEditText">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_username">
 
             <Button
                 android:id="@+id/btn_upload"
@@ -69,16 +55,16 @@
                 android:paddingEnd="24dp"
                 android:text="Upload Image"
                 android:textAllCaps="false"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/selected_image_path"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:ellipsize="end"
+                android:gravity="center"
                 android:maxLines="1"
-                android:text="No Image Uploaded"/>
+                android:text="No Image Uploaded" />
         </LinearLayout>
 
         <Button

@@ -1,7 +1,5 @@
 package com.project.android_kidstories.Api;
 
-import android.net.Uri;
-
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
@@ -19,9 +17,10 @@ import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
 
 
-import java.io.File;
+import java.text.Normalizer;
 import java.util.List;
 
+import okhttp3.FormBody;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -84,6 +83,10 @@ public interface Api {
     @GET("stories")
     Call<StoryAllResponse> getAllStories();
 
+    @GET("stories")
+    Call<StoryAllResponse> getAllStoriesWithAuth(@Header("Authorization") String token);
+
+
     /***
      *
      * @param token
@@ -98,6 +101,11 @@ public interface Api {
      */
     @Multipart
     @POST("stories")
+//    @Headers({
+//            "Content-Type: application/json",
+//            "Accept: application/json",
+//            "Accept: multipart/form-data"
+//    })
     Call<BaseResponse<Story>> addStory(
             @Header("Authorization") String token,
             @Part("title") RequestBody title,

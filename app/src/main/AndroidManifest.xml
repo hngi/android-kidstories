@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Utils.Common"
@@ -62,6 +63,7 @@
         <activity android:name=".AddStoryActivity" />
         <activity android:name=".AddStoriesContentActivity" />
         <activity android:name=".Views.main.BaseActivity" />
+        <activity android:name=".streak.StreakActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

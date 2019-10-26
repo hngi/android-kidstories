@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -26,6 +28,7 @@ public class AddStoryActivity extends AppCompatActivity {
     private EditText storyTitle;
     private Uri imageUri;
     private String imagePath;
+    private String stringUri;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class AddStoryActivity extends AppCompatActivity {
             if (requestCode == PICTURE_REQUEST_CODE && data != null) {
                 imageUri = data.getData();
                 assert imageUri != null;
+                stringUri = imageUri.toString();
                 imagePath = imageUri.getPath();
                 imagePathText.setText(imagePath);
             }
@@ -85,21 +89,27 @@ public class AddStoryActivity extends AppCompatActivity {
 
             if(imageUri != null)
             i.putExtra("image_path", imagePath);
+            i.putExtra("image_uri", stringUri);
+            if(imageUri != null){
+                i.putExtra("image_path", imagePath);
 
-            startActivity(i);
+                startActivity(i);
+            }else{
+                Toast.makeText(this,"Please input an Image to proceed",Toast.LENGTH_LONG).show();
+            }
         }
 
     }
 
-    public String getPath(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        @SuppressWarnings("deprecation")
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor
-                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
+//    public String getPath(Uri uri) {
+//        String[] projection = {MediaStore.Images.Media.DATA};
+//        @SuppressWarnings("deprecation")
+//        Cursor cursor = managedQuery(uri, projection, null, null, null);
+//        int column_index = cursor
+//                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//        cursor.moveToFirst();
+//        return cursor.getString(column_index);
+//    }
 
     @Override
     public void onBackPressed() {

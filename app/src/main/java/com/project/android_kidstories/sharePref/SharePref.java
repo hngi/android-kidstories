@@ -1,7 +1,6 @@
 package com.project.android_kidstories.sharePref;
 
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -24,12 +23,12 @@ public class SharePref {
     private static SharedPreferences sharedPreferences;
 
     private SharePref(SharedPreferences sharedPreferences) {
-        this.sharedPreferences=sharedPreferences;
+        SharePref.sharedPreferences = sharedPreferences;
 
     }
 
     public SharePref(Context context) {
-        this.context = context;
+        SharePref.context = context;
     }
 
     public static synchronized SharePref getINSTANCE(Context context) {
@@ -52,12 +51,28 @@ public class SharePref {
         sharedPreferences.edit().putString(key, data).apply();
     }
 
+    public void setInt(String key, int data) {
+        sharedPreferences.edit().putInt(key, data).apply();
+    }
+
+    public void setLong(String key, long data) {
+        sharedPreferences.edit().putLong(key, data).apply();
+    }
+
     public void setBool(String key, boolean data) {
         sharedPreferences.edit().putBoolean(key, data).apply();
     }
 
     public String getString(String key) {
         return sharedPreferences.getString(key, "");
+    }
+
+    public int getInt(String key) {
+        return sharedPreferences.getInt(key, 0);
+    }
+
+    public long getLong(String key) {
+        return sharedPreferences.getLong(key, 0);
     }
 
     public boolean getBool(String key) {
@@ -79,7 +94,7 @@ public class SharePref {
     }
 
     public String getMyToken() {
-//        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Token", "");
     }
 

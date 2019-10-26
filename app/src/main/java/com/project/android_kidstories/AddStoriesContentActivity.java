@@ -28,6 +28,7 @@ import com.project.android_kidstories.sharePref.SharePref;
 
 import java.io.File;
 
+
 import jp.wasabeef.richeditor.RichEditor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -43,7 +44,7 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
     private static boolean isStoryAdded = false;
     private static String title;
     private static String token;
-    private RichEditor mEditor;
+
     public final int PERMISSION_REQUEST_CODE = 100;
 
     //EditText storyContent;
@@ -52,7 +53,7 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
     Button saveContent;
     public ProgressBar progressBar;
     public SharePref sharePref;
-
+    private RichEditor mEditor;
     Uri image_uri;
     String imageUri_str;
     String storyCategoriesId;
@@ -81,19 +82,21 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
         // instantiate the editor
         mEditor = findViewById(R.id.editor);
 
+
         //Settings for Richeditor Library front view
 
         mEditor.setEditorHeight(300);
         mEditor.setEditorFontSize(20);
         mEditor.setEditorFontColor(Color.BLUE);
-        //mEditor.setEditorBackgroundColor(Color.BLUE);
-        //mEditor.setBackgroundColor(Color.BLUE);
-        //mEditor.setBackgroundResource(R.drawable.bg);
+//mEditor.setEditorBackgroundColor(Color.BLUE);
+//mEditor.setBackgroundColor(Color.BLUE);
+//mEditor.setBackgroundResource(R.drawable.bg);
         mEditor.setPadding(10, 10, 10, 10);
-        //mEditor.setBackground();
+//mEditor.setBackground();
         mEditor.setPlaceholder("Write story here...");
 
-        // Ends Here
+// Ends Here
+
 
         //Button Functionalities.
 
@@ -228,7 +231,8 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
                 mEditor.setAlignRight();
             }
         });
-        //Ends Here
+
+        //END HERE
 
         categories = findViewById(R.id.choose_category);
         categories.setOnItemSelectedListener(this);

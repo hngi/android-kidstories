@@ -37,6 +37,12 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        Switch nightSwitch = findViewById(R.id.night_switch);
+
+        if (getSharePref().getNightMode()) {
+            nightSwitch.setChecked(true);
+        }
+
         sharePref = SharePref.getINSTANCE(SettingsActivity.this);
         timeTextview = findViewById(R.id.timetext_settings);
 
@@ -46,11 +52,7 @@ public class SettingsActivity extends BaseActivity {
         }
         timeTextview.setText(timeStr);
 
-        Switch nightSwitch = findViewById(R.id.night_switch);
 
-        if (getSharePref().getNightMode()) {
-            nightSwitch.setChecked(true);
-        }
 
         nightSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {

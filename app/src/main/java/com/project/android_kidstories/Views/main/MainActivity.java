@@ -64,7 +64,7 @@ import retrofit2.Response;
  */
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener{
     public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "kidstories";

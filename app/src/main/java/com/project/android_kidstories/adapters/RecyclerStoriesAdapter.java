@@ -208,23 +208,8 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                 }
 
                 else {
-                    service = RetrofitClient.getInstance().create(Api.class);
-                    Call<Void> deleteBookmarkedStory = service.deleteBookmarkedStory(token, storyId);
-                    deleteBookmarkedStory.enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
 
-                            if (response.isSuccessful()) Toast.makeText(context, "bookmark removed", Toast.LENGTH_LONG).show();
-
-                            else Toast.makeText(context, "Could not remove bookmark", Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-
-                        }
-                    });
-
+                    deleteStory(context,storyId);
 
                     holder.bookmark.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
                     holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
@@ -283,5 +268,25 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     @Override
     public int getItemCount() {
         return storiesList.getData().size();
+    }
+
+    static void deleteStory(Context context, int storyId){
+        Api service;
+        service = RetrofitClient.getInstance().create(Api.class);
+        Call<Void> deleteBookmarkedStory = service.deleteBookmarkedStory(token, storyId);
+        deleteBookmarkedStory.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if (response.isSuccessful()) Toast.makeText(context, "bookmark removed", Toast.LENGTH_LONG).show();
+
+                else Toast.makeText(context, "Could not remove bookmark", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
     }
 }

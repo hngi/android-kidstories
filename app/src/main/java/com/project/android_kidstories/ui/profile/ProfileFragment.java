@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
 import com.project.android_kidstories.adapters.ProfilePagerAdapter;
@@ -95,6 +96,12 @@ public class ProfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(getActivity()).get(FragmentsSharedViewModel.class);
+
+        String fName = new SharePref((requireContext())).getUserFirstname();
+        String lName = new SharePref((requireContext())).getUserLastname();
+        String email = new SharePref((requireContext())).getUserEmail();
+
+        viewModel.setUser(new User(fName,lName,email));
         viewModel.currentUsersStories = new ArrayList<>();
         repository = Repository.getInstance(getActivity().getApplication());
         repository.getStoryApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
@@ -102,11 +109,14 @@ public class ProfileFragment extends Fragment {
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
 
                 if(response.isSuccessful() && !response.body().getData().isEmpty()){
-                    for(int i = 0; i < response.body().getData().size(); i++){
-                        if(response.body().getData().get(i).getId() == viewModel.currentUser.getId()){
-                            viewModel.currentUsersStories.add(response.body().getData().get(i));
-                        }
-                    }
+//                    for(int i = 0; i < response.body().getData().size(); i++){
+//
+//                        if(response.body().getData().get(i).getId() != null) {
+//                            if(response.body().getData().get(i).getId() == viewModel.currentUser.getId()) {
+//                                viewModel.currentUsersStories.add(response.body().getData().get(i));
+//                            }
+//                        }
+//                    }
                 }
             }
 

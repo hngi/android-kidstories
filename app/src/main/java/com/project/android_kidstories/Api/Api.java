@@ -23,6 +23,7 @@ import java.util.List;
 import okhttp3.FormBody;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -72,8 +73,18 @@ public interface Api {
     Call<BaseResponse<User>> updateUserProfile(@Header("Authorization") String token, @Body User user);
 
     @Multipart
-    @PUT("users/profile/update-image")
+    @POST("users/profile/update-image")
     Call<BaseResponse<Void>> updateUserProfilePicture(@Header("Authorization") String token, @Part MultipartBody.Part file);
+
+
+    @Multipart
+    @POST("users/profile/update-image")
+    Call<ResponseBody> uploadUserImage(
+            @Header("Authorization")String token,
+            @Part MultipartBody.Part file,
+            @Part("name") RequestBody requestBody
+    );
+
 
     //Story APIs
 

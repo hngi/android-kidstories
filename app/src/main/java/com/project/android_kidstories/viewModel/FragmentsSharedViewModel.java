@@ -16,4 +16,9 @@ public class FragmentsSharedViewModel extends ViewModel {
 
     public User currentUser;
     public List<Story> currentUsersStories;
+
+
+   public void setUser(User user){
+       currentUser = user;
+   }
 }

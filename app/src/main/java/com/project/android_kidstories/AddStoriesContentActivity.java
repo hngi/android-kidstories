@@ -3,6 +3,7 @@ package com.project.android_kidstories;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,6 +28,8 @@ import com.project.android_kidstories.sharePref.SharePref;
 
 import java.io.File;
 
+
+import jp.wasabeef.richeditor.RichEditor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -44,13 +47,13 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
 
     public final int PERMISSION_REQUEST_CODE = 100;
 
-    EditText storyContent;
+    //EditText storyContent;
     Spinner categories;
     String storyBody;
     Button saveContent;
     public ProgressBar progressBar;
     public SharePref sharePref;
-
+    private RichEditor mEditor;
     Uri image_uri;
     String imageUri_str;
     String storyCategoriesId;
@@ -75,7 +78,161 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
         token = new SharePref(getApplicationContext()).getMyToken();
         token = "Bearer " + token;
 
-        storyContent = findViewById(R.id.story_content_field);
+        //storyContent = findViewById(R.id.story_content_field);
+        // instantiate the editor
+        mEditor = findViewById(R.id.editor);
+
+
+        //Settings for Richeditor Library front view
+
+        mEditor.setEditorHeight(300);
+        mEditor.setEditorFontSize(20);
+        mEditor.setEditorFontColor(Color.BLUE);
+//mEditor.setEditorBackgroundColor(Color.BLUE);
+//mEditor.setBackgroundColor(Color.BLUE);
+//mEditor.setBackgroundResource(R.drawable.bg);
+        mEditor.setPadding(10, 10, 10, 10);
+//mEditor.setBackground();
+        mEditor.setPlaceholder("Write story here...");
+
+// Ends Here
+
+
+        //Button Functionalities.
+
+        findViewById(R.id.action_undo).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.undo();
+            }
+        });
+
+        findViewById(R.id.action_redo).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.redo();
+            }
+        });
+
+        findViewById(R.id.action_bold).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setBold();
+            }
+        });
+
+        findViewById(R.id.action_italic).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setItalic();
+            }
+        });
+
+        findViewById(R.id.action_subscript).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setSubscript();
+            }
+        });
+
+        findViewById(R.id.action_superscript).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setSuperscript();
+            }
+        });
+
+        findViewById(R.id.action_strikethrough).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setStrikeThrough();
+            }
+        });
+
+        findViewById(R.id.action_underline).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setUnderline();
+            }
+        });
+
+        findViewById(R.id.action_heading1).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setHeading(1);
+            }
+        });
+
+        findViewById(R.id.action_heading2).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setHeading(2);
+            }
+        });
+
+        findViewById(R.id.action_heading3).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setHeading(3);
+            }
+        });
+
+        findViewById(R.id.action_heading4).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setHeading(4);
+            }
+        });
+
+        findViewById(R.id.action_heading5).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setHeading(5);
+            }
+        });
+
+        findViewById(R.id.action_heading6).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setHeading(6);
+            }
+        });
+
+        findViewById(R.id.action_txt_color).setOnClickListener(new View.OnClickListener() {
+            private boolean isChanged;
+
+            @Override public void onClick(View v) {
+                mEditor.setTextColor(isChanged ? Color.BLACK : Color.RED);
+                isChanged = !isChanged;
+            }
+        });
+
+        findViewById(R.id.action_bg_color).setOnClickListener(new View.OnClickListener() {
+            private boolean isChanged;
+
+            @Override public void onClick(View v) {
+                mEditor.setTextBackgroundColor(isChanged ? Color.TRANSPARENT : Color.YELLOW);
+                isChanged = !isChanged;
+            }
+        });
+
+        findViewById(R.id.action_indent).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setIndent();
+            }
+        });
+
+        findViewById(R.id.action_outdent).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setOutdent();
+            }
+        });
+
+        findViewById(R.id.action_align_left).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setAlignLeft();
+            }
+        });
+
+        findViewById(R.id.action_align_center).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setAlignCenter();
+            }
+        });
+
+        findViewById(R.id.action_align_right).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setAlignRight();
+            }
+        });
+
+        //END HERE
 
         categories = findViewById(R.id.choose_category);
         categories.setOnItemSelectedListener(this);
@@ -87,12 +244,15 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
         saveContent = findViewById(R.id.save_content);
         progressBar = findViewById(R.id.add_story_progress);
 
+
+
         saveContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(TextUtils.isEmpty(storyContent.getText().toString())){
-                    storyContent.setError("Content cannot be empty");
+                if(TextUtils.isEmpty(mEditor.getHtml())){
+                    mEditor.setPlaceholder("Content cannot be empty");
+                    //storyContent.setError("Content cannot be empty");
                 }else if(categories.getSelectedItem().equals("Category")){
                     Toast.makeText(getApplicationContext(), "Please select a category", Toast.LENGTH_SHORT).show();
                 }else {
@@ -100,7 +260,8 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
                     Story story = new Story();
                     story.setAge("2-5");
                     story.setTitle(title);
-                    story.setBody(storyContent.getText().toString());
+                    story.setBody(mEditor.getHtml());
+                    //story.setBody(storyContent.getText().toString());
                     String author = new SharePref(getApplicationContext()).getUserFirstname();
                     story.setAuthor(author);
 

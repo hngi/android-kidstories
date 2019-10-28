@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
@@ -23,6 +24,7 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
+import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.sharePref.SharePref;
 
 import java.util.List;
@@ -88,9 +90,10 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
         Story story = stories.get(position);
 
-        boolean isBookmarked = bookmarked.isAlreadyBookmarked(story.getId(), position) == story.getId();
+        boolean isBookmarked = bookmarked.isAlreadyBookmarked(storyId, position);
+        boolean check = Prefs.getBoolean(String.valueOf(storyId),false);
         Log.e("STORYYyyyyyyyyyy", isBookmarked + "");
-        if (isBookmarked) {
+        if (check) {
             holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
             holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
         } else {
@@ -158,12 +161,6 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                 context.startActivity(Intent.createChooser(intent, "Send to"));
             }
         });
-        holder.bookmark.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return false;
-            }
-        });
 
 
         holder.bookmark.setOnClickListener(new View.OnClickListener() {
@@ -171,31 +168,16 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             public void onClick(View v) {
                 int bookmark_drawableId = (Integer) holder.bookmark.getTag();
 
-                if ((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp)) {
-                    bookmarked.onBookmarkAdded(storiesList.getData()
-                            .get(position).getId());
+                boolean checked = bookmarked.onBookmarkAdded(storyId);
+                if ((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp)&&checked) {
+                    Common.updateSharedPref(storyId,true);
                     holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
                     holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
 
                 }
 
                 else {
-                    service = RetrofitClient.getInstance().create(Api.class);
-                    Call<Void> deleteBookmarkedStory = service.deleteBookmarkedStory(token, storyId);
-                    deleteBookmarkedStory.enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-
-                            if (response.isSuccessful()) Toast.makeText(context, "bookmark removed", Toast.LENGTH_LONG).show();
-
-                            else Toast.makeText(context, "Could not remove bookmark", Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-
-                        }
-                    });
+                    deleteStory(context, storyId);
 
 
                     holder.bookmark.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
@@ -211,6 +193,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     public int getItemCount() {
         return storiesList.getData().size();
     }
+
 
     public void likeStory(Story story ,int id ,CustomViewHolder holder){
         //Story will be used for local like
@@ -380,8 +363,26 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     public interface OnBookmarked {
         boolean onBookmarkAdded(int storyId);
 
-        int isAlreadyBookmarked(int storyId, int pos);
+        boolean isAlreadyBookmarked(int storyId, int pos);
     }
 
+    static void deleteStory(Context context, int storyId){
+        Api service;
+        service = RetrofitClient.getInstance().create(Api.class);
+        Call<Void> deleteBookmarkedStory = service.deleteBookmarkedStory(token, storyId);
+        deleteBookmarkedStory.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
 
+                if (response.isSuccessful()) Toast.makeText(context, "bookmark removed", Toast.LENGTH_LONG).show();
+
+                else Toast.makeText(context, "Could not remove bookmark", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
 }

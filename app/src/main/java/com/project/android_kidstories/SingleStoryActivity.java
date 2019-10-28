@@ -4,7 +4,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
@@ -32,6 +38,7 @@ public class SingleStoryActivity extends AppCompatActivity {
     private Api storyApi;
 
     ImageButton btn_speak;
+    ImageButton btn_stop;
     TextView speak_text;
     TextToSpeech textToSpeech;
     SharePref sharePref;
@@ -134,13 +141,28 @@ public class SingleStoryActivity extends AppCompatActivity {
             }
         });
 
-        speak_text = findViewById(R.id.story_content);
-        btn_speak = findViewById(R.id.play_story);
+        speak_text = (TextView) findViewById(R.id.story_content);
+        btn_speak = (ImageButton) findViewById(R.id.play_story);
+        btn_stop = (ImageButton) findViewById(R.id.stop_story);
+
         btn_speak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 speak();
+              if (textToSpeech.isSpeaking()){
+                  btn_speak.setVisibility(View.INVISIBLE);
+              btn_stop.setVisibility(View.VISIBLE);
+              btn_stop.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                      textToSpeech.stop();
+                      btn_speak.setVisibility(View.VISIBLE);
+                      btn_stop.setVisibility(View.INVISIBLE);
+                  }
+              });}
+
+
+
 
             }
         });
@@ -165,5 +187,21 @@ public class SingleStoryActivity extends AppCompatActivity {
             textToSpeech.shutdown();
         }
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        textToSpeech.stop();
+        textToSpeech.shutdown();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        btn_speak.setVisibility(View.VISIBLE);
+        btn_speak.setEnabled(true);
+        btn_stop.setVisibility(View.INVISIBLE);
+
     }
 }

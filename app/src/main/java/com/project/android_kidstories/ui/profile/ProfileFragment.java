@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
+import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
@@ -20,6 +21,12 @@ import com.project.android_kidstories.db.Helper.AddUsers;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
     public ImageView imageView;
@@ -95,7 +102,29 @@ public class ProfileFragment extends Fragment {
         String email = new SharePref((requireContext())).getUserEmail();
 
         viewModel.setUser(new User(fName,lName,email));
+        viewModel.currentUsersStories = new ArrayList<>();
         repository = Repository.getInstance(getActivity().getApplication());
+        repository.getStoryApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
+            @Override
+            public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
+
+                if(response.isSuccessful() && !response.body().getData().isEmpty()){
+//                    for(int i = 0; i < response.body().getData().size(); i++){
+//
+//                        if(response.body().getData().get(i).getId() != null) {
+//                            if(response.body().getData().get(i).getId() == viewModel.currentUser.getId()) {
+//                                viewModel.currentUsersStories.add(response.body().getData().get(i));
+//                            }
+//                        }
+//                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StoryAllResponse> call, Throwable t) {
+
+            }
+        });
 
         // Displays the user information
         displayProfile();

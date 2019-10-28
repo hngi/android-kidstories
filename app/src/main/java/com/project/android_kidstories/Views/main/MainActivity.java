@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             openHomeFragment();
         }
 
-        setupProfile(navigationView);
+
 
 //        Preparing token to be parsed to fragments
         Bundle data = new Bundle();
@@ -183,7 +183,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
 
-        setupProfile(headerView);
+
         openHomeFragment();
         //fetchStories();
         navigationClickListeners();
@@ -207,6 +207,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     viewModel.currentUser.setLastName(response.body().getData().getLastName());
                     viewModel.currentUser.setImage(response.body().getData().getImageUrl());
                     viewModel.currentUser.setEmail(response.body().getData().getEmail());
+                    viewModel.currentUser.setId(response.body().getData().getId().longValue());
                     if(viewModel.currentUser.getImage() != null && !viewModel.currentUser.getImage().isEmpty()) {
                         Glide.with(getApplicationContext())
                                 .load(viewModel.currentUser.getImage())
@@ -380,35 +381,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
 
-    private void setupProfile(View view) {
-
-//        repository.getUserProfileApi().getUserProfile(token).enqueue(new Callback<BaseResponse<User>>() {
-//            @Override
-//            public void onResponse(Call<BaseResponse<User>> call, Response<BaseResponse<User>> response) {
-//                if (response.isSuccessful()){
-//
-//                } else {
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<BaseResponse<User>> call, Throwable t) {
-//                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-//            }
-//        });
-        /*CircleImageView navHeaderCircleImage = view.findViewById(R.id.nav_header_imageView);
-        TextView navHeaderNameTv = view.findViewById(R.id.nav_header_name);
-        navHeaderCircleImage.setOnClickListener(this);
-
-        //navHeaderNameTv.setText(currentUser.getFirstName());
-
-        Glide.with(this)
-                .load(R.drawable.profile_pic)
-                .centerCrop()
-                .placeholder(R.drawable.profile_pic)
-                .into(navHeaderCircleImage);*/
-    }
 
     private void getUserDetails() {
         token = new SharePref(this).getMyToken();

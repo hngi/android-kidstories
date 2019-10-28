@@ -21,7 +21,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/my_story_image"
+            android:id="@+id/story_image"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:contentDescription="@string/story_image"
@@ -33,7 +33,7 @@
             tools:srcCompat="@tools:sample/avatars[7]" />
 
         <TextView
-            android:id="@+id/my_story_title"
+            android:id="@+id/story_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -46,8 +46,8 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/by"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/my_story_image"
-            app:layout_constraintTop_toTopOf="@+id/my_story_image" />
+            app:layout_constraintStart_toEndOf="@+id/story_image"
+            app:layout_constraintTop_toTopOf="@+id/story_image" />
 
         <TextView
             android:id="@+id/by"
@@ -58,11 +58,11 @@
             android:fontFamily="@font/roboto_lite"
             android:text="@string/by"
             android:textSize="10sp"
-            app:layout_constraintStart_toStartOf="@+id/my_story_title"
-            app:layout_constraintTop_toBottomOf="@+id/my_story_title" />
+            app:layout_constraintStart_toStartOf="@id/story_title"
+            app:layout_constraintTop_toBottomOf="@id/story_title" />
 
         <TextView
-            android:id="@+id/my_story_author"
+            android:id="@+id/story_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -82,12 +82,12 @@
             android:layout_height="0.5dp"
             android:layout_marginTop="8dp"
             android:background="#ACACAC"
-            app:layout_constraintEnd_toEndOf="@+id/my_story_title"
+            app:layout_constraintEnd_toEndOf="@+id/story_title"
             app:layout_constraintStart_toStartOf="@+id/by"
-            app:layout_constraintTop_toBottomOf="@+id/my_story_author" />
+            app:layout_constraintTop_toBottomOf="@+id/story_author" />
 
         <TextView
-            android:id="@+id/my_story_description"
+            android:id="@+id/story_duration"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -96,7 +96,7 @@
             android:text="Category"
             android:textColor="@color/black"
             android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="@+id/my_story_title"
+            app:layout_constraintEnd_toEndOf="@+id/story_title"
             app:layout_constraintStart_toStartOf="@+id/by"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
@@ -106,9 +106,9 @@
             android:layout_height="0.5dp"
             android:layout_marginTop="10dp"
             android:background="#ACACAC"
-            app:layout_constraintEnd_toEndOf="@+id/my_story_description"
+            app:layout_constraintEnd_toEndOf="@+id/story_duration"
             app:layout_constraintStart_toStartOf="@+id/divider"
-            app:layout_constraintTop_toBottomOf="@+id/my_story_description" />
+            app:layout_constraintTop_toBottomOf="@+id/story_duration" />
 
         <ImageView
             android:id="@+id/like_button"

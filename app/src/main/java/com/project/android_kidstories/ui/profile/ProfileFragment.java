@@ -101,30 +101,30 @@ public class ProfileFragment extends Fragment {
         String lName = new SharePref((requireContext())).getUserLastname();
         String email = new SharePref((requireContext())).getUserEmail();
 
-        viewModel.setUser(new User(fName,lName,email));
+       // viewModel.setUser(new User(fName,lName,email));
         viewModel.currentUsersStories = new ArrayList<>();
         repository = Repository.getInstance(getActivity().getApplication());
-        repository.getStoryApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
-            @Override
-            public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
-
-                if(response.isSuccessful() && !response.body().getData().isEmpty()){
-//                    for(int i = 0; i < response.body().getData().size(); i++){
+//        repository.getStoryApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
+//            @Override
+//            public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
 //
-//                        if(response.body().getData().get(i).getId() != null) {
-//                            if(response.body().getData().get(i).getId() == viewModel.currentUser.getId()) {
-//                                viewModel.currentUsersStories.add(response.body().getData().get(i));
-//                            }
-//                        }
-//                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<StoryAllResponse> call, Throwable t) {
-
-            }
-        });
+//                if(response.isSuccessful() && !response.body().getData().isEmpty()){
+////                    for(int i = 0; i < response.body().getData().size(); i++){
+////
+////                        if(response.body().getData().get(i).getId() != null) {
+////                            if(response.body().getData().get(i).getId() == viewModel.currentUser.getId()) {
+////                                viewModel.currentUsersStories.add(response.body().getData().get(i));
+////                            }
+////                        }
+////                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<StoryAllResponse> call, Throwable t) {
+//
+//            }
+//        });
 
         // Displays the user information
         displayProfile();

@@ -82,6 +82,8 @@ public class Common extends Application {
         return Prefs.getString(AddStoryHelper.TOKEN_KEY, "aTokenStringShouldBeHere");
     }
 
-
+    public static void updateSharedPref(int storyId,boolean value){
+        Prefs.putBoolean(String.valueOf(storyId),value);
+    }
 
 }

@@ -55,7 +55,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showDeleteDialog(holder.currentStory.getTitle(), holder.currentStory);
+                //showDeleteDialog(holder.currentStory.getTitle(), holder.currentStory);
 
 
                 return true;

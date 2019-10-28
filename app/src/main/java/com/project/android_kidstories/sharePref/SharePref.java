@@ -139,5 +139,12 @@ public class SharePref {
         sharedPreferences.edit().putBoolean(USER_LOGIN_STATE, isUserLoggedIn).apply();
     }
 
+    public void setUserId(Integer id){
+
+        sharedPreferences.edit().putInt("User Id", id).apply();
+    }
+
+    public int getUserId(){return  sharedPreferences.getInt("User Id", 0);}
+
 
 }

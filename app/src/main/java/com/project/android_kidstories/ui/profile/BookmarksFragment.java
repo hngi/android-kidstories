@@ -39,7 +39,7 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
     @BindView(R.id.bookmark_recycler)
     RecyclerView recyclerView;
 
-    BookmarksAdapter adapter;
+    public BookmarksAdapter adapter;
     ArrayList<Story> stories;
     String token;
 
@@ -49,7 +49,8 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
         View v = inflater.inflate(R.layout.fragment_bookmarks, container, false);
         ButterKnife.bind(this, v);
         stories = new ArrayList<>();
-        recyclerView.setAdapter(null);
+        recyclerView.setAdapter(new BookmarksAdapter(stories,BookmarksFragment.this, getContext()));
+
        /* recyclerView = v.findViewById(R.id.category_recycler);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);*/
@@ -65,6 +66,7 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
         Api service = RetrofitClient.getInstance().create(Api.class);
         token = "Bearer " + new SharePref(getContext()).getMyToken();
         RecyclerStoriesAdapter.token = token;
+        BookmarksAdapter.token = token;
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
         bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
@@ -110,4 +112,5 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
         intent.putExtra("story_id", storyId);
         getContext().startActivity(intent);
     }
+
 }

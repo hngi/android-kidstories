@@ -10,6 +10,7 @@ public class SharePref {
     private static final String ID_KEY="com.project.android_kidstories_ID_KEY";
     private static final String USER_LOGIN_STATE = "isUserLoggedIn";
     private static final String NIGHT_MODE = "NIGHT MODE";
+    private static final String ALARM_TIME = "ALARM_TIME";
 
     private static SharePref INSTANCE;
     public static Context context;

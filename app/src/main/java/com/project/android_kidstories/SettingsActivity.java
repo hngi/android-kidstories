@@ -5,7 +5,9 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -26,37 +28,46 @@ import java.util.Locale;
 public class SettingsActivity extends BaseActivity {
 
     //    This is supposed to change the view of the app from Light to Dark mode.
-
     private static final String ALARM_TIME = "ALARM_TIME";
 
+
     TextView timeTextview;
-    SharePref sharePref;
+//    SharePref sharePref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // getActionBar().setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        sharePref = SharePref.getINSTANCE(SettingsActivity.this);
+        Switch nightSwitch = findViewById(R.id.night_switch);
+
+        Log.d("XXX night", String.valueOf(getSharePref().getNightMode()));
+
+        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+
+        if (shared.getBoolean("NIGHT MODE", false)) {
+            nightSwitch.setChecked(true);
+        }
+
+//        sharePref = SharePref.getINSTANCE(SettingsActivity.this);
         timeTextview = findViewById(R.id.timetext_settings);
 
-        String timeStr = sharePref.getString(ALARM_TIME);
+        String timeStr = getSharePref().getString(ALARM_TIME);
         if (TextUtils.isEmpty(timeStr)) {
             timeStr = "8:00 PM";
         }
         timeTextview.setText(timeStr);
 
-        Switch nightSwitch = findViewById(R.id.night_switch);
 
-        if (getSharePref().getNightMode()) {
-            nightSwitch.setChecked(true);
-        }
 
         nightSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {
-                getSharePref().setNightMode(true);
+//                getSharePref().setNightMode(true);
+                shared.edit().putBoolean("NIGHT MODE", true).apply();
             } else {
-                getSharePref().setNightMode(false);
+//                getSharePref().setNightMode(false);
+                shared.edit().putBoolean("NIGHT MODE", false).apply();
             }
         });
 
@@ -87,8 +98,8 @@ public class SettingsActivity extends BaseActivity {
                         format.format(d)
                 );
 
-                SharePref sharePref = SharePref.getINSTANCE(SettingsActivity.this);
-                sharePref.setString(ALARM_TIME, format.format(d));
+//                SharePref sharePref = SharePref.getINSTANCE(SettingsActivity.this);
+               getSharePref().setString(ALARM_TIME, format.format(d));
 
                 setAlarm(i, i1);
             }

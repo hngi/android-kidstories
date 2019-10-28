@@ -98,7 +98,7 @@ public class MyStoriesFragment extends Fragment {
         adapter = new MyStoriesAdapter(storyList, getActivity().getApplicationContext(), new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               onStoryClick(storyList.get(recyclerView.getChildLayoutPosition(view)).getId());
+                onStoryClick(storyList.get(recyclerView.getChildLayoutPosition(view)).getId());
             }
         });
         recyclerView.setAdapter(adapter);

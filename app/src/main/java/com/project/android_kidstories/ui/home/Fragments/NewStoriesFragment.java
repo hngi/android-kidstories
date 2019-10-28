@@ -38,6 +38,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private Repository repository;
     int initBookmarkId;
     private Api service;
+    private Story story;
 
     private boolean isAddSuccessful;
     //    private StoryAdapter storyAdapter;
@@ -72,6 +73,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
                 if (response.isSuccessful()) {
                     storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(), NewStoriesFragment.this,repository);
+                    storyAdapter.notifyDataSetChanged();
                     int spanCount;
                     try {
                         spanCount = getContext().getResources().getInteger(R.integer.home_fragment_gridspan);

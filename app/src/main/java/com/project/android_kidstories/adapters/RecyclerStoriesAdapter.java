@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Api.Api;
@@ -342,6 +344,10 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         else return;
     }
 
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
 
     //View Holder Class
     class CustomViewHolder extends RecyclerView.ViewHolder {

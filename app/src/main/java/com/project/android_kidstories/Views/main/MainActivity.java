@@ -208,6 +208,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     viewModel.currentUser.setImage(response.body().getData().getImageUrl());
                     viewModel.currentUser.setEmail(response.body().getData().getEmail());
                     viewModel.currentUser.setId(response.body().getData().getId().longValue());
+                    sharePref.setUserId(response.body().getData().getId());
                     if(viewModel.currentUser.getImage() != null && !viewModel.currentUser.getImage().isEmpty()) {
                         Glide.with(getApplicationContext())
                                 .load(viewModel.currentUser.getImage())

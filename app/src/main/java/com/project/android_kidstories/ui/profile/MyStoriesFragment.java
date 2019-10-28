@@ -1,9 +1,11 @@
 package com.project.android_kidstories.ui.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -15,10 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.SingleStoryActivity;
 import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.adapters.MyStoriesAdapter;
+import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +40,10 @@ public class MyStoriesFragment extends Fragment {
     private MyStoriesAdapter adapter;
     private FragmentsSharedViewModel viewModel;
     private TextView errorMessage;
+    private ProgressBar loadingBar;
     private Repository repository;
+    private SharePref sharePref;
+    private List<Story> storyList = new ArrayList<>();
 
     public MyStoriesFragment(){}
 
@@ -41,7 +52,9 @@ public class MyStoriesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = (ViewGroup) inflater.inflate(R.layout.fragment_my_stories, container, false);
-
+        recyclerView = view.findViewById(R.id.my_story_recyclerView);
+        errorMessage = view.findViewById(R.id.error_message);
+        loadingBar = view.findViewById(R.id.loading_bar);
         return view;
     }
 
@@ -50,40 +63,62 @@ public class MyStoriesFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         viewModel = ViewModelProviders.of(getActivity()).get(FragmentsSharedViewModel.class);
+        sharePref = SharePref.getINSTANCE(getActivity().getApplicationContext());
+
 
         repository = new Repository(getActivity().getApplicationContext());
         repository.getStoryApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 if(response.isSuccessful()){
-                    adapter = new MyStoriesAdapter(response.body().getData());
+                    for(int i = 0; i < response.body().getData().size(); i++){
+                        if(response.body().getData().get(i).getUserId() == sharePref.getUserId()){
+                            storyList.add(response.body().getData().get(i));
+                        }
+                    }
+                    //errorMessage.setText(storyList.toString());
+                    initView();
+
                 }
             }
 
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
 
+                errorMessage.setVisibility(View.VISIBLE);
+                errorMessage.setText("Check Connectivity and try again");
             }
         });
-        //adapter = new MyStoriesAdapter(viewModel.currentUsersStories);
-        initView();
+
     }
 
     public void initView(){
 
-        recyclerView = view.findViewById(R.id.my_story_recyclerView);
-        errorMessage = view.findViewById(R.id.error_message);
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        adapter = new MyStoriesAdapter(storyList, getActivity().getApplicationContext(), new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               onStoryClick(storyList.get(recyclerView.getChildLayoutPosition(view)).getId());
+            }
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
 
-        //if(viewModel.currentUsersStories.isEmpty()){
-          //  recyclerView.setVisibility(View.GONE);
-        //}
-        //else{
-          // errorMessage.setVisibility(View.GONE);
-        //}
+        loadingBar.setVisibility(View.GONE);
+        if(storyList.isEmpty()){
+            recyclerView.setVisibility(View.GONE);
+            errorMessage.setVisibility(View.VISIBLE);
+        }
+        else{
+           errorMessage.setVisibility(View.GONE);
+        }
 
+    }
+
+    public void onStoryClick(int storyId) {
+        Intent intent = new Intent(getContext(), SingleStoryActivity.class);
+        intent.putExtra("story_id", storyId);
+        getContext().startActivity(intent);
     }
 
 

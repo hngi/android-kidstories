@@ -178,16 +178,16 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
             super(itemView);
             view = itemView;
 
-            storyImage = view.findViewById(R.id.book_image);
-            storyTitle = view.findViewById(R.id.book_title);
-            authorName = view.findViewById(R.id.author_name);
+            storyImage = view.findViewById(R.id.my_story_image);
+            storyTitle = view.findViewById(R.id.my_story_title);
+            authorName = view.findViewById(R.id.my_story_author);
             num_likes = view.findViewById(R.id.like_count);
             num_dislikes = view.findViewById(R.id.dislike_count);
             like = view.findViewById(R.id.like_button);
             dislike = view.findViewById(R.id.dislike_button);
             bookmark = view.findViewById(R.id.bookmark_button);
             list_item = view.findViewById(R.id.cardView);
-            ageRange = view.findViewById(R.id.book_description);
+            ageRange = view.findViewById(R.id.my_story_description);
 
         }
     }

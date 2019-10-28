@@ -3,6 +3,7 @@ package com.project.android_kidstories.adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                //showDeleteDialog(holder.currentStory.getTitle(), holder.currentStory);
+                showDeleteDialog(holder.currentStory.getTitle(), holder.currentStory);
 
 
                 return true;
@@ -120,7 +121,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 removeStory(story);
-//                RecyclerStoriesAdapter.deleteStory(context,story.getId());
+                RecyclerStoriesAdapter.deleteStory(context,story.getId());
 
             }
         });
@@ -131,11 +132,17 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
     }
 
     private void removeStory(Story currentStory){
-        for (Story story : stories){
+        List<Story> stories1 = stories;
+        Log.d("XXX first list", String.valueOf(stories1));
+        for (Story story : stories1){
             if (story == currentStory){
-                stories.remove(story);
+                stories1.remove(story);
+                Log.d("XXX new list", String.valueOf(stories1));
+                stories = stories1;
+
             }
         }
+
     }
 
 }

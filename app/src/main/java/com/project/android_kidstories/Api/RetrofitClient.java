@@ -1,5 +1,8 @@
 package com.project.android_kidstories.Api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -22,6 +25,10 @@ public class RetrofitClient {
                     .writeTimeout(2, TimeUnit.MINUTES)
                     .addInterceptor(interceptor)
                     .build();
+
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
 
 
             return new Retrofit.Builder()

@@ -28,6 +28,7 @@ public class AddStoryActivity extends AppCompatActivity {
     private EditText storyTitle;
     private Uri imageUri;
     private String imagePath;
+    private String stringUri;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class AddStoryActivity extends AppCompatActivity {
             if (requestCode == PICTURE_REQUEST_CODE && data != null) {
                 imageUri = data.getData();
                 assert imageUri != null;
+                stringUri = imageUri.toString();
                 imagePath = imageUri.getPath();
                 imagePathText.setText(imagePath);
             }
@@ -85,6 +87,9 @@ public class AddStoryActivity extends AppCompatActivity {
             i.putExtra("story_title", storyTitle.getText().toString());
 
 
+            if(imageUri != null)
+            i.putExtra("image_path", imagePath);
+            i.putExtra("image_uri", stringUri);
             if(imageUri != null){
                 i.putExtra("image_path", imagePath);
 
@@ -96,15 +101,15 @@ public class AddStoryActivity extends AppCompatActivity {
 
     }
 
-    public String getPath(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        @SuppressWarnings("deprecation")
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor
-                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
+//    public String getPath(Uri uri) {
+//        String[] projection = {MediaStore.Images.Media.DATA};
+//        @SuppressWarnings("deprecation")
+//        Cursor cursor = managedQuery(uri, projection, null, null, null);
+//        int column_index = cursor
+//                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//        cursor.moveToFirst();
+//        return cursor.getString(column_index);
+//    }
 
     @Override
     public void onBackPressed() {

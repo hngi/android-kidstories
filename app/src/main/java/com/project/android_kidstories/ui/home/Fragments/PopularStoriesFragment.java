@@ -13,13 +13,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
+
+import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
+import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.sharePref.SharePref;
 import retrofit2.Call;
@@ -34,9 +38,9 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     private RecyclerStoriesAdapter adapter;
     private ProgressBar popular_bar;
     RecyclerView recyclerView;
+    Repository repository;
     private Api service;
-    private boolean isAddSuccessful;
-    int initBookmarkId;
+    private boolean isAddSuccessful, initBookmark;
     private String token;
 
     public static PopularStoriesFragment newInstance() {
@@ -48,14 +52,14 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_popularstories, container, false);
         ButterKnife.bind(this, v);
-
+        repository = Repository.getInstance(getActivity().getApplication());
         popular_bar = v.findViewById(R.id.popular_stories_bar);
         token = "Bearer " + new SharePref(getContext()).getMyToken();
         popular_bar.setVisibility(View.VISIBLE);
 
         /*Create handle for the RetrofitInstance interface*/
         service = RetrofitClient.getInstance().create(Api.class);
-        Call<StoryAllResponse> stories = service.getAllStories();
+        Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token);
 
         stories.enqueue(new Callback<StoryAllResponse>() {
             @Override
@@ -65,7 +69,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
 
                 recyclerView = v.findViewById(R.id.recyclerView);
                 if (response.isSuccessful()) {
-                    adapter = new RecyclerStoriesAdapter(getContext(), sortList(response.body()), PopularStoriesFragment.this);
+                    adapter = new RecyclerStoriesAdapter(getContext(), sortList(response.body()), PopularStoriesFragment.this,repository);
 
                     int spanCount;
                     try {
@@ -78,7 +82,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
                 } else {
-                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Response Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -86,7 +90,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
                 popular_bar.setVisibility(View.INVISIBLE);
 
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), " Failure Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
         return v;
@@ -117,7 +121,8 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
             @Override
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                 if (response.isSuccessful()) {
-                    isAddSuccessful = response.body().getData() != null;
+                    Prefs.putBoolean(String.valueOf(storyId),true);
+                    isAddSuccessful = true;
                 } else {
                     isAddSuccessful = false;
                 }
@@ -133,7 +138,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     }
 
     @Override
-    public int isAlreadyBookmarked(int storyId, int pos) {
+    public boolean isAlreadyBookmarked(int storyId, int pos) {
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
         bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
@@ -143,21 +148,26 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                     List<Story> data = response.body().getData();
                     for (Story s : data) {
                         if (s.getId() == storyId) {
-                            initBookmarkId = s.getId();
+                            Prefs.putBoolean(String.valueOf(storyId),true);
+                            initBookmark = true;
+                        }else{
+
+                            Common.updateSharedPref(storyId,false);
                         }
                     }
                 } else {
-                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                    Common.updateSharedPref(storyId,false);
+                    //Toast.makeText(getContext(), "33 Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "44 Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
-        Log.e("INITBOOKMARK", initBookmarkId + "");
-        return initBookmarkId;
+        Log.e("INITBOOKMARK", initBookmark + "");
+        return initBookmark;
     }
 
     public class StoryComparitor implements Comparator<Story> {

@@ -1,7 +1,11 @@
 package com.project.android_kidstories.viewModel;
 
 import androidx.lifecycle.ViewModel;
+
+import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
+
+import java.util.List;
 
 /**
  * @author .: Ukeje Emeka
@@ -11,4 +15,5 @@ import com.project.android_kidstories.Model.User;
 public class FragmentsSharedViewModel extends ViewModel {
 
     public User currentUser;
+    public List<Story> currentUsersStories;
 }

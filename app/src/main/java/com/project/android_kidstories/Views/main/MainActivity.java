@@ -3,8 +3,6 @@ package com.project.android_kidstories.Views.main;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,9 +38,9 @@ import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SettingsActivity;
+import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.alarm.AlarmReceiver;
 import com.project.android_kidstories.base.BaseActivity;
-import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.streak.StreakActivity;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
@@ -108,12 +106,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         createNotificationChannel();
-
         toolbar = findViewById(R.id.main_toolbar);
         toolbar.setTitle("Stories");
         setSupportActionBar(toolbar);
-
-
         sharePref = SharePref.getINSTANCE(getApplicationContext());
         viewModel = ViewModelProviders.of(this).get(FragmentsSharedViewModel.class);
         viewModel.currentUser = new User();
@@ -166,14 +161,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         drawer = findViewById(R.id.main_drawer_layout);
         navigationView = findViewById(R.id.main_nav_view);
         bottomNavigationView = findViewById(R.id.bottom_nav_view);
-
         View headerView = navigationView.getHeaderView(0);
-        byte[] imageBytes = new BedTimeDbHelper(this).getUserImage();
-        Bitmap bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-
-        CircleImageView civ = headerView.findViewById(R.id.nav_header_imageView);
-        civ.setImageBitmap(bmp);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -227,7 +215,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                                 .into(navProfilePic);
                     }
                     else{
-                        // Leave default local image if there is none from the api
+                        navProfilePic.setImageResource(R.drawable.account_icon);
                     }
 
                     if(viewModel.currentUser.getFirstName() != null && !viewModel.currentUser.getLastName().isEmpty()
@@ -251,15 +239,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 Log.d("User Details", t.getMessage());
             }
         });
-    }
-
-    public void updateProfileImage() {
-        View headerView = navigationView.getHeaderView(0);
-        byte[] imageBytes = new BedTimeDbHelper(this).getUserImage();
-        Bitmap bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-
-        CircleImageView civ = headerView.findViewById(R.id.nav_header_imageView);
-        civ.setImageBitmap(bmp);
     }
 
     private void navigationClickListeners() {

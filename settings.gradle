@@ -1,1 +1,1 @@
-include ':app', ':cropme'
+include ':app'

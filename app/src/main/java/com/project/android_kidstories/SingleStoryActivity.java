@@ -3,6 +3,7 @@ package com.project.android_kidstories;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +42,8 @@ public class SingleStoryActivity extends AppCompatActivity {
 
     LikeButton likeButton;
 
+    private ImageButton ZoomIn, ZoomOut;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,9 @@ public class SingleStoryActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ZoomIn = findViewById(R.id.Zoom_In);
+        ZoomOut = findViewById(R.id.Zoom_Out);
 
         repository = Repository.getInstance(this.getApplication());
         storyApi = repository.getStoryApi();
@@ -60,6 +66,27 @@ public class SingleStoryActivity extends AppCompatActivity {
         repository.getStoryForId(String.valueOf(story_id)).observe(this, readStory -> {
             if (readStory == null) {
                 markAsReadBtn.setVisibility(View.VISIBLE);
+            }
+        });
+
+        // For controlling Zooming In
+        ZoomIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                story_content.getTextSize();
+                story_content.setTextSize(24);
+                story_content.setMovementMethod(new ScrollingMovementMethod());
+            }
+        });
+
+
+        // For controlling Zooming Out
+        ZoomOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                story_content.getTextSize();
+                story_content.setTextSize(14);
+                story_content.setMovementMethod(new ScrollingMovementMethod());
             }
         });
 

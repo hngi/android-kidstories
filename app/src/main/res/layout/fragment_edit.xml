@@ -25,7 +25,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/account_icon"/>
 
             <com.takusemba.cropme.SquareCropOverlay
                 android:id="@+id/cropme_overlay"

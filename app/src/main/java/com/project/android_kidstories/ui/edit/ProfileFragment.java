@@ -60,6 +60,7 @@ public class ProfileFragment extends Fragment {
     BedTimeDbHelper helper;
     Uri selected_image;
 
+    boolean imageSelected = false;
 
     private FragmentsSharedViewModel viewModel;
     private Repository repository;
@@ -87,8 +88,10 @@ public class ProfileFragment extends Fragment {
         imageView = root.findViewById(R.id.cropme_image_view);
 
         byte[] imageArray = new BedTimeDbHelper(getActivity()).getUserImage();
-        Bitmap image = BitmapFactory.decodeByteArray(imageArray, 0, imageArray.length);
-        imageView.setImageBitmap(image);
+        if (imageArray != null) {
+            Bitmap image = BitmapFactory.decodeByteArray(imageArray, 0, imageArray.length);
+            imageView.setImageBitmap(image);
+        }
 
         displayUsersInfo();
         imagePath = root.findViewById(R.id.selected_image_path);
@@ -103,7 +106,6 @@ public class ProfileFragment extends Fragment {
                 startActivityForResult(images, RESULT_LOAD_IMAGE);
             }
 
-
         });
 
         save = root.findViewById(R.id.btn_save);
@@ -115,6 +117,11 @@ public class ProfileFragment extends Fragment {
             }
 
             CropLayout cropLayout = root.findViewById(R.id.crop_view);
+
+            if (!imageSelected) {
+                Toast.makeText(getContext(), "Please choose an image", Toast.LENGTH_SHORT).show();
+                return;
+            }
             cropLayout.crop(new OnCropListener() {
                 @Override
                 public void onSuccess(Bitmap bitmap) {
@@ -214,6 +221,7 @@ public class ProfileFragment extends Fragment {
             try {
                 bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(selected_image));
                 imageView.setImageBitmap(bitmap);
+                imageSelected = true;
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

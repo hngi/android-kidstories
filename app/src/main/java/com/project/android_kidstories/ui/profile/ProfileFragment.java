@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -63,9 +64,17 @@ public class ProfileFragment extends Fragment {
 
 //
         byte[] imageArray = getImage();
-        Bitmap image = BitmapFactory.decodeByteArray(imageArray, 0, imageArray.length);
-        //Bitmap resizedImage = imageConversion.fitBitMaptoImageView(image, 178, 178);
-        imageView.setImageBitmap(image);
+        if (imageArray != null) {
+            //Bitmap resizedImage = imageConversion.fitBitMaptoImageView(image, 178, 178);
+            Bitmap image = BitmapFactory.decodeByteArray(imageArray, 0, imageArray.length);
+            imageView.setImageBitmap(image);
+        } else {
+            try {
+                imageView.setImageDrawable(getActivity().getDrawable(R.drawable.account_icon));
+            } catch (NullPointerException npe) {
+                Toast.makeText(getContext(), npe.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
 
         // Setup ViewPager
         ProfilePagerAdapter pagerAdapter = new ProfilePagerAdapter(getFragmentManager());

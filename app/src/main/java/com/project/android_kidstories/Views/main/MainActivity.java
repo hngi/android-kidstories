@@ -169,10 +169,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         View headerView = navigationView.getHeaderView(0);
         byte[] imageBytes = new BedTimeDbHelper(this).getUserImage();
-        Bitmap bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        if (imageBytes != null) {
+            Bitmap bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 
-        CircleImageView civ = headerView.findViewById(R.id.nav_header_imageView);
-        civ.setImageBitmap(bmp);
+            CircleImageView civ = headerView.findViewById(R.id.nav_header_imageView);
+            civ.setImageBitmap(bmp);
+        }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawer.addDrawerListener(toggle);
@@ -256,6 +258,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public void updateProfileImage() {
         View headerView = navigationView.getHeaderView(0);
         byte[] imageBytes = new BedTimeDbHelper(this).getUserImage();
+
+        if (imageBytes == null) return;
+
         Bitmap bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 
         CircleImageView civ = headerView.findViewById(R.id.nav_header_imageView);

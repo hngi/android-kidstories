@@ -74,7 +74,7 @@ public class CategoriesFragment extends Fragment {
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
                 } else {
-                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+
                 }
             }
 
@@ -82,7 +82,6 @@ public class CategoriesFragment extends Fragment {
             public void onFailure(Call<CategoriesAllResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
 
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
         return v;

@@ -54,7 +54,7 @@ public class MyStoriesAdapter extends RecyclerView.Adapter<MyStoriesAdapter.MyVi
         Glide.with(context)
                 .load(story.getImageUrl())
                 .into(holder.storyImage);
-        //holder.itemView.setOnClickListener(listener);
+        holder.itemView.setOnClickListener(listener);
     }
 
     @Override

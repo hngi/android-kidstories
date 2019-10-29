@@ -1,8 +1,9 @@
 package com.project.android_kidstories.ui.profile;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.*;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,9 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
-import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.DataStore.Repository;
-import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
 import com.project.android_kidstories.adapters.ProfilePagerAdapter;
@@ -21,15 +20,12 @@ import com.project.android_kidstories.db.Helper.AddUsers;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class ProfileFragment extends Fragment {
-    public ImageView imageView;
+    public CircleImageView imageView;
     BedTimeDbHelper helper;
     ImageConversion imageConversion;
     TextView userName, userEmail;
@@ -66,10 +62,10 @@ public class ProfileFragment extends Fragment {
 //        }
 
 //
-        // TODO: Causes the app to crash
-        /*Bitmap image = imageConversion.convertByteArraytoBitMap(getImage(client_id));
-        Bitmap resizedImage = imageConversion.fitBitMaptoImageView(image, 178, 178);
-        imageView.setImageBitmap(resizedImage);*/
+        byte[] imageArray = getImage();
+        Bitmap image = BitmapFactory.decodeByteArray(imageArray, 0, imageArray.length);
+        //Bitmap resizedImage = imageConversion.fitBitMaptoImageView(image, 178, 178);
+        imageView.setImageBitmap(image);
 
         // Setup ViewPager
         ProfilePagerAdapter pagerAdapter = new ProfilePagerAdapter(getFragmentManager());
@@ -132,9 +128,8 @@ public class ProfileFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
-    private byte[] getImage(int clientId){
-        byte[] user_image = helper.getUserImage(clientId);
-        return user_image;
+    private byte[] getImage() {
+        return helper.getUserImage();
     }
 
     @Override

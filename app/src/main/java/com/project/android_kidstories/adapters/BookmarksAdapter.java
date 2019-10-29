@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Story;
@@ -57,7 +58,6 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
             @Override
             public boolean onLongClick(View v) {
                 showDeleteDialog(holder.currentStory.getTitle(), holder.currentStory);
-
 
                 return true;
 
@@ -103,7 +103,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
             author.setText("by " + currentStory.getAuthor());
             likeCount.setText(String.valueOf(currentStory.getLikesCount()));
             dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
-
+            Glide.with(context).load(currentStory.getImageUrl()).into(image);
         }
 
         @Override

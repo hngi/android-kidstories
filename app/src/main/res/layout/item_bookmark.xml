@@ -5,26 +5,38 @@
                                    android:layout_width="match_parent"
                                    android:layout_height="80dp"
                                    android:layout_margin="8dp"
-                                   android:background="@drawable/border"
+                                   android:background="@drawable/edit_field_curves"
                                    android:elevation="4dp"
-                                   app:cardCornerRadius="10dp">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:elevation="12dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:id="@+id/view2"
+            app:cardCornerRadius="40dp"
+            android:layout_centerHorizontal="true"
+            >
         <ImageView
             android:id="@+id/bkmrk_img"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/account_icon"/>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginLeft="15dp"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:padding="4dp">
@@ -58,7 +70,7 @@
 
             <ImageView
                 android:id="@+id/bkmrk_like"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:tint="@color/colorPrimary"
@@ -66,25 +78,27 @@
 
             <TextView
                 android:id="@+id/bkmrkcount1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="20"
                 android:textSize="12sp"/>
 
             <ImageView
                 android:id="@+id/bkmrk_dislike"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_thumb_down_black_24dp"/>
 
             <TextView
                 android:id="@+id/bkmrkcount2"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="20"

@@ -30,6 +30,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
@@ -57,7 +58,7 @@ public class ProfileFragment extends Fragment {
     Button save;
     private static int RESULT_LOAD_IMAGE = 1;
     ImageConversion imageConversion;
-    TextView imagePath;
+    TextView imagePath, userName;
     String token;
 
     BedTimeDbHelper helper;
@@ -73,12 +74,23 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         helper = new BedTimeDbHelper(getContext());
 
+        viewModel = ViewModelProviders.of(getActivity()).get(FragmentsSharedViewModel.class);
+
+        String fName = new SharePref((requireContext())).getUserFirstname();
+        String lName = new SharePref((requireContext())).getUserLastname();
+        String email = new SharePref((requireContext())).getUserEmail();
+
+        viewModel.setUser(new User(fName,lName,email));
+        repository = Repository.getInstance(getActivity().getApplication());
+
         imageConversion = new ImageConversion();
 
         View root = inflater.inflate(R.layout.fragment_edit, container, false);
 
-        imagePath = root.findViewById(R.id.selected_image_path);
+        userName = root.findViewById(R.id.tv_username);
         imageView = root.findViewById(R.id.img_user);
+        displayUsersInfo();
+        imagePath = root.findViewById(R.id.selected_image_path);
         btnUpload = root.findViewById(R.id.btn_upload);
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,8 +128,6 @@ public class ProfileFragment extends Fragment {
 
                     File file = new File(mediaPath);
 
-
-
                     // create RequestBody instance from file
                     RequestBody requestFile =
                             RequestBody.create(
@@ -145,8 +155,6 @@ public class ProfileFragment extends Fragment {
                             Log.d("Upload Status", t.getMessage());
                         }
                     });
-
-
             }
         });
         return root;
@@ -202,6 +210,20 @@ public class ProfileFragment extends Fragment {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void displayUsersInfo(){
+        String firstname = new SharePref(getActivity()).getUserFirstname();
+        String lastname = new SharePref(getActivity()).getUserLastname();
+
+        String name = firstname + " " + lastname;
+
+        if (viewModel.currentUser.getLastName() != null && viewModel.currentUser.getFirstName() != null
+                && viewModel.currentUser.getEmail() != null) {
+            userName.setText(viewModel.currentUser.getFirstName() + " " + viewModel.currentUser.getLastName());
+        } else {
+            userName.setText(name);
         }
     }
 }

@@ -4,13 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.*;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
@@ -166,9 +160,9 @@ public class SingleStoryActivity extends AppCompatActivity {
             }
         });
 
-        speak_text = (TextView) findViewById(R.id.story_content);
-        btn_speak = (ImageButton) findViewById(R.id.play_story);
-        btn_stop = (ImageButton) findViewById(R.id.stop_story);
+        speak_text = findViewById(R.id.story_content);
+        btn_speak = findViewById(R.id.play_story);
+        btn_stop = findViewById(R.id.stop_story);
 
         btn_speak.setOnClickListener(new View.OnClickListener() {
             @Override

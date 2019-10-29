@@ -48,14 +48,14 @@
                 app:icon_size="60dp"
                 app:icon_type="heart"
                 app:is_enabled="true"
+                app:layout_constraintTop_toBottomOf="@+id/story_pic"
                 app:like_drawable="@drawable/ic_favourite"
                 app:liked="true"
-                app:unlike_drawable="@drawable/ic_favorite_border"
                 app:layout_constraintBottom_toBottomOf="@+id/story_pic"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/story_pic"
+                app:unlike_drawable="@drawable/ic_favorite_border"
                 tools:ignore="MissingConstraints"
-                />
+            />
 
             <TextView
                 android:id="@+id/author"

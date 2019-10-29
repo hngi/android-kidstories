@@ -1,7 +1,6 @@
 package com.project.android_kidstories.adapters;
 
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -12,13 +11,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
@@ -28,12 +25,11 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
 import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.sharePref.SharePref;
-
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.List;
 
 /**
  * @author .: Oluwajuwon Fawole

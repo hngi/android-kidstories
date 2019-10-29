@@ -5,19 +5,16 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -30,9 +27,13 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
+import com.takusemba.cropme.CropImageView;
+import com.takusemba.cropme.CropLayout;
+import com.takusemba.cropme.OnCropListener;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -48,7 +49,7 @@ import static android.app.Activity.RESULT_OK;
 public class ProfileFragment extends Fragment {
 
 
-    ImageView imageView;
+    CropImageView imageView;
     Button btnUpload;
     Button save;
     private static int RESULT_LOAD_IMAGE = 1;
@@ -83,44 +84,44 @@ public class ProfileFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_edit, container, false);
 
         userName = root.findViewById(R.id.tv_username);
-        imageView = root.findViewById(R.id.img_user);
+        imageView = root.findViewById(R.id.cropme_image_view);
+
+        byte[] imageArray = new BedTimeDbHelper(getActivity()).getUserImage();
+        Bitmap image = BitmapFactory.decodeByteArray(imageArray, 0, imageArray.length);
+        imageView.setImageBitmap(image);
+
         displayUsersInfo();
         imagePath = root.findViewById(R.id.selected_image_path);
         btnUpload = root.findViewById(R.id.btn_upload);
-        btnUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnUpload.setOnClickListener(view -> {
 
-                //request for permission if not granted
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_PERMISSION);
-                } else {
-                    Intent images = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(images, RESULT_LOAD_IMAGE);
-                }
-
-
+            //request for permission if not granted
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_PERMISSION);
+            } else {
+                Intent images = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(images, RESULT_LOAD_IMAGE);
             }
+
+
         });
 
         save = root.findViewById(R.id.btn_save);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        save.setOnClickListener(view -> {
 
-                    Bitmap bitmap;
-                    if (imageView.getDrawable() instanceof BitmapDrawable) {
-                        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                    } else {
-                        Drawable d = imageView.getDrawable();
-                        bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-                        Canvas canvas = new Canvas(bitmap);
-                        d.draw(canvas);
-                    }
+            if (TextUtils.isEmpty(imagePath.getText())) {
+                Toast.makeText(getContext(), "Please choose an image", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                    byte[] image_byte_array = imageConversion.convertBitMapToByteArray(bitmap);
-                    helper.storeUserImage(image_byte_array, getContext());
+            CropLayout cropLayout = root.findViewById(R.id.crop_view);
+            cropLayout.crop(new OnCropListener() {
+                @Override
+                public void onSuccess(Bitmap bitmap) {
+                    byte[] imageByteArray = imageConversion.convertBitMapToByteArray(bitmap);
+                    helper.storeUserImage(imageByteArray, getContext());
 
+                    if (mediaPath == null || mediaPath.isEmpty()) return; // Nothing changed
                     File file = new File(mediaPath);
 
                     // create RequestBody instance from file
@@ -150,8 +151,20 @@ public class ProfileFragment extends Fragment {
                             Log.d("Upload Status", t.getMessage());
                         }
                     });
-            }
+
+                    // Tell MainActivity to update its header.
+                    // Crude, but works. In an ideal situation,
+                    // we'd set up an interface. This project needs major refactoring!
+                    ((MainActivity) getActivity()).updateProfileImage();
+                }
+
+                @Override
+                public void onFailure() {
+                    Toast.makeText(getContext(), "Could not crop profile image", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
+
         return root;
     }
 

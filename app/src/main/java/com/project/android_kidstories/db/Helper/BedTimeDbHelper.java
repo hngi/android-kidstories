@@ -131,18 +131,18 @@ public class BedTimeDbHelper extends SQLiteOpenHelper {
         // database.insertWithOnConflict(AddUsers.AddUsersColumn.TABLE_NAME, null,values,SQLiteDatabase.CONFLICT_IGNORE);
         long rowInserted = database.insert(AddUsers.AddUsersColumn.TABLE_NAME, null, values);
         if(rowInserted != -1)
-            Toast.makeText(context, "New row added, row id: " + rowInserted, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Image saved", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(context, "Something wrong", Toast.LENGTH_SHORT).show();
 
     }
 
-    public byte[] getUserImage(int clientId){
+    public byte[] getUserImage() {
         SQLiteDatabase db = this.getWritableDatabase();
 
         byte[] image = null;
-        String whereclause = " WHERE "+ AddUsers.AddUsersColumn._ID+" = "+clientId;
-        Cursor cursor = db.rawQuery("SELECT image FROM "+AddUsers.AddUsersColumn.TABLE_NAME+whereclause, null);
+        //String whereclause = " WHERE "+ AddUsers.AddUsersColumn._ID+" = "+clientId;
+        Cursor cursor = db.rawQuery("SELECT image FROM " + AddUsers.AddUsersColumn.TABLE_NAME, null);
         if (cursor.moveToFirst()){
             do {
                 // Passing values

@@ -14,6 +14,8 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.DataStore.ReadStory;
@@ -42,6 +44,8 @@ public class SingleStoryActivity extends AppCompatActivity {
     TextView speak_text;
     TextToSpeech textToSpeech;
     SharePref sharePref;
+
+    LikeButton likeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,27 @@ public class SingleStoryActivity extends AppCompatActivity {
         error_msg = findViewById(R.id.error_msg);
         //todo : check authorization for premium stories
         getStoryWithId(story_id);
+
+        //Favorite button functionality
+
+        likeButton = findViewById(R.id.heart_button);
+        likeButton.setLiked(false);
+
+
+        likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+                likeButton.setEnabled(true);
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+                likeButton.setEnabled(true);
+            }
+        });
     }
 
     public void getStoryWithId(int id) {

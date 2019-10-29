@@ -14,6 +14,26 @@ class ActionDetector {
     private ActionListener listener;
     private GestureDetectorCompat gestureDetectorCompat;
     private ScaleGestureDetector scaleGestureDetector;
+
+    ActionDetector(Context context, ActionListener actionListener) {
+        this.listener = actionListener;
+        this.gestureDetectorCompat = new GestureDetectorCompat(context, simpleOnGestureListener);
+        this.scaleGestureDetector = new ScaleGestureDetector(context, simpleScaleListener);
+    }
+
+    void detectAction(MotionEvent event) {
+        if (gestureDetectorCompat == null) {
+            throw new IllegalStateException("GestureDetectorCompat must not be null");
+        }
+        gestureDetectorCompat.onTouchEvent(event);
+        scaleGestureDetector.onTouchEvent(event);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_UP:
+                listener.onMoveEnded();
+                break;
+        }
+    }
+
     private GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onDown(MotionEvent e) {
@@ -47,6 +67,7 @@ class ActionDetector {
             return true;
         }
     };
+
     private ScaleGestureDetector.SimpleOnScaleGestureListener simpleScaleListener
             = new ScaleGestureDetector.SimpleOnScaleGestureListener() {
         @Override
@@ -66,24 +87,5 @@ class ActionDetector {
             return true;
         }
     };
-
-    ActionDetector(Context context, ActionListener actionListener) {
-        this.listener = actionListener;
-        this.gestureDetectorCompat = new GestureDetectorCompat(context, simpleOnGestureListener);
-        this.scaleGestureDetector = new ScaleGestureDetector(context, simpleScaleListener);
-    }
-
-    void detectAction(MotionEvent event) {
-        if (gestureDetectorCompat == null) {
-            throw new IllegalStateException("GestureDetectorCompat must not be null");
-        }
-        gestureDetectorCompat.onTouchEvent(event);
-        scaleGestureDetector.onTouchEvent(event);
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_UP:
-                listener.onMoveEnded();
-                break;
-        }
-    }
 }
 

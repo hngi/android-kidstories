@@ -19,17 +19,18 @@ class HorizontalMoveAnimatorImpl implements MoveAnimator {
 
     private RectF restrictionRect;
     private int maxScale;
+
+    private DynamicAnimation.OnAnimationUpdateListener updateListener = new DynamicAnimation.OnAnimationUpdateListener() {
+        @Override
+        public void onAnimationUpdate(DynamicAnimation dynamicAnimation, float value, float velocity) {
+            reMoveIfNeeded(velocity);
+        }
+    };
     private boolean isFlinging = false;
     private DynamicAnimation.OnAnimationEndListener endListener = new DynamicAnimation.OnAnimationEndListener() {
         @Override
         public void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean b, float v, float v1) {
             isFlinging = false;
-        }
-    };
-    private DynamicAnimation.OnAnimationUpdateListener updateListener = new DynamicAnimation.OnAnimationUpdateListener() {
-        @Override
-        public void onAnimationUpdate(DynamicAnimation dynamicAnimation, float value, float velocity) {
-            reMoveIfNeeded(velocity);
         }
     };
 

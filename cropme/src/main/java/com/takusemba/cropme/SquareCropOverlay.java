@@ -12,22 +12,29 @@ import androidx.core.content.ContextCompat;
 public class SquareCropOverlay extends CropOverlay {
 
     private static final int BORDER_WIDTH = 5;
-    private static final int DEFAULT_BASE = 1;
-    private static final int DEFAULT_PBASE = 1;
-    private static final int MIN_PERCENT = 0;
-    private static final int MAX_PERCENT = 1;
-    private static final float DEFAULT_PERCENT_WIDTH = 0.8f;
-    private static final float DEFAULT_PERCENT_HEIGHT = 0.8f;
-    private static final float DEFAULT_BACKGROUND_ALPHA = 0.8f;
-    private static final float COLOR_DENSITY = 255;
-    private static final boolean DEFAULT_WITH_BORDER = true;
+
     private final Paint background = new Paint();
     private final Paint border = new Paint();
     private final Paint cropPaint = new Paint();
+
     private int backgroundAlpha;
     private boolean withBorder;
     private float percentWidth;
     private float percentHeight;
+
+    private static final int DEFAULT_BASE = 1;
+    private static final int DEFAULT_PBASE = 1;
+
+    private static final int MIN_PERCENT = 0;
+    private static final int MAX_PERCENT = 1;
+
+    private static final float DEFAULT_PERCENT_WIDTH = 0.8f;
+    private static final float DEFAULT_PERCENT_HEIGHT = 0.8f;
+
+    private static final float DEFAULT_BACKGROUND_ALPHA = 0.8f;
+    private static final float COLOR_DENSITY = 255;
+
+    private static final boolean DEFAULT_WITH_BORDER = true;
 
     public SquareCropOverlay(@NonNull Context context) {
         this(context, null);

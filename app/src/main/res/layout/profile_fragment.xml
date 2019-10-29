@@ -14,12 +14,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/profile"
             android:layout_width="178dp"
             android:layout_height="178dp"
             android:layout_marginTop="16dp"
-            android:scaleType="centerCrop"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/account_icon"/>
 

@@ -21,9 +21,9 @@
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingBottom="120dp"
+        app:layout_constraintBottom_toTopOf="@id/tvComment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tvComment"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,14 +50,13 @@
                 app:icon_size="60dp"
                 app:icon_type="heart"
                 app:is_enabled="true"
-                app:like_drawable="@drawable/ic_favourite"
-                app:liked="true"
-                app:unlike_drawable="@drawable/ic_favorite_border"
                 app:layout_constraintBottom_toBottomOf="@+id/story_pic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/story_pic"
-                tools:ignore="MissingConstraints"
-                />
+                app:like_drawable="@drawable/ic_favourite"
+                app:liked="true"
+                app:unlike_drawable="@drawable/ic_favorite_border"
+                tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/author"
@@ -140,10 +139,10 @@
     </ScrollView>
 
     <TextView
+        android:id="@+id/tvComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Comments"
-        android:id="@+id/tvComment"
         app:layout_constraintBottom_toTopOf="@id/comment_rv"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -174,8 +173,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="Post"
         android:background="@color/colorPrimary"
+        android:text="Post"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -187,17 +186,17 @@
         android:id="@+id/btn_markasread"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="104dp"
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/mark_story_as_read"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="686dp" />
-        android:visibility="gone"
-        app:backgroundTint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@id/submit_comment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.377"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:layout_editor_absoluteY="640dp" />
+    android:visibility="gone"
+    app:backgroundTint="@color/colorPrimary"
+    app:layout_constraintBottom_toBottomOf="@id/submit_comment"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.377"
+    app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

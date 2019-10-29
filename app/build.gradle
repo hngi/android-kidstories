@@ -101,7 +101,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.google.android.material:material:1.0.0'
 
-
+    //Favorite button
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 
 }
 repositories {

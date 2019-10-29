@@ -16,10 +16,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingBottom="120dp"
+        app:layout_constraintBottom_toTopOf="@id/tvComment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2">
@@ -35,7 +37,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/story_bg_ic"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,14 +50,13 @@
                 app:icon_size="60dp"
                 app:icon_type="heart"
                 app:is_enabled="true"
-                app:like_drawable="@drawable/ic_favourite"
-                app:liked="true"
-                app:unlike_drawable="@drawable/ic_favorite_border"
                 app:layout_constraintBottom_toBottomOf="@+id/story_pic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/story_pic"
-                tools:ignore="MissingConstraints"
-                />
+                app:like_drawable="@drawable/ic_favourite"
+                app:liked="true"
+                app:unlike_drawable="@drawable/ic_favorite_border"
+                tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/author"
@@ -119,11 +120,12 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.122"
                 app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+
             <ImageButton
                 android:id="@+id/stop_story"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled ="false"
+                android:enabled="false"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/heart_button"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -136,20 +138,65 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <TextView
+        android:id="@+id/tvComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comments"
+        app:layout_constraintBottom_toTopOf="@id/comment_rv"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/comment_rv"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="2"
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="104dp"
+        android:hint="Type comment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/submit_comment"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/submit_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorPrimary"
+        android:text="Post"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/editText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editText">
+
+    </Button>
+
     <Button
         android:id="@+id/btn_markasread"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="104dp"
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/mark_story_as_read"
         android:textColor="@color/white"
-        android:visibility="gone"
-        app:backgroundTint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="640dp" />
+    android:visibility="gone"
+    app:backgroundTint="@color/colorPrimary"
+    app:layout_constraintBottom_toBottomOf="@id/submit_comment"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.377"
+    app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

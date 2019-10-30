@@ -84,7 +84,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(storyAdapter);
                 } else {
-                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+
                 }
             }
 

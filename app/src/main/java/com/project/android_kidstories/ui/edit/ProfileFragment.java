@@ -11,9 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.FileUtils;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +20,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -36,7 +33,6 @@ import com.project.android_kidstories.Utils.ImageConversion;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -46,7 +42,6 @@ import retrofit2.Response;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URI;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -80,7 +75,7 @@ public class ProfileFragment extends Fragment {
         String lName = new SharePref((requireContext())).getUserLastname();
         String email = new SharePref((requireContext())).getUserEmail();
 
-        viewModel.setUser(new User(fName,lName,email));
+        viewModel.setUser(new User(fName, lName, email));
         repository = Repository.getInstance(getActivity().getApplication());
 
         imageConversion = new ImageConversion();
@@ -213,7 +208,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public void displayUsersInfo(){
+    public void displayUsersInfo() {
         String firstname = new SharePref(getActivity()).getUserFirstname();
         String lastname = new SharePref(getActivity()).getUserLastname();
 

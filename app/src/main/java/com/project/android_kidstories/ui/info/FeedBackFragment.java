@@ -91,7 +91,7 @@ public class FeedBackFragment extends Fragment {
                     Message.setError(null);
                     SendFeedBack.setEnabled(true);
                 }
-                Toast.makeText(FeedBackFragment.this, "Ths", Toast.LENGTH_SHORT).show(); 
+               
 
 
 

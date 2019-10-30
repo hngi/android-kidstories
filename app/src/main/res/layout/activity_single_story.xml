@@ -165,6 +165,16 @@
                     android:layout_marginStart="20dp"
                     android:layout_toEndOf="@id/Zoom_In"
                     android:src="@drawable/zoom_out" />
+                <Button
+                    android:id="@+id/comment_btn"
+                    android:layout_alignStart="@id/btn_markasread"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Comment"
+                    android:textColor="@color/white"
+                    android:background="@color/colorPrimary">
+
+                </Button>
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>

@@ -8,62 +8,66 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.project.android_kidstories.Model.Comment;
+import com.project.android_kidstories.Model.Comments;
 import com.project.android_kidstories.R;
+
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class CommentAdapter extends BaseAdapter {
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
+    private List<Comment> comments;
     private Context context;
-//    private ArrayList<ModelListView> dataModelArrayList;
 
+
+    public CommentAdapter(List<Comment> comments, Context context){
+        this.context = context;
+        this.comments = comments;
+    }
+
+    @NonNull
     @Override
-    public int getCount() {
-        return 0;
+    public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_story_layout,parent,false);
+        return new CommentViewHolder(v);
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
+        holder.bind(position);
     }
 
     @Override
-    public long getItemId(int position) {
-        return 0;
+    public int getItemCount() {
+        return comments.size();
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
 
-        if (convertView == null) {
-            holder = new ViewHolder();
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.comment_story_layout, null, true);
-
-            holder.commentImage = (CircleImageView) convertView.findViewById(R.id.comment_image);
-            holder.commentAuthor = (TextView) convertView.findViewById(R.id.comment_author);
-            holder.comment = (TextView) convertView.findViewById(R.id.comment);
-            holder.commentDate = (TextView) convertView.findViewById(R.id.comment_date);
-
-            convertView.setTag(holder);
-        }else {
-            // the getTag returns the viewHolder object set as a tag to the view
-            holder = (ViewHolder)convertView.getTag();
-        }
-
-//        Picasso.get().load(dataModelArrayList.get(position).getImgURL()).into(holder.commentImage);
-//        holder.commentAuthor.setText(dataModelArrayList.get(position).getName());
-//        holder.comment.setText(dataModelArrayList.get(position).getCountry());
-//        holder.commentDate.setText(dataModelArrayList.get(position).getCity());
-
-        return convertView;
-    }
-
-    private class ViewHolder {
+    public class CommentViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView commentAuthor, comment, commentDate;
         protected CircleImageView commentImage;
+
+        public CommentViewHolder(@NonNull View itemView) {
+            super(itemView);
+            commentImage = (CircleImageView) itemView.findViewById(R.id.comment_image);
+            commentAuthor = (TextView) itemView.findViewById(R.id.comment_author);
+            comment = (TextView) itemView.findViewById(R.id.comment);
+            commentDate = (TextView) itemView.findViewById(R.id.comment_date);
+        }
+
+        void bind(int position){
+            Comment c = comments.get(position);
+            Glide.with(context).load(c.getUser().getImage()).into(commentImage);
+            commentAuthor.setText(c.getUser().getName());
+            comment.setText(c.getBody());
+        }
     }
+
 }

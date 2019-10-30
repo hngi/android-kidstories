@@ -1,5 +1,6 @@
 package com.project.android_kidstories;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -15,6 +16,7 @@ import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.DataStore.ReadStory;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.Comment;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.streak.StreakActivity;
@@ -22,6 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.List;
 import java.util.Locale;
 
 public class SingleStoryActivity extends AppCompatActivity {
@@ -39,10 +42,12 @@ public class SingleStoryActivity extends AppCompatActivity {
     TextView speak_text;
     TextToSpeech textToSpeech;
     SharePref sharePref;
+    Button comment_btn;
 
     LikeButton likeButton;
 
     private ImageButton ZoomIn, ZoomOut;
+    private static List<Comment> comments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +152,7 @@ public class SingleStoryActivity extends AppCompatActivity {
                     story_author.setVisibility(View.VISIBLE);
                     story_content.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);
+                    comments = currentStory.getComments().getComments();
                 } catch (Exception e) {
                     Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong ... story specific issue", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);
@@ -212,7 +218,26 @@ public class SingleStoryActivity extends AppCompatActivity {
 
             }
         });
+        comment_btn =findViewById(R.id.comment_btn);
+        comment_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendCommentList();
 
+            }
+        });
+
+    }
+
+
+
+    private void sendCommentList(){
+        Intent intent = new Intent(this, CommentActivity.class);
+       // intent.putExtra();
+    }
+
+    public static List<Comment> returnComments(){
+        return comments;
     }
 
     private void speak() {

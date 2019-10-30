@@ -8,6 +8,7 @@ import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Story;
+import com.project.android_kidstories.Model.User;
 
 import java.util.List;
 
@@ -22,12 +23,14 @@ public class Repository {
     private static Repository INSTANCE;
     private final Api api;
     private StoryDao storyDao;
+    private UserDao userDao;
     private ReadStoryDao readStoryDao;
 
     public Repository(Context context) {
         StoryDatabase storyDatabase = StoryDatabase.getInstance(context);
         storyDao = storyDatabase.storyDao();
         readStoryDao = storyDatabase.readStoryDao();
+        userDao = storyDatabase.userDao();
 
         //userDao = storyDatabase.userDao();
 //        api = ((Common)context.getApplicationContext()).getStoryApi();
@@ -38,6 +41,7 @@ public class Repository {
     public LiveData<ReadStory> getStoryForId(String id) {
         return readStoryDao.getStoryForId(id);
     }
+    public LiveData<User>getUserId(String id){return getUserId(id);}
 
     public void insertReadStoryId(ReadStory readStory) {
         readStoryDao.insertReadStory(readStory);
@@ -82,21 +86,21 @@ public class Repository {
     }
 
     //Getters for User
-//    public Long insertUser(User user){
-//       return userDao.insertUser(user);
-//    }
+    public Long insertUser(User user){
+       return userDao.insertUser(user);
+    }
 
-//    public void updateUser(User user){
-//        userDao.updateUser(user);
-//    }
-//
-//    public void deleteUser(User user){
-//        userDao.deleteUser(user);
-//    }
-//
-//    public List<User> getAllLocalUsers(){
-//        return userDao.getallUsers();
-//    }
+    public void updateUser(User user){
+        userDao.updateUser(user);
+    }
+
+    public void deleteUser(User user){
+        userDao.deleteUser(user);
+    }
+
+    public List<User> getallUsers(){
+        return userDao.getallUsers();
+    }
 
 
     //******************** `Getters to make Api calls *************************

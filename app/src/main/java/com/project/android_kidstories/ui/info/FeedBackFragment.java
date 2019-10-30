@@ -91,9 +91,10 @@ public class FeedBackFragment extends Fragment {
                     Message.setError(null);
                     SendFeedBack.setEnabled(true);
                 }
-               
-
-
+                Toast.makeText(getActivity(), "Feedback sent", Toast.LENGTH_SHORT).show();
+                Email.getText().clear();
+                Name.getText().clear();
+                Message.getText().clear();
 
             }
         });

@@ -5,72 +5,100 @@
     android:layout_height="match_parent"
     tools:context=".ui.info.FeedBackFragment">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="14dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="34dp"
-            android:layout_marginTop="150dp"
-            android:layout_marginBottom="30dp"
-            android:textColor="@color/colorAccent"
-            android:text="FeedBack"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="14dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fed_Name"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/edit_text_rectangle"
-            android:ems="10"
-            android:fontFamily="@font/roboto_light"
-            android:hint="Full name"
-            android:inputType="textPersonName"
-            android:paddingStart="20dp"
-            android:textAllCaps="false" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="34dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="15dp"
+                android:textColor="@color/colorAccent"
+                android:text="FeedBack"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fed_Email"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/edit_text_rectangle"
-            android:ems="10"
-            android:fontFamily="@font/roboto_light"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:paddingStart="20dp"
-            android:textAllCaps="false" />
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fed_Message"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/edit_text_rectangle"
-            android:ems="10"
-            android:fontFamily="@font/roboto_light"
-            android:hint="Message"
-            android:inputType="textPassword"
-            android:paddingStart="20dp"
-            android:textAllCaps="false" />
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:src="@drawable/feedback_images"/>
 
-        <Button
-            android:id="@+id/fed_send_feed_back"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_triangle_blue"
-            android:fontFamily="@font/roboto_regular"
-            android:text="Send"
-            android:textColor="@color/white"/>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:text="Have some complaints or innovations? Let's here them."
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="14dp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fed_Name"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/edit_text_rectangle"
+                android:ems="10"
+                android:fontFamily="@font/roboto_light"
+                android:hint="Full name"
+                android:inputType="textPersonName"
+                android:paddingStart="15dp"
+                android:textAllCaps="false" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fed_Email"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/edit_text_rectangle"
+                android:ems="10"
+                android:fontFamily="@font/roboto_light"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="15dp"
+                android:textAllCaps="false" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fed_Message"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/edit_text_rectangle"
+                android:fontFamily="@font/roboto_light"
+                android:hint="Message"
+                android:gravity="top|left"
+                android:paddingTop="5dp"
+                android:inputType="textMultiLine"
+                android:paddingStart="15dp" />
+
+            <Button
+                android:id="@+id/fed_send_feed_back"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_triangle_blue"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Send"
+                android:layout_marginBottom="30dp"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+
 
 </FrameLayout>

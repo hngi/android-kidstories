@@ -91,6 +91,7 @@
                     android:layout_height="wrap_content">
 
 
+
                     <TextView
                         android:id="@+id/story_content"
                         android:layout_width="match_parent"

@@ -1,7 +1,7 @@
 package com.project.android_kidstories;
 
-import android.media.Image;
 import android.media.MediaPlayer;
+import android.media.projection.MediaProjection;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -27,7 +27,7 @@ import java.util.Locale;
 
 public class SingleStoryActivity extends AppCompatActivity {
 
-    public MediaPlayer songPlayer;
+    private MediaPlayer backgroungMusicPlayer;
     private ImageView story_pic, like_btn;
     int story_id = 0;
     private TextView story_author, story_content, error_msg;
@@ -47,12 +47,10 @@ public class SingleStoryActivity extends AppCompatActivity {
 
     LikeButton likeButton;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_story);
-
         toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -113,7 +111,6 @@ public class SingleStoryActivity extends AppCompatActivity {
                 likeButton.setEnabled(true);
             }
         });
-
     }
 
     public void getStoryWithId(int id) {
@@ -152,17 +149,19 @@ public class SingleStoryActivity extends AppCompatActivity {
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
+                if (status == TextToSpeech.SUCCESS)
+                {
                     int result = textToSpeech.setLanguage(Locale.ENGLISH);
                     if (result == TextToSpeech.LANG_MISSING_DATA
-                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED)
+                    {
                         Toast.makeText(SingleStoryActivity.this, "This Language is not Supported", Toast.LENGTH_SHORT).show();
-                    } else {
-                        btn_speak.setEnabled(true);
-                        textToSpeech.setPitch(0.6f);
-                        textToSpeech.setSpeechRate(0.9f);
-                        speak();
                     }
+                    else {
+                    btn_speak.setEnabled(true);
+                    textToSpeech.setPitch(0.6f);
+                    textToSpeech.setSpeechRate(0.9f);
+                    speak();}
                 }
             }
         });
@@ -175,64 +174,73 @@ public class SingleStoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 speak();
-                if (textToSpeech.isSpeaking()) {
-                    btn_speak.setVisibility(View.INVISIBLE);
-                    btn_stop.setVisibility(View.VISIBLE);
-                    btn_stop.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            textToSpeech.stop();
-                            btn_speak.setVisibility(View.VISIBLE);
-                            btn_stop.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                }
+              if (textToSpeech.isSpeaking()){
+                  btn_speak.setVisibility(View.INVISIBLE);
+              btn_stop.setVisibility(View.VISIBLE);
+              btn_stop.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                      textToSpeech.stop();
+                      btn_speak.setVisibility(View.VISIBLE);
+                      btn_stop.setVisibility(View.INVISIBLE);
+                  }
+              });}
+
+
 
 
             }
         });
 
 
-        // Background Music
-        songPlayer = MediaPlayer.create(this, R.raw.kidsong1);
-        playButton = findViewById(R.id.playMusic_button);
-        stopButton = findViewById(R.id.pauseMusic_button);
+        //background Music
+        backgroungMusicPlayer = MediaPlayer.create(this, R.raw.kidsong1);
+        playButton = findViewById(R.id.playMusic);
+        stopButton = findViewById(R.id.stopMusic);
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 play();
-                if (songPlayer.isPlaying()) {
+                if (backgroungMusicPlayer.isPlaying()){
                     playButton.setVisibility(View.INVISIBLE);
                     stopButton.setVisibility(View.VISIBLE);
                     stopButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            songPlayer.pause();
+                            backgroungMusicPlayer.pause();
                             playButton.setVisibility(View.VISIBLE);
                             stopButton.setVisibility(View.INVISIBLE);
                         }
-                    });
+                    });}
 
-                }
+
+
+
             }
         });
 
+
+    }
+
+    private void play() {
+        backgroungMusicPlayer.start();
     }
 
     private void speak() {
 
         String text = speak_text.getText().toString();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
-        } else {
-            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-        } }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null,null);
+        }
+        else {textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);}
+    }
 
     @Override
     protected void onDestroy() {
 
-        if (textToSpeech != null) {
+        if (textToSpeech != null){
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
@@ -254,10 +262,4 @@ public class SingleStoryActivity extends AppCompatActivity {
         btn_stop.setVisibility(View.INVISIBLE);
 
     }
-
-    private void play() {
-        songPlayer.start();
-    }
-
-
 }

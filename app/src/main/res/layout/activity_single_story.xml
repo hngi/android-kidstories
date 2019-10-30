@@ -67,6 +67,7 @@
                         app:icon_size="60dp"
                         app:icon_type="heart"
                         app:is_enabled="true"
+                        android:onClick="fav"
                         app:layout_constraintBottom_toBottomOf="@+id/story_pic"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/story_pic"

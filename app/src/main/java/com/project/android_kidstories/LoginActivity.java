@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -25,15 +26,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.viewModel.UserViewModel;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.util.Arrays;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
+    public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "LoginActivity";
     private GoogleSignInClient googleSignInClient;
@@ -47,14 +53,17 @@ public class LoginActivity extends AppCompatActivity {
     // ProgressDialog LoginProgress;
     TextView createAccount;
     ProgressBar loginProg;
+    UserViewModel viewModel;
     SharedPreferences sharedPreferences;
     SharePref sharePref;
+
     private Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         repository = Repository.getInstance(getApplication());
 
 
@@ -301,17 +310,27 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onStart() {
-        super.onStart();
 
         GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
         if (alreadyloggedAccount != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
-            onLoggedIn(alreadyloggedAccount);
-        } else {
+
+        } else if (getSharePref().getLoggedUserId() != -1){
+            for (User loggedUser : viewModel.getallUsers() ) {
+                if (loggedUser.getId().equals(getSharePref().getLoggedUserId())){
+                    openMainActivity(LoginActivity.this, loggedUser);
+                    finish();
+                }
+            }
+
+
             Log.d(TAG, "Not logged in");
         }
-        // Check if user is logged in through facebook
+        super.onStart();
         checkLoginStatus();
+        // Check if user is logged in through facebook
+
     }
 
     private void checkLoginStatus() {
@@ -346,7 +365,15 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    public SharePref getSharePref() {
+        return sharePref;
+    }
 
+    protected void openMainActivity(Context context, User currentUser) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(MainActivity.USER_KEY_INTENT_EXTRA, (Parcelable) currentUser);
+        startActivity(intent);
+    }
 }
 
 

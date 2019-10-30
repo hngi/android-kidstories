@@ -136,6 +136,7 @@ public class SharePref {
     }
 
     public void setIsUserLoggedIn(Boolean isUserLoggedIn) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putBoolean(USER_LOGIN_STATE, isUserLoggedIn).apply();
     }
 

@@ -2,37 +2,57 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/img_user"
-            android:layout_width="178dp"
-            android:layout_height="178dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+        <com.takusemba.cropme.CropLayout
+            android:id="@+id/crop_view"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+            app:cropme_max_scale="3"
+            app:layout_constraintDimensionRatio="h,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/account_icon"/>
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.takusemba.cropme.CropImageView
+                android:id="@+id/cropme_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/account_icon"/>
+
+            <com.takusemba.cropme.SquareCropOverlay
+                android:id="@+id/cropme_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cropme_background_alpha="70%"
+                app:cropme_result_height="90%"
+                app:cropme_result_width="90%"
+                app:cropme_with_border="true"/>
+
+
+        </com.takusemba.cropme.CropLayout>
 
         <TextView
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/roboto_light"
             android:text="@string/username"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/img_user"
-            app:layout_constraintStart_toStartOf="@id/img_user"
-            app:layout_constraintTop_toBottomOf="@id/img_user"/>
+            app:layout_constraintEnd_toEndOf="@id/crop_view"
+            app:layout_constraintStart_toStartOf="@id/crop_view"
+            app:layout_constraintTop_toBottomOf="@id/crop_view"/>
 
 
         <LinearLayout
@@ -46,14 +66,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_username">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_upload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
-                android:text="Upload Image"
+                android:text="Choose Image"
                 android:textAllCaps="false"
                 android:textSize="12sp" />
 
@@ -67,13 +87,12 @@
                 android:text="No Image Uploaded" />
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/save_button"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/save"
             android:textAllCaps="false"

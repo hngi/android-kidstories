@@ -9,27 +9,38 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_action_home"
             android:title="Home" />
+
         <item
             android:id="@+id/nav_edit_profile"
             android:icon="@drawable/ic_profile"
             android:title="Profile"/>
+
         <item
             android:id="@+id/nav_categories"
             android:icon="@drawable/ic_action_categories"
             android:title="Categories" />
+
         <item
             android:id="@+id/nav_donate"
             android:icon="@drawable/ic_action_donate"
             android:title="Donate" />
+
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_action_info"
             android:title="About" />
 
         <item
+            android:id="@+id/nav_feed_back"
+            android:icon="@drawable/feed_back"
+            android:title="Feedback"/>
+
+        <item
             android:id="@+id/nav_log_out"
             android:icon="@drawable/ic_action_log_out"
             android:title="Log out" />
+
+
 
 
     </group>

@@ -49,6 +49,7 @@ import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
+import com.project.android_kidstories.ui.info.FeedBackFragment;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
 import com.project.android_kidstories.ui.profile.ProfileFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
@@ -274,6 +275,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 Fragment fragment = null;
                 String msg = "";
                 switch (menuItem.getItemId()) {
+
+                    case R.id.nav_feed_back:
+                        fragment = new FeedBackFragment();
+                        msg = "Feedback";
+                        bottomNavigationView.setVisibility(View.GONE);
+                        break;
+
                     case R.id.nav_home:
                         Intent home = new Intent(getApplicationContext(), MainActivity.class);
                         home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -283,6 +291,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                         bottomNavigationView.setVisibility(View.VISIBLE);
                         msg = "Stories";
                         break;
+
                     case R.id.nav_categories:
                         fragment = new CategoriesFragment();
                         msg="Categories";

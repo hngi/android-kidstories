@@ -17,3 +17,4 @@ public class DonateViewModel extends ViewModel {
         return mText;
     }
 }
+

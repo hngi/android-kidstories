@@ -20,7 +20,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SavedStoriesActivity"></activity>
+        <activity android:name=".ui.info.FeedBackFragment"></activity>
+        <activity android:name=".SavedStoriesActivity" />
 
         <receiver
             android:name=".alarm.AlarmReceiver"

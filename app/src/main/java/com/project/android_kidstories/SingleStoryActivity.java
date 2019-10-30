@@ -1,6 +1,8 @@
 package com.project.android_kidstories;
 
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.media.projection.MediaProjection;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -32,6 +34,7 @@ public class SingleStoryActivity extends AppCompatActivity {
     public static final String RECIPE_POSITION = "kidstories_position";
     public static final String PREFERENCE_NAME = "com.project.android_kidstories";
 
+    private MediaPlayer backgroungMusicPlayer;
     private ImageView story_pic, like_btn;
     int story_id = 0;
     private TextView story_author, story_content, error_msg;
@@ -48,6 +51,9 @@ public class SingleStoryActivity extends AppCompatActivity {
     Set<String> mFavourite;
     int Position;
 
+    ImageButton playButton;
+    ImageButton stopButton;
+
     LikeButton likeButton;
 
     private ImageButton ZoomIn, ZoomOut;
@@ -60,8 +66,8 @@ public class SingleStoryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //saveFavourite();
-        ZoomIn = findViewById(R.id.Zoom_In);
-        ZoomOut = findViewById(R.id.Zoom_Out);
+//        ZoomIn = findViewById(R.id.Zoom_In);
+//        ZoomOut = findViewById(R.id.Zoom_Out);
 
         repository = Repository.getInstance(this.getApplication());
         storyApi = repository.getStoryApi();
@@ -79,25 +85,25 @@ public class SingleStoryActivity extends AppCompatActivity {
         });
 
         // For controlling Zooming In
-        ZoomIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                story_content.getTextSize();
-                story_content.setTextSize(24);
-                story_content.setMovementMethod(new ScrollingMovementMethod());
-            }
-        });
+//        ZoomIn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                story_content.getTextSize();
+//                story_content.setTextSize(24);
+//                story_content.setMovementMethod(new ScrollingMovementMethod());
+//            }
+//        });
 
 
         // For controlling Zooming Out
-        ZoomOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                story_content.getTextSize();
-                story_content.setTextSize(14);
-                story_content.setMovementMethod(new ScrollingMovementMethod());
-            }
-        });
+//        ZoomOut.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                story_content.getTextSize();
+//                story_content.setTextSize(14);
+//                story_content.setMovementMethod(new ScrollingMovementMethod());
+//            }
+//        });
 
         markAsReadBtn.setOnClickListener(view -> {
             int storiesRead = sharePref.getInt(StreakActivity.STORIES_READ_KEY);
@@ -222,6 +228,39 @@ public class SingleStoryActivity extends AppCompatActivity {
             }
         });
 
+
+        //background Music
+        backgroungMusicPlayer = MediaPlayer.create(this, R.raw.kidsong1);
+        playButton = findViewById(R.id.playMusic);
+        stopButton = findViewById(R.id.stopMusic);
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                play();
+                if (backgroungMusicPlayer.isPlaying()){
+                    playButton.setVisibility(View.INVISIBLE);
+                    stopButton.setVisibility(View.VISIBLE);
+                    stopButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            backgroungMusicPlayer.pause();
+                            playButton.setVisibility(View.VISIBLE);
+                            stopButton.setVisibility(View.INVISIBLE);
+                        }
+                    });}
+
+
+
+
+            }
+        });
+
+
+    }
+
+    private void play() {
+        backgroungMusicPlayer.start();
     }
 
     private void speak() {

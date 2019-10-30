@@ -30,6 +30,8 @@
             android:id="@+id/nav_log_out"
             android:icon="@drawable/ic_action_log_out"
             android:title="Log out" />
+
+
     </group>
 
 

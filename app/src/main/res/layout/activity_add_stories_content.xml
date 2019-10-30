@@ -74,13 +74,14 @@
                 android:layout_gravity="center"
                 />
             </LinearLayout>
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/save_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
+                android:background="@drawable/rounded_triangle_blue"
                 android:text="@string/save"
                 android:textColor="@color/white"/>
 

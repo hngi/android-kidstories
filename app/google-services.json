@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "133632084415",
+    "firebase_url": "https://androidkidstories.firebaseio.com",
+    "project_id": "androidkidstories",
+    "storage_bucket": "androidkidstories.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:133632084415:android:4bb31a37d94008cb65390a",
+        "android_client_info": {
+          "package_name": "com.project.android_kidstories"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "133632084415-ekoeje649o4s2eh614mea6mdfskud5h9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.android_kidstories",
+            "certificate_hash": "3a717cc81d8b128c2ae6ca7d5578f223aa77b374"
+          }
+        },
+        {
+          "client_id": "133632084415-fduj9gmnvci12q9aic0jflb8isf78je0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdhPxLvz2a-xPFJzYbFC3KnI2_O8PWo20"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "133632084415-fduj9gmnvci12q9aic0jflb8isf78je0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

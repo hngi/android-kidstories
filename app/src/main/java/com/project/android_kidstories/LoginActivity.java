@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         repository = Repository.getInstance(getApplication());
 
-
         Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade__in);
         Animation transit = AnimationUtils.loadAnimation(this, R.anim.ttb);
 

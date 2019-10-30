@@ -137,12 +137,12 @@ public class BedTimeDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public byte[] getUserImage(int clientId){
+    public byte[] getUserImage() {
         SQLiteDatabase db = this.getWritableDatabase();
 
         byte[] image = null;
-        String whereclause = " WHERE "+ AddUsers.AddUsersColumn._ID+" = "+clientId;
-        Cursor cursor = db.rawQuery("SELECT image FROM "+AddUsers.AddUsersColumn.TABLE_NAME+whereclause, null);
+        //String whereclause = " WHERE "+ AddUsers.AddUsersColumn._ID+" = "+clientId;
+        Cursor cursor = db.rawQuery("SELECT image FROM " + AddUsers.AddUsersColumn.TABLE_NAME, null);
         if (cursor.moveToFirst()){
             do {
                 // Passing values

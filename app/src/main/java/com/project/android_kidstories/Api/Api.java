@@ -96,6 +96,8 @@ public interface Api {
 
     @GET("stories")
     Call<StoryAllResponse> getAllStoriesWithAuth(@Header("Authorization") String token);
+
+
     /***
      *
      * @param token
@@ -110,6 +112,11 @@ public interface Api {
      */
     @Multipart
     @POST("stories")
+//    @Headers({
+//            "Content-Type: application/json",
+//            "Accept: application/json",
+//            "Accept: multipart/form-data"
+//    })
     Call<BaseResponse<Story>> addStory(
             @Header("Authorization") String token,
             @Part("title") RequestBody title,
@@ -119,6 +126,22 @@ public interface Api {
             @Part("age") RequestBody ageInRange,
             @Part("author") RequestBody author
     );
+
+    //    @Multipart
+//    @POST("stories")
+//    Call<BaseResponse<Story>> addStory(
+//            @Header("Authorization") String token,
+//            @Part("title") RequestBody title,
+//            @Part("body") RequestBody story,
+//            @Part("category_id") RequestBody categoryId,
+//            @Part("age") RequestBody ageInRange,
+//            @Part("author") RequestBody author,
+//           // @Part("story_duration") RequestBody storyDuration,
+//            @Part("image\"; filename=\"myfile.jpg\" ") RequestBody image
+////            @Part MultipartBody.Part image
+//    );
+
+
 
     /***
      *

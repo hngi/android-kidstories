@@ -1,5 +1,8 @@
 package com.project.android_kidstories;
 
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.media.projection.MediaProjection;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -22,10 +25,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 public class SingleStoryActivity extends AppCompatActivity {
+    public static final String PREFERENCE_KEY_NAME = "favourite";
+    public static final String RECIPE_POSITION = "kidstories_position";
+    public static final String PREFERENCE_NAME = "com.project.android_kidstories";
 
+    private MediaPlayer backgroungMusicPlayer;
     private ImageView story_pic, like_btn;
     int story_id = 0;
     private TextView story_author, story_content, error_msg;
@@ -39,6 +48,11 @@ public class SingleStoryActivity extends AppCompatActivity {
     TextView speak_text;
     TextToSpeech textToSpeech;
     SharePref sharePref;
+    Set<String> mFavourite;
+    int Position;
+
+    ImageButton playButton;
+    ImageButton stopButton;
 
     LikeButton likeButton;
 
@@ -51,15 +65,16 @@ public class SingleStoryActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        ZoomIn = findViewById(R.id.Zoom_In);
-        ZoomOut = findViewById(R.id.Zoom_Out);
+        //saveFavourite();
+//        ZoomIn = findViewById(R.id.Zoom_In);
+//        ZoomOut = findViewById(R.id.Zoom_Out);
 
         repository = Repository.getInstance(this.getApplication());
         storyApi = repository.getStoryApi();
         story_id = getIntent().getIntExtra("story_id", 0);
 
         sharePref = SharePref.getINSTANCE(this);
+        mFavourite = getFavourite();
 
         Button markAsReadBtn = findViewById(R.id.btn_markasread);
         // Check if story has been read already
@@ -70,25 +85,25 @@ public class SingleStoryActivity extends AppCompatActivity {
         });
 
         // For controlling Zooming In
-        ZoomIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                story_content.getTextSize();
-                story_content.setTextSize(24);
-                story_content.setMovementMethod(new ScrollingMovementMethod());
-            }
-        });
+//        ZoomIn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                story_content.getTextSize();
+//                story_content.setTextSize(24);
+//                story_content.setMovementMethod(new ScrollingMovementMethod());
+//            }
+//        });
 
 
         // For controlling Zooming Out
-        ZoomOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                story_content.getTextSize();
-                story_content.setTextSize(14);
-                story_content.setMovementMethod(new ScrollingMovementMethod());
-            }
-        });
+//        ZoomOut.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                story_content.getTextSize();
+//                story_content.setTextSize(14);
+//                story_content.setMovementMethod(new ScrollingMovementMethod());
+//            }
+//        });
 
         markAsReadBtn.setOnClickListener(view -> {
             int storiesRead = sharePref.getInt(StreakActivity.STORIES_READ_KEY);
@@ -213,6 +228,39 @@ public class SingleStoryActivity extends AppCompatActivity {
             }
         });
 
+
+        //background Music
+        backgroungMusicPlayer = MediaPlayer.create(this, R.raw.kidsong1);
+        playButton = findViewById(R.id.playMusic);
+        stopButton = findViewById(R.id.stopMusic);
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                play();
+                if (backgroungMusicPlayer.isPlaying()){
+                    playButton.setVisibility(View.INVISIBLE);
+                    stopButton.setVisibility(View.VISIBLE);
+                    stopButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            backgroungMusicPlayer.pause();
+                            playButton.setVisibility(View.VISIBLE);
+                            stopButton.setVisibility(View.INVISIBLE);
+                        }
+                    });}
+
+
+
+
+            }
+        });
+
+
+    }
+
+    private void play() {
+        backgroungMusicPlayer.start();
     }
 
     private void speak() {
@@ -249,5 +297,42 @@ public class SingleStoryActivity extends AppCompatActivity {
         btn_speak.setEnabled(true);
         btn_stop.setVisibility(View.INVISIBLE);
 
+    }
+
+    public void fav(View v){
+
+        if (ConfirmFavourite (Position)){
+            mFavourite.remove(Integer.toString(Position));
+            Toast.makeText(SingleStoryActivity.this,"Removed from favorite list",Toast.LENGTH_SHORT).show();
+        }else {
+            mFavourite.add(Integer.toString(Position));
+            Toast.makeText(SingleStoryActivity.this,"Added to your favorite list",Toast.LENGTH_SHORT).show();
+        }
+        saveFavourite();
+    }
+
+    private boolean ConfirmFavourite(int isPosition) {
+        Set<String> FavCF = getFavourite();
+        if (FavCF.contains(Integer.toString(isPosition))){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    private void saveFavourite() {
+        SharedPreferences prefs = getSharedPreferences(PREFERENCE_NAME, 0);
+        SharedPreferences.Editor editP = prefs.edit();
+        editP.putStringSet(PREFERENCE_KEY_NAME, mFavourite).apply();
+        if (ConfirmFavourite(Position)){
+            likeButton.setLikeDrawableRes(R.drawable.ic_favourite);
+        }else {
+            likeButton.setLikeDrawableRes(R.drawable.ic_favorite_border);
+        }
+    }
+
+    private Set<String> getFavourite() {
+        SharedPreferences prefs = getSharedPreferences(PREFERENCE_NAME, 0);
+        return prefs.getStringSet(PREFERENCE_KEY_NAME, new HashSet<String>());
     }
 }

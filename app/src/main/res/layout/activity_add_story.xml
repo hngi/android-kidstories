@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginStart="12dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginEnd="12dp"
+    android:padding="16dp"
     android:orientation="vertical"
     tools:context=".AddStoryActivity">
 
@@ -21,21 +20,27 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/title_edt"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:background="@drawable/border"
-        android:ems="10"
-        android:fontFamily="@font/roboto_regular"
-        android:hint="@string/title_hint"
-        android:inputType="textCapWords"
-        android:paddingStart="16dp"
-        android:paddingTop="12dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="12dp"
-        android:textSize="13sp" />
+        android:layout_marginBottom="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/title_edt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:hint="Title"
+            android:paddingStart="16dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="12dp"
+            android:textSize="13sp"
+            android:fontFamily="@font/roboto_light"
+            android:inputType="textCapWords"
+            android:textAllCaps="false"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -46,7 +51,7 @@
         android:background="@drawable/border"
         android:orientation="horizontal">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_upload"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
@@ -69,12 +74,12 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button_type_content"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/rounded_triangle_blue"
+        android:layout_gravity="center"
         android:fontFamily="@font/roboto_regular"
         android:onClick="TypeContent"
         android:text="@string/type_content"

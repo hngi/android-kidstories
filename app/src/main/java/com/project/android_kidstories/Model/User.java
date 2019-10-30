@@ -94,6 +94,7 @@ public class User implements Parcelable, Serializable {
         this.email = email;
     }
 
+
     public User() {
     }
 
@@ -212,7 +213,10 @@ public class User implements Parcelable, Serializable {
         this.token = token;
     }
 
-    public long getId() {
+//    public long getId() {
+//        return id;
+//    }  //get Id
+    public Long getId() {
         return id;
     }
 

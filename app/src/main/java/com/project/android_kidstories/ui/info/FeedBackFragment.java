@@ -44,7 +44,7 @@ public class FeedBackFragment extends Fragment {
         firebase = new Firebase("https://androidkidstories.firebaseio.com/Users" + UniqueID);
 
 
-        // SendFeeBack Button
+        // SendFeedBack Button
         SendFeedBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,47 +54,44 @@ public class FeedBackFragment extends Fragment {
                final String theMessage = Message.getText().toString();
 
 
-
-                // For Name
-                Firebase child_name = firebase.child("Name");
-                child_name.setValue(theName);
                 if (theName.isEmpty()){
                     Name.setError("This is required");
-                    SendFeedBack.setEnabled(false);
 
-                } else {
-                    Name.setError(null);
-                    SendFeedBack.setEnabled(true);
                 }
-
-                // For Email
-                Firebase child_email = firebase.child("Email");
-                child_email.setValue(theEmail);
-                if (theEmail.isEmpty()){
-                    Email.setError("This is required");
-                    SendFeedBack.setEnabled(false);
-
-                } else {
-                    Email.setError(null);
-                    SendFeedBack.setEnabled(true);
-                }
-
-
-                // For Message
-                Firebase child_message = firebase.child("Message");
-                child_message.setValue(theMessage);
                 if (theMessage.isEmpty()){
                     Message.setError("This is required");
-                    SendFeedBack.setEnabled(false);
 
-                } else {
-                    Message.setError(null);
-                    SendFeedBack.setEnabled(true);
                 }
-                Toast.makeText(getActivity(), "Feedback sent", Toast.LENGTH_SHORT).show();
-                Email.getText().clear();
-                Name.getText().clear();
-                Message.getText().clear();
+
+                if (theEmail.isEmpty()){
+                    Email.setError("This is required");
+
+                }
+                else {
+                    Name.setError(null);
+
+                    Email.setError(null);
+
+                    Message.setError(null);
+
+
+                    // For Email
+                    Firebase child_email = firebase.child("Email");
+                    child_email.setValue(theEmail);
+
+                    // For Message
+                    Firebase child_message = firebase.child("Message");
+                    child_message.setValue(theMessage);
+
+                    // For Name
+                    Firebase child_name = firebase.child("Name");
+                    child_name.setValue(theName);
+
+                    Toast.makeText(getActivity(), "Feedback sent", Toast.LENGTH_SHORT).show();
+                    Email.getText().clear();
+                    Name.getText().clear();
+                    Message.getText().clear();
+                }
 
             }
         });

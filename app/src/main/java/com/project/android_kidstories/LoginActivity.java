@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.facebook.*;
 import com.facebook.login.LoginManager;
@@ -50,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharePref sharePref;
     private Repository repository;
+    boolean isLogedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
         googleSignInButton = findViewById(R.id.google_auth_button);
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
-        sharePref = SharePref.getINSTANCE(getApplicationContext()).getSharePref();
+        sharePref = new SharePref(this);
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -130,6 +134,9 @@ public class LoginActivity extends AppCompatActivity {
                 facebookLogin();
             }
         });
+
+        Log.e("TAG", isLogedIn +"");
+
     }
 
     private void googleSignInSetUp() {

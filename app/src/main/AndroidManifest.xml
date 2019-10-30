@@ -65,7 +65,7 @@
         <activity android:name=".BookMark" />
         <activity android:name=".AddStoryActivity" />
         <activity android:name=".AddStoriesContentActivity" />
-        <activity android:name=".Views.main.BaseActivity" />
+        <activity android:name=".base.BaseActivity" />
         <activity android:name=".streak.StreakActivity" />
 
         <meta-data

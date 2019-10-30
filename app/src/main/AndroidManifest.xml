@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -21,10 +20,12 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SavedStoriesActivity"></activity>
+
         <receiver
             android:name=".alarm.AlarmReceiver"
             android:enabled="true"
-            android:exported="false"></receiver>
+            android:exported="false" />
 
         <activity android:name=".IgnoreForApiTest.TestActivity" />
         <activity
@@ -65,13 +66,12 @@
         <activity android:name=".BookMark" />
         <activity android:name=".AddStoryActivity" />
         <activity android:name=".AddStoriesContentActivity" />
-        <activity android:name=".Views.main.BaseActivity" />
+        <activity android:name=".base.BaseActivity" />
         <activity android:name=".streak.StreakActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
     </application>
 
 </manifest>

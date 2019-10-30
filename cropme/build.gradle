@@ -1,0 +1,17 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 8
+        versionName '1.1.12'
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
+}

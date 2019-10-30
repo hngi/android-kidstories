@@ -39,16 +39,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/button_favourite"
+            <com.like.LikeButton
+                android:id="@+id/heart_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_favourite"
+                app:anim_scale_factor="1"
+                app:icon_size="60dp"
+                app:icon_type="heart"
+                app:is_enabled="true"
+                app:layout_constraintTop_toBottomOf="@+id/story_pic"
+                app:like_drawable="@drawable/ic_favourite"
+                app:liked="true"
                 app:layout_constraintBottom_toBottomOf="@+id/story_pic"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/story_pic" />
+                app:unlike_drawable="@drawable/ic_favorite_border"
+                tools:ignore="MissingConstraints"
+            />
 
             <TextView
                 android:id="@+id/author"
@@ -105,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                app:layout_constraintBottom_toTopOf="@+id/button_favourite"
+                app:layout_constraintBottom_toTopOf="@+id/heart_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.955"
                 app:layout_constraintStart_toStartOf="parent"
@@ -118,13 +125,42 @@
                 android:layout_height="wrap_content"
                 android:enabled ="false"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/button_favourite"
+                app:layout_constraintBottom_toTopOf="@+id/heart_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.955"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.122"
                 app:srcCompat="@drawable/ic_stop_black_24dp" />
+
+            <ImageButton
+                android:id="@+id/playMusic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                app:layout_constraintBottom_toTopOf="@+id/heart_button"
+                app:layout_constraintEnd_toEndOf="@id/play_story"
+                app:layout_constraintHorizontal_bias="0.861"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/play_story"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/music_button" />
+
+            <ImageButton
+                android:id="@+id/stopMusic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled ="false"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/heart_button"
+                app:layout_constraintEnd_toEndOf="@id/stop_story"
+                app:layout_constraintHorizontal_bias="0.955"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.122"
+                app:srcCompat="@drawable/pause_music_button"
+                android:layout_marginEnd="24dp"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

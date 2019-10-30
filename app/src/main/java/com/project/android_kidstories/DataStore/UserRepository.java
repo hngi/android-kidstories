@@ -2,6 +2,7 @@ package com.project.android_kidstories.DataStore;
 
 public class UserRepository {
 
+
     private static UserRepository instance;
 
     public static UserRepository getInstance() {

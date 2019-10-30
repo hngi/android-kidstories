@@ -28,7 +28,7 @@ public abstract class StoryDatabase extends RoomDatabase {
     }
 
     public abstract StoryDao storyDao();
-    //public abstract UserDao userDao();
+    public abstract UserDao userDao();
     public abstract ReadStoryDao readStoryDao();
 }
 

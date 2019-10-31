@@ -291,6 +291,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                         bottomNavigationView.setVisibility(View.VISIBLE);
                         msg = "Stories";
                         break;
+//                    case R.id.nav_saved_stories:
+//                        Intent intent = new Intent(MainActivity.this, SavedStoriesActivity.class);
+//                        MainActivity.this.startActivity(intent);
+//                        break;
+
 
                     case R.id.nav_categories:
                         fragment = new CategoriesFragment();

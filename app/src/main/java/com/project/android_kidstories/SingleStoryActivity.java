@@ -18,6 +18,7 @@ import com.project.android_kidstories.DataStore.ReadStory;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Comment;
 import com.project.android_kidstories.Model.Story;
+import com.project.android_kidstories.database.StoryLab;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.streak.StreakActivity;
 import retrofit2.Call;
@@ -31,12 +32,14 @@ public class SingleStoryActivity extends AppCompatActivity {
 
     private ImageView story_pic, like_btn;
     int story_id = 0;
-    private TextView story_author, story_content, error_msg;
+    private TextView story_author, story_content, error_msg, saveStory;
     private Toolbar toolbar;
     private ProgressBar progressBar;
     private Repository repository;
     private Api storyApi;
 
+    Story testStory;
+    StoryLab storyLab;
     ImageButton btn_speak;
     ImageButton btn_stop;
     TextView speak_text;
@@ -56,7 +59,7 @@ public class SingleStoryActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        storyLab = StoryLab.get(this);
         ZoomIn = findViewById(R.id.Zoom_In);
         ZoomOut = findViewById(R.id.Zoom_Out);
 
@@ -114,6 +117,7 @@ public class SingleStoryActivity extends AppCompatActivity {
         story_pic = findViewById(R.id.story_pic);
         like_btn = findViewById(R.id.like_button);
         error_msg = findViewById(R.id.error_msg);
+        saveStory = findViewById(R.id.save_story);
         //todo : check authorization for premium stories
         getStoryWithId(story_id);
 
@@ -146,6 +150,17 @@ public class SingleStoryActivity extends AppCompatActivity {
                 sendCommentList();
             }
         });
+
+        saveStory.setVisibility(View.INVISIBLE);
+        saveStory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (testStory!=null){
+                    storyLab.addStory(testStory);
+                    Toast.makeText(SingleStoryActivity.this, "Story saved", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void getStoryWithId(int id) {
@@ -154,6 +169,7 @@ public class SingleStoryActivity extends AppCompatActivity {
             public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
                 try {
                     Story currentStory = response.body().getData();
+                    testStory = currentStory;
                     getSupportActionBar().setTitle(currentStory.getTitle());
                     story_author.setText(currentStory.getAuthor());
                     story_content.setText(currentStory.getBody());
@@ -161,7 +177,9 @@ public class SingleStoryActivity extends AppCompatActivity {
                     story_author.setVisibility(View.VISIBLE);
                     story_content.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);
+                    saveStory.setVisibility(View.VISIBLE);
                     comments = currentStory.getComments().getComments();
+
                 } catch (Exception e) {
                     Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong ... story specific issue", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);

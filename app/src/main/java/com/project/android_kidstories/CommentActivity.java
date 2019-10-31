@@ -15,6 +15,7 @@ import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
+import com.project.android_kidstories.sharePref.SharePref;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -26,6 +27,9 @@ public class CommentActivity extends AppCompatActivity {
     Api service;
     RecyclerView rv;
     EditText typeComment;
+    private String token;
+    private String storyId;
+    private ImageView sendComment;
 
 
 
@@ -37,19 +41,27 @@ public class CommentActivity extends AppCompatActivity {
 
         rv = findViewById(R.id.comment_rv);
         typeComment=findViewById(R.id.type_comment);
+        token = new SharePref(getApplicationContext()).getMyToken();
+        storyId = getIntent().getStringExtra("storyId");
+        sendComment= findViewById(R.id.send_comment);
 
         LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         CommentAdapter adapter = new CommentAdapter(SingleStoryActivity.returnComments(),this);
         rv.setLayoutManager(manager);
         rv.setAdapter(adapter);
+
+        sendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendComment();
+            }
+        });
     }
 
 
-    public void sendComment(View view) {
-        String token = "" ;
-        String id = "";
+    public void sendComment() {
         String userComment = typeComment.getText().toString();
-        postComment(token,id,userComment);
+        postComment(token,storyId,userComment);
     }
 
     public void postComment(String token,String id, String userComment){

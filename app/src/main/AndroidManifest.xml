@@ -67,6 +67,7 @@
             android:theme="@style/AppTheme.WhiteStatusBar" />
         <activity android:name=".BookMark" />
         <activity android:name=".AddStoryActivity" />
+        <activity android:name=".CommentActivity" />
         <activity android:name=".AddStoriesContentActivity" />
         <activity android:name=".base.BaseActivity" />
         <activity android:name=".streak.StreakActivity" />

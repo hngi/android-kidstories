@@ -142,6 +142,7 @@
                     android:id="@+id/btn_markasread"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/comment_round_btn"
                     android:layout_alignParentStart="true"
                     android:layout_marginBottom="8dp"
                     android:backgroundTint="@color/colorPrimary"
@@ -170,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:text="Comment"
                     android:textColor="@color/white"
-                    android:background="@color/colorPrimary">
+                    android:background="@drawable/comment_round_btn">
 
                 </Button>
             </LinearLayout>

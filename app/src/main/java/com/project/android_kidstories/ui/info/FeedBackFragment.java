@@ -58,15 +58,18 @@ public class FeedBackFragment extends Fragment {
                     Name.setError("This is required");
 
                 }
-                if (theMessage.isEmpty()){
+
+               else if (theEmail.isEmpty()){
+                    Email.setError("This is required");
+
+                }
+
+               else if (theMessage.isEmpty()){
                     Message.setError("This is required");
 
                 }
 
-                if (theEmail.isEmpty()){
-                    Email.setError("This is required");
 
-                }
                 else {
                     Name.setError(null);
 

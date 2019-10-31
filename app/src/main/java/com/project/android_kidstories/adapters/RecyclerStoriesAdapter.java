@@ -29,6 +29,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,6 +51,8 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList, OnBookmarked bookmarked, Repository repository) {
         this.context = context;
         this.storiesList = storiesList;
+        this.stories =storiesList.getData();
+        Collections.reverse(stories);
         this.bookmarked = bookmarked;
         this.storyApi = repository.getStoryApi();
     }
@@ -61,22 +65,22 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        stories = storiesList.getData();
-        Glide.with(context).load(storiesList.getData().get(position).getImageUrl()).into(holder.storyImage);
+        stories = stories;
+        Glide.with(context).load(stories.get(position).getImageUrl()).into(holder.storyImage);
 
-        holder.storyTitle.setText(storiesList.getData().get(position).getTitle());
-        holder.authorName.setText("By " + storiesList.getData().get(position).getAuthor());
+        holder.storyTitle.setText(stories.get(position).getTitle());
+        holder.authorName.setText("By " + stories.get(position).getAuthor());
 
-        holder.ageRange.setText("For kids ages " + storiesList.getData().get(position).getAge());
-        holder.num_likes.setText(String.valueOf(storiesList.getData().get(position).getLikesCount()));
-        holder.num_dislikes.setText(String.valueOf(storiesList.getData().get(position).getDislikesCount()));
+        holder.ageRange.setText("For kids ages " + stories.get(position).getAge());
+        holder.num_likes.setText(String.valueOf(stories.get(position).getLikesCount()));
+        holder.num_dislikes.setText(String.valueOf(stories.get(position).getDislikesCount()));
 
-        int storyId = storiesList.getData().get(position).getId();
+        int storyId = stories.get(position).getId();
 
         holder.list_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int story_id = storiesList.getData().get(position).getId();
+                int story_id = stories.get(position).getId();
                 Intent intent = new Intent(context, SingleStoryActivity.class);
                 intent.putExtra("story_id", story_id);
                 context.startActivity(intent);
@@ -139,8 +143,8 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         holder.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String title = storiesList.getData().get(position).getTitle();
-                String body = storiesList.getData().get(position).getBody();
+                String title = stories.get(position).getTitle();
+                String body = stories.get(position).getBody();
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 // share only 120 characters if body is longer than or equal to 120
                 if (body.length() >= 120) {
@@ -189,7 +193,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
     @Override
     public int getItemCount() {
-        return storiesList.getData().size();
+        return stories.size();
     }
 
 

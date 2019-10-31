@@ -25,7 +25,7 @@
             android:layout_centerHorizontal="true"
             >
             <ImageView
-                android:id="@+id/bkmrk_img"
+                android:id="@+id/saved_story_img"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"

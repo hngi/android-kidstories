@@ -91,7 +91,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+
             }
         });
 

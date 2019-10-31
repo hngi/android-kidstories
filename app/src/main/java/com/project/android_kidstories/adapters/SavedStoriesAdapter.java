@@ -17,6 +17,7 @@ import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleSavedStoryActivity;
 import com.project.android_kidstories.SingleStoryActivity;
+import com.project.android_kidstories.database.StoryLab;
 
 import java.util.List;
 
@@ -56,6 +57,12 @@ public class SavedStoriesAdapter extends RecyclerView.Adapter<SavedStoriesAdapte
                 context.startActivity(intent);
             }
         });
+        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                return false;
+            }
+        });
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -83,5 +90,9 @@ public class SavedStoriesAdapter extends RecyclerView.Adapter<SavedStoriesAdapte
     @Override
     public int getItemCount() {
         return storiesList.size();
+    }
+    public void reloadStories(){
+        storiesList= StoryLab.get(context).getStories();
+        notifyDataSetChanged();
     }
 }

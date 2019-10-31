@@ -39,16 +39,32 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <ImageView
-                android:id="@+id/button_favourite"
+<!--            <ImageView-->
+<!--                android:id="@+id/button_favourite"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginEnd="24dp"-->
+<!--                android:src="@drawable/ic_favourite"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/story_pic"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/story_pic"/>-->
+
+            <com.like.LikeButton
+                android:id="@+id/heart_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_favourite"
+                app:anim_scale_factor="1"
+                app:icon_size="60dp"
+                app:icon_type="heart"
+                app:is_enabled="true"
                 app:layout_constraintBottom_toBottomOf="@+id/story_pic"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/story_pic"/>
+                app:layout_constraintTop_toBottomOf="@+id/story_pic"
+                app:like_drawable="@drawable/ic_favourite"
+                app:liked="true"
+                app:unlike_drawable="@drawable/ic_favorite_border"
+                tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/author"
@@ -110,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                app:layout_constraintBottom_toTopOf="@+id/button_favourite"
+                app:layout_constraintBottom_toTopOf="@+id/heart_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.955"
                 app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/button_favourite"
+                app:layout_constraintBottom_toTopOf="@+id/heart_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.955"
                 app:layout_constraintStart_toStartOf="parent"
@@ -132,24 +148,73 @@
                 app:layout_constraintVertical_bias="0.122"
                 app:srcCompat="@drawable/ic_stop_black_24dp"/>
 
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-
-    <Button
-        android:id="@+id/btn_markasread"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="@string/mark_story_as_read"
-        android:textColor="@color/white"
-        android:visibility="gone"
-        app:backgroundTint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/btn_markasread"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/mark_story_as_read"
+            android:textColor="@color/white"
+            android:visibility="visible"
+            app:backgroundTint="@color/colorPrimary" />
+
+        <ImageButton
+            android:id="@+id/Zoom_In"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/btn_markasread"
+            android:src="@drawable/zoom_in" />
+
+        <ImageButton
+            android:id="@+id/Zoom_Out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/Zoom_In"
+            android:src="@drawable/zoom_out" />
+        <Button
+            android:id="@+id/comment_btn"
+            android:layout_alignStart="@id/btn_markasread"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comment"
+            android:textColor="@color/white"
+            android:background="@color/colorPrimary">
+
+        </Button>
+    </LinearLayout>
+
+
+<!--    <Button-->
+<!--        android:id="@+id/btn_markasread"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:backgroundTint="@color/colorPrimary"-->
+<!--        android:text="@string/mark_story_as_read"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:visibility="gone"-->
+<!--        tools:visibility="visible"-->
+<!--        app:backgroundTint="@color/colorPrimary"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

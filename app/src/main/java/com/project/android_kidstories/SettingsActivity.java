@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -15,6 +16,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.browser.customtabs.CustomTabsCallback;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.browser.customtabs.CustomTabsSession;
+
 import com.project.android_kidstories.alarm.AlarmReceiver;
 import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.sharePref.SharePref;
@@ -32,7 +38,8 @@ public class SettingsActivity extends BaseActivity {
 
 
     TextView timeTextview;
-//    SharePref sharePref;
+
+    //    SharePref sharePref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,7 +65,6 @@ public class SettingsActivity extends BaseActivity {
             timeStr = "8:00 PM";
         }
         timeTextview.setText(timeStr);
-
 
 
         nightSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
@@ -99,7 +105,7 @@ public class SettingsActivity extends BaseActivity {
                 );
 
 //                SharePref sharePref = SharePref.getINSTANCE(SettingsActivity.this);
-               getSharePref().setString(ALARM_TIME, format.format(d));
+                getSharePref().setString(ALARM_TIME, format.format(d));
 
                 setAlarm(i, i1);
             }
@@ -127,4 +133,14 @@ public class SettingsActivity extends BaseActivity {
 
     }
 
+    // Method to display the privacy policy
+    public void openPrivacyPolicyPage(View view) {
+        String policyUrl = "http://kidstories.app//privacy-policy";
+        String packageName = "com.android.chrome";
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.intent.setPackage(packageName);
+
+        customTabsIntent.launchUrl(SettingsActivity.this, Uri.parse(policyUrl));
+    }
 }

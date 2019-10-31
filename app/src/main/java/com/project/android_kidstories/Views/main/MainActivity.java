@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -46,6 +47,8 @@ import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.streak.StreakActivity;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
+import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
+import com.project.android_kidstories.ui.home.Fragments.PopularStoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
@@ -87,6 +90,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private FragmentsSharedViewModel viewModel;
     CircleImageView navProfilePic;
+    private MenuItem searchItem;
+
+    public static String CURRENT_FRAGMENT = "";
+    public static final String FRAGMENT_NEW = "New Stories";
+    public static final String FRAGMENT_POPULAR = "Popular Stories";
 
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -438,6 +446,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        searchItem = menu.findItem(R.id.app_bar_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Search Prayers");
+        //hideSearchMenu();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Log.e("TAAAAG1", query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Log.e("TAAAAG1", newText);
+                if (CURRENT_FRAGMENT.equals(FRAGMENT_NEW))
+                    NewStoriesFragment.storySearchListener.onStorySearched(newText);
+                else if (CURRENT_FRAGMENT.equals(FRAGMENT_POPULAR))
+                    PopularStoriesFragment.storySearchListener.onStorySearched(newText);
+                return false;
+            }
+        });
         return true;
     }
 

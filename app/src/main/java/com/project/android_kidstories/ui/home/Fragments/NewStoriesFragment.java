@@ -1,5 +1,6 @@
 package com.project.android_kidstories.ui.home.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,7 +33,7 @@ import retrofit2.Response;
 
 import java.util.List;
 
-public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener, RecyclerStoriesAdapter.OnBookmarked {
+public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener, RecyclerStoriesAdapter.OnBookmarked, RecyclerStoriesAdapter.StorySearch {
 
     private static final String TAG = "kidstories";
     private RecyclerView recyclerView;
@@ -45,6 +46,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     //    private StoryAdapter storyAdapter;
     private RecyclerStoriesAdapter storyAdapter;
     private String token;
+    public static RecyclerStoriesAdapter.StorySearch storySearchListener;
 
 
     public static NewStoriesFragment newInstance() {
@@ -209,5 +211,16 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         });
         Log.e("INITBOOKMARK", initBookmark + "");
         return initBookmark;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        storySearchListener = this;
+    }
+
+    @Override
+    public void onStorySearched(String query) {
+        storyAdapter.getFilter().filter(query);
     }
 }

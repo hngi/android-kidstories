@@ -13,6 +13,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.ui.home.Adapters.SectionsPageAdapter;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
@@ -57,6 +58,12 @@ public class HomeFragment extends Fragment {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(LastTabPosition).select();
+
+        if(tabLayout.getTabAt(0).isSelected()){
+            MainActivity.CURRENT_FRAGMENT = MainActivity.FRAGMENT_NEW;
+        }else if(tabLayout.getTabAt(1).isSelected()){
+            MainActivity.CURRENT_FRAGMENT = MainActivity.FRAGMENT_POPULAR;
+        }
 
 
         return root;

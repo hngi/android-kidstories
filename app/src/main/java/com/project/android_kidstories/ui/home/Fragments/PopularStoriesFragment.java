@@ -1,5 +1,6 @@
 package com.project.android_kidstories.ui.home.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +35,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class PopularStoriesFragment extends Fragment implements RecyclerStoriesAdapter.OnBookmarked {
+public class PopularStoriesFragment extends Fragment implements RecyclerStoriesAdapter.OnBookmarked, RecyclerStoriesAdapter.StorySearch {
     private RecyclerStoriesAdapter adapter;
     private ProgressBar popular_bar;
     RecyclerView recyclerView;
@@ -42,6 +43,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     private Api service;
     private boolean isAddSuccessful, initBookmark;
     private String token;
+    public static RecyclerStoriesAdapter.StorySearch storySearchListener;
 
     public static PopularStoriesFragment newInstance() {
         return new PopularStoriesFragment();
@@ -168,6 +170,17 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
         });
         Log.e("INITBOOKMARK", initBookmark + "");
         return initBookmark;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        storySearchListener = this;
+    }
+
+    @Override
+    public void onStorySearched(String query) {
+        adapter.getFilter().filter(query);
     }
 
     public class StoryComparitor implements Comparator<Story> {

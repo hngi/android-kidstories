@@ -16,6 +16,11 @@
             android:title="Profile"/>
 
         <item
+            android:id="@+id/nav_saved_stories"
+            android:icon="@drawable/saved_stories"
+            android:title="Saved stories"/>
+
+        <item
             android:id="@+id/nav_categories"
             android:icon="@drawable/ic_action_categories"
             android:title="Categories" />

@@ -131,10 +131,11 @@
             android:layout_marginEnd="12dp"
             android:orientation="horizontal">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:orientation="horizontal"
                 android:layout_marginBottom="12dp">
 
                 <Button
@@ -142,20 +143,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="@string/mark_story_as_read"
                     android:textColor="@color/white"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:backgroundTint="@color/colorPrimary" />
 
                 <ImageButton
                     android:id="@+id/Zoom_In"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_toEndOf="@id/btn_markasread"
                     android:src="@drawable/zoom_in" />
 
@@ -163,7 +161,6 @@
                     android:id="@+id/Zoom_Out"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_toEndOf="@id/Zoom_In"
                     android:src="@drawable/zoom_out" />
                 <Button
@@ -176,7 +173,7 @@
                     android:background="@color/colorPrimary">
 
                 </Button>
-            </RelativeLayout>
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

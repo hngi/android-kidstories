@@ -137,6 +137,15 @@ public class SingleStoryActivity extends AppCompatActivity {
                 likeButton.setEnabled(true);
             }
         });
+
+        comment_btn =findViewById(R.id.comment_btn);
+        comment_btn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                sendCommentList();
+            }
+        });
     }
 
     public void getStoryWithId(int id) {
@@ -218,21 +227,15 @@ public class SingleStoryActivity extends AppCompatActivity {
 
             }
         });
-        comment_btn =findViewById(R.id.comment_btn);
-        comment_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendCommentList();
-
-            }
-        });
 
     }
 
 
 
     private void sendCommentList(){
-        Intent intent = new Intent(this, CommentActivity.class);
+        Intent intent = new Intent(SingleStoryActivity.this, CommentActivity.class);
+        intent.putExtra("storyId", story_id);
+        startActivity(intent);
        // intent.putExtra();
     }
 

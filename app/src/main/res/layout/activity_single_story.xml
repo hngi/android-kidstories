@@ -144,10 +144,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginBottom="8dp"
+                    android:background="@drawable/comment_round_button"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="@string/mark_story_as_read"
                     android:textColor="@color/white"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:backgroundTint="@color/colorPrimary" />
 
                 <ImageButton
@@ -169,8 +170,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Comment"
+                    android:padding="10dp"
                     android:textColor="@color/white"
-                    android:background="@color/colorPrimary">
+                    android:background="@drawable/comment_round_button">
 
                 </Button>
             </LinearLayout>

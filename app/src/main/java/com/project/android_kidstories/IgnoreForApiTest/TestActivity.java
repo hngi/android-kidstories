@@ -247,7 +247,7 @@ public class TestActivity extends AppCompatActivity {
         //RequestBody storyId = RequestBody.create(okhttp3.MultipartBody.FORM, "1");
         RequestBody comment = RequestBody.create(okhttp3.MultipartBody.FORM, "Amazing Story");
         token = "Bearer " + Prefs.getString("Token", "");
-        repository.getStoryApi().addComment(token, 1, comment).enqueue(new Callback<BaseResponse<CommentResponse>>() {
+        repository.getStoryApi().addComment(token, comment, 1).enqueue(new Callback<BaseResponse<CommentResponse>>() {
             @Override
             public void onResponse(Call<BaseResponse<CommentResponse>> call, Response<BaseResponse<CommentResponse>> response) {
                 if (response.isSuccessful()) {

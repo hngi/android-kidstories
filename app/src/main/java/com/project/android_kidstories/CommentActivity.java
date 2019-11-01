@@ -28,7 +28,7 @@ public class CommentActivity extends AppCompatActivity {
     RecyclerView rv;
     EditText typeComment;
     private String token;
-    private String storyId;
+    private int storyId;
     private ImageView sendComment;
 
 
@@ -42,7 +42,7 @@ public class CommentActivity extends AppCompatActivity {
         rv = findViewById(R.id.comment_rv);
         typeComment=findViewById(R.id.type_comment);
         token = new SharePref(getApplicationContext()).getMyToken();
-        storyId = getIntent().getStringExtra("storyId");
+        storyId = getIntent().getIntExtra("storyId", -1);
         sendComment= findViewById(R.id.send_comment);
 
         LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
@@ -64,10 +64,10 @@ public class CommentActivity extends AppCompatActivity {
         postComment(token,storyId,userComment);
     }
 
-    public void postComment(String token,String id, String userComment){
-        RequestBody storyId = RequestBody.create(okhttp3.MultipartBody.FORM, id);
+    public void postComment(String token,int id, String userComment){
+       // RequestBody storyId = RequestBody.create(okhttp3.MultipartBody.FORM, id);
         RequestBody comment = RequestBody.create(okhttp3.MultipartBody.FORM, userComment);
-        service.addComment(token, storyId, comment).enqueue(new Callback<BaseResponse<CommentResponse>>() {
+        service.addComment(token, id, comment).enqueue(new Callback<BaseResponse<CommentResponse>>() {
             @Override
             public void onResponse(Call<BaseResponse<CommentResponse>> call, Response<BaseResponse<CommentResponse>> response) {
                 if (response.isSuccessful()) {

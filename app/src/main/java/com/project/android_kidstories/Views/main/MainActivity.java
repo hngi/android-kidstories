@@ -467,7 +467,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         getMenuInflater().inflate(R.menu.menu_main, menu);
         searchItem = menu.findItem(R.id.app_bar_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("Search Prayers");
+        searchView.setQueryHint("Search Stories");
         //hideSearchMenu();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

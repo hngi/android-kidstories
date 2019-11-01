@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginStart="12dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginEnd="12dp"
     android:orientation="vertical"
     tools:context=".AddStoryActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_add_story"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minWidth="?android:attr/actionBarSize" />
 
     <TextView
         android:id="@+id/add_story_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/add_story"
@@ -25,7 +30,9 @@
         android:id="@+id/title_edt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="12dp"
         android:background="@drawable/border"
         android:ems="10"
         android:fontFamily="@font/roboto_regular"
@@ -41,7 +48,9 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="45sp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginBottom="64dp"
         android:background="@drawable/border"
         android:orientation="horizontal">
@@ -73,6 +82,8 @@
         android:id="@+id/button_type_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/rounded_triangle_blue"
         android:fontFamily="@font/roboto_regular"

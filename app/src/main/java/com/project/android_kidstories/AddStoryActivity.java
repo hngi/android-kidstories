@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.project.android_kidstories.Views.main.MainActivity;
@@ -34,6 +35,11 @@ public class AddStoryActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_story);
+        // Set up toolbar
+        Toolbar addStoryToolbar = findViewById(R.id.toolbar_add_story);
+        setSupportActionBar(addStoryToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
 
         imagePathText = findViewById(R.id.textView3);
 

@@ -110,8 +110,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-
-
                     <TextView
                         android:id="@+id/story_content"
                         android:layout_width="match_parent"
@@ -121,7 +119,7 @@
                         android:justificationMode="inter_word"
                         android:padding="10dp"
                         android:textAlignment="gravity"
-                        android:textSize="14dp" />
+                        android:textSize="14sp" />
 
 
                     <ProgressBar
@@ -161,14 +159,15 @@
                 <Button
                     android:id="@+id/btn_markasread"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/comment_round_btn"
+                    android:layout_height="40dp"
+                    android:background="@color/colorPrimary"
                     android:layout_alignParentStart="true"
                     android:layout_marginBottom="8dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="@string/mark_story_as_read"
                     android:textColor="@color/white"
                     android:visibility="visible"
+                    android:textSize="12sp"
                     app:backgroundTint="@color/colorPrimary" />
 
                 <ImageButton
@@ -188,10 +187,11 @@
                     android:id="@+id/comment_btn"
                     android:layout_alignStart="@id/btn_markasread"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="Comment"
+                    android:textSize="12sp"
                     android:textColor="@color/white"
-                    android:background="@drawable/comment_round_btn">
+                    android:background="@color/colorPrimary">
 
                 </Button>
             </LinearLayout>

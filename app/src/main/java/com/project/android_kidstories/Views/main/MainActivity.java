@@ -39,6 +39,7 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.SavedStoriesActivity;
 import com.project.android_kidstories.SettingsActivity;
 import com.project.android_kidstories.alarm.AlarmReceiver;
 import com.project.android_kidstories.base.BaseActivity;
@@ -302,6 +303,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                         msg="Categories";
                         bottomNavigationView.setVisibility(View.GONE);
                         break;
+
+
+                    case R.id.nav_saved_stories:
+                        Intent intent = new Intent(MainActivity.this, SavedStoriesActivity.class);
+                        MainActivity.this.startActivity(intent);
+                        break;
+
                     case R.id.nav_donate:
                         fragment = new DonateFragment();
                         msg="Donate";

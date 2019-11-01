@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/comment_text_area"
-                android:hint="Type a comment"
+                android:hint="      Type a comment"
                 android:minHeight="50dp"
                 android:textSize="18sp" />
 
@@ -55,7 +55,6 @@
                 android:layout_margin="10dp"
                 android:src="@drawable/send"
                 android:clickable="true"
-                android:onClick="sendComment"
                 android:tint="@color/colorPrimary" />
 
         </RelativeLayout>

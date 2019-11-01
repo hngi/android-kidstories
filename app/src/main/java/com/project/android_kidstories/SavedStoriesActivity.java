@@ -28,11 +28,14 @@ public class SavedStoriesActivity extends AppCompatActivity {
         storyLab = StoryLab.get(this);
 
         Story story = new Story();
-        story.setTitle("Monkey Story");
+        story.setTitle("dummy Story");
         story.setId(1);
-        story.setAuthor("Joshua Erondu");
-        story.setBody("story body");
+        story.setAuthor("dummy author");
+        story.setBody(" dummy story body");
         story.setAge("4-9");
+
+        storyLab.addStory(story);
+
 
         recyclerView = findViewById(R.id.saved_stories_recycler);
         List<Story> stories = new ArrayList<Story>();

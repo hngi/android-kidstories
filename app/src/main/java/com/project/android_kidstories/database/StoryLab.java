@@ -44,11 +44,10 @@ public class StoryLab { // A singleton class
     public void deleteStory(Story story){
         mDatabase.delete(
                 StoryTable.NAME,
-                StoryTable.Cols.ID + " = ?",
-                new String[]{String.valueOf(story.getId())}
+                StoryTable.Cols.TITLE + " = ?",
+                new String[]{story.getTitle()}
         );
     }
-
     public List<Story> getStories(){
         List<Story> storyList = new ArrayList<>();
         StoryCursorWrapper cursor = queryStories(null,null);

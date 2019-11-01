@@ -82,7 +82,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
                 } else {
-                    Toast.makeText(getContext(), "Response Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+
                 }
             }
 
@@ -90,7 +90,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
                 popular_bar.setVisibility(View.INVISIBLE);
 
-                Toast.makeText(getContext(), " Failure Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                //TODO
             }
         });
         return v;

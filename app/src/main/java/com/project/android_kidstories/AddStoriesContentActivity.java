@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -260,7 +261,7 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
                     Story story = new Story();
                     story.setAge("2-5");
                     story.setTitle(title);
-                    story.setBody(mEditor.getHtml());
+                    story.setBody(Html.fromHtml(mEditor.getHtml()).toString());
                     //story.setBody(storyContent.getText().toString());
                     String author = new SharePref(getApplicationContext()).getUserFirstname();
                     story.setAuthor(author);

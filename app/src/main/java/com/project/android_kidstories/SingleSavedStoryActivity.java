@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.adapters.SavedStoriesAdapter;
@@ -28,10 +29,21 @@ public class SingleSavedStoryActivity extends AppCompatActivity {
         authorTv = findViewById(R.id.saved_story_content);
         storyContentTv = findViewById(R.id.saved_story_content);
 
-        if(!storyTitle.equals(null)){
+        story = storyLab.getStory(storyTitle);
 
-            showStory(storyLab.getStory(storyTitle));
+        if (story==null){
 
+            Toast.makeText(this, "story file not found", Toast.LENGTH_SHORT).show();
+            finish();
+
+
+        }
+        else{
+            if(!storyTitle.equals(null)){
+
+                showStory(storyLab.getStory(storyTitle));
+
+            }
         }
     }
 

@@ -163,11 +163,13 @@
                     android:background="@color/colorPrimary"
                     android:layout_alignParentStart="true"
                     android:layout_marginBottom="8dp"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="@string/mark_story_as_read"
                     android:textColor="@color/white"
                     android:visibility="visible"
-                    android:textSize="12sp"
+                    android:textSize="9sp"
                     app:backgroundTint="@color/colorPrimary" />
 
                 <ImageButton

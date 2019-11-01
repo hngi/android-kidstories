@@ -30,7 +30,7 @@ public class AddCommentHelper {
     }
 
     private static boolean addComment(int storyId, RequestBody comment) {
-        RetrofitClient.getInstance().create(Api.class).addComment(AddStoryHelper.token, storyId,comment)
+        RetrofitClient.getInstance().create(Api.class).addComment(AddStoryHelper.token, comment, storyId)
                 .enqueue(new Callback<BaseResponse<CommentResponse>>() {
                     @Override
                     public void onResponse(Call<BaseResponse<CommentResponse>> call, Response<BaseResponse<CommentResponse>> response) {

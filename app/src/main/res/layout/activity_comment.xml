@@ -16,7 +16,6 @@
         android:id="@+id/comment_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:itemCount="10"
         tools:listitem="@layout/comment_story_layout"
         android:layout_marginBottom="60dp"
         android:layout_below="@id/comment_bar"/>
@@ -47,7 +46,7 @@
                 android:textSize="18sp" />
 
             <ImageView
-                android:id="@+id/send_comment"
+                android:id="@+id/btn_send_comment"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_alignParentEnd="true"

@@ -214,8 +214,8 @@ public interface Api {
     @Multipart
     @POST("comments")
     Call<BaseResponse<CommentResponse>> addComment(@Header("Authorization") String token,
-                                                   @Part("story_id") Integer storyId,
-                                                   @Part("body") RequestBody comment);
+                                                   @Part("body") RequestBody comment,
+                                                   @Part("story_id") Integer storyId);
 
     @PUT("comments/{id}")
     Call<BaseResponse<CommentResponse>> updateComment(@Header("Authorization") String token,

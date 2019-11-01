@@ -1,6 +1,7 @@
 package com.project.android_kidstories;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -64,6 +65,11 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_stories_content);
+        // Set up toolbar
+        Toolbar addStoriesContentToolbar = findViewById(R.id.toolbar_add_stories_content);
+        setSupportActionBar(addStoriesContentToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
 
         title = getIntent().getStringExtra("story_title");
         String image_path = getIntent().getStringExtra("image_path");

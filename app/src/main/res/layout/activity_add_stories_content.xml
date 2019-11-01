@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".AddStoriesContentActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_add_stories_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/actionBarSize"/>
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"

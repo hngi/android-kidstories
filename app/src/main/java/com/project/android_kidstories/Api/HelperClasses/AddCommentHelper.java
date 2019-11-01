@@ -19,17 +19,17 @@ public class AddCommentHelper {
     public static boolean addOrUpdateComment(int storyId, String comment) {
 
         RequestBody commentBody = RequestBody.create(okhttp3.MultipartBody.FORM, comment);
-        RequestBody storyIdBody = RequestBody.create(MultipartBody.FORM, String.valueOf(storyId));
+        //RequestBody storyIdBody = RequestBody.create(MultipartBody.FORM, String.valueOf(storyId));
 
         if(isNewComment){
-            return addComment(storyIdBody, commentBody);
+            return addComment(storyId, commentBody);
         } else {
-            return addComment(storyIdBody, commentBody);
+            return addComment(storyId, commentBody);
         }
 
     }
 
-    private static boolean addComment(RequestBody storyId, RequestBody comment) {
+    private static boolean addComment(int storyId, RequestBody comment) {
         RetrofitClient.getInstance().create(Api.class).addComment(AddStoryHelper.token, storyId,comment)
                 .enqueue(new Callback<BaseResponse<CommentResponse>>() {
                     @Override

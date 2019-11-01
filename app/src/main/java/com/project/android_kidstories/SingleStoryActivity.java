@@ -1,12 +1,16 @@
 package com.project.android_kidstories;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.*;
+import android.content.pm.PackageManager;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
@@ -46,6 +50,7 @@ public class SingleStoryActivity extends AppCompatActivity {
     TextToSpeech textToSpeech;
     SharePref sharePref;
     Button comment_btn;
+    String googleTtsPackage = "com.google.android.tts", picoPackage = "com.svox.pico";
 
     LikeButton likeButton;
 
@@ -213,10 +218,12 @@ public class SingleStoryActivity extends AppCompatActivity {
                     }
                     else {
                     btn_speak.setEnabled(true);
-                    textToSpeech.setPitch(0.6f);
-                    textToSpeech.setSpeechRate(0.9f);
+                    //textToSpeech.setPitch(0.6f);
+                    textToSpeech.setEngineByPackageName(googleTtsPackage);
+                    textToSpeech.setSpeechRate(0.85f);
                     speak();}
                 }
+
             }
         });
 
@@ -254,7 +261,6 @@ public class SingleStoryActivity extends AppCompatActivity {
         Intent intent = new Intent(SingleStoryActivity.this, CommentActivity.class);
         intent.putExtra("storyId", story_id);
         startActivity(intent);
-       // intent.putExtra();
     }
 
     public static List<Comment> returnComments(){

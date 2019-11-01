@@ -254,7 +254,6 @@ public class SingleStoryActivity extends AppCompatActivity {
         Intent intent = new Intent(SingleStoryActivity.this, CommentActivity.class);
         intent.putExtra("storyId", story_id);
         startActivity(intent);
-       // intent.putExtra();
     }
 
     public static List<Comment> returnComments(){

@@ -12,7 +12,7 @@ public class CommentResponse {
 
     @SerializedName("story_id")
     @Expose
-    private String storyId;
+    private int storyId;
     @SerializedName("user_id")
     @Expose
     private Integer userId;
@@ -29,11 +29,11 @@ public class CommentResponse {
     @Expose
     private Integer id;
 
-    public String getStoryId() {
+    public int getStoryId() {
         return storyId;
     }
 
-    public void setStoryId(String storyId) {
+    public void setStoryId(int storyId) {
         this.storyId = storyId;
     }
 

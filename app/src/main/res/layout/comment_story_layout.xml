@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/edittext_white_background"
     android:layout_margin="4dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -32,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:text="Sammy"
+                tools:text="Sammy"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
 
@@ -42,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/comment_author"
                 android:layout_marginStart="15dp"
-                android:text="This is a comment"
+                tools:text="This is a comment"
                 android:textSize="12sp" />
 
             <TextView
@@ -53,7 +55,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/comment"
                 android:textColor="@color/grey"
-                android:text="3 DAYS AGO"
+                tools:text="3 DAYS AGO"
                 android:layout_alignParentEnd="true"
                 android:textSize="10sp" />
 

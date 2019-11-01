@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".ui.info.FeedBackFragment">
 
     <ScrollView
@@ -12,16 +13,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="14dp">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="34dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="15dp"
                 android:textColor="@color/colorAccent"
                 android:text="FeedBack"/>
@@ -43,33 +42,45 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="14dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fed_Name"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/edit_text_rectangle"
-                android:ems="10"
-                android:fontFamily="@font/roboto_light"
-                android:hint="Full name"
-                android:inputType="textPersonName"
-                android:paddingStart="15dp"
-                android:textAllCaps="false" />
+                style="@style/AppTextField">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fed_Email"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fed_Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_light"
+                    android:hint="Full name"
+                    android:inputType="textPersonName"
+                    android:paddingStart="15dp"
+                    android:textAllCaps="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/edit_text_rectangle"
-                android:ems="10"
-                android:fontFamily="@font/roboto_light"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:paddingStart="15dp"
-                android:textAllCaps="false" />
+                style="@style/AppTextField">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fed_Email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/roboto_light"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="15dp"
+                    android:textAllCaps="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fed_Message"
@@ -90,6 +101,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
                 android:background="@drawable/rounded_triangle_blue"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Send"
@@ -98,7 +111,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-
 
 </FrameLayout>

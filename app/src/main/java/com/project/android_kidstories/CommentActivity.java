@@ -1,0 +1,91 @@
+package com.project.android_kidstories;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.project.android_kidstories.Api.Api;
+import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
+import com.project.android_kidstories.Api.RetrofitClient;
+import com.project.android_kidstories.sharePref.SharePref;
+
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class CommentActivity extends AppCompatActivity {
+
+    Api service;
+    RecyclerView rv;
+    EditText typeComment;
+    private String token;
+    private int storyId;
+    private ImageView sendComment;
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_comment);
+        service = RetrofitClient.getInstance().create(Api.class);
+
+        rv = findViewById(R.id.comment_rv);
+        typeComment=findViewById(R.id.type_comment);
+        token = new SharePref(getApplicationContext()).getMyToken();
+        storyId = getIntent().getIntExtra("storyId", -1);
+        sendComment= findViewById(R.id.send_comment);
+
+        LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        CommentAdapter adapter = new CommentAdapter(SingleStoryActivity.returnComments(),this);
+        rv.setLayoutManager(manager);
+        rv.setAdapter(adapter);
+
+        sendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendComment();
+            }
+        });
+    }
+
+
+    public void sendComment() {
+        String userComment = typeComment.getText().toString();
+        postComment(token,storyId,userComment);
+    }
+
+    public void postComment(String token,int id, String userComment){
+       // RequestBody storyId = RequestBody.create(okhttp3.MultipartBody.FORM, id);
+        RequestBody comment = RequestBody.create(okhttp3.MultipartBody.FORM, userComment);
+        service.addComment(token, id, comment).enqueue(new Callback<BaseResponse<CommentResponse>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<CommentResponse>> call, Response<BaseResponse<CommentResponse>> response) {
+                if (response.isSuccessful()) {
+                    String status = String.valueOf(response.body().getStatus());
+                    String message = response.body().getMessage();
+                    Log.e("Response Status ", status + ": " + message + "\n");
+
+                   Log.e("PostedComment: ", response.body().getData().getBody() + "\n");
+                } else {
+                    Log.e("Success Error ", response.message());
+                   Log.e("Code ", response.code()+"");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<CommentResponse>> call, Throwable t) {
+                Log.e("Response Error ", t.getMessage());
+            }
+        });
+    }
+}

@@ -1,12 +1,16 @@
 package com.project.android_kidstories;
 
-import android.media.MediaPlayer;
-import android.media.projection.MediaProjection;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.*;
+import android.content.pm.PackageManager;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
@@ -16,36 +20,42 @@ import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.DataStore.ReadStory;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.Comment;
 import com.project.android_kidstories.Model.Story;
+import com.project.android_kidstories.database.StoryLab;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.streak.StreakActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.List;
 import java.util.Locale;
 
 public class SingleStoryActivity extends AppCompatActivity {
 
-    private MediaPlayer backgroungMusicPlayer;
     private ImageView story_pic, like_btn;
     int story_id = 0;
-    private TextView story_author, story_content, error_msg;
+    private TextView story_author, story_content, error_msg, saveStory;
     private Toolbar toolbar;
     private ProgressBar progressBar;
     private Repository repository;
     private Api storyApi;
 
+    Story testStory;
+    StoryLab storyLab;
     ImageButton btn_speak;
     ImageButton btn_stop;
     TextView speak_text;
     TextToSpeech textToSpeech;
     SharePref sharePref;
-
-    ImageButton playButton;
-    ImageButton stopButton;
+    Button comment_btn;
+    String googleTtsPackage = "com.google.android.tts", picoPackage = "com.svox.pico";
 
     LikeButton likeButton;
+
+    private ImageButton ZoomIn, ZoomOut;
+    private static List<Comment> comments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +64,9 @@ public class SingleStoryActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        storyLab = StoryLab.get(this);
+        ZoomIn = findViewById(R.id.Zoom_In);
+        ZoomOut = findViewById(R.id.Zoom_Out);
 
         repository = Repository.getInstance(this.getApplication());
         storyApi = repository.getStoryApi();
@@ -66,6 +79,27 @@ public class SingleStoryActivity extends AppCompatActivity {
         repository.getStoryForId(String.valueOf(story_id)).observe(this, readStory -> {
             if (readStory == null) {
                 markAsReadBtn.setVisibility(View.VISIBLE);
+            }
+        });
+
+        // For controlling Zooming In
+        ZoomIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                story_content.getTextSize();
+                story_content.setTextSize(24);
+                story_content.setMovementMethod(new ScrollingMovementMethod());
+            }
+        });
+
+
+        // For controlling Zooming Out
+        ZoomOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                story_content.getTextSize();
+                story_content.setTextSize(14);
+                story_content.setMovementMethod(new ScrollingMovementMethod());
             }
         });
 
@@ -88,6 +122,7 @@ public class SingleStoryActivity extends AppCompatActivity {
         story_pic = findViewById(R.id.story_pic);
         like_btn = findViewById(R.id.like_button);
         error_msg = findViewById(R.id.error_msg);
+        saveStory = findViewById(R.id.save_story);
         //todo : check authorization for premium stories
         getStoryWithId(story_id);
 
@@ -111,6 +146,26 @@ public class SingleStoryActivity extends AppCompatActivity {
                 likeButton.setEnabled(true);
             }
         });
+
+        comment_btn =findViewById(R.id.comment_btn);
+        comment_btn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                sendCommentList();
+            }
+        });
+
+        saveStory.setVisibility(View.INVISIBLE);
+        saveStory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (testStory!=null){
+                    storyLab.addStory(testStory);
+                    Toast.makeText(SingleStoryActivity.this, "Story saved", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void getStoryWithId(int id) {
@@ -119,6 +174,7 @@ public class SingleStoryActivity extends AppCompatActivity {
             public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
                 try {
                     Story currentStory = response.body().getData();
+                    testStory = currentStory;
                     getSupportActionBar().setTitle(currentStory.getTitle());
                     story_author.setText(currentStory.getAuthor());
                     story_content.setText(currentStory.getBody());
@@ -126,6 +182,9 @@ public class SingleStoryActivity extends AppCompatActivity {
                     story_author.setVisibility(View.VISIBLE);
                     story_content.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);
+                    saveStory.setVisibility(View.VISIBLE);
+                    comments = currentStory.getComments().getComments();
+
                 } catch (Exception e) {
                     Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong ... story specific issue", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);
@@ -159,10 +218,12 @@ public class SingleStoryActivity extends AppCompatActivity {
                     }
                     else {
                     btn_speak.setEnabled(true);
-                    textToSpeech.setPitch(0.6f);
-                    textToSpeech.setSpeechRate(0.9f);
+                    //textToSpeech.setPitch(0.6f);
+                    textToSpeech.setEngineByPackageName(googleTtsPackage);
+                    textToSpeech.setSpeechRate(0.85f);
                     speak();}
                 }
+
             }
         });
 
@@ -192,39 +253,18 @@ public class SingleStoryActivity extends AppCompatActivity {
             }
         });
 
-
-        //background Music
-        backgroungMusicPlayer = MediaPlayer.create(this, R.raw.kidsong1);
-        playButton = findViewById(R.id.playMusic);
-        stopButton = findViewById(R.id.stopMusic);
-
-        playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                play();
-                if (backgroungMusicPlayer.isPlaying()){
-                    playButton.setVisibility(View.INVISIBLE);
-                    stopButton.setVisibility(View.VISIBLE);
-                    stopButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            backgroungMusicPlayer.pause();
-                            playButton.setVisibility(View.VISIBLE);
-                            stopButton.setVisibility(View.INVISIBLE);
-                        }
-                    });}
-
-
-
-
-            }
-        });
-
-
     }
 
-    private void play() {
-        backgroungMusicPlayer.start();
+
+
+    private void sendCommentList(){
+        Intent intent = new Intent(SingleStoryActivity.this, CommentActivity.class);
+        intent.putExtra("storyId", story_id);
+        startActivity(intent);
+    }
+
+    public static List<Comment> returnComments(){
+        return comments;
     }
 
     private void speak() {

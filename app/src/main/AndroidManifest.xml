@@ -21,6 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SavedStoriesActivity"></activity>
+        <activity android:name=".SingleSavedStoryActivity" />
+        <activity android:name=".ui.info.FeedBackFragment" />
 
         <receiver
             android:name=".alarm.AlarmReceiver"
@@ -30,6 +32,7 @@
         <activity android:name=".IgnoreForApiTest.TestActivity" />
         <activity
             android:name=".SettingsActivity"
+            android:parentActivityName=".Views.main.MainActivity"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning" />
         <activity
@@ -64,8 +67,13 @@
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.WhiteStatusBar" />
         <activity android:name=".BookMark" />
-        <activity android:name=".AddStoryActivity" />
-        <activity android:name=".AddStoriesContentActivity" />
+        <activity
+            android:name=".AddStoryActivity"
+            android:parentActivityName=".Views.main.MainActivity" />
+        <activity android:name=".CommentActivity" />
+        <activity
+            android:name=".AddStoriesContentActivity"
+            android:parentActivityName=".AddStoryActivity" />
         <activity android:name=".base.BaseActivity" />
         <activity android:name=".streak.StreakActivity" />
 

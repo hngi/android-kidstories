@@ -119,6 +119,8 @@ dependencies {
     // Feedback with FireBase
     implementation "com.firebase:firebase-client-android:2.5.2"
 
+    // Custom Tabs Dependency
+    implementation 'com.android.support:customtabs:29.0.0'
 }
 repositories {
     mavenCentral()

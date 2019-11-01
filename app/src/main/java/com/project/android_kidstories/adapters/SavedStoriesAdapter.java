@@ -2,6 +2,7 @@ package com.project.android_kidstories.adapters;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,9 +59,24 @@ public class SavedStoriesAdapter extends RecyclerView.Adapter<SavedStoriesAdapte
                 context.startActivity(intent);
             }
         });
+
+
         holder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+
+                new AlertDialog.Builder(context).setTitle("Delete Story")
+                        .setMessage("Do you want to delete this story ?")
+                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                StoryLab.get(context).deleteStory(storiesList.get(position));
+                                reloadStories();
+                            }
+                        })
+                        .setNegativeButton("no" , null)
+                        .show();
+
                 return false;
             }
         });
@@ -81,7 +98,7 @@ public class SavedStoriesAdapter extends RecyclerView.Adapter<SavedStoriesAdapte
 
             //storyImage = view.findViewById(R.id.my_story_image);
             storyTitle = view.findViewById(R.id.saved_story_title);
-            authorName = view.findViewById(R.id.author);
+            authorName = view.findViewById(R.id.saved_story_author);
 
 
         }

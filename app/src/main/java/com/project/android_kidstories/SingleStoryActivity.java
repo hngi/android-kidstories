@@ -160,9 +160,16 @@ public class SingleStoryActivity extends AppCompatActivity {
         saveStory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 if (testStory!=null){
-                    storyLab.addStory(testStory);
-                    Toast.makeText(SingleStoryActivity.this, "Story saved", Toast.LENGTH_SHORT).show();
+                    if(storyLab.getStory(testStory.getTitle())==null){
+                        storyLab.addStory(testStory);
+                        Toast.makeText(SingleStoryActivity.this, "Story saved", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        replaceSavedStoryDialog(testStory);
+                    }
                 }
             }
         });
@@ -301,5 +308,18 @@ public class SingleStoryActivity extends AppCompatActivity {
         btn_speak.setEnabled(true);
         btn_stop.setVisibility(View.INVISIBLE);
 
+    }
+
+    public void replaceSavedStoryDialog(Story story){
+         new AlertDialog.Builder(SingleStoryActivity.this)
+                 .setMessage("A story with this name already exists.\nDo you want to Replace it?" )
+                 .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialogInterface, int i) {
+                         storyLab.deleteStory(story);
+                         storyLab.addStory(story);
+                     }
+                 })
+                 .setNegativeButton("no" , null).show();
     }
 }

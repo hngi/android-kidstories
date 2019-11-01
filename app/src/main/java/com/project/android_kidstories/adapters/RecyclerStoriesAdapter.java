@@ -431,6 +431,55 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         });
     }
 
+    public void animateTo(List<Story> models) {
+        applyAndAnimateRemovals(models);
+        applyAndAnimateAdditions(models);
+        applyAndAnimateMovedItems(models);
+    }
 
+    private void applyAndAnimateRemovals(List<Story> newModels) {
+        for (int i = stories.size() - 1; i >= 0; i--) {
+            final Story model = stories.get(i);
+            if (!newModels.contains(model)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<Story> newModels) {
+        for (int i = 0, count = newModels.size(); i < count; i++) {
+            final Story model = newModels.get(i);
+            if (!stories.contains(model)) {
+                addItem(i, model);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<Story> newModels) {
+        for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
+            final Story model = newModels.get(toPosition);
+            final int fromPosition = stories.indexOf(model);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+    public Story removeItem(int position) {
+        final Story model = stories.remove(position);
+        notifyItemRemoved(position);
+        return model;
+    }
+
+    public void addItem(int position, Story model) {
+        stories.add(position, model);
+        notifyItemInserted(position);
+    }
+
+    public void moveItem(int fromPosition, int toPosition) {
+        final Story model = stories.remove(fromPosition);
+        stories.add(toPosition, model);
+        notifyItemMoved(fromPosition, toPosition);
+    }
 
 }

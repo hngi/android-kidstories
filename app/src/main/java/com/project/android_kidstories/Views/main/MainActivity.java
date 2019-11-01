@@ -92,7 +92,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     CircleImageView navProfilePic;
     private MenuItem searchItem;
 
-    public static String CURRENT_FRAGMENT = "";
+    public static String getCurrentFragment() {
+        return CURRENT_FRAGMENT;
+    }
+
+    public static void setCurrentFragment(String currentFragment) {
+        CURRENT_FRAGMENT = currentFragment;
+    }
+
+    private static String CURRENT_FRAGMENT = "";
     public static final String FRAGMENT_NEW = "New Stories";
     public static final String FRAGMENT_POPULAR = "Popular Stories";
 
@@ -121,6 +129,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         toolbar = findViewById(R.id.main_toolbar);
         toolbar.setTitle("Stories");
         setSupportActionBar(toolbar);
+
+        if(LastTabPosition==0){
+            setCurrentFragment(FRAGMENT_NEW);
+        }else if (LastTabPosition==1){
+            setCurrentFragment(FRAGMENT_POPULAR);
+        }
 
 
         sharePref = SharePref.getINSTANCE(getApplicationContext());
@@ -460,11 +474,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public boolean onQueryTextChange(String newText) {
                 //Log.e("TAAAAG1", newText);
-                if (CURRENT_FRAGMENT.equals(FRAGMENT_NEW))
+                if (getCurrentFragment().equals(FRAGMENT_NEW))
                     NewStoriesFragment.storySearchListener.onStorySearched(newText);
-                else if (CURRENT_FRAGMENT.equals(FRAGMENT_POPULAR))
+                else if (getCurrentFragment().equals(FRAGMENT_POPULAR))
                     PopularStoriesFragment.storySearchListener.onStorySearched(newText);
-                return false;
+                return true;
             }
         });
         return true;

@@ -1,6 +1,7 @@
 package com.project.android_kidstories.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,11 +60,28 @@ public class HomeFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(LastTabPosition).select();
 
-        if(tabLayout.getTabAt(0).isSelected()){
-            MainActivity.CURRENT_FRAGMENT = MainActivity.FRAGMENT_NEW;
-        }else if(tabLayout.getTabAt(1).isSelected()){
-            MainActivity.CURRENT_FRAGMENT = MainActivity.FRAGMENT_POPULAR;
-        }
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                if(tab.getPosition()==0){
+                    MainActivity.setCurrentFragment(MainActivity.FRAGMENT_NEW);
+                }else if(tab.getPosition()==1){
+                    MainActivity.setCurrentFragment(MainActivity.FRAGMENT_POPULAR);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
 
         return root;

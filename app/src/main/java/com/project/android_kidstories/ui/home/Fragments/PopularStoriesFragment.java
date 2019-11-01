@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import butterknife.ButterKnife;
 
 import com.pixplicity.easyprefs.library.Prefs;
@@ -44,6 +46,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     private boolean isAddSuccessful, initBookmark;
     private String token;
     public static RecyclerStoriesAdapter.StorySearch storySearchListener;
+    SwipeRefreshLayout refreshLayout;
 
     public static PopularStoriesFragment newInstance() {
         return new PopularStoriesFragment();
@@ -58,7 +61,16 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
         popular_bar = v.findViewById(R.id.popular_stories_bar);
         token = "Bearer " + new SharePref(getContext()).getMyToken();
         popular_bar.setVisibility(View.VISIBLE);
+        recyclerView = v.findViewById(R.id.recyclerView);
+        refreshLayout = v.findViewById(R.id.swipe_refresh2);
+        refreshLayout.setRefreshing(true);
 
+        fetchStories();
+
+        return v;
+    }
+
+    private void fetchStories(){
         /*Create handle for the RetrofitInstance interface*/
         service = RetrofitClient.getInstance().create(Api.class);
         Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token);
@@ -69,7 +81,6 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                 //  generateCategoryList(response.body(),v);
                 popular_bar.setVisibility(View.GONE);
 
-                recyclerView = v.findViewById(R.id.recyclerView);
                 if (response.isSuccessful()) {
                     adapter = new RecyclerStoriesAdapter(getContext(), sortList(response.body()), PopularStoriesFragment.this,repository);
 
@@ -83,6 +94,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                     GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
+                    refreshLayout.setRefreshing(false);
                 } else {
                     Toast.makeText(getContext(), "Response Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
@@ -95,12 +107,13 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                 Toast.makeText(getContext(), " Failure Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
-        return v;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
+        refreshLayout.setOnRefreshListener(() -> {
+            fetchStories();
+        });
     }
 
     private StoryAllResponse sortList(StoryAllResponse allResponse) {

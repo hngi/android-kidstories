@@ -70,7 +70,7 @@
         <activity
             android:name=".AddStoryActivity"
             android:parentActivityName=".Views.main.MainActivity" />
-        <activity android:name=".CommentActivity" />
+        <activity android:name=".CommentActivity" android:parentActivityName=".SingleStoryActivity"/>
         <activity
             android:name=".AddStoriesContentActivity"
             android:parentActivityName=".AddStoryActivity" />

@@ -1,6 +1,7 @@
 package com.project.android_kidstories;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,8 @@ public class SavedStoriesActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     SavedStoriesAdapter adapter;
+    private Toolbar toolbar;
+
 
 
 
@@ -29,7 +32,9 @@ public class SavedStoriesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_stories);
         storyLab = StoryLab.get(this);
-
+        toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Saved Stories");
         recyclerView = findViewById(R.id.saved_stories_recycler);
 
         adapter = new SavedStoriesAdapter(this, storyLab.getStories());

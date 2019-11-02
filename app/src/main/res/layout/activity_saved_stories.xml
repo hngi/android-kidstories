@@ -20,8 +20,8 @@
             android:background="@color/white"
             android:theme="@style/AppToolbar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:subtitleTextColor="#ffffff"
-            app:titleTextColor="#ffffff"/>
+            app:subtitleTextColor="@color/blueSky"
+            app:titleTextColor="@color/blueSky" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -30,6 +30,7 @@
         android:id="@+id/saved_stories_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_appbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

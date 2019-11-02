@@ -98,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         repository = Repository.getInstance(getApplication());
 
-        printHashKey(this);  /* OnF8yB2LEowq5sp9VXjyI6p3s3Q= */
+        printHashKey(this);  /*Debug: OnF8yB2LEowq5sp9VXjyI6p3s3Q= */ /*Release: KbIHpXw9Aq9VPKwfTvhk8qsfx+Q= */
         checkLoginStatus();
 
         repository = Repository.getInstance(getApplication());

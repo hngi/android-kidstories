@@ -1,12 +1,16 @@
 package com.project.android_kidstories;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +20,7 @@ import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 
 import okhttp3.RequestBody;
@@ -39,6 +44,10 @@ public class CommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
         service = RetrofitClient.getInstance().create(Api.class);
+        Toolbar addStoryToolbar = findViewById(R.id.comment_toolbar);
+        setSupportActionBar(addStoryToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
 
         rv = findViewById(R.id.comment_rv);
         typeComment = findViewById(R.id.type_comment);
@@ -104,5 +113,19 @@ public class CommentActivity extends AppCompatActivity {
                 typeComment.setEnabled(true);
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 }

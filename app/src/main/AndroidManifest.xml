@@ -20,8 +20,11 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SavedStoriesActivity"></activity>
-        <activity android:name=".SingleSavedStoryActivity" />
+        <activity android:name=".SavedStoriesActivity"
+            android:parentActivityName=".Views.main.MainActivity"
+            ></activity>
+        <activity android:name=".SingleSavedStoryActivity"
+            android:parentActivityName=".SavedStoriesActivity"/>
         <activity android:name=".ui.info.FeedBackFragment" />
 
         <receiver
@@ -70,7 +73,7 @@
         <activity
             android:name=".AddStoryActivity"
             android:parentActivityName=".Views.main.MainActivity" />
-        <activity android:name=".CommentActivity" />
+        <activity android:name=".CommentActivity" android:parentActivityName=".SingleStoryActivity"/>
         <activity
             android:name=".AddStoriesContentActivity"
             android:parentActivityName=".AddStoryActivity" />

@@ -17,19 +17,13 @@ android {
         applicationId "com.project.android_kidstories"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 3
-        versionName "1.0.0-alpha06"
+        versionCode 4
+        versionName '1.0.0-alpha07'
         /* The version name follows the semantic versioning system
         * The version code and version number should be increased with each 'release'
         * The project will become beta when users start using/testing it
         * */
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
     }
 }
 

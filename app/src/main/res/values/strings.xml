@@ -71,12 +71,13 @@
     <string name="developed_by">Developed by mobile track HNG6 2019</string>
     <string name="bookmarks_label">Bookmarks</string>
     <string name="sign_in_image_desc">Image showing two kids reading books</string>
-    <string name="enable_night_mode">Enable Night Mode</string>
+    <string name="enable_night_mode">Enable night mode</string>
     <string name="settings_label">Settings</string>
     <string name="night_mode">Night Mode</string>
     <string name="skip_btn_label">Skip</string>
     <string name="start_reading_btn_label">Start Reading</string>
     <string name="sign_up_label">Sign Up</string>
+    <string name="search">Search</string>
     <string name="full_name_hint">Full Name</string>
     <string name="e_mail_hint">E-mail</string>
     <string name="phone_no_hint">Phone No</string>

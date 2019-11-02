@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".CommentActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".CommentActivity">
 
 
-    <include layout="@layout/app_bar_comment_list"
-        android:id="@+id/comment_bar"/>
+    <include
+        android:id="@+id/comment_bar"
+        layout="@layout/app_bar_comment_list" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comment_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:itemCount="10"
-        tools:listitem="@layout/comment_story_layout"
+        android:layout_below="@id/comment_bar"
         android:layout_marginBottom="60dp"
-        android:layout_below="@id/comment_bar"/>
+        tools:listitem="@layout/comment_story_layout" />
 
     <RelativeLayout
         android:id="@+id/commentLayout"
@@ -42,19 +41,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/comment_text_area"
-                android:hint="      Type a comment"
-                android:minHeight="50dp"
-                android:textSize="18sp" />
+                android:hint="Type a comment"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="4"
+                android:padding="16dp"
+                android:textSize="14sp" />
 
             <ImageView
-                android:id="@+id/send_comment"
+                android:id="@+id/btn_send_comment"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
-                android:src="@drawable/send"
                 android:clickable="true"
+                android:src="@drawable/send"
                 android:tint="@color/colorPrimary" />
 
         </RelativeLayout>

@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,13 +33,14 @@ import retrofit2.Response;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author .: Oluwajuwon Fawole
  * @created : 16/10/19
  */
-public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStoriesAdapter.CustomViewHolder> {
+public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStoriesAdapter.CustomViewHolder> implements Filterable {
 
 
     public static String token = "";
@@ -332,6 +335,42 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    @Override
+    public Filter getFilter() {
+        return storyFilter;
+    }
+
+    private Filter storyFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Story> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(stories);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Story item : stories) {
+                    if (item.getTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            stories.clear();
+            stories.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
     //View Holder Class
     class CustomViewHolder extends RecyclerView.ViewHolder {
 
@@ -370,6 +409,10 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         boolean onBookmarkAdded(int storyId);
 
         boolean isAlreadyBookmarked(int storyId, int pos);
+    }
+
+    public interface StorySearch{
+        void onStorySearched(String query);
     }
 
     static void deleteStory(Context context, int storyId){

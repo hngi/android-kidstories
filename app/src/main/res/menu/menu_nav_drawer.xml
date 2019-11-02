@@ -26,6 +26,11 @@
             android:title="Categories" />
 
         <item
+            android:id="@+id/nav_feed_back"
+            android:icon="@drawable/feed_back"
+            android:title="Feedback"/>
+
+        <item
             android:id="@+id/nav_donate"
             android:icon="@drawable/ic_action_donate"
             android:title="Donate" />
@@ -34,11 +39,6 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_action_info"
             android:title="About" />
-
-        <item
-            android:id="@+id/nav_feed_back"
-            android:icon="@drawable/feed_back"
-            android:title="Feedback"/>
 
         <item
             android:id="@+id/nav_log_out"

@@ -282,13 +282,13 @@ public class SingleStoryActivity extends AppCompatActivity {
 
         //background Music
 
-        backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong1);
+        backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong2);
         playButton = findViewById(R.id.playSong);
         stopButton = findViewById(R.id.stopSong);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               backgroundMusicPlayer.start();
+               play();
                 if (backgroundMusicPlayer.isPlaying()){
                     playButton.setVisibility(View.INVISIBLE);
                     stopButton.setVisibility(View.VISIBLE);
@@ -314,6 +314,11 @@ public class SingleStoryActivity extends AppCompatActivity {
 
     public static List<Comment> returnComments(){
         return comments;
+    }
+
+    private void play(){
+        backgroundMusicPlayer.start();
+        backgroundMusicPlayer.setLooping(true);
     }
 
     private void speak() {

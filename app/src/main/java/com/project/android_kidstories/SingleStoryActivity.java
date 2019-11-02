@@ -3,6 +3,7 @@ package com.project.android_kidstories;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -34,6 +35,7 @@ import java.util.Locale;
 
 public class SingleStoryActivity extends AppCompatActivity {
 
+    private MediaPlayer backgroundMusicPlayer;
     private ImageView story_pic, like_btn;
     int story_id = 0;
     private TextView story_author, story_content, error_msg, saveStory;
@@ -53,6 +55,9 @@ public class SingleStoryActivity extends AppCompatActivity {
     String googleTtsPackage = "com.google.android.tts", picoPackage = "com.svox.pico";
 
     LikeButton likeButton;
+
+    ImageButton playButton;
+    ImageButton stopButton;
 
     private ImageButton ZoomIn, ZoomOut;
     private static List<Comment> comments;
@@ -253,8 +258,31 @@ public class SingleStoryActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+        //background Music
+
+        backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong1);
+        playButton = findViewById(R.id.playSong);
+        stopButton = findViewById(R.id.stopSong);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               backgroundMusicPlayer.start();
+                if (backgroundMusicPlayer.isPlaying()){
+                    playButton.setVisibility(View.INVISIBLE);
+                    stopButton.setVisibility(View.VISIBLE);
+                    stopButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            backgroundMusicPlayer.pause();
+                            playButton.setVisibility(View.VISIBLE);
+                            stopButton.setVisibility(View.INVISIBLE);
+                        }
+                    });}
+            }
+        });
+
+    }
 
 
     private void sendCommentList(){
@@ -284,6 +312,12 @@ public class SingleStoryActivity extends AppCompatActivity {
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
+
+        if (backgroundMusicPlayer != null) {
+            backgroundMusicPlayer.stop();
+            backgroundMusicPlayer.release();
+        }
+
         super.onDestroy();
     }
 

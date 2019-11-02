@@ -3,10 +3,15 @@ package com.project.android_kidstories;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import android.content.pm.PackageManager;
@@ -29,11 +34,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 public class SingleStoryActivity extends AppCompatActivity {
 
+    private MediaPlayer backgroundMusicPlayer;
     private ImageView story_pic, like_btn;
     int story_id = 0;
     private TextView story_author, story_content, error_msg, saveStory;
@@ -53,6 +63,9 @@ public class SingleStoryActivity extends AppCompatActivity {
     String googleTtsPackage = "com.google.android.tts", picoPackage = "com.svox.pico";
 
     LikeButton likeButton;
+
+    ImageButton playButton;
+    ImageButton stopButton;
 
     private ImageButton ZoomIn, ZoomOut;
     private static List<Comment> comments;
@@ -165,6 +178,12 @@ public class SingleStoryActivity extends AppCompatActivity {
                 if (testStory!=null){
                     if(storyLab.getStory(testStory.getTitle())==null){
                         storyLab.addStory(testStory);
+
+                        BitmapDrawable bitmapDrawable = (BitmapDrawable) story_pic.getDrawable();
+                        Bitmap bitmap = bitmapDrawable .getBitmap();
+                        saveImageFile(SingleStoryActivity.this
+                                ,bitmap
+                                , testStory.getTitle()+".png");
                         Toast.makeText(SingleStoryActivity.this, "Story saved", Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -260,8 +279,31 @@ public class SingleStoryActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+        //background Music
+
+        backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong1);
+        playButton = findViewById(R.id.playSong);
+        stopButton = findViewById(R.id.stopSong);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               backgroundMusicPlayer.start();
+                if (backgroundMusicPlayer.isPlaying()){
+                    playButton.setVisibility(View.INVISIBLE);
+                    stopButton.setVisibility(View.VISIBLE);
+                    stopButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            backgroundMusicPlayer.pause();
+                            playButton.setVisibility(View.VISIBLE);
+                            stopButton.setVisibility(View.INVISIBLE);
+                        }
+                    });}
+            }
+        });
+
+    }
 
 
     private void sendCommentList(){
@@ -291,6 +333,12 @@ public class SingleStoryActivity extends AppCompatActivity {
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
+
+        if (backgroundMusicPlayer != null) {
+            backgroundMusicPlayer.stop();
+            backgroundMusicPlayer.release();
+        }
+
         super.onDestroy();
     }
 
@@ -321,5 +369,41 @@ public class SingleStoryActivity extends AppCompatActivity {
                      }
                  })
                  .setNegativeButton("no" , null).show();
+    }
+    public static void saveImageFile(Context context, Bitmap b, String picName){
+        FileOutputStream fos ;
+        try {
+            fos = context.openFileOutput(picName, Context.MODE_PRIVATE);
+            b.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        }
+        catch (FileNotFoundException e) {
+
+            Log.d("TAG", "file not found");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            Log.d("TAG", "io exception");
+            e.printStackTrace();
+        } finally {
+                   }
+    }
+    public static Bitmap loadBitmap(Context context, String picName){
+        Bitmap b = null;
+        FileInputStream fis;
+        try {
+            fis = context.openFileInput(picName);
+            b = BitmapFactory.decodeStream(fis);
+        }
+        catch (FileNotFoundException e) {
+            Log.d("tag", "file not found");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            Log.d("tag", "io exception");
+            e.printStackTrace();
+        } finally {
+
+        }
+        return b;
     }
 }

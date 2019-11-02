@@ -11,15 +11,18 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:titleTextColor="@color/blueSky" />
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="48dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -27,7 +30,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                     <ImageView
@@ -56,24 +59,30 @@
                         android:layout_marginTop="12dp"
                         android:layout_marginEnd="12dp"
                         android:enabled="false"
-                        app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+                        app:srcCompat="@drawable/ic_stop_black_24dp" />
 
 
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/saved_story_author"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:hint="@string/by_author_name"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/saved_story_author"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/blueSky"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
 
                     <TextView
                         android:id="@+id/saved_story_content"
@@ -81,11 +90,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|end"
                         android:layout_marginTop="8dp"
-                        android:hint="Afterward, Mom has noticed that the boys haven't been getting along so she devises 'Mom Bucks' to pay them if they spend time together where they can trade in for one real dollar, but this unwittingly makes things worse. Meanwhile, Greg and Rowley try to make a funny YouTube video by Rowley lip-syncing to 'Tik Tok' by Kesha, unfortunately (despite Rowley at one point sitting on a tinfoil ball with spikes made by Manny) it proves to be awful, getting only 4 hits. After a talent show is advertised on TV, the brothers see this as a big opportunity â€“ Rowley suggests that he and Greg perform magic tricks, but Greg rejects the idea whilst Rodrick sees this as his band's big break."
                         android:justificationMode="inter_word"
                         android:padding="10dp"
                         android:textAlignment="gravity"
-                        android:textSize="14dp" />
+                        android:textSize="14sp" />
 
 
                     <ProgressBar
@@ -107,36 +115,29 @@
             </LinearLayout>
         </ScrollView>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="12dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <RelativeLayout
+            <ImageButton
+                android:id="@+id/Zoom_In"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginBottom="12dp">
+                android:layout_toEndOf="@id/btn_markasread"
+                android:src="@drawable/zoom_in" />
 
+            <ImageButton
+                android:id="@+id/Zoom_Out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/Zoom_In"
+                android:src="@drawable/zoom_out" />
+        </LinearLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageButton
-                    android:id="@+id/Zoom_In"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:src="@drawable/zoom_in" />
-
-                <ImageButton
-                    android:id="@+id/Zoom_Out"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_toEndOf="@id/Zoom_In"
-                    android:src="@drawable/zoom_out" />
-            </RelativeLayout>
-        </RelativeLayout>
-    </RelativeLayout>
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.project.android_kidstories;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,6 +48,7 @@ public class CommentActivity extends AppCompatActivity {
         setSupportActionBar(addStoryToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
+
         rv = findViewById(R.id.comment_rv);
         typeComment = findViewById(R.id.type_comment);
         token = new SharePref(getApplicationContext()).getMyToken();
@@ -113,8 +116,16 @@ public class CommentActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        Intent home = new Intent(getApplicationContext(), SingleStoryActivity.class);
-        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(home);
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 }

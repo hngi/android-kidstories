@@ -4,6 +4,9 @@ package com.project.android_kidstories.adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,10 @@ import com.project.android_kidstories.SingleSavedStoryActivity;
 import com.project.android_kidstories.SingleStoryActivity;
 import com.project.android_kidstories.database.StoryLab;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 public class SavedStoriesAdapter extends RecyclerView.Adapter<SavedStoriesAdapter.CustomViewHolder> {
@@ -47,7 +54,9 @@ public class SavedStoriesAdapter extends RecyclerView.Adapter<SavedStoriesAdapte
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        // Glide.with(context).load(storiesList.get(position).getImageUrl()).into(holder.storyImage);
+
+        Bitmap bitmap =loadBitmap(context,storiesList.get(position).getTitle()+".png");
+        holder.storyImage.setImageBitmap(bitmap);
         holder.storyTitle.setText(storiesList.get(position).getTitle());
         holder.authorName.setText(storiesList.get(position).getAuthor());
         holder.view.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +80,7 @@ public class SavedStoriesAdapter extends RecyclerView.Adapter<SavedStoriesAdapte
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 StoryLab.get(context).deleteStory(storiesList.get(position));
+                                deleteFile(storiesList.get(position).getTitle()+".png");
                                 reloadStories();
                             }
                         })
@@ -96,7 +106,7 @@ public class SavedStoriesAdapter extends RecyclerView.Adapter<SavedStoriesAdapte
             super(itemView);
             view = itemView;
 
-            //storyImage = view.findViewById(R.id.my_story_image);
+            storyImage = view.findViewById(R.id.saved_story_img);
             storyTitle = view.findViewById(R.id.saved_story_title);
             authorName = view.findViewById(R.id.saved_story_author);
 
@@ -112,4 +122,31 @@ public class SavedStoriesAdapter extends RecyclerView.Adapter<SavedStoriesAdapte
         storiesList= StoryLab.get(context).getStories();
         notifyDataSetChanged();
     }
+    public static Bitmap loadBitmap(Context context, String picName){
+        Bitmap b = null;
+        FileInputStream fis;
+        try {
+            fis = context.openFileInput(picName);
+            b = BitmapFactory.decodeStream(fis);
+        }
+        catch (FileNotFoundException e) {
+            Log.d("tag", "file not found");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            Log.d("tag", "io exception");
+            e.printStackTrace();
+        } finally {
+
+        }
+        return b;
+    }
+
+    public void deleteFile(String fileName){
+        File directory = context.getFilesDir();
+        File file = new File(directory, fileName);
+        file.delete();
+
+    }
+
 }

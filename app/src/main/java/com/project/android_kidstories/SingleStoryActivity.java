@@ -3,11 +3,15 @@ package com.project.android_kidstories;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import android.content.pm.PackageManager;
@@ -30,6 +34,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -170,6 +178,12 @@ public class SingleStoryActivity extends AppCompatActivity {
                 if (testStory!=null){
                     if(storyLab.getStory(testStory.getTitle())==null){
                         storyLab.addStory(testStory);
+
+                        BitmapDrawable bitmapDrawable = (BitmapDrawable) story_pic.getDrawable();
+                        Bitmap bitmap = bitmapDrawable .getBitmap();
+                        saveImageFile(SingleStoryActivity.this
+                                ,bitmap
+                                , testStory.getTitle()+".png");
                         Toast.makeText(SingleStoryActivity.this, "Story saved", Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -355,5 +369,41 @@ public class SingleStoryActivity extends AppCompatActivity {
                      }
                  })
                  .setNegativeButton("no" , null).show();
+    }
+    public static void saveImageFile(Context context, Bitmap b, String picName){
+        FileOutputStream fos ;
+        try {
+            fos = context.openFileOutput(picName, Context.MODE_PRIVATE);
+            b.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        }
+        catch (FileNotFoundException e) {
+
+            Log.d("TAG", "file not found");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            Log.d("TAG", "io exception");
+            e.printStackTrace();
+        } finally {
+                   }
+    }
+    public static Bitmap loadBitmap(Context context, String picName){
+        Bitmap b = null;
+        FileInputStream fis;
+        try {
+            fis = context.openFileInput(picName);
+            b = BitmapFactory.decodeStream(fis);
+        }
+        catch (FileNotFoundException e) {
+            Log.d("tag", "file not found");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            Log.d("tag", "io exception");
+            e.printStackTrace();
+        } finally {
+
+        }
+        return b;
     }
 }

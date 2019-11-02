@@ -1,88 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.project.android_kidstories">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.project.android_kidstories">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".Utils.Common"
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:icon="@drawable/logo"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:roundIcon="@drawable/logo"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SavedStoriesActivity"
-            android:parentActivityName=".Views.main.MainActivity"
-            ></activity>
+                  android:parentActivityName=".Views.main.MainActivity"></activity>
         <activity android:name=".SingleSavedStoryActivity"
-            android:parentActivityName=".SavedStoriesActivity"/>
-        <activity android:name=".ui.info.FeedBackFragment" />
+                  android:parentActivityName=".SavedStoriesActivity"/>
+        <activity android:name=".ui.info.FeedBackFragment"/>
 
         <receiver
             android:name=".alarm.AlarmReceiver"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"/>
 
-        <activity android:name=".IgnoreForApiTest.TestActivity" />
+        <activity android:name=".IgnoreForApiTest.TestActivity"/>
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".Views.main.MainActivity"
             android:theme="@style/AppTheme"
-            tools:ignore="GoogleAppIndexingWarning" />
+            tools:ignore="GoogleAppIndexingWarning"/>
         <activity
             android:name=".Views.main.MainActivity"
             android:label="@string/title_activity_the_main"
-            android:theme="@style/AppTheme.WhiteStatusBar" />
+            android:theme="@style/AppTheme.WhiteStatusBar"/>
         <activity
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DefaultTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".StoryListingActivity"
-            android:parentActivityName=".Views.main.MainActivity" /> <!-- Do not edit this theme -->
-        <activity android:name=".StoryDetailActivity" />
+            android:parentActivityName=".Views.main.MainActivity"/> <!-- Do not edit this theme -->
+        <activity android:name=".StoryDetailActivity"/>
         <activity
             android:name=".SingleStoryActivity"
-            android:parentActivityName=".Views.main.MainActivity" />
+            android:parentActivityName=".Views.main.MainActivity"/>
         <activity
             android:name=".RegisterActivity"
-            android:theme="@style/AppTheme.WhiteStatusBar" />
-        <activity android:name=".ProfileRegisterActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".OnBoardingActivity" />
+            android:theme="@style/AppTheme.WhiteStatusBar"/>
+        <activity android:name=".ProfileRegisterActivity"/>
+        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".OnBoardingActivity"/>
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme.WhiteStatusBar" />
-        <activity android:name=".BookMark" />
+            android:theme="@style/AppTheme.WhiteStatusBar"/>
+        <activity android:name=".BookMark"/>
         <activity
             android:name=".AddStoryActivity"
-            android:parentActivityName=".Views.main.MainActivity" />
+            android:parentActivityName=".Views.main.MainActivity"/>
         <activity android:name=".CommentActivity" android:parentActivityName=".SingleStoryActivity"/>
         <activity
             android:name=".AddStoriesContentActivity"
-            android:parentActivityName=".AddStoryActivity" />
-        <activity android:name=".base.BaseActivity" />
-        <activity android:name=".streak.StreakActivity" />
+            android:parentActivityName=".AddStoryActivity"/>
+        <activity android:name=".base.BaseActivity"/>
+        <activity android:name=".streak.StreakActivity"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+            android:value="@string/facebook_app_id"/>
     </application>
 
 </manifest>

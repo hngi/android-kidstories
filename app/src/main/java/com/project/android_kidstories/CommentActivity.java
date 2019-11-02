@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.android_kidstories.Api.Api;
@@ -32,6 +31,7 @@ public class CommentActivity extends AppCompatActivity {
     private String token;
     private int storyId;
     private ImageView sendComment;
+    private CommentAdapter adapter;
 
 
     @Override
@@ -47,7 +47,7 @@ public class CommentActivity extends AppCompatActivity {
         sendComment = findViewById(R.id.btn_send_comment);
 
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        CommentAdapter adapter = new CommentAdapter(SingleStoryActivity.returnComments(), this);
+        adapter = new CommentAdapter(SingleStoryActivity.returnComments(), this);
         rv.setLayoutManager(manager);
         rv.setAdapter(adapter);
 
@@ -64,6 +64,9 @@ public class CommentActivity extends AppCompatActivity {
         String userComment = typeComment.getText().toString();
         if (!TextUtils.isEmpty(userComment)) {
             postComment(token, storyId, userComment);
+            Toast.makeText(CommentActivity.this, "Sending Comment...", Toast.LENGTH_SHORT).show();
+            sendComment.setEnabled(false);
+            typeComment.setEnabled(false);
         } else {
             Toast.makeText(CommentActivity.this, "Cannot post empty comment", Toast.LENGTH_SHORT).show();
         }
@@ -78,6 +81,8 @@ public class CommentActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     typeComment.setText("");
                     Toast.makeText(CommentActivity.this, "Comment Posted", Toast.LENGTH_SHORT).show();
+                    sendComment.setEnabled(true);
+                    typeComment.setEnabled(true);
                     String status = String.valueOf(response.body().getStatus());
                     String message = response.body().getMessage();
                     Log.d("Response Status ", status + ": " + message + "\n");
@@ -86,6 +91,8 @@ public class CommentActivity extends AppCompatActivity {
                 } else {
                     Log.d("Success Error ", response.message());
                     Log.d("Code ", response.code() + "");
+                    sendComment.setEnabled(true);
+                    typeComment.setEnabled(true);
                 }
             }
 
@@ -93,6 +100,8 @@ public class CommentActivity extends AppCompatActivity {
             public void onFailure(Call<BaseResponse<CommentResponse>> call, Throwable t) {
                 Log.e("Response Error ", t.getMessage());
                 Toast.makeText(CommentActivity.this, "Check Network Connection", Toast.LENGTH_SHORT).show();
+                sendComment.setEnabled(true);
+                typeComment.setEnabled(true);
             }
         });
     }

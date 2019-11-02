@@ -21,8 +21,8 @@
         <TextView
             android:id="@+id/reg_txt_view"
             style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="87dp"
-            android:layout_height="33dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
             android:fontFamily="@font/roboto_regular"
@@ -33,7 +33,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="35dp"
             style="@style/AppTextField">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -159,8 +159,6 @@
             android:id="@+id/sign_up_button"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="10dp"

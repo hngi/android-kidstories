@@ -33,66 +33,63 @@
         android:padding="8dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_nightmode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto_regular"
-            android:text="@string/enable_night_mode"
-            android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textSize="18sp" />
-
         <Switch
             android:id="@+id/night_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"
+            android:textStyle="normal"
             android:fontFamily="@font/roboto_regular"
-            android:text="@string/night_mode"
+            android:text="@string/enable_night_mode"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="reminderClicked"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/daily_reminder_text"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_regular"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+            <TextView
+                android:id="@+id/timetext_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="16sp"
+                android:text="8:00 PM"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Privacy Policy"
+            android:layout_marginTop="18dp"
+            android:textSize="16sp"
+            android:onClick="openPrivacyPolicyPage"
+            android:fontFamily="@font/roboto_regular"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="reminderClicked"
-        android:orientation="horizontal"
-        android:padding="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/daily_reminder_text"
-            android:fontFamily="@font/roboto_regular"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
-        <TextView
-            android:id="@+id/timetext_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:fontFamily="@font/roboto_regular"
-            android:text="8:00 PM"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
-    </RelativeLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Privacy Policy"
-        android:layout_marginTop="16dp"
-        android:padding="16dp"
-        android:onClick="openPrivacyPolicyPage"
-        android:fontFamily="@font/roboto_regular"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
 </LinearLayout>

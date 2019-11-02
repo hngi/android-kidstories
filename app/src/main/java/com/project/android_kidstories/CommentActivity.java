@@ -17,9 +17,16 @@ import android.widget.Toast;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
+import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
+import com.project.android_kidstories.DataStore.ReadStory;
+import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.Model.Comment;
 import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -35,7 +42,8 @@ public class CommentActivity extends AppCompatActivity {
     private int storyId;
     private ImageView sendComment;
     private CommentAdapter adapter;
-
+    private Repository repository;
+    private Api storyApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +59,9 @@ public class CommentActivity extends AppCompatActivity {
         token = new SharePref(getApplicationContext()).getMyToken();
         storyId = getIntent().getIntExtra("storyId", -1);
         sendComment = findViewById(R.id.btn_send_comment);
+
+        repository = Repository.getInstance(this.getApplication());
+        storyApi = repository.getStoryApi();
 
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         adapter = new CommentAdapter(SingleStoryActivity.returnComments(), this);
@@ -94,6 +105,23 @@ public class CommentActivity extends AppCompatActivity {
                     Log.d("Response Status ", status + ": " + message + "\n");
                     Log.d("PostedComment: ", response.body().getData().getBody() + "\n");
                     Log.d("PostedComment: ", response.body().getData().getCreatedAt() + "\n");
+
+                    storyApi.getStory(id).enqueue(new Callback<StoryBaseResponse>() {
+                        @Override
+                        public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
+                            List<Comment> comments = response.body().getData().getComments().getComments();
+                            adapter = new CommentAdapter(comments, CommentActivity.this);
+                            rv.setLayoutManager(new LinearLayoutManager(CommentActivity.this));
+                            rv.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onFailure(Call<StoryBaseResponse> call, Throwable t) {
+
+                        }
+                    });
+
                 } else {
                     Log.d("Success Error ", response.message());
                     Log.d("Code ", response.code() + "");
@@ -111,6 +139,7 @@ public class CommentActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         Intent home = new Intent(getApplicationContext(), SingleStoryActivity.class);

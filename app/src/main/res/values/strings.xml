@@ -135,5 +135,6 @@
     <string name="mark_story_as_read">Mark story as read</string>
     <string name="action_streaks">Reading Streak</string>
     <string name="reading_status">Reading Status:</string>
+    <string name="search">Search</string>
 
 </resources>

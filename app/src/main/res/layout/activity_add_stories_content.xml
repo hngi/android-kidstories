@@ -16,20 +16,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/comicsans_regular"
+        android:layout_marginBottom="15dp"
         android:text="@string/add_story_label"
         android:layout_gravity="center"
+        android:fontFamily="@font/roboto_regular"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         android:textStyle="bold" />
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-         >
+        android:layout_height="match_parent" >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -103,8 +103,7 @@
             <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    >
+                    android:background="@color/colorPrimary">
 
                     <LinearLayout
                         android:orientation="horizontal"

@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -39,6 +40,7 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.SavedStoriesActivity;
 import com.project.android_kidstories.SettingsActivity;
 import com.project.android_kidstories.alarm.AlarmReceiver;
 import com.project.android_kidstories.base.BaseActivity;
@@ -46,6 +48,8 @@ import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.streak.StreakActivity;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
+import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
+import com.project.android_kidstories.ui.home.Fragments.PopularStoriesFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
@@ -87,6 +91,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private FragmentsSharedViewModel viewModel;
     CircleImageView navProfilePic;
+    private MenuItem searchItem;
+
+    public static String getCurrentFragment() {
+        return CURRENT_FRAGMENT;
+    }
+
+    public static void setCurrentFragment(String currentFragment) {
+        CURRENT_FRAGMENT = currentFragment;
+    }
+
+    private static String CURRENT_FRAGMENT = "";
+    public static final String FRAGMENT_NEW = "New Stories";
+    public static final String FRAGMENT_POPULAR = "Popular Stories";
 
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -113,6 +130,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         toolbar = findViewById(R.id.main_toolbar);
         toolbar.setTitle("Stories");
         setSupportActionBar(toolbar);
+
+        if(LastTabPosition==0){
+            setCurrentFragment(FRAGMENT_NEW);
+        }else if (LastTabPosition==1){
+            setCurrentFragment(FRAGMENT_POPULAR);
+        }
 
 
         sharePref = SharePref.getINSTANCE(getApplicationContext());
@@ -302,6 +325,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                         msg="Categories";
                         bottomNavigationView.setVisibility(View.GONE);
                         break;
+
+
+                    case R.id.nav_saved_stories:
+                        Intent intent = new Intent(MainActivity.this, SavedStoriesActivity.class);
+                        MainActivity.this.startActivity(intent);
+                        break;
+
                     case R.id.nav_donate:
                         fragment = new DonateFragment();
                         msg="Donate";
@@ -443,6 +473,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        searchItem = menu.findItem(R.id.app_bar_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Search Stories");
+        //hideSearchMenu();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Log.e("TAAAAG1", query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Log.e("TAAAAG1", newText);
+                if (getCurrentFragment().equals(FRAGMENT_NEW))
+                    NewStoriesFragment.storySearchListener.onStorySearched(newText);
+                else if (getCurrentFragment().equals(FRAGMENT_POPULAR))
+                    PopularStoriesFragment.storySearchListener.onStorySearched(newText);
+                return true;
+            }
+        });
         return true;
     }
 

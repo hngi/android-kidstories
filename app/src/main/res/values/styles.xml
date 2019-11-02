@@ -16,6 +16,15 @@
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
     </style>
 
+    <style name="AppButton" parent="Widget.MaterialComponents.Button">
+        <item name="rippleColor">@color/colorPrimaryDark</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+    </style>
+
     <!--    <style name="ButtonColor" parent="@android:style/Widget.Button">-->
     <!--        <item name="android:textColor">@color/textOnButtonColor</item>-->
     <!--    </style>-->

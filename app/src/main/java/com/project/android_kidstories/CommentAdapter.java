@@ -16,6 +16,8 @@ import com.project.android_kidstories.Model.Comment;
 import com.project.android_kidstories.Model.Comments;
 import com.project.android_kidstories.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -24,7 +26,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     private List<Comment> comments;
     private Context context;
-
 
     public CommentAdapter(List<Comment> comments, Context context){
         this.context = context;
@@ -67,6 +68,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             Glide.with(context).load(c.getUser().getImage()).into(commentImage);
             commentAuthor.setText(c.getUser().getName());
             comment.setText(c.getBody());
+            /*SimpleDateFormat formatter = new SimpleDateFormat("HH:mm a");
+            Date date = new Date();
+            commentDate.setText(formatter.format(date));*/
         }
     }
 

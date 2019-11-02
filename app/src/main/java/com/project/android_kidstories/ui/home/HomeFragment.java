@@ -1,6 +1,7 @@
 package com.project.android_kidstories.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.ui.home.Adapters.SectionsPageAdapter;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
@@ -57,6 +59,29 @@ public class HomeFragment extends Fragment {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(LastTabPosition).select();
+
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                if(tab.getPosition()==0){
+                    MainActivity.setCurrentFragment(MainActivity.FRAGMENT_NEW);
+                }else if(tab.getPosition()==1){
+                    MainActivity.setCurrentFragment(MainActivity.FRAGMENT_POPULAR);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
 
         return root;

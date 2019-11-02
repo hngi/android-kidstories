@@ -12,12 +12,19 @@
         android:id="@+id/comment_bar"
         layout="@layout/app_bar_comment_list" />
 
+    <ProgressBar
+        android:id="@+id/comment_progress_bar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comment_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/comment_bar"
-        android:layout_marginBottom="60dp"
+        android:layout_above="@id/commentLayout"
+        android:layout_marginBottom="8dp"
         tools:listitem="@layout/comment_story_layout" />
 
     <RelativeLayout

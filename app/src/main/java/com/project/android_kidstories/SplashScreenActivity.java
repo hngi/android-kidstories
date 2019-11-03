@@ -9,35 +9,22 @@ import com.project.android_kidstories.sharePref.SharePref;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    SharePref sharePref;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        sharePref = SharePref.getINSTANCE(getApplicationContext());
 
-/*
-        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade__in);
-        ImageView fadeInImage = findViewById(R.id.logo);
-        fadeInImage.startAnimation(fadeIn);*/
+        final SharePref sharePref = SharePref.getINSTANCE(getApplicationContext());
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                if (sharePref.getIsUserLoggedIn()) {
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                } else {
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-
-                    startActivity(intent);
-                }
-
-                finish();
+        //the delay time is 2s
+        new Handler().postDelayed(() -> {
+            if (sharePref.getIsUserLoggedIn()) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            } else {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
-            //the delay time is 3s
-        }, 30000);
 
+            finish();
+        }, 2000);
     }
 }

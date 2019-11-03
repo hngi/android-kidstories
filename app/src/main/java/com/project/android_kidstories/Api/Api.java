@@ -1,6 +1,7 @@
 package com.project.android_kidstories.Api;
 
 import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.BaseResponse2;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
@@ -207,6 +208,9 @@ public interface Api {
 
     @GET("categories/{id}/stories")
     Call<BaseResponse<CategoryStoriesResponse>> getStoriesByCategoryIdandUser(@Path("id") String categoryId);
+
+    @GET("categories/{id}/stories")
+    Call<BaseResponse2> getStoriesByCategoryIdandUser2(@Path("id") String categoryId);
 
 
 

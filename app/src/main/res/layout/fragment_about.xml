@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".About">
-    ​
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@drawable/nav_cornars"
-        android:elevation="2dp"
-        android:gravity="center"
-        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/about"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/white"
-            android:text="About"
-            android:textAlignment="center"
-            android:textSize="30sp" />
-
-    </LinearLayout>
-    ​
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/about_text"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/text_corner_curves"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/about_label"
+        android:textColor="@color/blueSky"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/edit_text_rectangle"
         android:elevation="4dp"
-        android:orientation="vertical"
-        android:layout_marginTop="115dp"
-        android:padding="20dp">
-        ​
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about_text">
+
         <TextView
             android:id="@+id/kiddies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/about_description"
             android:textAlignment="center"
-            android:layout_marginTop="5dp"
-            android:textSize="14sp" />
+            app:layout_constraintBottom_toTopOf="@+id/develop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside" />
 
         <TextView
             android:id="@+id/develop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/developers"
             android:textAlignment="center"
-            android:layout_marginTop="100dp"
-            android:paddingBottom="16dp"
-            android:textSize="14sp" />
-        ​
-    </LinearLayout>
-    ​
-    ​
-</RelativeLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/kiddies" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

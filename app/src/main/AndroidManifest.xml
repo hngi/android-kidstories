@@ -20,9 +20,12 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SingleSavedStoryActivity"></activity>
+        <activity android:name=".SavedStoriesActivity"
+            android:parentActivityName=".Views.main.MainActivity"
+            ></activity>
+        <activity android:name=".SingleSavedStoryActivity"
+            android:parentActivityName=".SavedStoriesActivity"/>
         <activity android:name=".ui.info.FeedBackFragment" />
-        <activity android:name=".SavedStoriesActivity" />
 
         <receiver
             android:name=".alarm.AlarmReceiver"
@@ -32,6 +35,7 @@
         <activity android:name=".IgnoreForApiTest.TestActivity" />
         <activity
             android:name=".SettingsActivity"
+            android:parentActivityName=".Views.main.MainActivity"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning" />
         <activity
@@ -66,8 +70,13 @@
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.WhiteStatusBar" />
         <activity android:name=".BookMark" />
-        <activity android:name=".AddStoryActivity" />
-        <activity android:name=".AddStoriesContentActivity" />
+        <activity
+            android:name=".AddStoryActivity"
+            android:parentActivityName=".Views.main.MainActivity" />
+        <activity android:name=".CommentActivity" android:parentActivityName=".SingleStoryActivity"/>
+        <activity
+            android:name=".AddStoriesContentActivity"
+            android:parentActivityName=".AddStoryActivity" />
         <activity android:name=".base.BaseActivity" />
         <activity android:name=".streak.StreakActivity" />
 

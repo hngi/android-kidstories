@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,13 +31,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author .: Oluwajuwon Fawole
  * @created : 16/10/19
  */
-public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStoriesAdapter.CustomViewHolder> {
+public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStoriesAdapter.CustomViewHolder> implements Filterable {
 
 
     public static String token = "";
@@ -49,6 +54,8 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList, OnBookmarked bookmarked, Repository repository) {
         this.context = context;
         this.storiesList = storiesList;
+        this.stories =storiesList.getData();
+        Collections.reverse(stories);
         this.bookmarked = bookmarked;
         this.storyApi = repository.getStoryApi();
     }
@@ -61,22 +68,22 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        stories = storiesList.getData();
-        Glide.with(context).load(storiesList.getData().get(position).getImageUrl()).into(holder.storyImage);
+        stories = stories;
+        Glide.with(context).load(stories.get(position).getImageUrl()).into(holder.storyImage);
 
-        holder.storyTitle.setText(storiesList.getData().get(position).getTitle());
-        holder.authorName.setText("By " + storiesList.getData().get(position).getAuthor());
+        holder.storyTitle.setText(stories.get(position).getTitle());
+        holder.authorName.setText("By " + stories.get(position).getAuthor());
 
-        holder.ageRange.setText("For kids ages " + storiesList.getData().get(position).getAge());
-        holder.num_likes.setText(String.valueOf(storiesList.getData().get(position).getLikesCount()));
-        holder.num_dislikes.setText(String.valueOf(storiesList.getData().get(position).getDislikesCount()));
+        holder.ageRange.setText("For kids ages " + stories.get(position).getAge());
+        holder.num_likes.setText(String.valueOf(stories.get(position).getLikesCount()));
+        holder.num_dislikes.setText(String.valueOf(stories.get(position).getDislikesCount()));
 
-        int storyId = storiesList.getData().get(position).getId();
+        int storyId = stories.get(position).getId();
 
         holder.list_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int story_id = storiesList.getData().get(position).getId();
+                int story_id = stories.get(position).getId();
                 Intent intent = new Intent(context, SingleStoryActivity.class);
                 intent.putExtra("story_id", story_id);
                 context.startActivity(intent);
@@ -139,8 +146,8 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         holder.shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String title = storiesList.getData().get(position).getTitle();
-                String body = storiesList.getData().get(position).getBody();
+                String title = stories.get(position).getTitle();
+                String body = stories.get(position).getBody();
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 // share only 120 characters if body is longer than or equal to 120
                 if (body.length() >= 120) {
@@ -189,7 +196,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
     @Override
     public int getItemCount() {
-        return storiesList.getData().size();
+        return stories.size();
     }
 
 
@@ -328,6 +335,42 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    @Override
+    public Filter getFilter() {
+        return storyFilter;
+    }
+
+    private Filter storyFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Story> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(stories);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Story item : stories) {
+                    if (item.getTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            stories.clear();
+            stories.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
     //View Holder Class
     class CustomViewHolder extends RecyclerView.ViewHolder {
 
@@ -366,6 +409,10 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         boolean onBookmarkAdded(int storyId);
 
         boolean isAlreadyBookmarked(int storyId, int pos);
+    }
+
+    public interface StorySearch{
+        void onStorySearched(String query);
     }
 
     static void deleteStory(Context context, int storyId){

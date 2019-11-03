@@ -1,5 +1,6 @@
 package com.project.android_kidstories.ui.home.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
@@ -32,7 +34,7 @@ import retrofit2.Response;
 
 import java.util.List;
 
-public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener, RecyclerStoriesAdapter.OnBookmarked {
+public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener, RecyclerStoriesAdapter.OnBookmarked, RecyclerStoriesAdapter.StorySearch {
 
     private static final String TAG = "kidstories";
     private RecyclerView recyclerView;
@@ -45,6 +47,8 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     //    private StoryAdapter storyAdapter;
     private RecyclerStoriesAdapter storyAdapter;
     private String token;
+    public static RecyclerStoriesAdapter.StorySearch storySearchListener;
+    SwipeRefreshLayout refreshLayout;
 
 
     public static NewStoriesFragment newInstance() {
@@ -60,7 +64,16 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
         progressBar = v.findViewById(R.id.new_stories_bar);
         progressBar.setVisibility(View.VISIBLE);
+        recyclerView = v.findViewById(R.id.recyclerView);
+        refreshLayout = v.findViewById(R.id.swipe_refresh);
+        refreshLayout.setRefreshing(true);
 
+        fetchStories();
+
+        return v;
+    }
+
+    private void fetchStories(){
         /*Create handle for the RetrofitInstance interface*/
         service = RetrofitClient.getInstance().create(Api.class);
         Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token);
@@ -70,7 +83,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 //  generateCategoryList(response.body(),v);
                 progressBar.setVisibility(View.GONE);
-                recyclerView = v.findViewById(R.id.recyclerView);
 
                 if (response.isSuccessful()) {
                     storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(), NewStoriesFragment.this,repository);
@@ -83,6 +95,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                     GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(storyAdapter);
+                    refreshLayout.setRefreshing(false);
                 } else {
 
                 }
@@ -91,16 +104,14 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+
             }
         });
-
-        return v;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
+        refreshLayout.setOnRefreshListener(() -> fetchStories());
     }
 
        /*
@@ -209,5 +220,16 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         });
         Log.e("INITBOOKMARK", initBookmark + "");
         return initBookmark;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        storySearchListener = this;
+    }
+
+    @Override
+    public void onStorySearched(String query) {
+        storyAdapter.getFilter().filter(query);
     }
 }

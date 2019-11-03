@@ -5,24 +5,27 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="67dp"
+        android:layout_height="90dp"
+        android:id="@+id/comment_toolbar"
+        android:minHeight="?android:attr/actionBarSize"
         android:background="@drawable/comment_nav_corners"
         android:theme="@style/AppTheme.AppBarOverlay">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/roboto_regular"
-            android:gravity="top"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:text="Comments"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+    </androidx.appcompat.widget.Toolbar>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

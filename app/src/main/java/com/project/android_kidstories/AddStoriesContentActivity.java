@@ -1,11 +1,13 @@
 package com.project.android_kidstories;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -63,6 +65,11 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_stories_content);
+        // Set up toolbar
+        Toolbar addStoriesContentToolbar = findViewById(R.id.toolbar_add_stories_content);
+        setSupportActionBar(addStoriesContentToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
 
         title = getIntent().getStringExtra("story_title");
         String image_path = getIntent().getStringExtra("image_path");
@@ -260,7 +267,7 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
                     Story story = new Story();
                     story.setAge("2-5");
                     story.setTitle(title);
-                    story.setBody(mEditor.getHtml());
+                    story.setBody(Html.fromHtml(mEditor.getHtml()).toString());
                     //story.setBody(storyContent.getText().toString());
                     String author = new SharePref(getApplicationContext()).getUserFirstname();
                     story.setAuthor(author);

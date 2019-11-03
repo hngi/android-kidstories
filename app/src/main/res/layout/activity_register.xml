@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/registration_parent_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            tools:context=".RegisterActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/registration_parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    tools:context=".RegisterActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -20,8 +21,8 @@
         <TextView
             android:id="@+id/reg_txt_view"
             style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="87dp"
-            android:layout_height="33dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
             android:fontFamily="@font/roboto_regular"
@@ -29,86 +30,120 @@
             android:textColor="#3f9FF7"
             android:textSize="24sp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/reg_first_name"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/edit_text_rectangle"
-            android:ems="10"
-            android:fontFamily="@font/roboto_light"
-            android:hint="First Name"
-            android:inputType="textPersonName"
-            android:paddingStart="20dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            style="@style/AppTextField">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reg_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_light"
+                android:hint="First Name"
+                android:inputType="textPersonName"
+                android:paddingStart="20dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/reg_last_name"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/edit_text_rectangle"
-            android:ems="10"
-            android:fontFamily="@font/roboto_light"
-            android:hint="Last Name"
-            android:inputType="textPersonName"
-            android:paddingStart="20dp"/>
+            style="@style/AppTextField">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reg_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_light"
+                android:hint="Last Name"
+                android:inputType="textPersonName"
+                android:paddingStart="20dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/reg_email"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/edit_text_rectangle"
-            android:ems="10"
-            android:fontFamily="@font/roboto_light"
-            android:hint="@string/e_mail_hint"
-            android:inputType="textEmailAddress"
-            android:paddingStart="20dp"/>
+            style="@style/AppTextField">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reg_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_light"
+                android:hint="@string/e_mail_hint"
+                android:inputType="textEmailAddress"
+                android:paddingStart="20dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/reg_contact"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/edit_text_rectangle"
-            android:ems="10"
-            android:fontFamily="@font/roboto_light"
-            android:hint="@string/phone_no_hint"
-            android:inputType="phone"
-            android:paddingStart="20dp"/>
+            style="@style/AppTextField">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reg_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_light"
+                android:hint="@string/phone_no_hint"
+                android:inputType="phone"
+                android:paddingStart="20dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/reg_password"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/edit_text_rectangle"
-            android:ems="10"
-            android:fontFamily="@font/roboto_light"
-            android:hint="@string/password_hint"
-            android:inputType="textPassword"
-            android:paddingStart="20dp"/>
+            style="@style/AppTextField"
+            app:passwordToggleEnabled="true">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reg_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/roboto_light"
+                android:hint="Password"
+                android:textSize="15sp"
+                android:inputType="textPassword"
+                android:paddingStart="20dp"
+                android:textAllCaps="false" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/reg_confirm_password"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/edit_text_rectangle"
-                android:ems="10"
-                android:fontFamily="@font/roboto_light"
-                android:hint="@string/confirm_password_hint"
-                android:inputType="textPassword"
-                android:paddingStart="20dp"/>
+                style="@style/AppTextField"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_confirm_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/roboto_light"
+                    android:hint="@string/confirm_password_hint"
+                    android:textSize="15sp"
+                    android:inputType="textPassword"
+                    android:paddingStart="20dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ProgressBar
                 android:id="@+id/reg_progress_bar"
@@ -122,8 +157,8 @@
 
         <Button
             android:id="@+id/sign_up_button"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_width="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="10dp"

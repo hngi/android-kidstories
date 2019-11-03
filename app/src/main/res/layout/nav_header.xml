@@ -1,37 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/nav_header_height"
-              android:gravity="bottom"
-              android:layout_marginTop="30dp"
-              android:orientation="vertical"
-              android:padding="@dimen/activity_horizontal_margin"
-              android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?colorPrimary"
+    android:gravity="bottom"
+    android:minHeight="@dimen/nav_header_height"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin">
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="30dp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/nav_header_imageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:contentDescription="@string/nav_header_desc"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/account_icon"/>
+        android:src="@drawable/ic_account_circle_black_24dp" />
 
     <TextView
         android:id="@+id/nav_header_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="@dimen/nav_header_vertical_spacing"
         android:fontFamily="@font/roboto_regular"
-        android:text="@string/nav_header_title"
-        android:textColor="@color/blueSky"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#c0c0c0"/>
-
+        android:layout_marginBottom="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="?colorOnPrimary"
+        tools:text="@string/nav_header_title" />
 
 </LinearLayout>

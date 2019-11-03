@@ -1,54 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_action_home"
-            android:title="Home" />
-
-        <item
-            android:id="@+id/nav_edit_profile"
-            android:icon="@drawable/ic_profile"
-            android:title="Profile"/>
-
-        <item
-            android:id="@+id/nav_saved_stories"
-            android:icon="@drawable/saved_stories"
-            android:title="Saved stories"/>
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/menuitem_home" />
 
         <item
             android:id="@+id/nav_categories"
             android:icon="@drawable/ic_action_categories"
-            android:title="Categories" />
-
-        <item
-            android:id="@+id/nav_feed_back"
-            android:icon="@drawable/feed_back"
-            android:title="Feedback"/>
-
-        <item
-            android:id="@+id/nav_donate"
-            android:icon="@drawable/ic_action_donate"
-            android:title="Donate" />
-
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/ic_action_info"
-            android:title="About" />
-
-        <item
-            android:id="@+id/nav_log_out"
-            android:icon="@drawable/ic_action_log_out"
-            android:title="Log out" />
-
-
-
+            android:title="@string/menuitem_categories" />
 
     </group>
 
+    <item
+        android:id="@+id/menugroup_more_home"
+        android:title="@string/menugroup_more_text"
+        app:showAsAction="never">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_donate"
+                    android:title="@string/menuitem_donate" />
 
+                <item
+                    android:id="@+id/nav_about"
+                    android:title="@string/menuitem_about" />
+
+                <item
+                    android:id="@+id/nav_feed_back"
+                    android:title="@string/menuitem_feedback" />
+
+                <item
+                    android:id="@+id/nav_log_out"
+                    android:title="@string/menuitem_log_out" />
+            </group>
+        </menu>
+    </item>
 </menu>

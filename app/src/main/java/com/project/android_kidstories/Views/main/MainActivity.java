@@ -40,7 +40,6 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.SavedStoriesActivity;
 import com.project.android_kidstories.SettingsActivity;
 import com.project.android_kidstories.alarm.AlarmReceiver;
 import com.project.android_kidstories.base.BaseActivity;
@@ -55,7 +54,6 @@ import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.info.FeedBackFragment;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
-import com.project.android_kidstories.ui.profile.ProfileFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -314,11 +312,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                         bottomNavigationView.setVisibility(View.VISIBLE);
                         msg = "Stories";
                         break;
-//                    case R.id.nav_saved_stories:
-//                        Intent intent = new Intent(MainActivity.this, SavedStoriesActivity.class);
-//                        MainActivity.this.startActivity(intent);
-//                        break;
-
 
                     case R.id.nav_categories:
                         fragment = new CategoriesFragment();
@@ -327,10 +320,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                         break;
 
 
-                    case R.id.nav_saved_stories:
+                    /*case R.id.nav_saved_stories:
                         Intent intent = new Intent(MainActivity.this, SavedStoriesActivity.class);
                         MainActivity.this.startActivity(intent);
-                        break;
+                        break;*/
 
                     case R.id.nav_donate:
                         fragment = new DonateFragment();
@@ -347,11 +340,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                         signout();
                         bottomNavigationView.setVisibility(View.GONE);
                         break;
-                    case R.id.nav_edit_profile:
+                    /*case R.id.nav_edit_profile:
                         fragment = new ProfileFragment();
                         msg = "Profile";
                         bottomNavigationView.setVisibility(View.GONE);
-                        break;
+                        break;*/
                 }
 
                 drawer.closeDrawer(GravityCompat.START);

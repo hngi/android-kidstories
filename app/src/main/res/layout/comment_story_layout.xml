@@ -15,7 +15,7 @@
         app:civ_border_width="0.5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_android_black_24dp" />
+        tools:src="@drawable/story_bg_ic" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/material_card_view"

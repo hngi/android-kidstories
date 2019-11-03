@@ -6,7 +6,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,14 +13,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
+import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
-import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.Model.Comment;
 import com.project.android_kidstories.sharePref.SharePref;
+
+import java.util.List;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -33,11 +36,13 @@ public class CommentActivity extends AppCompatActivity {
     Api service;
     RecyclerView rv;
     EditText typeComment;
+    ProgressBar commentProgressBar;
     private String token;
     private int storyId;
     private ImageView sendComment;
     private CommentAdapter adapter;
-
+    private List<Comment> commentList;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +59,26 @@ public class CommentActivity extends AppCompatActivity {
         token = new SharePref(getApplicationContext()).getMyToken();
         storyId = getIntent().getIntExtra("storyId", -1);
         sendComment = findViewById(R.id.btn_send_comment);
+        commentProgressBar = findViewById(R.id.comment_progress_bar);
 
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        adapter = new CommentAdapter(SingleStoryActivity.returnComments(), this);
-        rv.setLayoutManager(manager);
-        rv.setAdapter(adapter);
+        layoutManager = new LinearLayoutManager(CommentActivity.this, LinearLayoutManager.VERTICAL, false);
+
+        service.getStory(storyId).enqueue(new Callback<StoryBaseResponse>() {
+            @Override
+            public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
+                commentList = response.body().getData().getComments().getComments();
+                adapter = new CommentAdapter(commentList, CommentActivity.this);
+                rv.setLayoutManager(layoutManager);
+                rv.setAdapter(adapter);
+                commentProgressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<StoryBaseResponse> call, Throwable t) {
+                Toast.makeText(CommentActivity.this, "Check Network Connection", Toast.LENGTH_SHORT).show();
+                commentProgressBar.setVisibility(View.GONE);
+            }
+        });
 
         sendComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +117,25 @@ public class CommentActivity extends AppCompatActivity {
                     Log.d("Response Status ", status + ": " + message + "\n");
                     Log.d("PostedComment: ", response.body().getData().getBody() + "\n");
                     Log.d("PostedComment: ", response.body().getData().getCreatedAt() + "\n");
+
+                    // Updates the comments with the newly added comment
+                    service.getStory(id).enqueue(new Callback<StoryBaseResponse>() {
+                        @Override
+                        public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
+                            commentList = response.body().getData().getComments().getComments();
+                            adapter = new CommentAdapter(commentList, CommentActivity.this);
+                            rv.setLayoutManager(layoutManager);
+                            rv.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                            layoutManager.scrollToPosition(commentList.size() - 1);
+                        }
+
+                        @Override
+                        public void onFailure(Call<StoryBaseResponse> call, Throwable t) {
+                            Toast.makeText(CommentActivity.this, "Check Network Connection", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 } else {
                     Log.d("Success Error ", response.message());
                     Log.d("Code ", response.code() + "");
@@ -114,6 +153,7 @@ public class CommentActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         finish();

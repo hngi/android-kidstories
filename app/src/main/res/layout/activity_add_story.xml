@@ -63,7 +63,7 @@
         <Button
             android:id="@+id/btn_upload"
             android:layout_width="wrap_content"
-            android:layout_height="28dp"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@drawable/upload_image_button"
             android:fontFamily="@font/roboto_regular"

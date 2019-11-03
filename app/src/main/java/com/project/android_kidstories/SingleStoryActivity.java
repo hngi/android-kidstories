@@ -1,10 +1,9 @@
 package com.project.android_kidstories;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -14,7 +13,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import android.content.pm.PackageManager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -34,7 +32,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -282,13 +279,13 @@ public class SingleStoryActivity extends AppCompatActivity {
 
         //background Music
 
-        backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong1);
+        backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong2);
         playButton = findViewById(R.id.playSong);
         stopButton = findViewById(R.id.stopSong);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               backgroundMusicPlayer.start();
+                play();
                 if (backgroundMusicPlayer.isPlaying()){
                     playButton.setVisibility(View.INVISIBLE);
                     stopButton.setVisibility(View.VISIBLE);
@@ -314,6 +311,11 @@ public class SingleStoryActivity extends AppCompatActivity {
 
     public static List<Comment> returnComments(){
         return comments;
+    }
+
+    private void play() {
+        backgroundMusicPlayer.start();
+        backgroundMusicPlayer.setLooping(true);
     }
 
     private void speak() {

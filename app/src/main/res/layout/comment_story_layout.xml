@@ -1,73 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:background="@drawable/comment_typed_area"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/comment_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:civ_border_color="@color/blueSky"
+        app:civ_border_width="0.5dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        tools:src="@drawable/ic_android_black_24dp" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/comment_image"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:civ_border_color="@color/black"
-            app:civ_border_width="0.5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_android_black_24dp" />
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/material_card_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/ash"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/comment_image"
+        app:layout_constraintTop_toTopOf="@+id/comment_image">
 
-        <TextView
-            android:id="@+id/comment_author_first_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/comment_image"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Sammy" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/comment_author_last_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/comment_author_first_name"
-            app:layout_constraintStart_toEndOf="@+id/comment_author_first_name"
-            app:layout_constraintTop_toTopOf="@+id/comment_author_first_name"
-            tools:text="Bloom" />
+            <TextView
+                android:id="@+id/comment_author_first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Sammy" />
 
-        <TextView
-            android:id="@+id/comment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/comment_author_first_name"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/comment_image"
-            app:layout_constraintTop_toBottomOf="@+id/comment_author_first_name"
-            tools:text="This is a comment" />
+            <TextView
+                android:id="@+id/comment_author_last_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/comment_author_first_name"
+                app:layout_constraintStart_toEndOf="@+id/comment_author_first_name"
+                app:layout_constraintTop_toTopOf="@+id/comment_author_first_name"
+                tools:text="Bloom" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/comment_author_first_name"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/comment_author_first_name"
+                tools:text="This is a comment" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/comment_date"
@@ -80,7 +88,7 @@
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/constraint_layout"
+        app:layout_constraintTop_toBottomOf="@id/material_card_view"
         tools:text="3 DAYS AGO" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

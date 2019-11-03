@@ -1,42 +1,28 @@
 package com.project.android_kidstories.Api;
 
 import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.BaseResponse2;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
-import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
+import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.RegistrationDataResponse;
-import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
+import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
-
-
-import java.text.Normalizer;
-import java.util.List;
-
-import okhttp3.FormBody;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Part;
-import retrofit2.http.Path;
+import retrofit2.http.*;
+
+import java.util.List;
 
 public interface Api {
 
@@ -207,6 +193,9 @@ public interface Api {
 
     @GET("categories/{id}/stories")
     Call<BaseResponse<CategoryStoriesResponse>> getStoriesByCategoryIdandUser(@Path("id") String categoryId);
+
+    @GET("categories/{id}/stories")
+    Call<BaseResponse2> getStoriesByCategoryIdandUser2(@Path("id") String categoryId);
 
 
 

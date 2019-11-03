@@ -7,12 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -31,9 +26,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -51,10 +45,9 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     Api storyApi;
     List<Story> stories;
 
-    public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList, OnBookmarked bookmarked, Repository repository) {
+    public RecyclerStoriesAdapter(Context context, List<Story> storiesList, OnBookmarked bookmarked, Repository repository) {
         this.context = context;
-        this.storiesList = storiesList;
-        this.stories =storiesList.getData();
+        this.stories = storiesList;
         Collections.reverse(stories);
         this.bookmarked = bookmarked;
         this.storyApi = repository.getStoryApi();
@@ -98,13 +91,14 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         boolean isBookmarked = bookmarked.isAlreadyBookmarked(storyId, position);
         boolean check = Prefs.getBoolean(String.valueOf(storyId),false);
         Log.e("STORYYyyyyyyyyyy", isBookmarked + "");
-        if (check) {
-            holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
-            holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
-        } else {
-
-            holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
-        }
+        holder.bookmark.setActivated(story.isBookmark());
+        /*if(check){
+            story.setBookmark(true);
+            holder.bookmark.setActivated(story.isBookmark());
+        }else{
+            story.setBookmark(false);
+            holder.bookmark.setActivated(story.isBookmark());
+        }*/
 
 
         //toggleReaction
@@ -171,23 +165,16 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         holder.bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int bookmark_drawableId = (Integer) holder.bookmark.getTag();
-
                 boolean checked = bookmarked.onBookmarkAdded(storyId);
-                if ((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp)&&checked) {
+                holder.bookmark.setActivated(!holder.bookmark.isActivated());
+                if (checked) {
                     Common.updateSharedPref(storyId,true);
-                    holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
-                    holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
-
+                } else {
+                    Common.updateSharedPref(storyId, false);
                 }
-
-                else {
+                if (!holder.bookmark.isActivated()) {
+                    Common.updateSharedPref(storyId, false);
                     deleteStory(context, storyId);
-
-
-                    holder.bookmark.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
-                    holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
-
                 }
             }
         });
@@ -384,7 +371,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         ImageView like;
         ImageView dislike;
         ImageView shareIcon;
-        ImageView bookmark;
+        ImageButton bookmark;
         LinearLayout list_item;
 
         CustomViewHolder(View itemView) {

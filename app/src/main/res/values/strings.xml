@@ -136,4 +136,8 @@
     <string name="reading_status">Reading Status:</string>
     <string name="search">Search</string>
 
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="first_name">First Name</string>
+
 </resources>

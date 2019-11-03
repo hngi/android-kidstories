@@ -14,9 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import butterknife.ButterKnife;
-
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
@@ -33,6 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -47,6 +46,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     private String token;
     public static RecyclerStoriesAdapter.StorySearch storySearchListener;
     SwipeRefreshLayout refreshLayout;
+    private List<Story> storiesArray;
 
     public static PopularStoriesFragment newInstance() {
         return new PopularStoriesFragment();
@@ -64,6 +64,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
         recyclerView = v.findViewById(R.id.recyclerView);
         refreshLayout = v.findViewById(R.id.swipe_refresh2);
         refreshLayout.setRefreshing(true);
+        storiesArray = new ArrayList<>();
 
         fetchStories();
 
@@ -82,7 +83,9 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                 popular_bar.setVisibility(View.GONE);
 
                 if (response.isSuccessful()) {
-                    adapter = new RecyclerStoriesAdapter(getContext(), sortList(response.body()), PopularStoriesFragment.this,repository);
+                    List<Story> storiesList = sortList(response.body()).getData();
+                    storiesArray.addAll(storiesList);
+                    adapter = new RecyclerStoriesAdapter(getContext(), storiesArray, PopularStoriesFragment.this, repository);
 
                     int spanCount;
                     try {
@@ -161,8 +164,12 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
             public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
                 if (response.isSuccessful()) {
                     List<Story> data = response.body().getData();
+                    int i = 0;
                     for (Story s : data) {
                         if (s.getId() == storyId) {
+                            Story k = storiesArray.get(i++);
+                            if (k.getId() == storyId)
+                                k.setBookmark(true);
                             Prefs.putBoolean(String.valueOf(storyId),true);
                             initBookmark = true;
                         }else{

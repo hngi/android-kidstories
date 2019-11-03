@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.Log;
 import androidx.lifecycle.LiveData;
 import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Model.User;
@@ -44,7 +43,11 @@ public class Repository {
     public LiveData<User>getUserId(String id){return getUserId(id);}
 
     public void insertReadStoryId(ReadStory readStory) {
-        readStoryDao.insertReadStory(readStory);
+        try {
+            readStoryDao.insertReadStory(readStory);
+        } catch (Exception e) {
+
+        }
     }
 
     public static synchronized Repository getInstance(Application application) {

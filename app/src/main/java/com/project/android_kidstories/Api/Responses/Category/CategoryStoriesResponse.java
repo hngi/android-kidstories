@@ -77,7 +77,12 @@ public class CategoryStoriesResponse {
         this.updatedAt = updatedAt;
     }
 
+
     public List<Story> getStories() {
+        return stories;
+    }
+
+    public List<Story> getStoriestest() {
         return stories;
     }
 

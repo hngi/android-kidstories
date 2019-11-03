@@ -11,6 +11,7 @@
     </style>
 
     <style name="AppTheme.SplashScreen" parent="AppTheme.NoActionBar">
+        <item name="android:background">?colorPrimary</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:navigationBarColor">?colorPrimary</item>
         <item name="android:windowFullscreen">true</item>

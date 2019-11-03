@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorPrimary"
     android:fitsSystemWindows="true"
     android:gravity="center"
     android:orientation="vertical"
-    tools:background="@color/color_primary"
     tools:context=".SplashScreenActivity">
 
     <ImageView
+        android:id="@+id/img_logo_splash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"

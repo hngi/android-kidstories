@@ -32,6 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener, RecyclerStoriesAdapter.OnBookmarked, RecyclerStoriesAdapter.StorySearch {
@@ -49,6 +50,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private String token;
     public static RecyclerStoriesAdapter.StorySearch storySearchListener;
     SwipeRefreshLayout refreshLayout;
+    private List<Story> storiesArray;
 
 
     public static NewStoriesFragment newInstance() {
@@ -67,6 +69,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         recyclerView = v.findViewById(R.id.recyclerView);
         refreshLayout = v.findViewById(R.id.swipe_refresh);
         refreshLayout.setRefreshing(true);
+        storiesArray = new ArrayList<>();
 
         fetchStories();
 
@@ -85,7 +88,9 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 progressBar.setVisibility(View.GONE);
 
                 if (response.isSuccessful()) {
-                    storyAdapter = new RecyclerStoriesAdapter(getContext(), response.body(), NewStoriesFragment.this,repository);
+                    List<Story> storiesList = response.body().getData();
+                    storiesArray.addAll(storiesList);
+                    storyAdapter = new RecyclerStoriesAdapter(getContext(), storiesArray, NewStoriesFragment.this,repository);
                     int spanCount;
                     try {
                         spanCount = getContext().getResources().getInteger(R.integer.home_fragment_gridspan);
@@ -197,9 +202,13 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
                 if (response.isSuccessful()) {
                     List<Story> data = response.body().getData();
+                    int i= 0;
                     for (Story s : data) {
                         if (s.getId() == storyId) {
                             Log.e("STORYID", storyId + "");
+                            Story k = storiesArray.get(i++);
+                            if(k.getId()==storyId)
+                                k.setBookmark(true);
                             Common.updateSharedPref(storyId,true);
                             initBookmark = true;
                         }else{

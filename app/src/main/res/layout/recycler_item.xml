@@ -128,14 +128,15 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_menu_share"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/bookmark"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_bookmark_border_black_24dp"/>
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/bookmark_toggle"/>
 
         </LinearLayout>
 

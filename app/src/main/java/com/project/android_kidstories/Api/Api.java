@@ -206,7 +206,7 @@ public interface Api {
     Call<BaseResponse<Category>> getCategory(@Path("id") String categoryId);
 
     @GET("categories/{id}/stories")
-    Call<BaseResponse<CategoryStoriesResponse>> getStoriesByCategoryIdandUser(@Path("id") String categoryId);
+    Call<BaseResponse<List<CategoryStoriesResponse>>> getStoriesByCategoryIdandUser(@Path("id") String categoryId);
 
 
 

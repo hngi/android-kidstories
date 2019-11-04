@@ -1,4 +1,4 @@
-package com.project.android_kidstories.ui.profile.editprofile;
+package com.project.android_kidstories.ui.editprofile;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;

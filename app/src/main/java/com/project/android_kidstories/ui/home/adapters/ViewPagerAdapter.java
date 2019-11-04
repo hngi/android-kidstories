@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import com.project.android_kidstories.ui.categories.CategoriesFragment;
-import com.project.android_kidstories.ui.home.fragments.NewStoriesFragment;
-import com.project.android_kidstories.ui.home.fragments.PopularStoriesFragment;
+import com.project.android_kidstories.ui.home.NewStoriesFragment;
+import com.project.android_kidstories.ui.home.PopularStoriesFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 

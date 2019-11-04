@@ -16,7 +16,7 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.adapters.ProfilePagerAdapter;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
-import com.project.android_kidstories.ui.profile.editprofile.EditProfileFragment;
+import com.project.android_kidstories.ui.editprofile.EditProfileFragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {

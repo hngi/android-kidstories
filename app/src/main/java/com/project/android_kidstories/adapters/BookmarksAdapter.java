@@ -19,7 +19,7 @@ import java.util.List;
 
 
 public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.ViewHolder> {
-    public static String token = "";
+
     private final Context context;
     private List<Story> stories;
     private Api service;

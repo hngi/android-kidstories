@@ -37,26 +37,17 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
     @BindView(R.id.bookmark_recycler)
     RecyclerView recyclerView;
 
-    public BookmarksAdapter adapter;
-    ArrayList<Story> stories;
+    private BookmarksAdapter adapter;
+    private ArrayList<Story> stories = new ArrayList<>();
     String token;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-        ButterKnife.bind(this, v);
-        stories = new ArrayList<>();
-        recyclerView.setAdapter(new BookmarksAdapter(stories,BookmarksFragment.this, getContext()));
+        View root = inflater.inflate(R.layout.fragment_bookmarks, container, false);
+        ButterKnife.bind(this, root);
 
-       /* recyclerView = v.findViewById(R.id.category_recycler);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
-        recyclerView.setLayoutManager(layoutManager);*/
-
-        // Glide.with(this).load("http://i.imgur.com/DvpvklR.png").into(imageView);
-
-       /* RecyclerStoriesAdapter recyclerAdapter = new RecyclerStoriesAdapter(getContext(), images, authors);
-        recyclerView.setAdapter(recyclerAdapter);*/
+        recyclerView.setAdapter(new BookmarksAdapter(stories, BookmarksFragment.this, requireContext()));
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -64,7 +55,7 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
         Api service = RetrofitClient.getInstance().create(Api.class);
         token = "Bearer " + new SharePref(getContext()).getMyToken();
         RecyclerStoriesAdapter.token = token;
-        BookmarksAdapter.token = token;
+
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
         bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
@@ -95,7 +86,7 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
             }
         });
 
-        return v;
+        return root;
     }
 
     @Override

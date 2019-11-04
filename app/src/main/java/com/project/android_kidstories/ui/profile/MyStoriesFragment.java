@@ -44,6 +44,7 @@ public class MyStoriesFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_my_stories, container, false);
+        progressBar = root.findViewById(R.id.loading_bar);
 
         context = requireContext();
         userId = new SharePref(context).getUserId();
@@ -80,7 +81,7 @@ public class MyStoriesFragment extends Fragment {
 
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
-                showMessage("Check Connectivity and try again");
+                showMessage("Can't retrieve your stories, check connectivity and try again");
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -94,8 +95,6 @@ public class MyStoriesFragment extends Fragment {
     private void updateViews(View root) {
         RecyclerView recyclerView = root.findViewById(R.id.my_story_recyclerView);
         TextView errorMessage = root.findViewById(R.id.error_message);
-
-        progressBar = root.findViewById(R.id.loading_bar);
 
         adapter = new MyStoriesAdapter(storyList, context);
         recyclerView.setAdapter(adapter);

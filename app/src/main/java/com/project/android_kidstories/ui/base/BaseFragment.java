@@ -1,6 +1,7 @@
 package com.project.android_kidstories.ui.base;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -26,7 +27,7 @@ public class BaseFragment extends Fragment {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
     }
 
-    protected void showSnack(String message) {
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show();
+    protected void showSnack(View root, String message) {
+        Snackbar.make(root, message, Snackbar.LENGTH_SHORT).show();
     }
 }

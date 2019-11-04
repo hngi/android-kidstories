@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.Api.Api;
@@ -15,6 +13,7 @@ import com.project.android_kidstories.Api.Responses.Category.CategoriesAllRespon
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Category;
+import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.categories.adapters.RecyclerCategoryAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +22,7 @@ import retrofit2.Response;
 import java.util.List;
 
 
-public class CategoriesFragment extends Fragment {
+public class CategoriesFragment extends BaseFragment {
 
     public static CategoriesFragment newInstance() {
         return new CategoriesFragment();
@@ -57,7 +56,7 @@ public class CategoriesFragment extends Fragment {
                 if (response.isSuccessful()) {
                     CategoriesAllResponse allResponse = response.body();
                     if (allResponse == null) {
-                        showMessage(requireActivity().getString(R.string.no_category_received));
+                        showSnack(root, requireActivity().getString(R.string.no_category_received));
                         return;
                     }
                     List<Category> categoryList = allResponse.getData();
@@ -82,9 +81,5 @@ public class CategoriesFragment extends Fragment {
             }
         });
 
-    }
-
-    private void showMessage(String message) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

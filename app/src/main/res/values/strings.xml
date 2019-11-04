@@ -81,5 +81,6 @@
     <string name="no_category_received">No category was received</string>
     <string name="menuitem_saved">Downloads</string>
     <string name="you_have_not_submitted_any_story">You have not submitted any story</string>
+    <string name="crop_picture">Crop Picture</string>
 
 </resources>

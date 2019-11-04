@@ -80,6 +80,7 @@
             android:parentActivityName=".AddStoryActivity" />
         <activity android:name=".base.BaseActivity" />
         <activity android:name=".ui.reading_status.ReadingStatusActivity" />
+        <activity android:name=".ui.staging.ImageStagingActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

@@ -146,5 +146,6 @@
     <string name="menuitem_about">About</string>
     <string name="menuitem_donate">Donate</string>
     <string name="menugroup_more_text">More</string>
+    <string name="no_category_received">No category was received</string>
 
 </resources>

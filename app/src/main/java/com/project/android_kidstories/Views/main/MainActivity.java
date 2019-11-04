@@ -42,10 +42,10 @@ import com.project.android_kidstories.alarm.AlarmReceiver;
 import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.ui.categories.CategoriesFragment;
 import com.project.android_kidstories.ui.donate.DonateFragment;
-import com.project.android_kidstories.ui.home.Adapters.StoryAdapter;
-import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
-import com.project.android_kidstories.ui.home.Fragments.HomeFragment;
+import com.project.android_kidstories.ui.home.HomeFragment;
+import com.project.android_kidstories.ui.home.adapters.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.info.FeedBackFragment;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
@@ -313,7 +313,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                         break;
 
                     case R.id.nav_categories:
-                        fragment = new CategoriesFragment();
+                        fragment = CategoriesFragment.newInstance();
                         toolbarTitle = "Categories";
                         bottomNavigationView.setVisibility(View.GONE);
                         break;

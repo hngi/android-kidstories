@@ -1,4 +1,4 @@
-package com.project.android_kidstories.ui.home.Adapters;
+package com.project.android_kidstories.ui.home.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

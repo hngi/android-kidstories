@@ -12,7 +12,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse2;
 import com.project.android_kidstories.DataStore.Repository;
-import com.project.android_kidstories.adapters.RecyclerCategoryStoriesAdapter;
+import com.project.android_kidstories.ui.categories.adapters.RecyclerCategoryStoriesAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

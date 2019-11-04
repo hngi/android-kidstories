@@ -1,4 +1,4 @@
-package com.project.android_kidstories.ui.home.Fragments;
+package com.project.android_kidstories.ui.home;
 
 import android.os.Bundle;
 import android.view.*;
@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.ui.home.Adapters.SectionsPageAdapter;
+import com.project.android_kidstories.ui.home.adapters.SectionsPageAdapter;
 
 public class HomeFragment extends Fragment {
 

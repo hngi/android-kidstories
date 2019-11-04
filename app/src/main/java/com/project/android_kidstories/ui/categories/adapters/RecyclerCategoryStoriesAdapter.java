@@ -1,4 +1,4 @@
-package com.project.android_kidstories.adapters;
+package com.project.android_kidstories.ui.categories.adapters;
 
 
 import android.content.Context;

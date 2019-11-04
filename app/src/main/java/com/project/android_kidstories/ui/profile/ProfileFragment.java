@@ -22,6 +22,7 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.adapters.ProfilePagerAdapter;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.ui.MainActivity;
 import com.project.android_kidstories.ui.staging.ImageStagingActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 import org.jetbrains.annotations.NotNull;
@@ -150,6 +151,7 @@ public class ProfileFragment extends Fragment {
         if (requestCode == REQUEST_CROP_IMAGE) {
             // Image crop was successful
             setProfileImage();
+            ((MainActivity) requireActivity()).updateProfileImage();
         }
     }
 

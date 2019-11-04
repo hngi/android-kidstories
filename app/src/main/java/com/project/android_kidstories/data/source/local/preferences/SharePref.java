@@ -1,49 +1,34 @@
 package com.project.android_kidstories.data.source.local.preferences;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 
-public class SharePref {
+public final class SharePref {
 
     private static final String LAST_LOGGED_IN ="LAST_LOGGED_IN";
     private static final String ID_KEY="com.project.android_kidstories_ID_KEY";
     private static final String USER_LOGIN_STATE = "isUserLoggedIn";
     private static final String NIGHT_MODE = "NIGHT MODE";
-    private static final String ALARM_TIME = "ALARM_TIME";
-    public static Context context;
+
     private static SharePref INSTANCE;
-    //    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCr(savedInstanceState);
-//
-//        INSTANCE=SharePref.getINSTANCE(this);
-//    }
-    private static SharedPreferences sharedPreferences;
+
+    private SharedPreferences sharedPreferences;
 
     private SharePref(SharedPreferences sharedPreferences) {
-        SharePref.sharedPreferences = sharedPreferences;
-
+        this.sharedPreferences = sharedPreferences;
     }
 
-    public SharePref(Context context) {
-        SharePref.context = context;
-    }
-
-    public static synchronized SharePref getINSTANCE(Context context) {
-        if(INSTANCE==null){
-            //noinspection deprecation
-            INSTANCE = new SharePref(PreferenceManager.getDefaultSharedPreferences(context));
+    public static synchronized SharePref getInstance(Application application) {
+        if (INSTANCE == null) {
+            INSTANCE = new SharePref(PreferenceManager.getDefaultSharedPreferences(application));
         }
         return INSTANCE;
     }
 
     public boolean getNightMode() {
         return sharedPreferences.getBoolean(NIGHT_MODE, false);
-    }
-
-    public void setNightMode(boolean nightMode) {
-        sharedPreferences.edit().putBoolean(NIGHT_MODE, nightMode).apply();
     }
 
     public void setString(String key, String data) {
@@ -54,14 +39,6 @@ public class SharePref {
         sharedPreferences.edit().putInt(key, data).apply();
     }
 
-    public void setLong(String key, long data) {
-        sharedPreferences.edit().putLong(key, data).apply();
-    }
-
-    public void setBool(String key, boolean data) {
-        sharedPreferences.edit().putBoolean(key, data).apply();
-    }
-
     public String getString(String key) {
         return sharedPreferences.getString(key, "");
     }
@@ -70,20 +47,8 @@ public class SharePref {
         return sharedPreferences.getInt(key, 0);
     }
 
-    public long getLong(String key) {
-        return sharedPreferences.getLong(key, 0);
-    }
-
-    public boolean getBool(String key) {
-        return sharedPreferences.getBoolean(key, false);
-    }
-
-    public SharePref getSharePref() {
-        return INSTANCE;
-    }
-
     public void saveLoginDetails(String token, String firstname, String lastname, String email) {
-        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        sharedPreferences = application.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("Token", token);
         editor.putString("Firstname", firstname);
@@ -92,7 +57,7 @@ public class SharePref {
         editor.apply();
     }
 
-    public String getMyToken() {
+    public String getUserToken() {
         sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Token", "");
     }
@@ -110,15 +75,6 @@ public class SharePref {
     public String getUserEmail() {
         sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Email", "");
-    }
-
-
-    public void setLastSunAccess(int hour){
-        sharedPreferences.edit().putInt(LAST_LOGGED_IN,hour).apply();
-    }
-
-    public int getLastLoginInHour(){
-        return sharedPreferences.getInt(LAST_LOGGED_IN,1);
     }
 
     public Long getLoggedUserId(){
@@ -146,6 +102,4 @@ public class SharePref {
 
         sharedPreferences.edit().putInt("User Id", id).apply();
     }
-
-
 }

@@ -53,7 +53,7 @@ public class CommentActivity extends AppCompatActivity {
 
         rv = findViewById(R.id.comment_rv);
         typeComment = findViewById(R.id.type_comment);
-        token = new SharePref(getApplicationContext()).getMyToken();
+        token = new SharePref(getApplicationContext()).getUserToken();
         storyId = getIntent().getIntExtra("storyId", -1);
         sendComment = findViewById(R.id.btn_send_comment);
         commentProgressBar = findViewById(R.id.comment_progress_bar);

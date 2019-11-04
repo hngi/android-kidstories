@@ -59,7 +59,7 @@ public class NewStoriesFragment extends Fragment implements StoryAdapter.OnStory
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_newstories, container, false);
-        token = "Bearer " + new SharePref(getContext()).getMyToken();
+        token = "Bearer " + new SharePref(getContext()).getUserToken();
         repository = Repository.getInstance(getActivity().getApplication());
 
         progressBar = v.findViewById(R.id.new_stories_bar);

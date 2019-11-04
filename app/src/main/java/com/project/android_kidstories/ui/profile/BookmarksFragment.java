@@ -53,7 +53,7 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
 
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
-        token = "Bearer " + new SharePref(getContext()).getMyToken();
+        token = "Bearer " + new SharePref(getContext()).getUserToken();
         RecyclerStoriesAdapter.token = token;
 
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);

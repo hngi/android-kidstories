@@ -19,7 +19,7 @@ public class AddStoryHelper {
         return sharePref;
     }
 
-    public static String token = getSharePref().getMyToken();
+    public static String token = getSharePref().getUserToken();
 
     private static boolean isStoryAdded = false;
     private static Integer likesCount;

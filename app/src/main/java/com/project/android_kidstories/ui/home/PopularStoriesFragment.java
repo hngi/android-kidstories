@@ -59,7 +59,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
         ButterKnife.bind(this, v);
         repository = Repository.getInstance(getActivity().getApplication());
         popular_bar = v.findViewById(R.id.popular_stories_bar);
-        token = "Bearer " + new SharePref(getContext()).getMyToken();
+        token = "Bearer " + new SharePref(getContext()).getUserToken();
         popular_bar.setVisibility(View.VISIBLE);
         recyclerView = v.findViewById(R.id.recyclerView);
         refreshLayout = v.findViewById(R.id.swipe_refresh2);

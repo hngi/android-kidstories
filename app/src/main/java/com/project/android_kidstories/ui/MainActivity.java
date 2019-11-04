@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String email;
         String token;
 
-        token = sharePref.getMyToken();
+        token = sharePref.getUserToken();
         firstname = sharePref.getUserFirstname();
         lastname = sharePref.getUserLastname();
         email = sharePref.getUserEmail();

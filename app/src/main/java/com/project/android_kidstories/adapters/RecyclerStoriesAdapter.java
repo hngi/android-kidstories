@@ -93,7 +93,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
 
         //remote like
-        String token =  "Bearer " + new SharePref(context).getMyToken();
+        String token = "Bearer " + new SharePref(context).getUserToken();
         storyApi.likeStory(token,id).enqueue(new Callback<ReactionResponse>() {
             @Override
             public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
@@ -122,7 +122,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         //id will be used for remote dislike
 
 
-        String token =  "Bearer " + new SharePref(context).getMyToken();
+        String token = "Bearer " + new SharePref(context).getUserToken();
         storyApi.dislikeStory(token,id).enqueue(new Callback<ReactionResponse>() {
             @Override
             public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {

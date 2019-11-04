@@ -63,7 +63,7 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
         image_uri = Uri.parse(imageUri_str);
         assert image_path != null;
 //        image_uri = Uri.fromFile(new File(image_path));
-        token = new SharePref(getApplicationContext()).getMyToken();
+        token = new SharePref(getApplicationContext()).getUserToken();
         token = "Bearer " + token;
 
         //storyContent = findViewById(R.id.story_content_field);

@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -25,8 +24,8 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.data.model.Story;
-import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.ui.KidstoriesApplication;
+import com.project.android_kidstories.ui.base.BaseFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,7 +35,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class PopularStoriesFragment extends Fragment implements RecyclerStoriesAdapter.OnBookmarked, RecyclerStoriesAdapter.StorySearch {
+public class PopularStoriesFragment extends BaseFragment implements RecyclerStoriesAdapter.OnBookmarked, RecyclerStoriesAdapter.StorySearch {
     private RecyclerStoriesAdapter adapter;
     private ProgressBar popular_bar;
     RecyclerView recyclerView;
@@ -59,7 +58,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
         ButterKnife.bind(this, v);
         repository = Repository.getInstance(getActivity().getApplication());
         popular_bar = v.findViewById(R.id.popular_stories_bar);
-        token = "Bearer " + new SharePref(getContext()).getUserToken();
+        token = "Bearer " + getSharePref().getUserToken();
         popular_bar.setVisibility(View.VISIBLE);
         recyclerView = v.findViewById(R.id.recyclerView);
         refreshLayout = v.findViewById(R.id.swipe_refresh2);

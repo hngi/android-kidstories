@@ -7,10 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -23,8 +21,8 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.data.model.Story;
-import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.ui.KidstoriesApplication;
+import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.home.adapters.StoryAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +31,7 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewStoriesFragment extends Fragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener, RecyclerStoriesAdapter.OnBookmarked, RecyclerStoriesAdapter.StorySearch {
+public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener, RecyclerStoriesAdapter.OnBookmarked, RecyclerStoriesAdapter.StorySearch {
 
     private static final String TAG = "kidstories";
     private RecyclerView recyclerView;
@@ -59,7 +57,7 @@ public class NewStoriesFragment extends Fragment implements StoryAdapter.OnStory
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_newstories, container, false);
-        token = "Bearer " + new SharePref(getContext()).getUserToken();
+        token = "Bearer " + getSharePref().getUserToken();
         repository = Repository.getInstance(getActivity().getApplication());
 
         progressBar = v.findViewById(R.id.new_stories_bar);
@@ -74,7 +72,7 @@ public class NewStoriesFragment extends Fragment implements StoryAdapter.OnStory
         return v;
     }
 
-    private void fetchStories(){
+    private void fetchStories() {
         /*Create handle for the RetrofitInstance interface*/
         service = RetrofitClient.getInstance().create(Api.class);
         Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token);
@@ -160,10 +158,6 @@ public class NewStoriesFragment extends Fragment implements StoryAdapter.OnStory
         showToast(story.getTitle());
     }
 
-    private void showToast(String title) {
-        Toast.makeText(requireContext(), title, Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void onClick(View view) {
 
@@ -178,7 +172,7 @@ public class NewStoriesFragment extends Fragment implements StoryAdapter.OnStory
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                 if (response.isSuccessful()) {
                     KidstoriesApplication.updateSharedPref(storyId, true);
-                    Toast.makeText(getContext(), "Bookmark added", Toast.LENGTH_SHORT).show();
+                    showToast("Bookmark added");
                     isAddSuccessful = true;
                 } else {
                     isAddSuccessful = false;
@@ -213,7 +207,7 @@ public class NewStoriesFragment extends Fragment implements StoryAdapter.OnStory
                                 k.setBookmark(true);
                             KidstoriesApplication.updateSharedPref(storyId, true);
                             initBookmark = true;
-                        }else{
+                        } else {
 
                             KidstoriesApplication.updateSharedPref(storyId, false);
                         }
@@ -226,7 +220,7 @@ public class NewStoriesFragment extends Fragment implements StoryAdapter.OnStory
 
             @Override
             public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                showToast("Something went wrong...Please try later!");
             }
         });
         Log.e("INITBOOKMARK", initBookmark + "");

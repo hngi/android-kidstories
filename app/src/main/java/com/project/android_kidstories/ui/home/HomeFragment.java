@@ -3,14 +3,14 @@ package com.project.android_kidstories.ui.home;
 import android.os.Bundle;
 import android.view.*;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.home.adapters.SectionsPageAdapter;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);

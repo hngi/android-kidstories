@@ -80,5 +80,6 @@
     <string name="menugroup_more_text">More</string>
     <string name="no_category_received">No category was received</string>
     <string name="menuitem_saved">Downloads</string>
+    <string name="you_have_not_submitted_any_story">You have not submitted any story</string>
 
 </resources>

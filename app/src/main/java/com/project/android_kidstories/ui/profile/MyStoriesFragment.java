@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
@@ -20,6 +19,7 @@ import com.project.android_kidstories.SingleStoryActivity;
 import com.project.android_kidstories.adapters.MyStoriesAdapter;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
+import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,7 +29,6 @@ import java.util.List;
 
 public class MyStoriesFragment extends Fragment {
 
-    private ViewGroup view;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private MyStoriesAdapter adapter;
@@ -40,24 +39,24 @@ public class MyStoriesFragment extends Fragment {
     private SharePref sharePref;
     private List<Story> storyList = new ArrayList<>();
 
-    public MyStoriesFragment(){}
+    public static MyStoriesFragment getInstance() {
+        return new MyStoriesFragment();
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = (ViewGroup) inflater.inflate(R.layout.fragment_my_stories, container, false);
-        recyclerView = view.findViewById(R.id.my_story_recyclerView);
-        errorMessage = view.findViewById(R.id.error_message);
-        loadingBar = view.findViewById(R.id.loading_bar);
-        return view;
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_my_stories, container, false);
+        recyclerView = root.findViewById(R.id.my_story_recyclerView);
+        errorMessage = root.findViewById(R.id.error_message);
+        loadingBar = root.findViewById(R.id.loading_bar);
+
+        return root;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        viewModel = ViewModelProviders.of(getActivity()).get(FragmentsSharedViewModel.class);
         sharePref = SharePref.getINSTANCE(getActivity().getApplicationContext());
 
 

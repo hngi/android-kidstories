@@ -3,37 +3,28 @@ package com.project.android_kidstories.ui.profile;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
-import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
-import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.Utils.ImageConversion;
 import com.project.android_kidstories.adapters.ProfilePagerAdapter;
-import com.project.android_kidstories.db.Helper.AddUsers;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
-import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
+import com.project.android_kidstories.ui.profile.editprofile.EditProfileFragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import java.util.ArrayList;
-
 public class ProfileFragment extends Fragment {
-    public CircleImageView imageView;
-    BedTimeDbHelper helper;
-    ImageConversion imageConversion;
-    TextView userName, userEmail;
-    String token;
 
-    private Repository repository;
-    public FragmentsSharedViewModel viewModel;
+    private CircleImageView imageView;
+    private SharePref sharePref;
+
+    private BedTimeDbHelper helper;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -43,43 +34,23 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        // Enables options menu in this fragment
-        setHasOptionsMenu(true);
-
-        helper = new BedTimeDbHelper(getContext());
-        imageConversion = new ImageConversion();
-
-        int client_id = helper.getLastId(AddUsers.AddUsersColumn.TABLE_NAME);
-
         View root = inflater.inflate(R.layout.profile_fragment, container, false);
 
+        helper = new BedTimeDbHelper(getContext());
+        sharePref = new SharePref(requireContext());
+
         imageView = root.findViewById(R.id.profile);
-        userName = root.findViewById(R.id.profile_name);
-        userEmail = root.findViewById(R.id.profile_email);
 
-//        Get token from bundle
-//        if (getArguments() != null) {
-//            token = getArguments().getString("token");
-//        }
+        initViews(root);
 
-//
-        byte[] imageArray = getImage();
-        if (imageArray != null) {
-            //Bitmap resizedImage = imageConversion.fitBitMaptoImageView(image, 178, 178);
-            Bitmap image = BitmapFactory.decodeByteArray(imageArray, 0, imageArray.length);
-            imageView.setImageBitmap(image);
-        } else {
-            try {
-                imageView.setImageDrawable(getActivity().getDrawable(R.drawable.account_icon));
-            } catch (NullPointerException npe) {
-                Toast.makeText(getContext(), npe.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
+        return root;
+    }
 
+    private void initViews(View root) {
         // Setup ViewPager
-        ProfilePagerAdapter pagerAdapter = new ProfilePagerAdapter(getFragmentManager());
+        ProfilePagerAdapter pagerAdapter = new ProfilePagerAdapter(getChildFragmentManager());
         // add fragments to adapter
-        pagerAdapter.addFragment(new MyStoriesFragment());
+        pagerAdapter.addFragment(MyStoriesFragment.getInstance());
         pagerAdapter.addFragment(new BookmarksFragment());
 
         // initiate viewPager
@@ -94,95 +65,42 @@ public class ProfileFragment extends Fragment {
         tabLayout.getTabAt(1).setText("Bookmarked");
         tabLayout.setTabTextColors(R.color.grey, R.color.black);
 
-        return root;
+        displayProfile(root);
+
+        root.findViewById(R.id.img_edit_profile)
+                .setOnClickListener(v -> editProfile());
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(getActivity()).get(FragmentsSharedViewModel.class);
-
-        String fName = new SharePref((requireContext())).getUserFirstname();
-        String lName = new SharePref((requireContext())).getUserLastname();
-        String email = new SharePref((requireContext())).getUserEmail();
-
-       // viewModel.setUser(new User(fName,lName,email));
-        viewModel.currentUsersStories = new ArrayList<>();
-        repository = Repository.getInstance(getActivity().getApplication());
-//        repository.getStoryApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
-//            @Override
-//            public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
-//
-//                if(response.isSuccessful() && !response.body().getData().isEmpty()){
-////                    for(int i = 0; i < response.body().getData().size(); i++){
-////
-////                        if(response.body().getData().get(i).getId() != null) {
-////                            if(response.body().getData().get(i).getId() == viewModel.currentUser.getId()) {
-////                                viewModel.currentUsersStories.add(response.body().getData().get(i));
-////                            }
-////                        }
-////                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<StoryAllResponse> call, Throwable t) {
-//
-//            }
-//        });
-
-        // Displays the user information
-        displayProfile();
-
-        // TODO: Use the ViewModel
+    private void editProfile() {
+        requireFragmentManager().beginTransaction()
+                .replace(R.id.main_fragment_container, EditProfileFragment.getInstance())
+                .commit();
     }
 
-    private byte[] getImage() {
-        return helper.getUserImage();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.menu_edit_profile, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.profile_edit) {
-            com.project.android_kidstories.ui.profile.editprofile.ProfileFragment profileFragment = new com.project.android_kidstories.ui.profile.editprofile.ProfileFragment();
-            getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, profileFragment).commit();
-            return true;
+    private void setProfileImage() {
+        byte[] imageArray = helper.getUserImage();
+        if (imageArray != null) {
+            Bitmap image = BitmapFactory.decodeByteArray(imageArray, 0, imageArray.length);
+            imageView.setImageBitmap(image);
+        } else {
+            imageView.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_account_circle_black_150dp));
         }
-        return super.onOptionsItemSelected(item);
     }
 
-    public void displayProfile() {
-        token = new SharePref(getActivity()).getMyToken();
-        String firstname = new SharePref(getActivity()).getUserFirstname();
-        String lastname = new SharePref(getActivity()).getUserLastname();
-        String email = new SharePref(getActivity()).getUserEmail();
-        //Toast.makeText(getActivity(), token,Toast.LENGTH_LONG).show();
+    private void displayProfile(View root) {
+        String firstname = sharePref.getUserFirstname();
+        String lastname = sharePref.getUserLastname();
+        String email = sharePref.getUserEmail();
 
         String name = firstname + " " + lastname;
 
-        if (viewModel.currentUser.getLastName() != null && viewModel.currentUser.getFirstName() != null
-                && viewModel.currentUser.getEmail() != null) {
-            userName.setText(viewModel.currentUser.getFirstName() + " " + viewModel.currentUser.getLastName());
-            userEmail.setText(viewModel.currentUser.getEmail());
-        } else {
-            userEmail.setText(email);
-            userName.setText(name);
-        }
+        TextView userName = root.findViewById(R.id.profile_name);
+        TextView userEmail = root.findViewById(R.id.profile_email);
 
-        if (viewModel.currentUser.getImage() != null) {
-            Glide.with(getActivity().getApplicationContext())
-                    .load(viewModel.currentUser.getImage())
-                    .into(imageView);
-        }
+        userEmail.setText(email);
+        userName.setText(name);
 
-
-
+        setProfileImage();
     }
+
 }

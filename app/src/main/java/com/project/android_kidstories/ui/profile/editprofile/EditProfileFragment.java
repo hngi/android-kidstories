@@ -46,7 +46,7 @@ import java.io.FileNotFoundException;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ProfileFragment extends Fragment {
+public class EditProfileFragment extends Fragment {
 
 
     CropImageView imageView;
@@ -67,6 +67,10 @@ public class ProfileFragment extends Fragment {
     private String mediaPath;
 
     private static final int REQUEST_WRITE_PERMISSION = 786;
+
+    public static Fragment getInstance() {
+        return new EditProfileFragment();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         helper = new BedTimeDbHelper(getContext());

@@ -135,7 +135,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setCurrentFragment(FRAGMENT_NEW);
         }
 
-        sharePref = SharePref.getINSTANCE(getApplicationContext());
+        sharePref = new SharePref(this);
+
         viewModel = ViewModelProviders.of(this).get(FragmentsSharedViewModel.class);
         viewModel.currentUser = new User();
 
@@ -148,24 +149,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             openHomeFragment();
         }
 
-        // Preparing token to be parsed to fragments
-        Bundle data = new Bundle();
-        data.putString("token", userDetails.getToken());
-
         // Making the header image clickable
         View headerView = navigationView.getHeaderView(0);
 
         userName = headerView.findViewById(R.id.nav_header_name);
         userName.setText(userDetails.getFullname());
 
+        // Preparing token to be parsed to fragments
+        Bundle data = new Bundle();
+        data.putString("token", userDetails.getToken());
+
         ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
         navImage.setOnClickListener(view -> {
             ProfileFragment profileFragment = ProfileFragment.newInstance();
-            // Add bundle data containing "token" before parsing to profileFragment
+            // Add bundle data containing "token" before navigating to profileFragment
             profileFragment.setArguments(data);
-            setUpFragment(profileFragment);
+            navigateToFragment(profileFragment);
             updateToolbarTitle("Profile");
-            drawer.closeDrawer(GravityCompat.START, true);
+
+            drawer.closeDrawer(GravityCompat.START);
             for (int i = 0; i < navigationView.getMenu().size(); i++) {
                 navigationView.getMenu().getItem(i).setChecked(false);
                 bottomNavigationView.setVisibility(View.GONE);
@@ -201,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void openHomeFragment() {
         HomeFragment homeFragment = new HomeFragment();
-        setUpFragment(homeFragment);
+        navigateToFragment(homeFragment);
 
         navigationView.setCheckedItem(R.id.nav_home);
         bottomNavigationView.setSelectedItemId(0);
@@ -247,14 +249,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * sdf
-     * <p>
-     * <p>
-     * <p>
-     * <p>
-     * <p>
-     * //
+    /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      */
 
     public void linkUserDetails() {
@@ -357,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 drawer.closeDrawer(GravityCompat.START);
                 updateToolbarTitle(toolbarTitle);
                 if (fragment != null) {
-                    setUpFragment(fragment);
+                    navigateToFragment(fragment);
                 }
                 return true;
             }
@@ -388,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                 }
                 if (fragment != null) {
-                    setUpFragment(fragment);
+                    navigateToFragment(fragment);
                 }
                 toolbar.setTitle(msg);
                 return true;
@@ -396,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void setUpFragment(Fragment fragment) {
+    private void navigateToFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, fragment).commit();
     }
 

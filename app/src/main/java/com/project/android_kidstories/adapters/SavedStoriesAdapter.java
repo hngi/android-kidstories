@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleSavedStoryActivity;
 import com.project.android_kidstories.data.model.Story;
-import com.project.android_kidstories.database.StoryLab;
+import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
 
 import java.io.File;
 import java.io.FileInputStream;

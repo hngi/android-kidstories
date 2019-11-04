@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.project.android_kidstories.adapters.SavedStoriesAdapter;
 import com.project.android_kidstories.data.model.Story;
-import com.project.android_kidstories.database.StoryLab;
+import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

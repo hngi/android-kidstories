@@ -3,7 +3,7 @@ package com.project.android_kidstories.viewModel;
 import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.data.Repository;
 import com.project.android_kidstories.data.model.User;
 
 import java.util.List;

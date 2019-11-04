@@ -8,7 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.adapters.SavedStoriesAdapter;
-import com.project.android_kidstories.database.StoryLab;
+import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
 
 public class SavedStoriesActivity extends AppCompatActivity {
 

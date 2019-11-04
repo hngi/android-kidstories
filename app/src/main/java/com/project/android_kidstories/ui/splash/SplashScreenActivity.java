@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.ui.MainActivity;
 import com.project.android_kidstories.ui.login.LoginActivity;
 

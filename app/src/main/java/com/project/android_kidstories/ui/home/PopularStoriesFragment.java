@@ -22,10 +22,10 @@ import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkRespons
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
-import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
-import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.ui.KidstoriesApplication;
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,4 +1,4 @@
-package com.project.android_kidstories.alarm;
+package com.project.android_kidstories.receivers;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;

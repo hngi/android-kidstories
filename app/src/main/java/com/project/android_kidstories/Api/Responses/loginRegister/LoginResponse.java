@@ -3,7 +3,7 @@ package com.project.android_kidstories.Api.Responses.loginRegister;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.project.android_kidstories.Model.User;
+import com.project.android_kidstories.data.model.User;
 
 public class LoginResponse {
     @SerializedName("status")

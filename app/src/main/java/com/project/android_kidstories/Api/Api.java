@@ -13,9 +13,9 @@ import com.project.android_kidstories.Api.Responses.loginRegister.RegistrationDa
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
-import com.project.android_kidstories.Model.Category;
-import com.project.android_kidstories.Model.Story;
-import com.project.android_kidstories.Model.User;
+import com.project.android_kidstories.data.model.Category;
+import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.data.model.User;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;

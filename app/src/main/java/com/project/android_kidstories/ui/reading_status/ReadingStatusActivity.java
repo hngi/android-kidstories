@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.data.source.local.preferences.SharePref;
 
 public class ReadingStatusActivity extends AppCompatActivity {
 

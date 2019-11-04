@@ -1,8 +1,5 @@
 package com.project.android_kidstories;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,9 +11,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.project.android_kidstories.Model.Story;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import com.project.android_kidstories.adapters.SavedStoriesAdapter;
+import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.database.StoryLab;
 
 import java.io.FileInputStream;

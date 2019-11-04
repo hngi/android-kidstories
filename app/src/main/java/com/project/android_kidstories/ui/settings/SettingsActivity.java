@@ -19,8 +19,8 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.alarm.AlarmReceiver;
-import com.project.android_kidstories.base.BaseActivity;
+import com.project.android_kidstories.receivers.AlarmReceiver;
+import com.project.android_kidstories.ui.base.BaseActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

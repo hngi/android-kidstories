@@ -1,4 +1,4 @@
-package com.project.android_kidstories.sharePref;
+package com.project.android_kidstories.data.source.local.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;

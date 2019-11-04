@@ -6,17 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.project.android_kidstories.Model.Comment;
+import com.project.android_kidstories.data.model.Comment;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
@@ -54,11 +50,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
-            commentImage = (CircleImageView) itemView.findViewById(R.id.comment_image);
-            commentAuthorFirstName = (TextView) itemView.findViewById(R.id.comment_author_first_name);
-            commentAuthorLastName = (TextView) itemView.findViewById(R.id.comment_author_last_name);
-            comment = (TextView) itemView.findViewById(R.id.comment);
-            commentDate = (TextView) itemView.findViewById(R.id.comment_date);
+            commentImage = itemView.findViewById(R.id.comment_image);
+            commentAuthorFirstName = itemView.findViewById(R.id.comment_author_first_name);
+            commentAuthorLastName = itemView.findViewById(R.id.comment_author_last_name);
+            comment = itemView.findViewById(R.id.comment);
+            commentDate = itemView.findViewById(R.id.comment_date);
         }
 
         void bind(int position) {

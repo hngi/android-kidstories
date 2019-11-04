@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
-import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.data.model.Category;
 import com.project.android_kidstories.ui.categories.StoriesInCategoryActivity;
 import org.jetbrains.annotations.NotNull;
 

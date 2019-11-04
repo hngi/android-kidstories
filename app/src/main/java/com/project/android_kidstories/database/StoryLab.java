@@ -4,11 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.project.android_kidstories.Model.Story;
+import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.database.StoryDbSchema.StoryTable;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

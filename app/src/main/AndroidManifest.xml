@@ -29,7 +29,7 @@
         <activity android:name=".ui.info.FeedBackFragment" />
 
         <receiver
-            android:name=".alarm.AlarmReceiver"
+            android:name=".receivers.AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
 
@@ -73,7 +73,7 @@
         <activity
             android:name=".AddStoriesContentActivity"
             android:parentActivityName=".AddStoryActivity" />
-        <activity android:name=".base.BaseActivity" />
+        <activity android:name=".ui.base.BaseActivity" />
         <activity android:name=".ui.reading_status.ReadingStatusActivity" />
         <activity android:name=".ui.staging.ImageStagingActivity" />
 

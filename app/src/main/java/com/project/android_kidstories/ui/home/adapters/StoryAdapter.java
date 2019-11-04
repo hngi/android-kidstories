@@ -8,8 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.DataStore.Repository;
-import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.utils.StoryEffect;
 
 import java.util.ArrayList;

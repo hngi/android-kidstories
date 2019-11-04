@@ -1,11 +1,11 @@
-package com.project.android_kidstories.base;
+package com.project.android_kidstories.ui.base;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
-import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.data.source.local.preferences.SharePref;
 
 public class BaseActivity extends AppCompatActivity {
     private SharePref sharePref;

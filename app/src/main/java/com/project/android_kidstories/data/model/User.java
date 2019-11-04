@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Model;
+package com.project.android_kidstories.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

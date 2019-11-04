@@ -2,9 +2,8 @@ package com.project.android_kidstories.database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
-
-import com.project.android_kidstories.Model.Story;
-import  com.project.android_kidstories.database.StoryDbSchema.StoryTable;
+import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.database.StoryDbSchema.StoryTable;
 
 
 public class StoryCursorWrapper extends CursorWrapper {

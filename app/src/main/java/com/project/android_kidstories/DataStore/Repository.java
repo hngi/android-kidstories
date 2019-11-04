@@ -6,8 +6,8 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.RetrofitClient;
-import com.project.android_kidstories.Model.Story;
-import com.project.android_kidstories.Model.User;
+import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.data.model.User;
 
 import java.util.List;
 

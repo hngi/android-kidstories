@@ -4,7 +4,7 @@ import android.util.Log;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
-import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

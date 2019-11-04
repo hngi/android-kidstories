@@ -1,16 +1,11 @@
 
 package com.project.android_kidstories.DataStore;
 
-import com.project.android_kidstories.Model.Story;
+import androidx.lifecycle.LiveData;
+import androidx.room.*;
+import com.project.android_kidstories.data.model.Story;
 
 import java.util.List;
-
-import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Update;
 
 /**
  * @author .: Ehma Ugbogo

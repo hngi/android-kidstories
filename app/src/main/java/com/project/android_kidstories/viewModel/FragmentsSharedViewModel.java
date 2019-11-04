@@ -1,9 +1,8 @@
 package com.project.android_kidstories.viewModel;
 
 import androidx.lifecycle.ViewModel;
-
-import com.project.android_kidstories.Model.Story;
-import com.project.android_kidstories.Model.User;
+import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.data.model.User;
 
 import java.util.List;
 

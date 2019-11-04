@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Model;
+package com.project.android_kidstories.data.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

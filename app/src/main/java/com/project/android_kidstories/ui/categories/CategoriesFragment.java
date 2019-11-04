@@ -42,7 +42,6 @@ public class CategoriesFragment extends BaseFragment {
         View progressBar = root.findViewById(R.id.category_bar);
         progressBar.setVisibility(View.VISIBLE);
 
-
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
         Call<CategoriesAllResponse> categories = service.getAllCategories();

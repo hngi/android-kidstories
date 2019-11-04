@@ -8,19 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import com.flutterwave.raveandroid.RaveConstants;
 import com.flutterwave.raveandroid.RavePayActivity;
 import com.flutterwave.raveandroid.RavePayManager;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.ui.base.BaseFragment;
 
 import java.util.UUID;
 
 
-public class DonateFragment extends Fragment {
+public class DonateFragment extends BaseFragment {
     private static final String publicKey = "FLWPUBK_TEST-22b228a9a67e55b0ae4a5208760d776f-X"; //Get your public key from your account
     private static final String encryptionKey = "FLWSECK_TEST81b6971aacc5"; //Get your encryption key from your account
 
@@ -45,11 +44,11 @@ public class DonateFragment extends Fragment {
             String amount = editText.getText().toString().trim();
 
             if (TextUtils.isEmpty(amount)) {
-                showMessage("Donation should not be empty");
+                showToast("Donation should not be empty");
                 return;
             }
             if (Double.valueOf(amount) < 100.00) {
-                showMessage("The minimum donation is " + currency + "100.00");
+                showToast("The minimum donation is " + currency + "100.00");
                 return;
             }
 
@@ -83,17 +82,12 @@ public class DonateFragment extends Fragment {
         if (requestCode == RaveConstants.RAVE_REQUEST_CODE && data != null) {
             String message = data.getStringExtra("response");
             if (resultCode == RavePayActivity.RESULT_SUCCESS) {
-                showMessage("SUCCESS");
+                showToast("SUCCESS");
             } else if (resultCode == RavePayActivity.RESULT_ERROR) {
-                showMessage("ERROR: " + message);
+                showToast("ERROR: " + message);
             } else if (resultCode == RavePayActivity.RESULT_CANCELLED) {
-                showMessage("CANCELLED: " + message);
+                showToast("CANCELLED: " + message);
             }
         }
-    }
-
-    private void showMessage(String message) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT)
-                .show();
     }
 }

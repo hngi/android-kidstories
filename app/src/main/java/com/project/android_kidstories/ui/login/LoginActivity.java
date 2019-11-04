@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
-import androidx.appcompat.app.AppCompatActivity;
 import com.facebook.*;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -30,6 +29,7 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.User;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.ui.MainActivity;
+import com.project.android_kidstories.ui.base.BaseActivity;
 import com.project.android_kidstories.viewModel.UserViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +37,7 @@ import retrofit2.Response;
 
 import java.util.Arrays;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "LoginActivity";
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 
         googleSignInButton = findViewById(R.id.google_auth_button);
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
-        sharePref = new SharePref(this);
+        sharePref = getSharePref();
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -167,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void saveUserDetails(String token, String fullname, String email) {
-        new SharePref(this).saveLoginDetails(token, fullname, email);
+        sharePref.saveLoginDetails(token, fullname, email);
     }
 
     private void loginUser() {

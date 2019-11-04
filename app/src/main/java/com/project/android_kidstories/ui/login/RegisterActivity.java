@@ -12,7 +12,6 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.*;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.request.RequestOptions;
 import com.facebook.*;
 import com.google.android.material.snackbar.Snackbar;
@@ -23,6 +22,7 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.User;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.ui.MainActivity;
+import com.project.android_kidstories.ui.base.BaseActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit2.Call;
@@ -31,7 +31,7 @@ import retrofit2.Response;
 
 import java.security.MessageDigest;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     private static final String TAG = "RegisterActivity";
     public static final int LOGIN_TEXT_REQUEST_CODE = 11;
@@ -94,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
 
         sharedPreferences = getSharedPreferences("API DETAILS", Context.MODE_PRIVATE);
-        sharePref = SharePref.getINSTANCE(getApplicationContext());
+        sharePref = getSharePref();
 
 
         // if user is already registered

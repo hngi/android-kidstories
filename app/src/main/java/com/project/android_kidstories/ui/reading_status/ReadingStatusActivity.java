@@ -9,11 +9,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.data.source.local.preferences.SharePref;
+import com.project.android_kidstories.ui.base.BaseActivity;
 
-public class ReadingStatusActivity extends AppCompatActivity {
+public class ReadingStatusActivity extends BaseActivity {
 
     public static final String STORIES_READ_KEY = "STORIES_READ_KEY";
 
@@ -74,7 +73,7 @@ public class ReadingStatusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_streak);
 
         TextView txt_reading_status = findViewById(R.id.txt_reading_status);
-        int storiesRead = SharePref.getINSTANCE(this).getInt(STORIES_READ_KEY);
+        int storiesRead = getSharePref().getInt(STORIES_READ_KEY);
 
         String status;
 

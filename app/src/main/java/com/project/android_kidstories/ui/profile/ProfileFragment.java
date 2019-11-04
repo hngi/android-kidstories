@@ -1,12 +1,18 @@
 package com.project.android_kidstories.ui.profile;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,8 +22,11 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.adapters.ProfilePagerAdapter;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
-import com.project.android_kidstories.ui.editprofile.EditProfileFragment;
+import com.project.android_kidstories.ui.staging.ImageStagingActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
+import org.jetbrains.annotations.NotNull;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
@@ -25,6 +34,9 @@ public class ProfileFragment extends Fragment {
     private SharePref sharePref;
 
     private BedTimeDbHelper helper;
+
+    private static final int REQUEST_WRITE_PERMISSION = 786;
+    private static int RESULT_LOAD_IMAGE = 1;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -68,13 +80,17 @@ public class ProfileFragment extends Fragment {
         displayProfile(root);
 
         root.findViewById(R.id.img_edit_profile)
-                .setOnClickListener(v -> editProfile());
+                .setOnClickListener(v -> choosePictureWithPermission());
     }
 
-    private void editProfile() {
-        requireFragmentManager().beginTransaction()
-                .replace(R.id.main_fragment_container, EditProfileFragment.getInstance())
-                .commit();
+    private void choosePictureWithPermission() {
+        //request for permission if not granted
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_PERMISSION);
+        } else {
+            Intent images = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(images, RESULT_LOAD_IMAGE);
+        }
     }
 
     private void setProfileImage() {
@@ -103,4 +119,35 @@ public class ProfileFragment extends Fragment {
         setProfileImage();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
+        if (requestCode == REQUEST_WRITE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Intent images = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(images, RESULT_LOAD_IMAGE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
+            try {
+                Uri selected_image = data.getData();
+                if (selected_image == null) throw new NullPointerException();
+                String uriString = selected_image.toString();
+
+                // Start the staging activity
+                ImageStagingActivity.start(requireContext(), uriString);
+
+            } catch (Exception e) {
+                showMessage("No picture was selected");
+            }
+        }
+    }
+
+
+    private void showMessage(String message) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+    }
 }

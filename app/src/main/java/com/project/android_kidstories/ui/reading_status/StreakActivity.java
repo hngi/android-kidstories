@@ -1,4 +1,4 @@
-package com.project.android_kidstories.streak;
+package com.project.android_kidstories.ui.reading_status;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;

@@ -1,8 +1,5 @@
 package com.project.android_kidstories;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -11,15 +8,9 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.Toast;
-
-import com.pixplicity.easyprefs.library.Prefs;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
@@ -27,10 +18,6 @@ import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.Utils.FileUtil;
 import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
-
-import java.io.File;
-
-
 import jp.wasabeef.richeditor.RichEditor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -38,28 +25,22 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Multipart;
+
+import java.io.File;
 
 public class AddStoriesContentActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    public static final String TOKEN_KEY="token";
-    private static final String TAG = "kidstories";
     private static boolean isStoryAdded = false;
     private static String title;
     private static String token;
 
-    public final int PERMISSION_REQUEST_CODE = 100;
-
     //EditText storyContent;
     Spinner categories;
-    String storyBody;
     Button saveContent;
     public ProgressBar progressBar;
-    public SharePref sharePref;
     private RichEditor mEditor;
     Uri image_uri;
     String imageUri_str;
     String storyCategoriesId;
-    private RequestBody storyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

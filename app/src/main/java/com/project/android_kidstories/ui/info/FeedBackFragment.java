@@ -1,10 +1,5 @@
 package com.project.android_kidstories.ui.info;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -13,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import com.firebase.client.Firebase;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.ui.support.DonateViewModel;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 

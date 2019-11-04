@@ -1,36 +1,27 @@
 package com.project.android_kidstories.Api.HelperClasses;
 
-import android.net.Uri;
 import android.util.Log;
-
 import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
-import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.sharePref.SharePref;
-
-import java.io.File;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddStoryHelper {
-    public static final String TOKEN_KEY="token";
+    public static final String TOKEN_KEY = "token";
     private static final String TAG = "kidstories";
-//    public static String token = Prefs.getString(TOKEN_KEY, "");
+
     public static SharePref sharePref;
 
     public static SharePref getSharePref() {
         return sharePref;
     }
+
     public static String token = getSharePref().getMyToken();
 
-    private static boolean isStoryAdded=false;
+    private static boolean isStoryAdded = false;
     private static Integer likesCount;
 
 //
@@ -101,42 +92,42 @@ public class AddStoryHelper {
 //    }
 
     public static Integer likeStory(int storyId) {
-        RetrofitClient.getInstance().create(Api.class).likeStory(token,storyId).enqueue(new Callback<ReactionResponse>() {
+        RetrofitClient.getInstance().create(Api.class).likeStory(token, storyId).enqueue(new Callback<ReactionResponse>() {
             @Override
             public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: " + response.message());
                     likesCount = response.body().getLikesCount();
                 } else {
-                    likesCount=-1;
+                    likesCount = -1;
                 }
             }
 
             @Override
             public void onFailure(Call<ReactionResponse> call, Throwable t) {
-                likesCount=-1;
-                Log.d(TAG, "onFailure: "+t.getMessage());
+                likesCount = -1;
+                Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
         return likesCount;
     }
 
     public static Integer dislikeStory(int storyId) {
-        RetrofitClient.getInstance().create(Api.class).dislikeStory(token,storyId).enqueue(new Callback<ReactionResponse>() {
+        RetrofitClient.getInstance().create(Api.class).dislikeStory(token, storyId).enqueue(new Callback<ReactionResponse>() {
             @Override
             public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: " + response.message());
                     likesCount = response.body().getLikesCount();
                 } else {
-                    likesCount=-1;
+                    likesCount = -1;
                 }
             }
 
             @Override
             public void onFailure(Call<ReactionResponse> call, Throwable t) {
-                likesCount=-1;
-                Log.d(TAG, "onFailure: "+t.getMessage());
+                likesCount = -1;
+                Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
         return likesCount;

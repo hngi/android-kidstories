@@ -27,7 +27,7 @@ import com.project.android_kidstories.Model.Comment;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.database.StoryLab;
 import com.project.android_kidstories.sharePref.SharePref;
-import com.project.android_kidstories.streak.StreakActivity;
+import com.project.android_kidstories.ui.reading_status.StreakActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

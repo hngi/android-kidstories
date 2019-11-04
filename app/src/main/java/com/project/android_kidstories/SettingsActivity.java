@@ -16,15 +16,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import androidx.appcompat.widget.Toolbar;
-import androidx.browser.customtabs.CustomTabsCallback;
 import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.browser.customtabs.CustomTabsSession;
-
 import com.project.android_kidstories.alarm.AlarmReceiver;
 import com.project.android_kidstories.base.BaseActivity;
-import com.project.android_kidstories.sharePref.SharePref;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -109,7 +104,6 @@ public class SettingsActivity extends BaseActivity {
                         format.format(d)
                 );
 
-//                SharePref sharePref = SharePref.getINSTANCE(SettingsActivity.this);
                 getSharePref().setString(ALARM_TIME, format.format(d));
 
                 setAlarm(i, i1);

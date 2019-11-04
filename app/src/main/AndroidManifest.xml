@@ -79,7 +79,7 @@
             android:name=".AddStoriesContentActivity"
             android:parentActivityName=".AddStoryActivity" />
         <activity android:name=".base.BaseActivity" />
-        <activity android:name=".streak.StreakActivity" />
+        <activity android:name=".ui.reading_status.StreakActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

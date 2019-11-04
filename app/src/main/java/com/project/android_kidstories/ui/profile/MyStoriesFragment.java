@@ -7,30 +7,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
-import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.adapters.MyStoriesAdapter;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyStoriesFragment extends Fragment {
 

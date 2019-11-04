@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
-import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.ui.MainActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

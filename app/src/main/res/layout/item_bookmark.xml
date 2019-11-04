@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                   android:id="@+id/cat_card"
-                                   android:layout_width="match_parent"
+    android:layout_width="match_parent"
                                    android:layout_height="80dp"
                                    android:layout_margin="8dp"
                                    android:background="@drawable/edit_field_curves"
@@ -20,7 +19,6 @@
             android:elevation="12dp"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center"
-            android:id="@+id/view2"
             app:cardCornerRadius="40dp"
             android:layout_centerHorizontal="true"
             >

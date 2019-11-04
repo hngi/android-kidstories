@@ -1,4 +1,4 @@
-package com.project.android_kidstories.ui.edit;
+package com.project.android_kidstories.ui.profile.editprofile;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

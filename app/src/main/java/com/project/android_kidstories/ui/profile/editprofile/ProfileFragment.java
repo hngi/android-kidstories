@@ -1,4 +1,4 @@
-package com.project.android_kidstories.ui.edit;
+package com.project.android_kidstories.ui.profile.editprofile;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,9 +27,9 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
-import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.ui.MainActivity;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
 import com.takusemba.cropme.CropImageView;
 import com.takusemba.cropme.CropLayout;

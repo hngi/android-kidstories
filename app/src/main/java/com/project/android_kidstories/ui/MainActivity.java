@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Views.main;
+package com.project.android_kidstories.ui;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -39,7 +40,6 @@ import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SettingsActivity;
 import com.project.android_kidstories.alarm.AlarmReceiver;
-import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.categories.CategoriesFragment;
@@ -56,7 +56,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//import com.project.android_kidstories.ui.edit.ProfileFragment;
+//import ProfileFragment;
 
 /**
  * @author .: Ehma Ugbogo
@@ -65,8 +65,8 @@ import retrofit2.Response;
  */
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener{
-    public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final String USER_KEY_INTENT_EXTRA = "com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "kidstories";
     private DrawerLayout drawer;
@@ -92,6 +92,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public static String getCurrentFragment() {
         return CURRENT_FRAGMENT;
     }
+
     public static void setCurrentFragment(String currentFragment) {
         CURRENT_FRAGMENT = currentFragment;
     }
@@ -159,7 +160,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
         navImage.setOnClickListener(view -> {
-            ProfileFragment profileFragment = new ProfileFragment();
+            ProfileFragment profileFragment = ProfileFragment.newInstance();
             // Add bundle data containing "token" before parsing to profileFragment
             profileFragment.setArguments(data);
             setUpFragment(profileFragment);
@@ -242,6 +243,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
 
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * sdf
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * //
+     */
+
     public void linkUserDetails() {
         repository.getStoryApi().getUser("Bearer " + userDetails.getToken()).enqueue(new Callback<BaseResponse<DataResponse>>() {
             @Override
@@ -256,21 +271,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     viewModel.currentUser.setEmail(response.body().getData().getEmail());
                     viewModel.currentUser.setId(response.body().getData().getId().longValue());
                     sharePref.setUserId(response.body().getData().getId());
-                    if(viewModel.currentUser.getImage() != null && !viewModel.currentUser.getImage().isEmpty()) {
+                    if (viewModel.currentUser.getImage() != null && !viewModel.currentUser.getImage().isEmpty()) {
                         Glide.with(getApplicationContext())
                                 .load(viewModel.currentUser.getImage())
                                 .into(navProfilePic);
-                    }
-                    else{
+                    } else {
                         // Leave default local image if there is none from the api
                     }
 
-                    if(viewModel.currentUser.getFirstName() != null && !viewModel.currentUser.getLastName().isEmpty()
-                    && viewModel.currentUser.getLastName() != null && !viewModel.currentUser.getLastName().isEmpty() ){
+                    if (viewModel.currentUser.getFirstName() != null && !viewModel.currentUser.getLastName().isEmpty()
+                            && viewModel.currentUser.getLastName() != null && !viewModel.currentUser.getLastName().isEmpty()) {
                         userName.setText(viewModel.currentUser.getFirstName() + " "
-                        + viewModel.currentUser.getLastName());
-                    }
-                    else{
+                                + viewModel.currentUser.getLastName());
+                    } else {
                         userName.setText("Username");
                     }
 
@@ -339,11 +352,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                         signout();
                         bottomNavigationView.setVisibility(View.GONE);
                         break;
-                    /*case R.id.nav_edit_profile:
-                        fragment = new ProfileFragment();
-                        toolbarTitle = "Profile";
-                        bottomNavigationView.setVisibility(View.GONE);
-                        break;*/
                 }
 
                 drawer.closeDrawer(GravityCompat.START);
@@ -432,7 +440,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.nav_header_imageView:
                 showToast("Opening profile setup");
                 break;
@@ -472,7 +480,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             hideDrawer();
-        } else if (navigationView.getCheckedItem().getItemId()!=R.id.nav_home) {
+        } else if (navigationView.getCheckedItem().getItemId() != R.id.nav_home) {
             Intent home = new Intent(getApplicationContext(), MainActivity.class);
             home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(home);
@@ -526,29 +534,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         alertDialog.show();
     }
 
-}
+    // Class to maintain a user object
+    private class UserDetails {
+        private String token;
+        private String fullname;
+        private String email;
 
-// Class to maintain a user object
-class UserDetails {
-    private String token;
-    private String fullname;
-    private String email;
+        UserDetails(String token, String email, String fullname) {
+            this.token = token;
+            this.email = email;
+            this.fullname = fullname;
+        }
 
-    UserDetails(String token, String email, String fullname) {
-        this.token = token;
-        this.email = email;
-        this.fullname = fullname;
+        String getFullname() {
+            return fullname;
+        }
+
+        String getEmail() {
+            return email;
+        }
+
+        String getToken() {
+            return token;
+        }
     }
 
-    String getFullname() {
-        return fullname;
-    }
-
-    String getEmail() {
-        return email;
-    }
-
-    String getToken() {
-        return token;
-    }
 }

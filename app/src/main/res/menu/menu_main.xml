@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/app_bar_search"
         android:icon="@drawable/ic_search_black_24dp"
         android:orderInCategory="10"
         android:title="@string/search"
@@ -11,13 +10,11 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_streaks"
         android:title="@string/action_streaks"
         app:showAsAction="never" />
 </menu>

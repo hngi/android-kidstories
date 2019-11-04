@@ -151,7 +151,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.profile_edit) {
-            com.project.android_kidstories.ui.edit.ProfileFragment profileFragment = new com.project.android_kidstories.ui.edit.ProfileFragment();
+            com.project.android_kidstories.ui.profile.editprofile.ProfileFragment profileFragment = new com.project.android_kidstories.ui.profile.editprofile.ProfileFragment();
             getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, profileFragment).commit();
             return true;
         }

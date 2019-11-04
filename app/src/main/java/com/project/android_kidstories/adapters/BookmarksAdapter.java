@@ -2,31 +2,20 @@ package com.project.android_kidstories.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.Views.main.MainActivity;
-import com.project.android_kidstories.ui.profile.BookmarksFragment;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.ViewHolder> {

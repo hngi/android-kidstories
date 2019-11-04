@@ -1,64 +1,34 @@
 package com.project.android_kidstories;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.request.RequestOptions;
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.security.MessageDigest;
-
-
-import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.Api.Responses.BaseResponse;
-import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
-import com.project.android_kidstories.Api.Responses.loginRegister.RegistrationDataResponse;
-import com.project.android_kidstories.Api.RetrofitClient;
-
+import com.facebook.*;
 import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
-import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
-
+import com.project.android_kidstories.Api.Responses.loginRegister.RegistrationDataResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
-import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.sharePref.SharePref;
-
+import com.project.android_kidstories.ui.MainActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.security.MessageDigest;
 
 public class RegisterActivity extends AppCompatActivity {
 

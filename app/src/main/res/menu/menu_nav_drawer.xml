@@ -9,7 +9,6 @@
             android:title="@string/menuitem_home" />
 
         <item
-            android:id="@+id/nav_saved"
             android:icon="@drawable/ic_file_download_black_24dp"
             android:title="@string/menuitem_saved" />
 
@@ -22,7 +21,6 @@
     </group>
 
     <item
-        android:id="@+id/menugroup_more_home"
         android:title="@string/menugroup_more_text"
         app:showAsAction="never">
         <menu>

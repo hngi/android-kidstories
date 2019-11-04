@@ -1,119 +1,55 @@
 <resources>
     <string name="app_name">Kids Stories</string>
     <string name="Amount">Enter Amount to Donate</string>
-    <string name="expiry_date">Expiry Date</string>
-    <string name="card_expiry_month">Month</string>
-    <string name="card_expiray_year">Year</string>
-    <string name="card_holder">Card Holder</string>
-    <string name="last_digits">The last three digits on the \n last back of the card</string>
     <string name="donate_now_btn">Donate now</string>
     <string name="read_free_bedtime_stories">Read free bedtime stories, fairytales \n and other stories</string>
     <string name="welcome">Welcome</string>
-    <string name="and_other_stories">and other stories</string>
-    <string name="e_mail">E-mail</string>
     <string name="login">Login</string>
     <string name="facebook">Facebook</string>
     <string name="not_registered">Not Registered?</string>
     <string name="create_an_account">Create an account</string>
     <string name="google">Google</string>
-    <string name="donate">Donate</string>
-    <string name="cvv">CVV</string>
 
-    <string name="dummy_text">Afterward, Mom has noticed that the boys havent been getting along so she devises "Mom
-        Bucks" to pay them if they spend time together where they can trade in for one real dollar, but this unwittingly
-        makes things worse. Meanwhile, Greg and Rowley try to make a funny YouTube video by Rowley lip-syncing to "Tik
-        Tok" by Kesha, unfortunately (despite Rowley at one point sitting on a tinfoil ball with spikes made by Manny)
-        it proves to be awful, getting only 4 hits. After a talent show is advertised on TV, the brothers see this as a
-        big opportunity – Rowley suggests that he and Greg perform magic tricks, but Greg rejects the idea whilst
-        Rodrick sees this as his band\'s big break.
-    </string>
     <string name="by_author_name">By Author Name</string>
     <string name="story_image">Story Image</string>
     <string name="like_button">Like button</string>
 
-    <string name="back_button">Back</string>
-    <string name="edit_profile">Edit Profile</string>
     <string name="username">Joshua Atoms</string>
-    <string name="name">Name</string>
-    <string name="upload_image">Upload Image</string>
     <string name="save">Save</string>
-    <string name="image_status">No image uploaded</string>
     <string name="web_client_id">559987297928-vu5are06bfmbvkc5v6isvebf4sjn7sdl.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Joshua Atoms</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
-
 
     <string name="facebook_app_id">2451524784896417</string>
-    <string name="fb_login_protocol_scheme">fb2451524784896417</string>
     <string name="title_activity_the_main">MainActivity</string>
     <string name="open_drawer">Open Drawer</string>
     <string name="close_drawer">Close Drawer</string>
-    <string name="about_label">About</string>
     <string name="about_description">Kidstories is a platform where you can
         access an ever expanding library of stories that celebrates the uniqueness of a child\'s mind. Covering a wide
         range of ages, our stories are age and genre grouped, making it easy for you to browse through. It also offers
         you an opportunity to explore your creative writing abilities, by uploading your very own story.</string>
-    <string name="developed_by">Developed by mobile track HNG6 2019</string>
     <string name="bookmarks_label">Bookmarks</string>
-    <string name="sign_in_image_desc">Image showing two kids reading books</string>
     <string name="enable_night_mode">Enable night mode</string>
-    <string name="settings_label">Settings</string>
-    <string name="night_mode">Night Mode</string>
     <string name="skip_btn_label">Skip</string>
     <string name="start_reading_btn_label">Start Reading</string>
     <string name="sign_up_label">Sign Up</string>
-    <string name="full_name_hint">Full Name</string>
     <string name="e_mail_hint">E-mail</string>
     <string name="phone_no_hint">Phone No</string>
-    <string name="password_hint">Password</string>
     <string name="confirm_password_hint">Confirm Password</string>
-    <string name="facebook_btn_label">facebook</string>
-    <string name="google_btn_label">Google</string>
     <string name="already_registered">Already registered? </string>
     <string name="sign_in_txt_btn">Sign in</string>
-    <string name="apps_logo">Apps LOGO</string>
     <string name="comments">Comments</string>
-    <string name="featured_image_desc">ImgeView for the story\'s featured image</string>
-    <string name="tools_text_test">Diary of a wimpy kid</string>
-    <string name="author_name">Jim Walker</string>
-    <string name="for_kids_0_to_4_years">For kids 0 to 4 years</string>
-    <string name="comment_author">Sammy</string>
-    <string name="content">This is a comment</string>
-    <string name="date">3 DAYS AGO</string>
-    <string name="app_description">Kiddies stories is a mobile app that gives the best of value to your child.</string>
     <string name="developers">Developed by KidStories Mobile track HNGi6 2019.</string>
-    <string name="currency">Currency</string>
-    <string name="new_stories_label">NEW STORIES</string>
-    <string name="popular_stories_label">POPULAR STORIES</string>
     <string name="diary_of_a_wimpy_kid">Diary of a wimpy kid</string>
-    <string name="by_someone">By Someone</string>
-    <string name="for_2_year_olds">For 2 year olds</string>
-    <string name="ehma_ugbogo">Ehma Ugbogo</string>
-    <string name="for_kids_4_years_old">For Kids - 4 years old</string>
     <string name="add_story_label">Type Content</string>
     <string name="title_hint">Title</string>
-    <string name="wite_story_hint">Write Your Story Here...</string>
-    <string name="author">Author</string>
-    <string name="create_btn_label">Create</string>
     <string name="content_label">Content</string>
     <string name="no_image_uploaded">No image uploaded</string>
     <string name="register_btn_label">Register</string>
-    <string name="write_your_story_here">Write your story here...</string>
     <string name="book_description">Book Description</string>
     <string name="book_title">Book Title</string>
     <string name="by">By</string>
@@ -123,10 +59,6 @@
     <string name="add_story">Add Story</string>
     <string name="upload_image_new">Upload image</string>
     <string name="type_content">Type Content</string>
-    <string name="title_label_new">Title</string>
-    <string name="cover_image">Cover Image</string>
-    <string name="kids_stories">kids_stories</string>
-    <string name="hnginterns">hnginterns</string>
     <string name="unable">Unable to load Story</string>
     <string name="daily_reminder_text">Daily Reminder</string>
     <string name="channel_name">Daily Reminder</string>

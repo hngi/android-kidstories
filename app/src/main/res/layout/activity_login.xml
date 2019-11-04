@@ -28,7 +28,6 @@
             android:textSize="25sp"/>
 
         <TextView
-            android:id="@+id/write"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -105,7 +104,6 @@
             app:cornerRadius="7dp" />
 
         <LinearLayout
-            android:id="@+id/authentication_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -141,7 +139,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/tv_create_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
@@ -152,7 +149,6 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/not_registered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

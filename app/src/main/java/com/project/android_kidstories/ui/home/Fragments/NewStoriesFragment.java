@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -24,8 +25,7 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.sharePref.SharePref;
-import com.project.android_kidstories.ui.home.BaseFragment;
-import com.project.android_kidstories.ui.home.StoryAdapter;
+import com.project.android_kidstories.ui.home.Adapters.StoryAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +33,7 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener, RecyclerStoriesAdapter.OnBookmarked, RecyclerStoriesAdapter.StorySearch {
+public class NewStoriesFragment extends Fragment implements StoryAdapter.OnStoryClickListener, View.OnClickListener, RecyclerStoriesAdapter.OnBookmarked, RecyclerStoriesAdapter.StorySearch {
 
     private static final String TAG = "kidstories";
     private RecyclerView recyclerView;
@@ -158,6 +158,10 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     @Override
     public void onStoryClick(Story story) {
         showToast(story.getTitle());
+    }
+
+    private void showToast(String title) {
+        Toast.makeText(requireContext(), title, Toast.LENGTH_SHORT).show();
     }
 
     @Override

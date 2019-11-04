@@ -8,11 +8,9 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -32,7 +30,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.AddStoryActivity;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
@@ -46,16 +43,13 @@ import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.donate.DonateFragment;
+import com.project.android_kidstories.ui.home.Adapters.StoryAdapter;
 import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
-import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
-import com.project.android_kidstories.ui.home.Fragments.PopularStoriesFragment;
-import com.project.android_kidstories.ui.home.HomeFragment;
-import com.project.android_kidstories.ui.home.StoryAdapter;
+import com.project.android_kidstories.ui.home.Fragments.HomeFragment;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.info.FeedBackFragment;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
 import com.project.android_kidstories.ui.profile.ProfileFragment;
-import com.project.android_kidstories.ui.reading_status.StreakActivity;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -299,28 +293,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Fragment fragment = null;
-                String msg = "";
+                String toolbarTitle = "";
                 switch (menuItem.getItemId()) {
 
                     case R.id.nav_feed_back:
                         fragment = new FeedBackFragment();
-                        msg = "Feedback";
+                        toolbarTitle = "Feedback";
                         bottomNavigationView.setVisibility(View.GONE);
                         break;
 
                     case R.id.nav_home:
-                        Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                        /*Intent home = new Intent(getApplicationContext(), MainActivity.class);
                         home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(home);
+                        startActivity(home);*/
                         openHomeFragment();
                         navigationView.setCheckedItem(R.id.nav_home);
                         bottomNavigationView.setVisibility(View.VISIBLE);
-                        msg = "Stories";
+                        toolbarTitle = "Stories";
                         break;
 
                     case R.id.nav_categories:
                         fragment = new CategoriesFragment();
-                        msg="Categories";
+                        toolbarTitle = "Categories";
                         bottomNavigationView.setVisibility(View.GONE);
                         break;
 
@@ -332,12 +326,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
                     case R.id.nav_donate:
                         fragment = new DonateFragment();
-                        msg="Donate";
+                        toolbarTitle = "Donate";
                         bottomNavigationView.setVisibility(View.GONE);
                         break;
                     case R.id.nav_about:
                         fragment = new AboutFragment();
-                        msg="About";
+                        toolbarTitle = "About";
                         bottomNavigationView.setVisibility(View.GONE);
                         break;
                     case R.id.nav_log_out:
@@ -347,13 +341,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                         break;
                     /*case R.id.nav_edit_profile:
                         fragment = new ProfileFragment();
-                        msg = "Profile";
+                        toolbarTitle = "Profile";
                         bottomNavigationView.setVisibility(View.GONE);
                         break;*/
                 }
 
                 drawer.closeDrawer(GravityCompat.START);
-                toolbar.setTitle(msg);
+                updateToolbarTitle(toolbarTitle);
                 if (fragment != null) {
                     setUpFragment(fragment);
                 }
@@ -446,7 +440,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         searchItem = menu.findItem(R.id.app_bar_search);
@@ -472,16 +466,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         });
         return true;
     }
-
-
-    //TODO: Ehma Refactor to BaseActivity
-
-
-    private void showSnackBar(View view,String msg){
-        Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-    }
-
+*/
 
     @Override
     public void onBackPressed() {
@@ -515,7 +500,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == R.id.action_settings) {
@@ -526,7 +511,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             StreakActivity.start(this);
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
+
+
     private void doExit() {
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(

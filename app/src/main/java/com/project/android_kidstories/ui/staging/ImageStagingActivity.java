@@ -7,11 +7,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
+import com.project.android_kidstories.ui.base.BaseActivity;
 import com.project.android_kidstories.utils.ImageConversion;
 import com.takusemba.cropme.CropImageView;
 import com.takusemba.cropme.CropLayout;
@@ -19,7 +18,7 @@ import com.takusemba.cropme.OnCropListener;
 
 import java.io.FileNotFoundException;
 
-public class ImageStagingActivity extends AppCompatActivity {
+public class ImageStagingActivity extends BaseActivity {
 
     private static final String INTENT_URI_KEY = "INTENT_URI_KEY";
 
@@ -86,6 +85,6 @@ public class ImageStagingActivity extends AppCompatActivity {
 
 
     private void showMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        showToast(message);
     }
 }

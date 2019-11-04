@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -40,6 +39,7 @@ import com.project.android_kidstories.data.model.User;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.receivers.AlarmReceiver;
+import com.project.android_kidstories.ui.base.BaseActivity;
 import com.project.android_kidstories.ui.categories.CategoriesFragment;
 import com.project.android_kidstories.ui.donate.DonateFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
@@ -65,7 +65,7 @@ import retrofit2.Response;
  */
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final String USER_KEY_INTENT_EXTRA = "com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "kidstories";
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setCurrentFragment(FRAGMENT_NEW);
         }
 
-        sharePref = new SharePref(this);
+        sharePref = getSharePref();
 
         viewModel = ViewModelProviders.of(this).get(FragmentsSharedViewModel.class);
         viewModel.currentUser = new User();
@@ -189,16 +189,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private UserDetails getUserDetails() {
-        String firstname, lastname;
+        String name;
         String email;
         String token;
 
         token = sharePref.getUserToken();
-        firstname = sharePref.getUserFirstname();
-        lastname = sharePref.getUserLastname();
+        name = sharePref.getUserFullname();
         email = sharePref.getUserEmail();
 
-        return new UserDetails(token, email, firstname + " " + lastname);
+        return new UserDetails(token, email, name);
     }
 
     private void openHomeFragment() {

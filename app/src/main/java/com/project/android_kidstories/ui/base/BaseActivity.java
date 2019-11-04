@@ -14,7 +14,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharePref = SharePref.getINSTANCE(this);
+        sharePref = SharePref.getInstance(getApplication());
     }
 
     public SharePref getSharePref() {

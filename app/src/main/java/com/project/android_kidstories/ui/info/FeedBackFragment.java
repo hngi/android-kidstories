@@ -7,15 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import com.firebase.client.Firebase;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.ui.base.BaseFragment;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class FeedBackFragment extends Fragment {
+public class FeedBackFragment extends BaseFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,7 +61,7 @@ public class FeedBackFragment extends Fragment {
                 Firebase child_name = firebase.child("Name");
                 child_name.setValue(theName);
 
-                Toast.makeText(requireContext(), "Feedback sent", Toast.LENGTH_SHORT).show();
+                showToast("Feedback sent");
                 email.setText("");
                 name.setText("");
                 message.setText("");

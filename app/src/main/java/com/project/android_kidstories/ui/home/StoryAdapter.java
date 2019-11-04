@@ -62,8 +62,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder> 
         } else {
             holder.bookmarkIcon.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
         }
-
-
     }
 
     @Override
@@ -137,27 +135,35 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder> 
 
         private void effectChangeOnStory(StoryEffect effect) {
             Story story = stories.get(getAdapterPosition());
-            switch (effect){
+            switch (effect) {
                 case LIKED:
-                    if(story.isLiked()){
+                    if (story.isLiked()) {
                         story.setLiked(false);
-                        story.setLikesCount(story.getLikesCount()+1);
-                    } else {story.setLiked(true);story.setLikesCount(story.getLikesCount()-1);}
+                        story.setLikesCount(story.getLikesCount() + 1);
+                    } else {
+                        story.setLiked(true);
+                        story.setLikesCount(story.getLikesCount() - 1);
+                    }
                     break;
                 case DISLIKED:
-                    if(story.isDisliked()){
+                    if (story.isDisliked()) {
                         story.setDisliked(false);
-                        story.setDislikesCount(story.getDislikesCount()+1);
-                    } else {story.setDisliked(true);story.setDislikesCount(story.getDislikesCount()-1);}
+                        story.setDislikesCount(story.getDislikesCount() + 1);
+                    } else {
+                        story.setDisliked(true);
+                        story.setDislikesCount(story.getDislikesCount() - 1);
+                    }
                     break;
                 case BOOKMARK:
-                    if(story.isBookmark()){
+                    if (story.isBookmark()) {
                         story.setBookmark(false);
-                    } else {story.setBookmark(true);}
+                    } else {
+                        story.setBookmark(true);
+                    }
                     break;
-                    default:
-                        stories.set(getAdapterPosition(),story);
-                        notifyDataSetChanged();
+                default:
+                    stories.set(getAdapterPosition(), story);
+                    notifyDataSetChanged();
 
             }
         }

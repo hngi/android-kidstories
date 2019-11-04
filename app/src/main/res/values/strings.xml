@@ -139,7 +139,7 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="first_name">First Name</string>
-    <string name="menuitem_home">Home</string>
+    <string name="menuitem_home">Stories</string>
     <string name="menuitem_categories">Categories</string>
     <string name="menuitem_log_out">Logout</string>
     <string name="menuitem_feedback">Feedback</string>

@@ -11,10 +11,8 @@ public class SharePref {
     private static final String USER_LOGIN_STATE = "isUserLoggedIn";
     private static final String NIGHT_MODE = "NIGHT MODE";
     private static final String ALARM_TIME = "ALARM_TIME";
-
-    private static SharePref INSTANCE;
     public static Context context;
-
+    private static SharePref INSTANCE;
     //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCr(savedInstanceState);
@@ -140,12 +138,14 @@ public class SharePref {
         sharedPreferences.edit().putBoolean(USER_LOGIN_STATE, isUserLoggedIn).apply();
     }
 
+    public int getUserId() {
+        return sharedPreferences.getInt("User Id", 0);
+    }
+
     public void setUserId(Integer id){
 
         sharedPreferences.edit().putInt("User Id", id).apply();
     }
-
-    public int getUserId(){return  sharedPreferences.getInt("User Id", 0);}
 
 
 }

@@ -1,7 +1,6 @@
 package com.project.android_kidstories.ui.home;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import com.project.android_kidstories.ui.home.Fragments.CategoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.NewStoriesFragment;
 import com.project.android_kidstories.ui.home.Fragments.PopularStoriesFragment;
 
-import static com.project.android_kidstories.Views.main.MainActivity.LastTabPosition;
+import static com.project.android_kidstories.Views.main.MainActivity.lastTabPosition;
 
 public class HomeFragment extends Fragment {
     ViewPager viewPager;
@@ -39,7 +38,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        LastTabPosition = tabLayout.getSelectedTabPosition();
+        lastTabPosition = tabLayout.getSelectedTabPosition();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class HomeFragment extends Fragment {
         adapter.addFragment(CategoriesFragment.newInstance(), "Categories");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(LastTabPosition).select();
+        tabLayout.getTabAt(lastTabPosition).select();
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

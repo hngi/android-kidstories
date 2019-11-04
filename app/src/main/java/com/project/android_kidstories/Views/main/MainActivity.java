@@ -54,6 +54,7 @@ import com.project.android_kidstories.ui.home.StoryAdapter;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.info.FeedBackFragment;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
+import com.project.android_kidstories.ui.profile.ProfileFragment;
 import com.project.android_kidstories.ui.support.DonateFragment;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -76,32 +77,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private static final String TAG = "kidstories";
     private DrawerLayout drawer;
     private NavigationView navigationView;
-    private Toolbar toolbar;
     private Repository repository;
     private StoryAdapter storyAdapter;
     private GoogleApiClient mGoogleApiClient;
     private BottomNavigationView bottomNavigationView;
-    private SharePref sharePref;
-    public static int LastTabPosition = 0;
-    private String token;
-    private String firstname, lastname, name;
+    public static final String FRAGMENT_NEW = "New Stories";
     TextView userName;
 
     private FragmentsSharedViewModel viewModel;
     CircleImageView navProfilePic;
     private MenuItem searchItem;
+    public static final String FRAGMENT_POPULAR = "Popular Stories";
+    public static int lastTabPosition = 0;
+    private static String CURRENT_FRAGMENT = "";
+    private SharePref sharePref;
+    private UserDetails userDetails;
+    private Toolbar toolbar;
+
 
     public static String getCurrentFragment() {
         return CURRENT_FRAGMENT;
     }
-
     public static void setCurrentFragment(String currentFragment) {
         CURRENT_FRAGMENT = currentFragment;
     }
-
-    private static String CURRENT_FRAGMENT = "";
-    public static final String FRAGMENT_NEW = "New Stories";
-    public static final String FRAGMENT_POPULAR = "Popular Stories";
 
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -115,7 +114,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            try {
+                notificationManager.createNotificationChannel(channel);
+            } catch (NullPointerException npe) {
+                showError(npe.getMessage());
+            }
         }
     }
 
@@ -123,27 +126,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         createNotificationChannel();
 
+
         toolbar = findViewById(R.id.main_toolbar);
-        toolbar.setTitle("Stories");
         setSupportActionBar(toolbar);
+        updateToolbarTitle("Stories");
 
-        if(LastTabPosition==0){
-            setCurrentFragment(FRAGMENT_NEW);
-        }else if (LastTabPosition==1){
+        if (lastTabPosition == 1) {
             setCurrentFragment(FRAGMENT_POPULAR);
+        } else {
+            setCurrentFragment(FRAGMENT_NEW);
         }
-
 
         sharePref = SharePref.getINSTANCE(getApplicationContext());
         viewModel = ViewModelProviders.of(this).get(FragmentsSharedViewModel.class);
         viewModel.currentUser = new User();
 
-//        RecyclerStoriesAdapter.token = new SharePref(this).getMyToken();
-
-//        Get token from SharedPref
-        getUserDetails();
+        // Get user details from SharedPref
+        userDetails = getUserDetails();
 
         initViews();
 
@@ -151,36 +153,66 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             openHomeFragment();
         }
 
-
-
-//        Preparing token to be parsed to fragments
+        // Preparing token to be parsed to fragments
         Bundle data = new Bundle();
-        data.putString("token", token);
+        data.putString("token", userDetails.getToken());
 
         // Making the header image clickable
         View headerView = navigationView.getHeaderView(0);
 
         userName = headerView.findViewById(R.id.nav_header_name);
-        navProfilePic = headerView.findViewById(R.id.nav_header_imageView);
-        name = firstname + " " + lastname;
-        userName.setText(name);
-
+        userName.setText(userDetails.getFullname());
 
         ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
-        navImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                com.project.android_kidstories.ui.profile.ProfileFragment profileFragment = new com.project.android_kidstories.ui.profile.ProfileFragment();
-//                Add bundle data containing "token" before parsing to profileFragment
-                profileFragment.setArguments(data);
-                setUpFragment(profileFragment);
-                getSupportActionBar().setTitle("Profile");
-                drawer.closeDrawer(GravityCompat.START);
-                for (int i = 0; i < navigationView.getMenu().size(); i++) {
-                    navigationView.getMenu().getItem(i).setChecked(false);
-                }
+        navImage.setOnClickListener(view -> {
+            ProfileFragment profileFragment = new ProfileFragment();
+            // Add bundle data containing "token" before parsing to profileFragment
+            profileFragment.setArguments(data);
+            setUpFragment(profileFragment);
+            updateToolbarTitle("Profile");
+            drawer.closeDrawer(GravityCompat.START, true);
+            for (int i = 0; i < navigationView.getMenu().size(); i++) {
+                navigationView.getMenu().getItem(i).setChecked(false);
+                bottomNavigationView.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void updateToolbarTitle(String title) {
+        try {
+            getSupportActionBar().setTitle(title);
+        } catch (NullPointerException npe) {
+            showError(npe.getMessage());
+        }
+    }
+
+    private void showError(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+
+    private UserDetails getUserDetails() {
+        String firstname, lastname;
+        String email;
+        String token;
+
+        token = sharePref.getMyToken();
+        firstname = sharePref.getUserFirstname();
+        lastname = sharePref.getUserLastname();
+        email = sharePref.getUserEmail();
+
+        return new UserDetails(token, email, firstname + " " + lastname);
+    }
+
+    private void openHomeFragment() {
+        HomeFragment homeFragment = new HomeFragment();
+        setUpFragment(homeFragment);
+
+        navigationView.setCheckedItem(R.id.nav_home);
+        bottomNavigationView.setSelectedItemId(0);
+        bottomNavigationView.setVisibility(View.VISIBLE);
+
+        updateToolbarTitle("Stories");
     }
 
     private void initViews() {
@@ -189,52 +221,37 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         navigationView = findViewById(R.id.main_nav_view);
         bottomNavigationView = findViewById(R.id.bottom_nav_view);
 
-        View headerView = navigationView.getHeaderView(0);
-        byte[] imageBytes = new BedTimeDbHelper(this).getUserImage();
-        if (imageBytes != null) {
-            Bitmap bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-
-            CircleImageView civ = headerView.findViewById(R.id.nav_header_imageView);
-            civ.setImageBitmap(bmp);
-        }
+        updateProfileImage();
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
-
-        //For test
-        /*RecyclerView recyclerView=findViewById(R.id.main_recycler);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(storyAdapter);*/
         repository = Repository.getInstance(this.getApplication());
-
         storyAdapter = new StoryAdapter(repository);
 
         linkUserDetails();
 
-
-
-
-
-        openHomeFragment();
-        //fetchStories();
         navigationClickListeners();
-
-
-
     }
 
-    public void linkUserDetails() {
+    public void updateProfileImage() {
+        View headerView = navigationView.getHeaderView(0);
+        byte[] imageBytes = new BedTimeDbHelper(this).getUserImage();
 
-        repository.getStoryApi().getUser("Bearer " + token).enqueue(new Callback<BaseResponse<DataResponse>>() {
+        if (imageBytes == null) return;
+
+        Bitmap bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+        CircleImageView civ = headerView.findViewById(R.id.nav_header_imageView);
+        civ.setImageBitmap(bmp);
+    }
+
+
+    public void linkUserDetails() {
+        repository.getStoryApi().getUser("Bearer " + userDetails.getToken()).enqueue(new Callback<BaseResponse<DataResponse>>() {
             @Override
             public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
-
-
 
                 if (response.isSuccessful()) {
                     Log.d("User Details", response.body().getData().toString());
@@ -275,18 +292,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 Log.d("User Details", t.getMessage());
             }
         });
-    }
-
-    public void updateProfileImage() {
-        View headerView = navigationView.getHeaderView(0);
-        byte[] imageBytes = new BedTimeDbHelper(this).getUserImage();
-
-        if (imageBytes == null) return;
-
-        Bitmap bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-
-        CircleImageView civ = headerView.findViewById(R.id.nav_header_imageView);
-        civ.setImageBitmap(bmp);
     }
 
     private void navigationClickListeners() {
@@ -372,7 +377,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                         break;
                     case R.id.addStory:
                         Intent i = new Intent(getApplicationContext(), AddStoryActivity.class);
-                        i.putExtra("token", token);
+                        i.putExtra("token", userDetails.getToken());
                         startActivity(i);
                         break;
                     case R.id.bookmark_fragment:
@@ -387,19 +392,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 return true;
             }
         });
-    }
-
-
-
-
-    private void openHomeFragment() {
-        HomeFragment holderFragment = new HomeFragment();
-
-        setUpFragment(holderFragment);
-        navigationView.setCheckedItem(R.id.nav_home);
-        bottomNavigationView.setSelectedItemId(0);
-        bottomNavigationView.setVisibility(View.VISIBLE);
-        toolbar.setTitle("Stories");
     }
 
     private void setUpFragment(Fragment fragment) {
@@ -441,15 +433,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mGoogleApiClient.connect();
 
         super.onStart();
-    }
-
-
-
-
-    private void getUserDetails() {
-        token = new SharePref(this).getMyToken();
-        firstname = new SharePref(this).getUserFirstname();
-        lastname = new SharePref(this).getUserLastname();
     }
 
 
@@ -556,4 +539,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         alertDialog.show();
     }
 
+}
+
+// Class to maintain a user object
+class UserDetails {
+    private String token;
+    private String fullname;
+    private String email;
+
+    UserDetails(String token, String email, String fullname) {
+        this.token = token;
+        this.email = email;
+        this.fullname = fullname;
+    }
+
+    String getFullname() {
+        return fullname;
+    }
+
+    String getEmail() {
+        return email;
+    }
+
+    String getToken() {
+        return token;
+    }
 }

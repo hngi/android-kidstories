@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
 import com.facebook.*;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -27,7 +28,6 @@ import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.MainActivity;
 import com.project.android_kidstories.viewModel.UserViewModel;
@@ -37,7 +37,7 @@ import retrofit2.Response;
 
 import java.util.Arrays;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends AppCompatActivity {
     public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "LoginActivity";

@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.like.LikeButton;
@@ -27,6 +26,7 @@ import com.project.android_kidstories.data.model.Comment;
 import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.database.StoryLab;
+import com.project.android_kidstories.ui.base.BaseActivity;
 import com.project.android_kidstories.ui.reading_status.ReadingStatusActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,7 +38,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class SingleStoryActivity extends AppCompatActivity {
+public class SingleStoryActivity extends BaseActivity {
 
     private MediaPlayer backgroundMusicPlayer;
     private ImageView story_pic, like_btn;
@@ -82,7 +82,7 @@ public class SingleStoryActivity extends AppCompatActivity {
         storyApi = repository.getStoryApi();
         story_id = getIntent().getIntExtra("story_id", 0);
 
-        sharePref = SharePref.getINSTANCE(this);
+        sharePref = getSharePref();
 
         Button markAsReadBtn = findViewById(R.id.btn_markasread);
         // Check if story has been read already

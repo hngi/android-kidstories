@@ -9,14 +9,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.data.model.Story;
-import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.ui.MainActivity;
+import com.project.android_kidstories.ui.base.BaseActivity;
 import com.project.android_kidstories.utils.FileUtil;
 import jp.wasabeef.richeditor.RichEditor;
 import okhttp3.MediaType;
@@ -28,7 +27,7 @@ import retrofit2.Response;
 
 import java.io.File;
 
-public class AddStoriesContentActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class AddStoriesContentActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
     private static boolean isStoryAdded = false;
     private static String title;
     private static String token;
@@ -63,7 +62,7 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
         image_uri = Uri.parse(imageUri_str);
         assert image_path != null;
 //        image_uri = Uri.fromFile(new File(image_path));
-        token = new SharePref(getApplicationContext()).getUserToken();
+        token = getSharePref().getUserToken();
         token = "Bearer " + token;
 
         //storyContent = findViewById(R.id.story_content_field);
@@ -250,7 +249,7 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
                     story.setTitle(title);
                     story.setBody(Html.fromHtml(mEditor.getHtml()).toString());
                     //story.setBody(storyContent.getText().toString());
-                    String author = new SharePref(getApplicationContext()).getUserFirstname();
+                    String author = getSharePref().getUserFullname();
                     story.setAuthor(author);
 
                     Log.d("TAG", story.getTitle());

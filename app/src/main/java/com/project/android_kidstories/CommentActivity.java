@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +19,7 @@ import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.data.model.Comment;
-import com.project.android_kidstories.data.source.local.preferences.SharePref;
+import com.project.android_kidstories.ui.base.BaseActivity;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +27,7 @@ import retrofit2.Response;
 
 import java.util.List;
 
-public class CommentActivity extends AppCompatActivity {
+public class CommentActivity extends BaseActivity {
 
     Api service;
     RecyclerView rv;
@@ -53,12 +52,12 @@ public class CommentActivity extends AppCompatActivity {
 
         rv = findViewById(R.id.comment_rv);
         typeComment = findViewById(R.id.type_comment);
-        token = new SharePref(getApplicationContext()).getUserToken();
+        token = getSharePref().getUserToken();
         storyId = getIntent().getIntExtra("storyId", -1);
         sendComment = findViewById(R.id.btn_send_comment);
         commentProgressBar = findViewById(R.id.comment_progress_bar);
 
-        layoutManager = new LinearLayoutManager(CommentActivity.this, LinearLayoutManager.VERTICAL, false);
+        layoutManager = new LinearLayoutManager(CommentActivity.this, RecyclerView.VERTICAL, false);
 
         service.getStory(storyId).enqueue(new Callback<StoryBaseResponse>() {
             @Override

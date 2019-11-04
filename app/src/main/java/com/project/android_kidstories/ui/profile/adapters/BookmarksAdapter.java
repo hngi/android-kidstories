@@ -111,7 +111,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 removeStory(story);
-                RecyclerStoriesAdapter.deleteStory(context,story.getId());
+                RecyclerStoriesAdapter.deleteStory(context, story.getId());
 
             }
         });

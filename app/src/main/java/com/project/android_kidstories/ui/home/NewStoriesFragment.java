@@ -86,7 +86,10 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 if (response.isSuccessful()) {
                     List<Story> storiesList = response.body().getData();
                     storiesArray.addAll(storiesList);
-                    storyAdapter = new RecyclerStoriesAdapter(getContext(), storiesArray, NewStoriesFragment.this, repository);
+
+                    String userToken = getSharePref().getUserToken();
+
+                    storyAdapter = new RecyclerStoriesAdapter(getContext(), userToken, storiesArray, NewStoriesFragment.this, repository);
                     int spanCount;
                     try {
                         spanCount = getContext().getResources().getInteger(R.integer.home_fragment_gridspan);

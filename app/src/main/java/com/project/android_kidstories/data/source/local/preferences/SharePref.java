@@ -90,8 +90,4 @@ public final class SharePref {
     public void setIsUserLoggedIn(Boolean isUserLoggedIn) {
         sharedPreferences.edit().putBoolean(STATE_USER_LOGGED_IN, isUserLoggedIn).apply();
     }
-
-    public boolean getBoolean(String key) {
-
-    }
 }

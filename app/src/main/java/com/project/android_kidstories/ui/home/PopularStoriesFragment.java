@@ -84,7 +84,8 @@ public class PopularStoriesFragment extends BaseFragment implements RecyclerStor
                 if (response.isSuccessful()) {
                     List<Story> storiesList = sortList(response.body()).getData();
                     storiesArray.addAll(storiesList);
-                    adapter = new RecyclerStoriesAdapter(getContext(), storiesArray, PopularStoriesFragment.this, repository);
+                    String userToken = getSharePref().getUserToken();
+                    adapter = new RecyclerStoriesAdapter(getContext(), userToken, storiesArray, PopularStoriesFragment.this, repository);
 
                     int spanCount;
                     try {

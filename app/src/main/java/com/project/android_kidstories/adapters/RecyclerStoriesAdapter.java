@@ -20,7 +20,6 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
 import com.project.android_kidstories.data.model.Story;
-import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.ui.KidstoriesApplication;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,15 +41,17 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     private StoryAllResponse storiesList;
     private OnBookmarked bookmarked;
     private Api service;
+    private String userToken;
     Api storyApi;
     List<Story> stories;
 
-    public RecyclerStoriesAdapter(Context context, List<Story> storiesList, OnBookmarked bookmarked, Repository repository) {
+    public RecyclerStoriesAdapter(Context context, String token, List<Story> storiesList, OnBookmarked bookmarked, Repository repository) {
         this.context = context;
         this.stories = storiesList;
         Collections.reverse(stories);
         this.bookmarked = bookmarked;
         this.storyApi = repository.getStoryApi();
+        this.userToken = token;
     }
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -85,7 +86,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     }
 
 
-    public void likeStory(Story story ,int id ,CustomViewHolder holder){
+    public void likeStory(Story story, String userToken, int id, CustomViewHolder holder) {
         //Story will be used for local like
         //id will be used for remote like
         //local like
@@ -93,7 +94,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
 
         //remote like
-        String token = "Bearer " + new SharePref(context).getUserToken();
+        String token = "Bearer " + userToken;
         storyApi.likeStory(token,id).enqueue(new Callback<ReactionResponse>() {
             @Override
             public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
@@ -116,13 +117,13 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         });
     }
 
-    public void dislikeStory(Story story ,int id){
+    public void dislikeStory(Story story, String userToken, int id) {
 
         //Story will be used for local dislike
         //id will be used for remote dislike
 
 
-        String token = "Bearer " + new SharePref(context).getUserToken();
+        String token = "Bearer " + userToken;
         storyApi.dislikeStory(token,id).enqueue(new Callback<ReactionResponse>() {
             @Override
             public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
@@ -360,7 +361,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             public void onClick(View v) {
                 Story story = stories.get(position);
                 toggleReaction(1, story, holder);
-                likeStory(story, story.getId(),
+                likeStory(story, userToken, story.getId(),
                         holder);
 
             }
@@ -370,7 +371,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             public void onClick(View v) {
                 Story story = stories.get(position);
                 toggleReaction(0, story, holder);
-                dislikeStory(story, story.getId());
+                dislikeStory(story, userToken, story.getId());
 
             }
         });

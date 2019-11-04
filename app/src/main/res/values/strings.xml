@@ -14,7 +14,6 @@
     <string name="story_image">Story Image</string>
     <string name="like_button">Like button</string>
 
-    <string name="username">Joshua Atoms</string>
     <string name="save">Save</string>
     <string name="web_client_id">559987297928-vu5are06bfmbvkc5v6isvebf4sjn7sdl.apps.googleusercontent.com</string>
 
@@ -32,17 +31,13 @@
         access an ever expanding library of stories that celebrates the uniqueness of a child\'s mind. Covering a wide
         range of ages, our stories are age and genre grouped, making it easy for you to browse through. It also offers
         you an opportunity to explore your creative writing abilities, by uploading your very own story.</string>
-    <string name="bookmarks_label">Bookmarks</string>
     <string name="enable_night_mode">Enable night mode</string>
-    <string name="skip_btn_label">Skip</string>
-    <string name="start_reading_btn_label">Start Reading</string>
     <string name="sign_up_label">Sign Up</string>
     <string name="e_mail_hint">E-mail</string>
     <string name="phone_no_hint">Phone No</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="already_registered">Already registered? </string>
     <string name="sign_in_txt_btn">Sign in</string>
-    <string name="comments">Comments</string>
     <string name="developers">Developed by KidStories Mobile track HNGi6 2019.</string>
     <string name="diary_of_a_wimpy_kid">Diary of a wimpy kid</string>
     <string name="add_story_label">Type Content</string>

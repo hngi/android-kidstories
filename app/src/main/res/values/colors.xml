@@ -48,12 +48,9 @@
     <color name="grey">#808080</color>
 
     <!-- Color for button style -->
-    <color name="gradient_start">#4cb4ff</color>
-    <color name="gradient_end">#18a3fe</color>
     <!-- End of Color for button style -->
 
 
     <!-- Color for Tab and screen text-->
-    <color name="tab_indicator_gray">#c0c0c0</color>
     <!--End of Color for Tab and screen text-->
 </resources>

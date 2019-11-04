@@ -1,6 +1,6 @@
 package com.project.android_kidstories.ui.staging;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.ImageConversion;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
@@ -22,11 +23,11 @@ public class ImageStagingActivity extends AppCompatActivity {
 
     private static final String INTENT_URI_KEY = "INTENT_URI_KEY";
 
-    public static void start(Context context, String uriString) {
-        Intent intent = new Intent(context, ImageStagingActivity.class);
+    public static void startForResult(Fragment fragment, String uriString, int request_code) {
+        Intent intent = new Intent(fragment.requireContext(), ImageStagingActivity.class);
         intent.putExtra(INTENT_URI_KEY, uriString);
 
-        context.startActivity(intent);
+        fragment.startActivityForResult(intent, request_code);
     }
 
     @Override
@@ -39,6 +40,8 @@ public class ImageStagingActivity extends AppCompatActivity {
         String uriString = getIntent().getStringExtra(INTENT_URI_KEY);
         if (uriString == null) {
             showMessage("No image received");
+
+            setResult(Activity.RESULT_CANCELED);
             finish();
         }
 
@@ -65,6 +68,8 @@ public class ImageStagingActivity extends AppCompatActivity {
             public void onSuccess(Bitmap bitmap) {
                 byte[] imageByteArray = new ImageConversion().convertBitMapToByteArray(bitmap);
                 helper.storeUserImage(imageByteArray, ImageStagingActivity.this);
+
+                setResult(Activity.RESULT_OK);
                 finish();
             }
 

@@ -36,7 +36,8 @@ public class ProfileFragment extends Fragment {
     private BedTimeDbHelper helper;
 
     private static final int REQUEST_WRITE_PERMISSION = 786;
-    private static int RESULT_LOAD_IMAGE = 1;
+    private static int REQUEST_LOAD_IMAGE = 1;
+    private static int REQUEST_CROP_IMAGE = 2;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -89,7 +90,7 @@ public class ProfileFragment extends Fragment {
             requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_PERMISSION);
         } else {
             Intent images = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(images, RESULT_LOAD_IMAGE);
+            startActivityForResult(images, REQUEST_LOAD_IMAGE);
         }
     }
 
@@ -123,7 +124,7 @@ public class ProfileFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
         if (requestCode == REQUEST_WRITE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Intent images = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(images, RESULT_LOAD_IMAGE);
+            startActivityForResult(images, REQUEST_LOAD_IMAGE);
         }
     }
 
@@ -131,18 +132,24 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
+        if (resultCode != RESULT_OK) return;
+
+        if (requestCode == REQUEST_LOAD_IMAGE && data != null) {
             try {
                 Uri selected_image = data.getData();
                 if (selected_image == null) throw new NullPointerException();
                 String uriString = selected_image.toString();
 
                 // Start the staging activity
-                ImageStagingActivity.start(requireContext(), uriString);
+                ImageStagingActivity.startForResult(this, uriString, REQUEST_CROP_IMAGE);
 
             } catch (Exception e) {
                 showMessage("No picture was selected");
             }
+        }
+        if (requestCode == REQUEST_CROP_IMAGE) {
+            // Image crop was successful
+            setProfileImage();
         }
     }
 

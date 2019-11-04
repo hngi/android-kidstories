@@ -44,8 +44,8 @@ import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.categories.CategoriesFragment;
 import com.project.android_kidstories.ui.donate.DonateFragment;
-import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.home.adapters.StoryAdapter;
+import com.project.android_kidstories.ui.home.fragments.HomeFragment;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.info.FeedBackFragment;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
@@ -508,7 +508,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
 
         if (item.getItemId() == R.id.action_streaks) {
-            StreakActivity.start(this);
+            ReadingStatusActivity.start(this);
         }
         return super.onOptionsItemSelected(item);
     }*/

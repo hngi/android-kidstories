@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.sharePref.SharePref;
 
-public class StreakActivity extends AppCompatActivity {
+public class ReadingStatusActivity extends AppCompatActivity {
 
     public static final String STORIES_READ_KEY = "STORIES_READ_KEY";
 
@@ -40,7 +40,7 @@ public class StreakActivity extends AppCompatActivity {
     }
 
     public static void start(Context context) {
-        context.startActivity(new Intent(context, StreakActivity.class));
+        context.startActivity(new Intent(context, ReadingStatusActivity.class));
     }
 
     public static void displayUserReadingStatus(Context context, int storiesRead) {

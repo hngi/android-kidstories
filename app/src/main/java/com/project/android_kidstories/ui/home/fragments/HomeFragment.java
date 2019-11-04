@@ -1,4 +1,4 @@
-package com.project.android_kidstories.ui.home;
+package com.project.android_kidstories.ui.home.fragments;
 
 import android.os.Bundle;
 import android.view.*;

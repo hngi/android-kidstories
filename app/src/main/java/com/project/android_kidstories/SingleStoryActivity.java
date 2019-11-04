@@ -27,7 +27,7 @@ import com.project.android_kidstories.Model.Comment;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.database.StoryLab;
 import com.project.android_kidstories.sharePref.SharePref;
-import com.project.android_kidstories.ui.reading_status.StreakActivity;
+import com.project.android_kidstories.ui.reading_status.ReadingStatusActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -114,11 +114,11 @@ public class SingleStoryActivity extends AppCompatActivity {
         });
 
         markAsReadBtn.setOnClickListener(view -> {
-            int storiesRead = sharePref.getInt(StreakActivity.STORIES_READ_KEY);
+            int storiesRead = sharePref.getInt(ReadingStatusActivity.STORIES_READ_KEY);
             storiesRead += 1;
-            sharePref.setInt(StreakActivity.STORIES_READ_KEY, storiesRead);
+            sharePref.setInt(ReadingStatusActivity.STORIES_READ_KEY, storiesRead);
 
-            StreakActivity.displayUserReadingStatus(this, storiesRead);
+            ReadingStatusActivity.displayUserReadingStatus(this, storiesRead);
 
             repository.insertReadStoryId(new ReadStory(String.valueOf(story_id)));
             markAsReadBtn.setVisibility(View.GONE);

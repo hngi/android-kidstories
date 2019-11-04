@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -20,7 +19,7 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.data.model.Story;
-import com.project.android_kidstories.data.source.local.preferences.SharePref;
+import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.profile.adapters.BookmarksAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +28,7 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBookmarkClickListener {
+public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.OnBookmarkClickListener {
 
     @BindView(R.id.bookmark_bar)
     ProgressBar progressBar;
@@ -53,7 +52,7 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
 
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
-        token = "Bearer " + new SharePref(getContext()).getUserToken();
+        token = "Bearer " + getSharePref().getUserToken();
         RecyclerStoriesAdapter.token = token;
 
         Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
@@ -75,14 +74,14 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
                 } else {
-//                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                    showSnack(root, "Something went wrong...Please try later!");
                 }
             }
 
             @Override
             public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-//                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                showSnack(root, "Can't retrieve your stories, check connectivity and try again");
             }
         });
 

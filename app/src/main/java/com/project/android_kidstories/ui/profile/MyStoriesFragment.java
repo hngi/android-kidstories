@@ -7,17 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
-import com.project.android_kidstories.data.source.local.preferences.SharePref;
+import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.profile.adapters.MyStoriesAdapter;
 import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
@@ -27,9 +25,8 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyStoriesFragment extends Fragment {
+public class MyStoriesFragment extends BaseFragment {
 
-    private MyStoriesAdapter adapter;
     private int userId;
     private List<Story> storyList = new ArrayList<>();
     private Context context;
@@ -47,10 +44,10 @@ public class MyStoriesFragment extends Fragment {
         progressBar = root.findViewById(R.id.loading_bar);
 
         context = requireContext();
-        userId = new SharePref(context).getUserId();
+        userId = getSharePref().getUserId();
 
         if (userId == -1) {
-            showMessage("No Cached user in MyStoriesFragment");
+            showToast("No user logged in");
         }
 
         return root;
@@ -68,7 +65,7 @@ public class MyStoriesFragment extends Fragment {
                     StoryAllResponse storyAllResponse = response.body();
                     if (storyAllResponse == null) {
                         // Nothing was received
-                        showMessage("No story received");
+                        showSnack(view, "No story received");
                         progressBar.setVisibility(View.GONE);
                         return;
                     }
@@ -85,22 +82,17 @@ public class MyStoriesFragment extends Fragment {
 
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
-                showMessage("Can't retrieve your stories, check connectivity and try again");
+                showSnack(view, "Can't retrieve your stories, check connectivity and try again");
                 progressBar.setVisibility(View.GONE);
             }
         });
-    }
-
-
-    private void showMessage(String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
     private void updateViews(View root) {
         RecyclerView recyclerView = root.findViewById(R.id.my_story_recyclerView);
         TextView errorMessage = root.findViewById(R.id.error_message);
 
-        adapter = new MyStoriesAdapter(storyList, context);
+        MyStoriesAdapter adapter = new MyStoriesAdapter(storyList, context);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 

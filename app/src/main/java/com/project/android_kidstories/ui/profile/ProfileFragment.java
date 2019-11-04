@@ -12,16 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.db.Helper.BedTimeDbHelper;
 import com.project.android_kidstories.ui.MainActivity;
+import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.profile.adapters.ProfilePagerAdapter;
 import com.project.android_kidstories.ui.staging.ImageStagingActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -29,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends BaseFragment {
 
     private CircleImageView imageView;
     private SharePref sharePref;
@@ -51,7 +50,7 @@ public class ProfileFragment extends Fragment {
         View root = inflater.inflate(R.layout.profile_fragment, container, false);
 
         helper = new BedTimeDbHelper(getContext());
-        sharePref = new SharePref(requireContext());
+        sharePref = getSharePref();
 
         imageView = root.findViewById(R.id.profile);
 
@@ -106,17 +105,14 @@ public class ProfileFragment extends Fragment {
     }
 
     private void displayProfile(View root) {
-        String firstname = sharePref.getUserFirstname();
-        String lastname = sharePref.getUserLastname();
+        String fullname = sharePref.getUserFullname();
         String email = sharePref.getUserEmail();
-
-        String name = firstname + " " + lastname;
 
         TextView userName = root.findViewById(R.id.profile_name);
         TextView userEmail = root.findViewById(R.id.profile_email);
 
         userEmail.setText(email);
-        userName.setText(name);
+        userName.setText(fullname);
 
         setProfileImage();
     }
@@ -145,7 +141,7 @@ public class ProfileFragment extends Fragment {
                 ImageStagingActivity.startForResult(this, uriString, REQUEST_CROP_IMAGE);
 
             } catch (Exception e) {
-                showMessage("No picture was selected");
+                showToast("No picture was selected");
             }
         }
         if (requestCode == REQUEST_CROP_IMAGE) {
@@ -155,8 +151,4 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-
-    private void showMessage(String message) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
-    }
 }

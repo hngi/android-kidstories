@@ -108,6 +108,7 @@ public class ProfileFragment extends Fragment {
         });
 
         save = root.findViewById(R.id.btn_save);
+        save.setEnabled(false);
         save.setOnClickListener(view -> {
 
             if (TextUtils.isEmpty(imagePath.getText())) {
@@ -121,6 +122,7 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(), "Please choose an image", Toast.LENGTH_SHORT).show();
                 return;
             }
+            save.setEnabled(false);
             cropLayout.crop(new OnCropListener() {
                 @Override
                 public void onSuccess(Bitmap bitmap) {
@@ -156,6 +158,7 @@ public class ProfileFragment extends Fragment {
 
                         @Override
                         public void onFailure(Call<BaseResponse<Void>> call, Throwable t) {
+                            save.setEnabled(true);
                             Toast.makeText(requireContext(), "Network Failure", Toast.LENGTH_SHORT).show();
                             Log.d("Upload Status", t.getMessage());
                         }
@@ -219,6 +222,7 @@ public class ProfileFragment extends Fragment {
             cursor.close();
 
             imagePath.setText(image_text);
+            save.setEnabled(true);
             Bitmap bitmap;
             try {
                 bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(selected_image));

@@ -369,10 +369,6 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    public SharePref getSharePref() {
-        return sharePref;
-    }
-
     protected void openMainActivity(Context context, User currentUser) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(MainActivity.USER_KEY_INTENT_EXTRA, (Parcelable) currentUser);

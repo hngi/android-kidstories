@@ -14,6 +14,9 @@ import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.adapters.RecyclerCategoryStoriesAdapter;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,9 +60,9 @@ public class StoryListingActivity extends AppCompatActivity {
     public void getCategoryStoriesWithId(int id) {
         String idString = Integer.toString(id);
 
-        storyApi.getStoriesByCategoryIdandUser(idString).enqueue(new Callback<BaseResponse<CategoryStoriesResponse>>() {
+        storyApi.getStoriesByCategoryIdandUser(idString).enqueue(new Callback<BaseResponse<List<CategoryStoriesResponse>>>() {
             @Override
-            public void onResponse(Call<BaseResponse<CategoryStoriesResponse>> call, Response<BaseResponse<CategoryStoriesResponse>> response) {
+            public void onResponse(Call<BaseResponse<List<CategoryStoriesResponse>>> call, Response<BaseResponse<List<CategoryStoriesResponse>>> response) {
 
                 recyclerView = findViewById(R.id.rv_list);
                 if (response.isSuccessful()) {
@@ -83,7 +86,7 @@ public class StoryListingActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<BaseResponse<CategoryStoriesResponse>> call, Throwable t) {
+            public void onFailure(Call<BaseResponse<List<CategoryStoriesResponse>>> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
                 //textView.setText("Response Error " + t.getMessage());
             }

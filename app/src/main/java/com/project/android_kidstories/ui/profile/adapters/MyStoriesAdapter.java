@@ -1,18 +1,18 @@
-package com.project.android_kidstories.adapters;
+package com.project.android_kidstories.ui.profile.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.SingleStoryActivity;
 
 import java.util.List;
 
@@ -23,17 +23,13 @@ import java.util.List;
  */
 public class MyStoriesAdapter extends RecyclerView.Adapter<MyStoriesAdapter.MyViewHolder> {
 
-    public List<Story> myStoryList;
+    private List<Story> myStoryList;
     private Context context;
-    private View.OnClickListener listener;
 
-    public MyStoriesAdapter(List<Story> list, Context context, View.OnClickListener listener){
-
+    public MyStoriesAdapter(List<Story> list, Context context) {
         this.myStoryList = list;
         this.context = context;
-        this.listener = listener;
     }
-
 
     @NonNull
     @Override
@@ -46,15 +42,22 @@ public class MyStoriesAdapter extends RecyclerView.Adapter<MyStoriesAdapter.MyVi
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         Story story = myStoryList.get(position);
+
         holder.storyTitle.setText(story.getTitle());
         holder.storyAuthor.setText(story.getAuthor());
         holder.storyDuration.setText(story.getStoryDuration());
-        holder.likeCount.setText(Integer.toString(story.getLikesCount()));
-        holder.dislikeCount.setText(Integer.toString(story.getDislikesCount()));
+        holder.likeCount.setText(String.valueOf(story.getLikesCount()));
+        holder.dislikeCount.setText(String.valueOf(story.getDislikesCount()));
+
         Glide.with(context)
                 .load(story.getImageUrl())
                 .into(holder.storyImage);
-        holder.itemView.setOnClickListener(listener);
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, SingleStoryActivity.class);
+            intent.putExtra("story_id", story.getId());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -62,7 +65,7 @@ public class MyStoriesAdapter extends RecyclerView.Adapter<MyStoriesAdapter.MyVi
         return myStoryList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder {
 
         ImageView storyImage;
         TextView storyTitle;
@@ -72,7 +75,7 @@ public class MyStoriesAdapter extends RecyclerView.Adapter<MyStoriesAdapter.MyVi
         TextView dislikeCount;
         TextView commentCount;
 
-        public MyViewHolder(@NonNull View itemView) {
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             storyImage = itemView.findViewById(R.id.story_image);

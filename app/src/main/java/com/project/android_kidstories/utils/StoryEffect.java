@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Utils;
+package com.project.android_kidstories.utils;
 
 /**
  * @author .: Ehma Ugbogo

@@ -1,4 +1,4 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.ui.login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +20,7 @@ import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.RegistrationDataResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
+import com.project.android_kidstories.R;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.MainActivity;
 import org.json.JSONException;

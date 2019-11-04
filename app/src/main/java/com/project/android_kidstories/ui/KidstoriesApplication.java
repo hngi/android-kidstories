@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Utils;
+package com.project.android_kidstories.ui;
 
 import android.app.Application;
 import android.content.Context;
@@ -15,7 +15,7 @@ import com.project.android_kidstories.Api.HelperClasses.AddStoryHelper;
 
 import java.util.Map;
 
-public class Common extends Application {
+public class KidstoriesApplication extends Application {
     private static final String TAG = "Common";
 
 

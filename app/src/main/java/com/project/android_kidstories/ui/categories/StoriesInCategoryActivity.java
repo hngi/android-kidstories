@@ -1,4 +1,4 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.ui.categories;
 
 
 import android.os.Bundle;
@@ -12,12 +12,13 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse2;
 import com.project.android_kidstories.DataStore.Repository;
+import com.project.android_kidstories.R;
 import com.project.android_kidstories.ui.categories.adapters.RecyclerCategoryStoriesAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StoryListingActivity extends AppCompatActivity {
+public class StoriesInCategoryActivity extends AppCompatActivity {
 
     private Repository repository;
     private Api storyApi;
@@ -62,14 +63,14 @@ public class StoryListingActivity extends AppCompatActivity {
 
                 recyclerView = findViewById(R.id.rv_list);
                 if (response.isSuccessful()) {
-                    adapter = new RecyclerCategoryStoriesAdapter(StoryListingActivity.this, response.body().getStories());
+                    adapter = new RecyclerCategoryStoriesAdapter(StoriesInCategoryActivity.this, response.body().getStories());
                     int spanCount;
                     try {
                         spanCount = getResources().getInteger(R.integer.home_fragment_gridspan);
                     } catch (NullPointerException e) {
                         spanCount = 1;
                     }
-                    GridLayoutManager layoutManager = new GridLayoutManager(StoryListingActivity.this, spanCount);
+                    GridLayoutManager layoutManager = new GridLayoutManager(StoriesInCategoryActivity.this, spanCount);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
 

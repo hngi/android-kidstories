@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".SplashScreenActivity">
+    tools:context=".ui.splash.SplashScreenActivity">
 
     <ImageView
         android:id="@+id/img_logo_splash"

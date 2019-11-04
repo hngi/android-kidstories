@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Model.Category;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.StoryListingActivity;
+import com.project.android_kidstories.ui.categories.StoriesInCategoryActivity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -51,7 +51,7 @@ public class RecyclerCategoryAdapter extends RecyclerView.Adapter<RecyclerCatego
         Glide.with(context).load(categoryImageUrl).into(holder.categoryImage);
 
         holder.categoryImage.setOnClickListener(view -> {
-            Intent intent = new Intent(context, StoryListingActivity.class);
+            Intent intent = new Intent(context, StoriesInCategoryActivity.class);
             intent.putExtra("categoryName", categoryName);
             intent.putExtra("categoryId", categoryId);
             context.startActivity(intent);

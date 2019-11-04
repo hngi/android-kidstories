@@ -1,4 +1,4 @@
-package com.project.android_kidstories.adapters;
+package com.project.android_kidstories.ui.profile.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 
 import java.util.List;
 

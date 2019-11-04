@@ -9,7 +9,7 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.SplashScreenActivity;
+import com.project.android_kidstories.ui.splash.SplashScreenActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
 

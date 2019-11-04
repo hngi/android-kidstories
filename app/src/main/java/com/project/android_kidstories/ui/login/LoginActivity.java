@@ -1,4 +1,4 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.ui.login;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
+import com.project.android_kidstories.R;
 import com.project.android_kidstories.base.BaseActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.MainActivity;

@@ -1,12 +1,14 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.ui.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
+import com.project.android_kidstories.R;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.MainActivity;
+import com.project.android_kidstories.ui.login.LoginActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

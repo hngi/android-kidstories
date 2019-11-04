@@ -20,8 +20,8 @@ import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
-import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.ui.KidstoriesApplication;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,126 +59,24 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         return new CustomViewHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(CustomViewHolder holder, int position) {
-        stories = stories;
-        Glide.with(context).load(stories.get(position).getImageUrl()).into(holder.storyImage);
-
-        holder.storyTitle.setText(stories.get(position).getTitle());
-        holder.authorName.setText("By " + stories.get(position).getAuthor());
-
-        holder.ageRange.setText("For kids ages " + stories.get(position).getAge());
-        holder.num_likes.setText(String.valueOf(stories.get(position).getLikesCount()));
-        holder.num_dislikes.setText(String.valueOf(stories.get(position).getDislikesCount()));
-
-        int storyId = stories.get(position).getId();
-
-        holder.list_item.setOnClickListener(new View.OnClickListener() {
+    public static void deleteStory(Context context, int storyId) {
+        Api service;
+        service = RetrofitClient.getInstance().create(Api.class);
+        Call<Void> deleteBookmarkedStory = service.deleteBookmarkedStory(token, storyId);
+        deleteBookmarkedStory.enqueue(new Callback<Void>() {
             @Override
-            public void onClick(View v) {
-                int story_id = stories.get(position).getId();
-                Intent intent = new Intent(context, SingleStoryActivity.class);
-                intent.putExtra("story_id", story_id);
-                context.startActivity(intent);
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if (response.isSuccessful()) Toast.makeText(context, "bookmark removed", Toast.LENGTH_LONG).show();
+
+                else Toast.makeText(context, "Could not remove bookmark", Toast.LENGTH_LONG).show();
             }
-        });
 
-        holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);    //When you change the drawable
-        holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
-
-        Story story = stories.get(position);
-
-        boolean isBookmarked = bookmarked.isAlreadyBookmarked(storyId, position);
-        boolean check = Prefs.getBoolean(String.valueOf(storyId),false);
-        Log.e("STORYYyyyyyyyyyy", isBookmarked + "");
-        holder.bookmark.setActivated(story.isBookmark());
-        /*if(check){
-            story.setBookmark(true);
-            holder.bookmark.setActivated(story.isBookmark());
-        }else{
-            story.setBookmark(false);
-            holder.bookmark.setActivated(story.isBookmark());
-        }*/
-
-
-        //toggleReaction
-        if(story.getReaction().equals("1")){
-            holder.like.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
-            holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
-        }
-        else if(story.getReaction().equals("0")){
-            holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
-            holder.dislike.setImageResource(R.drawable.ic_thumb_down_blue_24dp);
-        }
-        else{
-            holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
-            holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
-        }
-
-
-        holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Story story = stories.get(position);
-                toggleReaction(1,story,holder);
-                likeStory(story, story.getId(),
-                        holder);
+            public void onFailure(Call<Void> call, Throwable t) {
 
             }
         });
-        holder.dislike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Story story = stories.get(position);
-                toggleReaction(0,story,holder);
-                dislikeStory(story, story.getId());
-
-            }
-        });
-
-        // ClickListener for the share Icon
-        holder.shareIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String title = stories.get(position).getTitle();
-                String body = stories.get(position).getBody();
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                // share only 120 characters if body is longer than or equal to 120
-                if (body.length() >= 120) {
-                    intent.putExtra(Intent.EXTRA_TEXT, "KIDS STORIES APP \n"
-                            + "Story Title: " + title + "\n"
-                            + body.substring(0, 120) + "...\n"
-                            + "#KidsStories #HNG");
-                } else {
-                    // share all body characters if body is less than 120
-                    intent.putExtra(Intent.EXTRA_TEXT, "KIDS STORIES APP \n"
-                            + "Story Title: " + title + "\n"
-                            + body + "\n"
-                            + "#KidsStories #HNG");
-                }
-                intent.setType("text/plain");
-                context.startActivity(Intent.createChooser(intent, "Send to"));
-            }
-        });
-
-
-        holder.bookmark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean checked = bookmarked.onBookmarkAdded(storyId);
-                holder.bookmark.setActivated(!holder.bookmark.isActivated());
-                if (checked) {
-                    Common.updateSharedPref(storyId,true);
-                } else {
-                    Common.updateSharedPref(storyId, false);
-                }
-                if (!holder.bookmark.isActivated()) {
-                    Common.updateSharedPref(storyId, false);
-                    deleteStory(context, storyId);
-                }
-            }
-        });
-
     }
 
     @Override
@@ -402,23 +300,123 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         void onStorySearched(String query);
     }
 
-    static void deleteStory(Context context, int storyId){
-        Api service;
-        service = RetrofitClient.getInstance().create(Api.class);
-        Call<Void> deleteBookmarkedStory = service.deleteBookmarkedStory(token, storyId);
-        deleteBookmarkedStory.enqueue(new Callback<Void>() {
+    @Override
+    public void onBindViewHolder(CustomViewHolder holder, int position) {
+        stories = stories;
+        Glide.with(context).load(stories.get(position).getImageUrl()).into(holder.storyImage);
+
+        holder.storyTitle.setText(stories.get(position).getTitle());
+        holder.authorName.setText("By " + stories.get(position).getAuthor());
+
+        holder.ageRange.setText("For kids ages " + stories.get(position).getAge());
+        holder.num_likes.setText(String.valueOf(stories.get(position).getLikesCount()));
+        holder.num_dislikes.setText(String.valueOf(stories.get(position).getDislikesCount()));
+
+        int storyId = stories.get(position).getId();
+
+        holder.list_item.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-
-                if (response.isSuccessful()) Toast.makeText(context, "bookmark removed", Toast.LENGTH_LONG).show();
-
-                else Toast.makeText(context, "Could not remove bookmark", Toast.LENGTH_LONG).show();
+            public void onClick(View v) {
+                int story_id = stories.get(position).getId();
+                Intent intent = new Intent(context, SingleStoryActivity.class);
+                intent.putExtra("story_id", story_id);
+                context.startActivity(intent);
             }
+        });
 
+        holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);    //When you change the drawable
+        holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
+
+        Story story = stories.get(position);
+
+        boolean isBookmarked = bookmarked.isAlreadyBookmarked(storyId, position);
+        boolean check = Prefs.getBoolean(String.valueOf(storyId), false);
+        Log.e("STORYYyyyyyyyyyy", isBookmarked + "");
+        holder.bookmark.setActivated(story.isBookmark());
+        /*if(check){
+            story.setBookmark(true);
+            holder.bookmark.setActivated(story.isBookmark());
+        }else{
+            story.setBookmark(false);
+            holder.bookmark.setActivated(story.isBookmark());
+        }*/
+
+
+        //toggleReaction
+        if (story.getReaction().equals("1")) {
+            holder.like.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
+            holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+        } else if (story.getReaction().equals("0")) {
+            holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+            holder.dislike.setImageResource(R.drawable.ic_thumb_down_blue_24dp);
+        } else {
+            holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+            holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+        }
+
+
+        holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onClick(View v) {
+                Story story = stories.get(position);
+                toggleReaction(1, story, holder);
+                likeStory(story, story.getId(),
+                        holder);
 
             }
         });
+        holder.dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Story story = stories.get(position);
+                toggleReaction(0, story, holder);
+                dislikeStory(story, story.getId());
+
+            }
+        });
+
+        // ClickListener for the share Icon
+        holder.shareIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String title = stories.get(position).getTitle();
+                String body = stories.get(position).getBody();
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                // share only 120 characters if body is longer than or equal to 120
+                if (body.length() >= 120) {
+                    intent.putExtra(Intent.EXTRA_TEXT, "KIDS STORIES APP \n"
+                            + "Story Title: " + title + "\n"
+                            + body.substring(0, 120) + "...\n"
+                            + "#KidsStories #HNG");
+                } else {
+                    // share all body characters if body is less than 120
+                    intent.putExtra(Intent.EXTRA_TEXT, "KIDS STORIES APP \n"
+                            + "Story Title: " + title + "\n"
+                            + body + "\n"
+                            + "#KidsStories #HNG");
+                }
+                intent.setType("text/plain");
+                context.startActivity(Intent.createChooser(intent, "Send to"));
+            }
+        });
+
+
+        holder.bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean checked = bookmarked.onBookmarkAdded(storyId);
+                holder.bookmark.setActivated(!holder.bookmark.isActivated());
+                if (checked) {
+                    KidstoriesApplication.updateSharedPref(storyId, true);
+                } else {
+                    KidstoriesApplication.updateSharedPref(storyId, false);
+                }
+                if (!holder.bookmark.isActivated()) {
+                    KidstoriesApplication.updateSharedPref(storyId, false);
+                    deleteStory(context, storyId);
+                }
+            }
+        });
+
     }
 }

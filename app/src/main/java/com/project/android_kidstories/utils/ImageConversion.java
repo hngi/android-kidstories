@@ -1,4 +1,4 @@
-package com.project.android_kidstories.Utils;
+package com.project.android_kidstories.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;

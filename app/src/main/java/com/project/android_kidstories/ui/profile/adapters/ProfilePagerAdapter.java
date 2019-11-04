@@ -1,4 +1,4 @@
-package com.project.android_kidstories.adapters;
+package com.project.android_kidstories.ui.profile.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

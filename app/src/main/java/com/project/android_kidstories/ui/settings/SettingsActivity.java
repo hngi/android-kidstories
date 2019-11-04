@@ -1,4 +1,4 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.ui.settings;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -18,6 +18,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
+import com.project.android_kidstories.R;
 import com.project.android_kidstories.alarm.AlarmReceiver;
 import com.project.android_kidstories.base.BaseActivity;
 

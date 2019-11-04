@@ -24,9 +24,9 @@ import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.ui.KidstoriesApplication;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -174,11 +174,11 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                             initBookmark = true;
                         }else{
 
-                            Common.updateSharedPref(storyId,false);
+                            KidstoriesApplication.updateSharedPref(storyId, false);
                         }
                     }
                 } else {
-                    Common.updateSharedPref(storyId,false);
+                    KidstoriesApplication.updateSharedPref(storyId, false);
                     //Toast.makeText(getContext(), "33 Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }

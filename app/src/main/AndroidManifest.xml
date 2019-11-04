@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".Utils.Common"
+        android:name=".ui.KidstoriesApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -35,7 +35,7 @@
 
         <activity android:name=".IgnoreForApiTest.TestActivity" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:parentActivityName=".ui.MainActivity"
             tools:ignore="GoogleAppIndexingWarning" />
         <activity
@@ -43,7 +43,7 @@
             android:label="@string/title_activity_the_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".ui.splash.SplashScreenActivity"
             android:theme="@style/AppTheme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,22 +53,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".StoryListingActivity"
+            android:name=".ui.categories.StoriesInCategoryActivity"
             android:parentActivityName=".ui.MainActivity" /> <!-- Do not edit this theme -->
-        <activity android:name=".StoryDetailActivity" />
         <activity
             android:name=".SingleStoryActivity"
             android:parentActivityName=".ui.MainActivity" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".ui.login.RegisterActivity"
             android:theme="@style/AppTheme.WhiteStatusBar" />
-        <activity android:name=".ProfileRegisterActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".OnBoardingActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:theme="@style/AppTheme.WhiteStatusBar" />
-        <activity android:name=".BookMark" />
         <activity
             android:name=".AddStoryActivity"
             android:parentActivityName=".ui.MainActivity" />

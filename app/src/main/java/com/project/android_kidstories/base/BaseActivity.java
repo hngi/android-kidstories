@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.project.android_kidstories.LoginActivity;
 import com.project.android_kidstories.Model.User;
-import com.project.android_kidstories.RegisterActivity;
 import com.project.android_kidstories.sharePref.SharePref;
 import com.project.android_kidstories.ui.MainActivity;
+import com.project.android_kidstories.ui.login.LoginActivity;
+import com.project.android_kidstories.ui.login.RegisterActivity;
 
 public class BaseActivity extends AppCompatActivity {
     private SharePref sharePref;

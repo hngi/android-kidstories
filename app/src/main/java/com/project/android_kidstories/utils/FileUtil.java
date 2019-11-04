@@ -1,6 +1,5 @@
-package com.project.android_kidstories.Utils;
+package com.project.android_kidstories.utils;
 
-import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,9 +8,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.util.Log;
-
-import java.net.URISyntaxException;
 
 public class FileUtil {
 

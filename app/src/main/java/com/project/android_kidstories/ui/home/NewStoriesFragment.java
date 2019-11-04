@@ -22,9 +22,9 @@ import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.ui.KidstoriesApplication;
 import com.project.android_kidstories.ui.home.adapters.StoryAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -177,7 +177,7 @@ public class NewStoriesFragment extends Fragment implements StoryAdapter.OnStory
             @Override
             public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                 if (response.isSuccessful()) {
-                    Common.updateSharedPref(storyId,true);
+                    KidstoriesApplication.updateSharedPref(storyId, true);
                     Toast.makeText(getContext(), "Bookmark added", Toast.LENGTH_SHORT).show();
                     isAddSuccessful = true;
                 } else {
@@ -211,16 +211,16 @@ public class NewStoriesFragment extends Fragment implements StoryAdapter.OnStory
                             Story k = storiesArray.get(i++);
                             if (k.getId() == storyId)
                                 k.setBookmark(true);
-                            Common.updateSharedPref(storyId,true);
+                            KidstoriesApplication.updateSharedPref(storyId, true);
                             initBookmark = true;
                         }else{
 
-                            Common.updateSharedPref(storyId,false);
+                            KidstoriesApplication.updateSharedPref(storyId, false);
                         }
                     }
                 } else {
 
-                    Common.updateSharedPref(storyId,false);
+                    KidstoriesApplication.updateSharedPref(storyId, false);
                 }
             }
 

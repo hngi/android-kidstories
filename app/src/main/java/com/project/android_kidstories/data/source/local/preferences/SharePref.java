@@ -27,6 +27,12 @@ public final class SharePref {
         return sharedPreferences.getBoolean(IS_NIGHT_MODE, false);
     }
 
+    public void setNightMode(boolean data) {
+        sharedPreferences.edit()
+                .putBoolean(IS_NIGHT_MODE, data)
+                .apply();
+    }
+
     public void setString(String key, String data) {
         sharedPreferences.edit().putString(key, data).apply();
     }
@@ -85,4 +91,7 @@ public final class SharePref {
         sharedPreferences.edit().putBoolean(STATE_USER_LOGGED_IN, isUserLoggedIn).apply();
     }
 
+    public boolean getBoolean(String key) {
+
+    }
 }

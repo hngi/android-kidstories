@@ -5,10 +5,8 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.receivers.AlarmReceiver;
 import com.project.android_kidstories.ui.base.BaseActivity;
 
@@ -30,9 +29,9 @@ import java.util.Locale;
 
 public class SettingsActivity extends BaseActivity {
 
-    //    This is supposed to change the view of the app from Light to Dark mode.
     private static final String ALARM_TIME = "ALARM_TIME";
 
+    SharePref sharePref;
 
     TextView timeTextview;
 
@@ -47,14 +46,12 @@ public class SettingsActivity extends BaseActivity {
         setSupportActionBar(settingsToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Switch nightSwitch = findViewById(R.id.night_switch);
+        sharePref = getSharePref();
 
+        Switch nightSwitch = findViewById(R.id.night_switch);
         Log.d("XXX night", String.valueOf(getSharePref().getNightMode()));
 
-        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-
-        if (shared.getBoolean("NIGHT MODE", false)) {
+        if (sharePref.getNightMode()) {
             nightSwitch.setChecked(true);
         }
 
@@ -70,11 +67,9 @@ public class SettingsActivity extends BaseActivity {
 
         nightSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {
-//                getSharePref().setNightMode(true);
-                shared.edit().putBoolean("NIGHT MODE", true).apply();
+                sharePref.setNightMode(true);
             } else {
-//                getSharePref().setNightMode(false);
-                shared.edit().putBoolean("NIGHT MODE", false).apply();
+                sharePref.setNightMode(true);
             }
         });
 

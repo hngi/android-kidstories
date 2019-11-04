@@ -166,8 +166,8 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void saveUserDetails(String token, String firstname, String lastname, String email) {
-        new SharePref(this).saveLoginDetails(token, firstname, lastname, email);
+    private void saveUserDetails(String token, String fullname, String email) {
+        new SharePref(this).saveLoginDetails(token, fullname, email);
     }
 
     private void loginUser() {
@@ -203,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
                         String mFirstname = response.body().getUser().getFirstName();
                         String mLastname = response.body().getUser().getLastName();
                         String mEmail = response.body().getUser().getEmail();
-                        saveUserDetails(token, mFirstname, mLastname, mEmail);
+                        saveUserDetails(token, mFirstname + " " + mLastname, mEmail);
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -319,7 +319,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
 
-        } else if (getSharePref().getLoggedUserId() != -1){
+        } else if (getSharePref().getUserId() != -1) {
             for (User loggedUser : viewModel.getallUsers() ) {
                 if (loggedUser.getId().equals(getSharePref().getLoggedUserId())){
                     openMainActivity(LoginActivity.this, loggedUser);

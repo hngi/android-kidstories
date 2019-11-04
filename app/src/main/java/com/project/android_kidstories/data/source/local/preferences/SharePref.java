@@ -1,19 +1,14 @@
 package com.project.android_kidstories.data.source.local.preferences;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
+import static com.project.android_kidstories.data.source.local.preferences.PreferenceKeys.*;
+
+
 public final class SharePref {
-
-    private static final String LAST_LOGGED_IN ="LAST_LOGGED_IN";
-    private static final String ID_KEY="com.project.android_kidstories_ID_KEY";
-    private static final String USER_LOGIN_STATE = "isUserLoggedIn";
-    private static final String NIGHT_MODE = "NIGHT MODE";
-
     private static SharePref INSTANCE;
-
     private SharedPreferences sharedPreferences;
 
     private SharePref(SharedPreferences sharedPreferences) {
@@ -27,8 +22,9 @@ public final class SharePref {
         return INSTANCE;
     }
 
+
     public boolean getNightMode() {
-        return sharedPreferences.getBoolean(NIGHT_MODE, false);
+        return sharedPreferences.getBoolean(IS_NIGHT_MODE, false);
     }
 
     public void setString(String key, String data) {
@@ -47,59 +43,46 @@ public final class SharePref {
         return sharedPreferences.getInt(key, 0);
     }
 
-    public void saveLoginDetails(String token, String firstname, String lastname, String email) {
-        sharedPreferences = application.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("Token", token);
-        editor.putString("Firstname", firstname);
-        editor.putString("Lastname", lastname);
-        editor.putString("Email", email);
-        editor.apply();
+
+    // Cached User Accessors
+    public void saveLoginDetails(String token, String fullname, String email) {
+        sharedPreferences.edit()
+                .putString(CACHED_USER_TOKEN, token)
+                .putString(CACHED_USER_NAME, fullname)
+                .putString(CACHED_USER_EMAIL, email)
+                .apply();
     }
 
     public String getUserToken() {
-        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("Token", "");
+        return sharedPreferences.getString(CACHED_USER_TOKEN, null);
     }
 
-    public String getUserFirstname() {
-        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("Firstname", "");
-    }
-
-    public String getUserLastname() {
-        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("Lastname", "");
+    public String getUserFullname() {
+        return sharedPreferences.getString(CACHED_USER_NAME, null);
     }
 
     public String getUserEmail() {
-        sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("Email", "");
-    }
-
-    public Long getLoggedUserId(){
-        return sharedPreferences.getLong(ID_KEY,-1);
-    }
-
-    public void setLoggedUserId(Long id){
-        sharedPreferences.edit().putLong(ID_KEY,id).apply();
-    }
-
-    public Boolean getIsUserLoggedIn() {
-        return sharedPreferences.getBoolean(USER_LOGIN_STATE, false);
-    }
-
-    public void setIsUserLoggedIn(Boolean isUserLoggedIn) {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPreferences.edit().putBoolean(USER_LOGIN_STATE, isUserLoggedIn).apply();
+        return sharedPreferences.getString(CACHED_USER_EMAIL, null);
     }
 
     public int getUserId() {
-        return sharedPreferences.getInt("User Id", 0);
+        return sharedPreferences.getInt(CACHED_USER_ID, -1);
     }
 
-    public void setUserId(Integer id){
-
-        sharedPreferences.edit().putInt("User Id", id).apply();
+    public void setUserId(Integer id) {
+        sharedPreferences.edit().putInt(CACHED_USER_ID, id).apply();
     }
+
+    public Long getLoggedUserId() {
+        return sharedPreferences.getLong(KEY_ID, -1);
+    }
+
+    public Boolean getIsUserLoggedIn() {
+        return sharedPreferences.getBoolean(STATE_USER_LOGGED_IN, false);
+    }
+
+    public void setIsUserLoggedIn(Boolean isUserLoggedIn) {
+        sharedPreferences.edit().putBoolean(STATE_USER_LOGGED_IN, isUserLoggedIn).apply();
+    }
+
 }

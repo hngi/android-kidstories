@@ -49,6 +49,10 @@ public class MyStoriesFragment extends Fragment {
         context = requireContext();
         userId = new SharePref(context).getUserId();
 
+        if (userId == -1) {
+            showMessage("No Cached user in MyStoriesFragment");
+        }
+
         return root;
     }
 

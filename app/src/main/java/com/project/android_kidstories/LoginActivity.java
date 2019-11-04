@@ -62,8 +62,6 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        startActivity(new Intent(this, MainActivity.class));
-
         setContentView(R.layout.activity_login);
 
         repository = Repository.getInstance(getApplication());

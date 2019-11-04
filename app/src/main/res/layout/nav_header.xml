@@ -7,7 +7,10 @@
     android:gravity="bottom"
     android:minHeight="@dimen/nav_header_height"
     android:orientation="vertical"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:paddingStart="8dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="16dp">
 
     <Space
         android:layout_width="wrap_content"
@@ -17,6 +20,7 @@
         android:id="@+id/nav_header_imageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginStart="4dp"
         android:contentDescription="@string/nav_header_desc"
         android:src="@drawable/ic_account_circle_black_24dp" />
 
@@ -27,8 +31,9 @@
         android:layout_marginTop="@dimen/nav_header_vertical_spacing"
         android:fontFamily="@font/roboto_regular"
         android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="?colorOnPrimary"
-        tools:text="@string/nav_header_title" />
+        tools:text="Josh Atoms" />
 
 </LinearLayout>

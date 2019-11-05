@@ -478,7 +478,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             hideDrawer();
         } else if (sideNav.getCheckedItem() != null &&
                 sideNav.getCheckedItem().getItemId() != R.id.nav_home) {
-            ((BaseFragment) currentFragment).cleanUp();
+            try {
+                ((BaseFragment) currentFragment).cleanUp();
+            } catch (ClassCastException cce) {
+                showToast("Fragment should implement BaseFragment: It's safer, trust me!");
+            }
             openHomeFragment();
         } else {
             doExit();

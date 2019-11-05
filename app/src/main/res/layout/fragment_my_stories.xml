@@ -7,6 +7,19 @@
     android:background="?colorSurface"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/error_msg"
+        layout="@layout/layout_connection_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_story_recyclerView"
         android:layout_width="match_parent"

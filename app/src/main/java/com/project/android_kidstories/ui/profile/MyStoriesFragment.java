@@ -32,6 +32,7 @@ public class MyStoriesFragment extends BaseFragment {
     private Context context;
 
     private ProgressBar progressBar;
+    private View errorView;
 
     public static MyStoriesFragment getInstance() {
         return new MyStoriesFragment();
@@ -42,6 +43,7 @@ public class MyStoriesFragment extends BaseFragment {
 
         View root = inflater.inflate(R.layout.fragment_my_stories, container, false);
         progressBar = root.findViewById(R.id.loading_bar);
+        errorView = root.findViewById(R.id.error_msg);
 
         context = requireContext();
         userId = getSharePref().getUserId();
@@ -67,6 +69,7 @@ public class MyStoriesFragment extends BaseFragment {
                         // Nothing was received
                         showSnack(view, "No story received");
                         progressBar.setVisibility(View.GONE);
+                        errorView.setVisibility(View.VISIBLE);
                         return;
                     }
                     List<Story> stories = storyAllResponse.getData();
@@ -84,13 +87,14 @@ public class MyStoriesFragment extends BaseFragment {
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
                 showSnack(view, "Can't retrieve your stories, check connectivity and try again");
                 progressBar.setVisibility(View.GONE);
+                errorView.setVisibility(View.VISIBLE);
             }
         });
     }
 
     private void updateViews(View root) {
         RecyclerView recyclerView = root.findViewById(R.id.my_story_recyclerView);
-        TextView errorMessage = root.findViewById(R.id.error_message);
+        TextView userHasNoStory = root.findViewById(R.id.error_message);
 
         MyStoriesAdapter adapter = new MyStoriesAdapter(storyList, context);
         recyclerView.setAdapter(adapter);
@@ -99,9 +103,9 @@ public class MyStoriesFragment extends BaseFragment {
         progressBar.setVisibility(View.GONE);
         if (storyList.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
-            errorMessage.setVisibility(View.VISIBLE);
+            userHasNoStory.setVisibility(View.VISIBLE);
         } else {
-            errorMessage.setVisibility(View.GONE);
+            userHasNoStory.setVisibility(View.GONE);
         }
     }
 

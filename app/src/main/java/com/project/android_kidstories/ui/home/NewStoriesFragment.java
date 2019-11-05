@@ -103,10 +103,11 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                     GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(storyAdapter);
-                    refreshLayout.setRefreshing(false);
                 } else {
 
                 }
+
+                refreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -114,6 +115,8 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 progressBar.setVisibility(View.INVISIBLE);
                 errorView.setVisibility(View.VISIBLE);
                 refreshLayout.setRefreshing(false);
+
+                showToast("Outside response " + t.getMessage());
             }
         });
     }

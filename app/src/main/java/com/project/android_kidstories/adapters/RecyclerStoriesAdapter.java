@@ -50,6 +50,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     private Api service;
     Api storyApi;
     List<Story> stories;
+    private boolean isLoaderVisible = false;
 
     public RecyclerStoriesAdapter(Context context, List<Story> storiesList, OnBookmarked bookmarked, Repository repository) {
         this.context = context;
@@ -58,6 +59,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         this.bookmarked = bookmarked;
         this.storyApi = repository.getStoryApi();
     }
+
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());

@@ -71,15 +71,15 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         refreshLayout.setRefreshing(true);
         storiesArray = new ArrayList<>();
 
-        fetchStories();
+        fetchStories("1");
 
         return v;
     }
 
-    private void fetchStories(){
+    private void fetchStories(String page){
         /*Create handle for the RetrofitInstance interface*/
         service = RetrofitClient.getInstance().create(Api.class);
-        Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token);
+        Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token,page);
 
         stories.enqueue(new Callback<StoryAllResponse>() {
             @Override
@@ -88,7 +88,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 progressBar.setVisibility(View.GONE);
 
                 if (response.isSuccessful()) {
-                    List<Story> storiesList = response.body().getData();
+                    List<Story> storiesList = response.body().getData().getDataList();
                     storiesArray.addAll(storiesList);
                     storyAdapter = new RecyclerStoriesAdapter(getContext(), storiesArray, NewStoriesFragment.this,repository);
                     int spanCount;
@@ -116,7 +116,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        refreshLayout.setOnRefreshListener(() -> fetchStories());
+        refreshLayout.setOnRefreshListener(() -> fetchStories("1"));
     }
 
 

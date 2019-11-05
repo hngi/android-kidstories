@@ -67,13 +67,18 @@ public class MyStoriesFragment extends Fragment {
 
 
         repository = new Repository(getActivity().getApplicationContext());
-        repository.getStoryApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
+        fetchStories("1");
+
+    }
+
+    void fetchStories(String page){
+        repository.getStoryApi().getAllStories(page).enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 if(response.isSuccessful()){
-                    for(int i = 0; i < response.body().getData().size(); i++){
-                        if(response.body().getData().get(i).getUserId() == sharePref.getUserId()){
-                            storyList.add(response.body().getData().get(i));
+                    for(int i = 0; i < response.body().getData().getDataList().size(); i++){
+                        if(response.body().getData().getDataList().get(i).getUserId() == sharePref.getUserId()){
+                            storyList.add(response.body().getData().getDataList().get(i));
                         }
                     }
                     //errorMessage.setText(storyList.toString());
@@ -89,7 +94,6 @@ public class MyStoriesFragment extends Fragment {
                 errorMessage.setText("Check Connectivity and try again");
             }
         });
-
     }
 
     public void initView(){

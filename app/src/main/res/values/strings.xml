@@ -106,5 +106,10 @@ SOFTWARE.
     <string name="add">Add</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="create">Create</string>
+    <string name="title_feedback_fragment">Feedback</string>
+    <string name="title_categories_fragment">Categories</string>
+    <string name="title_about_fagment">About</string>
+    <string name="title_donate_fragment">Donate</string>
+    <string name="title_profile_fragment">Profile</string>
 
 </resources>

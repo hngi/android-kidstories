@@ -31,6 +31,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.SavedStoriesActivity;
 import com.project.android_kidstories.data.Repository;
 import com.project.android_kidstories.data.model.User;
 import com.project.android_kidstories.data.source.helpers.BedTimeDbHelper;
@@ -39,6 +40,7 @@ import com.project.android_kidstories.data.source.remote.response_models.BaseRes
 import com.project.android_kidstories.data.source.remote.response_models.loginRegister.DataResponse;
 import com.project.android_kidstories.receivers.AlarmReceiver;
 import com.project.android_kidstories.ui.base.BaseActivity;
+import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.categories.CategoriesFragment;
 import com.project.android_kidstories.ui.donate.DonateFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
@@ -66,7 +68,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     private static final String TAG = "kidstories";
     private DrawerLayout drawer;
-    private NavigationView navigationView;
+    private NavigationView sideNav;
     private Repository repository;
     private StoryAdapter storyAdapter;
     private GoogleApiClient mGoogleApiClient;
@@ -84,6 +86,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private LoggedInUser userDetails;
     private Toolbar toolbar;
 
+
+    private Fragment currentFragment;
 
     public static String getCurrentFragment() {
         return CURRENT_FRAGMENT;
@@ -132,28 +136,30 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             openHomeFragment();
         }
 
-        // Making the header image clickable
-        View headerView = navigationView.getHeaderView(0);
+
+        // Init side nav header
+        View headerView = sideNav.getHeaderView(0);
 
         userName = headerView.findViewById(R.id.nav_header_name);
         userName.setText(userDetails.getFullname());
 
-        // Preparing token to be parsed to fragments
-        Bundle data = new Bundle();
-        data.putString("token", userDetails.getToken());
-
         ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
         navImage.setOnClickListener(view -> {
             ProfileFragment profileFragment = ProfileFragment.newInstance();
+
             // Add bundle data containing "token" before navigating to profileFragment
+            Bundle data = new Bundle();
+            data.putString("token", userDetails.getToken());
             profileFragment.setArguments(data);
+
             navigateToFragment(profileFragment);
-            updateToolbarTitle("Profile");
+            updateToolbarTitle(MainActivity.this.getString(R.string.title_profile_fragment));
 
             drawer.closeDrawer(GravityCompat.START);
-            for (int i = 0; i < navigationView.getMenu().size(); i++) {
-                navigationView.getMenu().getItem(i).setChecked(false);
-                bottomNavigationView.setVisibility(View.GONE);
+            sideNav.setCheckedItem(-1);
+            bottomNavigationView.setVisibility(View.GONE);
+            for (int i = 0; i < sideNav.getMenu().size(); i++) {
+                sideNav.getMenu().getItem(i).setChecked(false);
             }
         });
     }
@@ -175,17 +181,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         HomeFragment homeFragment = new HomeFragment();
         navigateToFragment(homeFragment);
 
-        navigationView.setCheckedItem(R.id.nav_home);
+        sideNav.setCheckedItem(R.id.nav_home);
         bottomNavigationView.setSelectedItemId(0);
         bottomNavigationView.setVisibility(View.VISIBLE);
 
-        updateToolbarTitle("Stories");
+        updateToolbarTitle(getString(R.string.title_home_fragment));
     }
 
     private void initViews() {
 
         drawer = findViewById(R.id.main_drawer_layout);
-        navigationView = findViewById(R.id.main_nav_view);
+        sideNav = findViewById(R.id.main_nav_view);
         bottomNavigationView = findViewById(R.id.bottom_nav_view);
 
         updateProfileImage();
@@ -203,7 +209,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     public void updateProfileImage() {
-        View headerView = navigationView.getHeaderView(0);
+        View headerView = sideNav.getHeaderView(0);
         byte[] imageBytes = new BedTimeDbHelper(this).getUserImage();
 
         if (imageBytes == null) return;
@@ -286,101 +292,94 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         });
     }
 
-    private void setupNavigation() {
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        searchItem = menu.findItem(R.id.app_bar_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Search Stories");
+        //hideSearchMenu();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment fragment = null;
-                String toolbarTitle = "";
-                switch (menuItem.getItemId()) {
+            public boolean onQueryTextSubmit(String query) {
+                //Log.e("TAAAAG1", query);
+                return false;
+            }
 
-                    case R.id.nav_feed_back:
-                        fragment = new FeedBackFragment();
-                        toolbarTitle = "Feedback";
-                        bottomNavigationView.setVisibility(View.GONE);
-                        break;
-
-                    case R.id.nav_home:
-                        /*Intent home = new Intent(getApplicationContext(), MainActivity.class);
-                        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(home);*/
-                        openHomeFragment();
-                        navigationView.setCheckedItem(R.id.nav_home);
-                        bottomNavigationView.setVisibility(View.VISIBLE);
-                        toolbarTitle = "Stories";
-                        break;
-
-                    case R.id.nav_categories:
-                        fragment = CategoriesFragment.newInstance();
-                        toolbarTitle = "Categories";
-                        bottomNavigationView.setVisibility(View.GONE);
-                        break;
-
-
-                    /*case R.id.nav_saved_stories:
-                        Intent intent = new Intent(MainActivity.this, SavedStoriesActivity.class);
-                        MainActivity.this.startActivity(intent);
-                        break;*/
-
-                    case R.id.nav_donate:
-                        fragment = new DonateFragment();
-                        toolbarTitle = "Donate";
-                        bottomNavigationView.setVisibility(View.GONE);
-                        break;
-                    case R.id.nav_about:
-                        fragment = new AboutFragment();
-                        toolbarTitle = "About";
-                        bottomNavigationView.setVisibility(View.GONE);
-                        break;
-                    case R.id.nav_log_out:
-                        showToast("Logging Out");
-                        signout();
-                        bottomNavigationView.setVisibility(View.GONE);
-                        break;
-                }
-
-                drawer.closeDrawer(GravityCompat.START);
-                updateToolbarTitle(toolbarTitle);
-                if (fragment != null) {
-                    navigateToFragment(fragment);
-                }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Log.e("TAAAAG1", newText);
+                if (getCurrentFragment().equals(FRAGMENT_NEW))
+                    NewStoriesFragment.storySearchListener.onStorySearched(newText);
+                else if (getCurrentFragment().equals(FRAGMENT_POPULAR))
+                    PopularStoriesFragment.storySearchListener.onStorySearched(newText);
                 return true;
             }
         });
+        return true;
+}
+*/
 
 
+    private void setupNavigation() {
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        /*{
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment fragment = null;
-                String msg = "";
-                switch (menuItem.getItemId()) {
-                    case R.id.home:
-                        Intent home = new Intent(getApplicationContext(), MainActivity.class);
-                        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(home);
-                        openHomeFragment();
-                        msg = "Stories";
-                        break;
-                    case R.id.addStory:
-                        Intent i = new Intent(getApplicationContext(), AddStoryActivity.class);
-                        i.putExtra("token", userDetails.getToken());
-                        startActivity(i);
-                        break;
-                    case R.id.bookmark_fragment:
-                        fragment = new BookmarksFragment();
-                        msg = "Bookmarks";
-                        break;
-                }
-                if (fragment != null) {
-                    navigateToFragment(fragment);
-                }
-                toolbar.setTitle(msg);
-                return true;
+        sideNav.setNavigationItemSelectedListener(menuItem -> {
+            MenuItem checkedItem = sideNav.getCheckedItem();
+            if (checkedItem != null && checkedItem.getItemId() == menuItem.getItemId()) return false;
+
+            Fragment fragment = null;
+            String title = "";
+
+            bottomNavigationView.setVisibility(View.GONE);
+            switch (menuItem.getItemId()) {
+                case R.id.nav_home:
+                    fragment = new HomeFragment();
+                    title = MainActivity.this.getString(R.string.title_home_fragment);
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                    break;
+
+                case R.id.nav_downloads:
+                    Intent intent = new Intent(MainActivity.this, SavedStoriesActivity.class);
+                    MainActivity.this.startActivity(intent);
+                    break;
+
+                case R.id.nav_donate:
+                    fragment = new DonateFragment();
+                    title = MainActivity.this.getString(R.string.title_donate_fragment);
+                    break;
+
+                case R.id.nav_about:
+                    fragment = new AboutFragment();
+                    title = MainActivity.this.getString(R.string.title_about_fagment);
+                    break;
+
+                case R.id.nav_feed_back:
+                    fragment = new FeedBackFragment();
+                    title = MainActivity.this.getString(R.string.title_feedback_fragment);
+                    break;
+
+                case R.id.nav_categories:
+                    fragment = CategoriesFragment.newInstance();
+                    title = MainActivity.this.getString(R.string.title_categories_fragment);
+                    break;
+
+                case R.id.nav_log_out:
+                    signout();
+                    break;
             }
-        });*/
+
+            if (fragment == null) return false;
+
+            sideNav.setCheckedItem(menuItem.getItemId());
+            drawer.closeDrawer(GravityCompat.START);
+            navigateToFragment(fragment);
+            updateToolbarTitle(title);
+
+            return true;
+
+        });
     }
 
 
@@ -441,37 +440,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
 
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        searchItem = menu.findItem(R.id.app_bar_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("Search Stories");
-        //hideSearchMenu();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //Log.e("TAAAAG1", query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //Log.e("TAAAAG1", newText);
-                if (getCurrentFragment().equals(FRAGMENT_NEW))
-                    NewStoriesFragment.storySearchListener.onStorySearched(newText);
-                else if (getCurrentFragment().equals(FRAGMENT_POPULAR))
-                    PopularStoriesFragment.storySearchListener.onStorySearched(newText);
-                return true;
-            }
-        });
-        return true;
-}
-*/
-
-
-
     @Override
     protected void onStart() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -485,7 +453,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private void navigateToFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, fragment).commit();
+        currentFragment = fragment;
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_fragment_container, currentFragment)
+                .commit();
     }
 
     private void hideDrawer() {
@@ -504,8 +476,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             hideDrawer();
-        } else if (navigationView.getCheckedItem() != null &&
-                navigationView.getCheckedItem().getItemId() != R.id.nav_home) {
+        } else if (sideNav.getCheckedItem() != null &&
+                sideNav.getCheckedItem().getItemId() != R.id.nav_home) {
+            ((BaseFragment) currentFragment).cleanUp();
             openHomeFragment();
         } else {
             doExit();

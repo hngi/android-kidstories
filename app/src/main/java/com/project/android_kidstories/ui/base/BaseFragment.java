@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     private SharePref sharePref;
 
@@ -30,4 +30,6 @@ public class BaseFragment extends Fragment {
     protected void showSnack(View root, String message) {
         Snackbar.make(root, message, Snackbar.LENGTH_SHORT).show();
     }
+
+    abstract public void cleanUp();
 }

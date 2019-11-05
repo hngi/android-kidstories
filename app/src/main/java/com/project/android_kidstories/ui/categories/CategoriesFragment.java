@@ -24,10 +24,11 @@ import java.util.List;
 
 public class CategoriesFragment extends BaseFragment {
 
+    private Call<CategoriesAllResponse> categories;
+
     public static CategoriesFragment newInstance() {
         return new CategoriesFragment();
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,8 +45,8 @@ public class CategoriesFragment extends BaseFragment {
 
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
-        Call<CategoriesAllResponse> categories = service.getAllCategories();
 
+        categories = service.getAllCategories();
         categories.enqueue(new Callback<CategoriesAllResponse>() {
             @Override
             public void onResponse(Call<CategoriesAllResponse> call, Response<CategoriesAllResponse> response) {
@@ -79,6 +80,10 @@ public class CategoriesFragment extends BaseFragment {
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
+    }
 
+    @Override
+    public void cleanUp() {
+        categories.cancel();
     }
 }

@@ -326,6 +326,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private void setupNavigation() {
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+        sideNav.setOverScrollMode(View.OVER_SCROLL_NEVER);
         sideNav.setNavigationItemSelectedListener(menuItem -> {
             MenuItem checkedItem = sideNav.getCheckedItem();
             if (checkedItem != null && checkedItem.getItemId() == menuItem.getItemId()) return false;
@@ -371,7 +372,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     break;
             }
 
-            if (fragment == null) return false;
+            if (fragment == null) {
+                fragment = new HomeFragment();
+                title = MainActivity.this.getString(R.string.title_home_fragment);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+            }
 
             sideNav.setCheckedItem(menuItem.getItemId());
             drawer.closeDrawer(GravityCompat.START);

@@ -181,7 +181,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         HomeFragment homeFragment = new HomeFragment();
         navigateToFragment(homeFragment);
 
-        sideNav.setCheckedItem(R.id.nav_home);
+        sideNav.getMenu().getItem(0).setChecked(true);
+
         bottomNavigationView.setSelectedItemId(0);
         bottomNavigationView.setVisibility(View.VISIBLE);
 
@@ -476,9 +477,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             hideDrawer();
-        } else if (sideNav.getCheckedItem() != null &&
-                sideNav.getCheckedItem().getItemId() != R.id.nav_home) {
+        } else if (!(currentFragment instanceof HomeFragment)) {
+            // Not in HomeFragment, open home
             try {
+                // Try to stop all async calls in the fragment
                 ((BaseFragment) currentFragment).cleanUp();
             } catch (ClassCastException cce) {
                 showToast("Fragment should implement BaseFragment: It's safer, trust me!");

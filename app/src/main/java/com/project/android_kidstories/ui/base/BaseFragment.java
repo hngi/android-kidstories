@@ -34,5 +34,6 @@ public abstract class BaseFragment extends Fragment {
 
     public void cleanUp() {
         Log.d("BASE_FRAGMENT", "Clean Up");
+        // Subclasses should end all async calls and clean up after themselves
     }
 }

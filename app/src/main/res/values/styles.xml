@@ -3,7 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="KidStories.DayNight">
         <!-- Customize your theme here. -->
-        <item name="android:textColor">@color/color_on_background</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -25,7 +24,7 @@
 
     </style>
 
-    <style name="AppTheme.Dialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="AppTheme.Dialog" parent="ThemeOverlay.MaterialComponents.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:backgroundDimAmount">0.85</item>
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>

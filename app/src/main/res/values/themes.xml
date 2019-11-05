@@ -20,10 +20,10 @@
         <item name="colorOnBackground">@color/color_on_background</item>
         <item name="colorOnSurface">@color/color_on_surface</item>
         <item name="colorOnError">@color/color_on_error</item>
-        <item name="android:textColorPrimary">#ffffff</item>
-        <item name="android:editTextColor">#ffffff</item>
+        <item name="android:textColorPrimary">@color/color_on_background</item>
+        <item name="android:editTextColor">@color/color_on_background</item>
 
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/color_on_background</item>
         <item name="android:textColorLink">@color/color_primary_variant</item>
         <item name="android:textColorLinkInverse">@color/color_secondary_variant</item>
 

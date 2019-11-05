@@ -33,7 +33,6 @@ import retrofit2.Response;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -205,6 +204,22 @@ public class SingleStoryActivity extends BaseActivity {
         });
     }
 
+    public static List<Comment> returnComments() {
+        return comments;
+    }
+
+    public static void saveImageFile(Context context, Bitmap b, String picName) {
+        FileOutputStream fos;
+        try {
+            fos = context.openFileOutput(picName, Context.MODE_PRIVATE);
+            b.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (FileNotFoundException e) {
+
+            Log.d("TAG", "file not found");
+            e.printStackTrace();
+        }
+    }
+
     public void getStoryWithId(int id) {
         storyApi.getStory(id).enqueue(new Callback<StoryBaseResponse>() {
             @Override
@@ -249,20 +264,18 @@ public class SingleStoryActivity extends BaseActivity {
         textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS)
-                {
+                if (status == TextToSpeech.SUCCESS) {
                     int result = textToSpeech.setLanguage(Locale.ENGLISH);
                     if (result == TextToSpeech.LANG_MISSING_DATA
-                    || result == TextToSpeech.LANG_NOT_SUPPORTED)
-                    {
+                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Toast.makeText(SingleStoryActivity.this, "This Language is not Supported", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         //btn_speak.setEnabled(true);
-                    //textToSpeech.setPitch(0.6f);
-                    textToSpeech.setEngineByPackageName(googleTtsPackage);
-                    textToSpeech.setSpeechRate(0.85f);
-                    speak();}
+                        //textToSpeech.setPitch(0.6f);
+                        textToSpeech.setEngineByPackageName(googleTtsPackage);
+                        textToSpeech.setSpeechRate(0.85f);
+                        speak();
+                    }
                 }
 
             }
@@ -320,46 +333,25 @@ public class SingleStoryActivity extends BaseActivity {
 
     }
 
-
-    private void sendCommentList(){
-        Intent intent = new Intent(SingleStoryActivity.this, CommentActivity.class);
-        intent.putExtra("storyId", story_id);
-        startActivity(intent);
-    }
-
-    public static List<Comment> returnComments(){
-        return comments;
-    }
-
     private void play() {
         backgroundMusicPlayer.start();
         backgroundMusicPlayer.setLooping(true);
     }
 
+    private void sendCommentList() {
+        Intent intent = new Intent(SingleStoryActivity.this, CommentActivity.class);
+        intent.putExtra("storyId", story_id);
+        startActivity(intent);
+    }
+
     private void speak() {
 
         String text = speak_text.getText().toString();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null,null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        } else {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
-        else {textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH,null);}
-    }
-
-    @Override
-    protected void onDestroy() {
-
-        if (textToSpeech != null){
-            textToSpeech.stop();
-            textToSpeech.shutdown();
-        }
-
-        if (backgroundMusicPlayer != null) {
-            backgroundMusicPlayer.stop();
-            backgroundMusicPlayer.release();
-        }
-
-        super.onDestroy();
     }
 
     @Override
@@ -378,31 +370,29 @@ public class SingleStoryActivity extends BaseActivity {
 
     }
 
-    public void removeSavedStory(Story story) {
-         new AlertDialog.Builder(SingleStoryActivity.this)
-                 .setMessage("Do you want to delete this story from downloads?")
-                 .setPositiveButton("Yes", (dialogInterface, i) -> {
-                     storyLab.deleteStory(story);
-                     //storyLab.addStory(story);
-                     saveStory.setSelected(false);
-                 })
-                 .setNegativeButton("No", null).show();
-    }
-    public static void saveImageFile(Context context, Bitmap b, String picName){
-        FileOutputStream fos ;
-        try {
-            fos = context.openFileOutput(picName, Context.MODE_PRIVATE);
-            b.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        }
-        catch (FileNotFoundException e) {
+    @Override
+    protected void onDestroy() {
 
-            Log.d("TAG", "file not found");
-            e.printStackTrace();
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
         }
-        catch (IOException e) {
-            Log.d("TAG", "io exception");
-            e.printStackTrace();
-        } finally {
-                   }
+
+        if (backgroundMusicPlayer != null) {
+            backgroundMusicPlayer.stop();
+            backgroundMusicPlayer.release();
+        }
+
+        super.onDestroy();
+    }
+
+    public void removeSavedStory(Story story) {
+        new AlertDialog.Builder(SingleStoryActivity.this, R.style.AppTheme_Dialog)
+                .setMessage("Do you want to delete this story from downloads?")
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    storyLab.deleteStory(story);
+                    saveStory.setSelected(false);
+                })
+                .setNegativeButton("No", null).show();
     }
 }

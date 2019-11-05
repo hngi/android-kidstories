@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -330,6 +331,20 @@ public class SingleStoryActivity extends BaseActivity {
         } else {
             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
+        textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String s) {
+            }
+
+            @Override
+            public void onDone(String s) {
+                backgroundMusicPlayer.pause();
+            }
+
+            @Override
+            public void onError(String s) {
+            }
+        });
     }
 
     @Override

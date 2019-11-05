@@ -58,7 +58,7 @@
                         android:layout_marginTop="12dp"
                         android:layout_marginEnd="12dp"
                         android:enabled="false"
-                        app:srcCompat="@drawable/ic_stop_black_24dp" />
+                        app:srcCompat="@drawable/ic_stop_red_24dp" />
 
 
                 </RelativeLayout>

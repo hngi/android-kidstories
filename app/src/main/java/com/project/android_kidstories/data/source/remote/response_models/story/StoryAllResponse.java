@@ -2,9 +2,7 @@ package com.project.android_kidstories.data.source.remote.response_models.story;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.project.android_kidstories.data.model.Story;
-
-import java.util.List;
+import com.project.android_kidstories.data.model.Data;
 
 /**
  * @author .: Ehma Ugbogo
@@ -24,7 +22,7 @@ public class StoryAllResponse {
     private String message;
     @SerializedName("data")
     @Expose
-    private List<Story> data = null;
+    private Data data;
 
     public String getStatus() {
         return status;
@@ -50,11 +48,11 @@ public class StoryAllResponse {
         this.message = message;
     }
 
-    public List<Story> getData() {
+    public Data getData() {
         return data;
     }
 
-    public void setData(List<Story> data) {
+    public void setData(Data data) {
         this.data = data;
     }
 }

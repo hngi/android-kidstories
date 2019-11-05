@@ -28,7 +28,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void showSnack(View root, String message) {
-        showToast(message);
+
         // Pause due to "No suitable parent found" error
         //Snackbar.make(root, message, Snackbar.LENGTH_SHORT).show();
     }

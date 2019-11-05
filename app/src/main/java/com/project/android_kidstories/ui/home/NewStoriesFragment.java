@@ -37,6 +37,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private RecyclerView recyclerView;
     private RecyclerStoriesAdapter adapter;
     private ProgressBar progressBar;
+    private View errorView;
     private Repository repository;
     int initBookmarkId;
     private Api service;
@@ -47,7 +48,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     public static RecyclerStoriesAdapter.StorySearch storySearchListener;
     SwipeRefreshLayout refreshLayout;
     private List<Story> storiesArray;
-
+    Call<StoryAllResponse> stories;
 
     public static NewStoriesFragment newInstance() {
         return new NewStoriesFragment();
@@ -61,6 +62,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         repository = Repository.getInstance(getActivity().getApplication());
 
         progressBar = v.findViewById(R.id.new_stories_bar);
+        errorView = v.findViewById(R.id.error_msg);
         progressBar.setVisibility(View.VISIBLE);
         recyclerView = v.findViewById(R.id.recyclerView);
         refreshLayout = v.findViewById(R.id.swipe_refresh);
@@ -75,13 +77,15 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private void fetchStories() {
         /*Create handle for the RetrofitInstance interface*/
         service = RetrofitClient.getInstance().create(Api.class);
-        Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token);
+
+        stories = service.getAllStoriesWithAuth(token);
 
         stories.enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 //  generateCategoryList(response.body(),v);
                 progressBar.setVisibility(View.GONE);
+                errorView.setVisibility(View.GONE);
 
                 if (response.isSuccessful()) {
                     List<Story> storiesList = response.body().getData();
@@ -108,14 +112,18 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             @Override
             public void onFailure(Call<StoryAllResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-
+                errorView.setVisibility(View.VISIBLE);
+                refreshLayout.setRefreshing(false);
             }
         });
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        refreshLayout.setOnRefreshListener(() -> fetchStories());
+        refreshLayout.setOnRefreshListener(() -> {
+            if (stories != null) stories.cancel();
+            fetchStories();
+        });
     }
 
        /*

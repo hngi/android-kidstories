@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -320,9 +319,9 @@ public class LoginActivity extends BaseActivity {
             Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
 
         } else if (getSharePref().getUserId() != -1) {
-            for (User loggedUser : viewModel.getallUsers() ) {
-                if (loggedUser.getId().equals(getSharePref().getLoggedUserId())){
-                    openMainActivity(LoginActivity.this, loggedUser);
+            for (User loggedInUser : viewModel.getallUsers()) {
+                if (loggedInUser.getId().equals(getSharePref().getLoggedUserId())) {
+                    MainActivity.start(LoginActivity.this, loggedInUser);
                     finish();
                 }
             }
@@ -367,12 +366,6 @@ public class LoginActivity extends BaseActivity {
                 Toast.makeText(LoginActivity.this, "Error " + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    protected void openMainActivity(Context context, User currentUser) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MainActivity.USER_KEY_INTENT_EXTRA, (Parcelable) currentUser);
-        startActivity(intent);
     }
 }
 

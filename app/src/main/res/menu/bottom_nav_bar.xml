@@ -4,16 +4,16 @@
 
     <item
         android:id="@+id/bottommenu_home"
-          android:icon="@drawable/ic_action_home"
+        android:icon="@drawable/svg_ic_home"
         android:title="@string/home" />
 
     <item
         android:id="@+id/bottommenu_bookmark"
-        android:icon="@drawable/ic_bookmark_black_24dp"
+        android:icon="@drawable/svg_ic_bookmark"
         android:title="@string/bookmarks" />
 
     <item
         android:id="@+id/bottommenu_addstory"
-          android:icon="@drawable/ic_add_black_24dp"
-        android:title="@string/add" />
+        android:icon="@drawable/svg_ic_pen"
+        android:title="@string/create" />
 </menu>

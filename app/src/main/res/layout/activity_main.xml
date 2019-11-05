@@ -13,21 +13,21 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/main_appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+               android:id="@+id/main_appbar"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:theme="@style/AppTheme.AppBarOverlay"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/main_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:titleTextColor="?colorOnPrimary" />
+               <androidx.appcompat.widget.Toolbar
+                   android:id="@+id/main_toolbar"
+                   android:layout_width="match_parent"
+                   android:layout_height="?attr/actionBarSize"
+                   app:titleTextColor="?colorOnPrimary" />
 
-        </com.google.android.material.appbar.AppBarLayout>
+           </com.google.android.material.appbar.AppBarLayout>
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -44,22 +44,17 @@
 
         </RelativeLayout>
 
-        <me.ibrahimsn.lib.SmoothBottomBar
+        <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav_view"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:fitsSystemWindows="true"
+            app:itemIconSize="22dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:backgroundColor="?colorPrimary"
-            app:iconSize="22dp"
-            app:iconTint="?colorOnSecondary"
-            app:indicatorColor="#20FFFFFF"
-            app:menu="@menu/bottom_nav_bar"
-            app:textColor="?colorOnSecondary"
-            app:textSize="12sp" />
+            app:menu="@menu/bottom_nav_bar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

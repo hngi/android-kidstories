@@ -36,10 +36,8 @@
     </style>
 
     <style name="SingleStoryIcon">
-        <item name="android:background">@drawable/background_single_story_icon</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
-        <item name="android:padding">8dp</item>
     </style>
 
     <!--- OLD STYLES -->

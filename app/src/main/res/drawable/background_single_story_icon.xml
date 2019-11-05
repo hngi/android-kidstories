@@ -12,6 +12,17 @@
         </layer-list>
     </item>
 
+    <item android:state_selected="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="10dp" />
+                    <solid android:color="?colorPrimary" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="10dp" />

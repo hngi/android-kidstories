@@ -1,9 +1,9 @@
 package com.project.android_kidstories.ui.story_viewing;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,12 +19,14 @@ import com.project.android_kidstories.CommentActivity;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.Repository;
 import com.project.android_kidstories.data.model.Comment;
+import com.project.android_kidstories.data.model.ReadStory;
 import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
 import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryBaseResponse;
 import com.project.android_kidstories.ui.base.BaseActivity;
+import com.project.android_kidstories.ui.reading_status.ReadingStatusActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +42,8 @@ public class SingleStoryActivity extends BaseActivity {
     private MediaPlayer backgroundMusicPlayer;
     private ImageView story_pic, like_btn;
     int story_id = 0;
-    private TextView story_author, story_title, story_content, error_msg, saveStory;
+    ImageView playButton;
+    ImageView markAsReadBtn;
     private Toolbar toolbar;
     private ProgressBar progressBar;
     private Repository repository;
@@ -57,9 +60,9 @@ public class SingleStoryActivity extends BaseActivity {
     String googleTtsPackage = "com.google.android.tts", picoPackage = "com.svox.pico";
 
     LikeButton likeButton;
-
-    ImageButton playButton;
+    private TextView story_author, story_title, story_content, error_msg;
     ImageButton stopButton;
+    private ImageView saveStory;
 
     private ImageButton ZoomIn, ZoomOut;
     private static List<Comment> comments;
@@ -83,12 +86,32 @@ public class SingleStoryActivity extends BaseActivity {
 
         sharePref = getSharePref();
 
-        View markAsReadBtn = findViewById(R.id.btn_markasread);
+        markAsReadBtn = findViewById(R.id.btn_markasread);
+        markAsReadBtn.setOnClickListener(view -> {
+            int storiesRead = sharePref.getInt(ReadingStatusActivity.STORIES_READ_KEY);
+            storiesRead += 1;
+            sharePref.setInt(ReadingStatusActivity.STORIES_READ_KEY, storiesRead);
+
+            ReadingStatusActivity.displayUserReadingStatus(this, storiesRead);
+
+            repository.insertReadStoryId(new ReadStory(String.valueOf(story_id)));
+
+            markAsReadBtn.setVisibility(View.GONE);
+
+        });
+
+        // Check if story has been read already
+        repository.getStoryForId(String.valueOf(story_id)).observe(this, readStory -> {
+            if (readStory == null) {
+                markAsReadBtn.setVisibility(View.VISIBLE);
+            }
+        });
 
         //progressBar = findViewById(R.id.story_content_bar);
         progressBar = new ProgressBar(this);
         progressBar.setVisibility(View.VISIBLE);
 
+        playButton = findViewById(R.id.play_story);
         story_author = findViewById(R.id.author);
         story_title = findViewById(R.id.txt_story_title);
         story_content = findViewById(R.id.story_content);
@@ -96,10 +119,10 @@ public class SingleStoryActivity extends BaseActivity {
         //like_btn = findViewById(R.id.like_button);
         error_msg = new TextView(this);
         //error_msg = findViewById(R.id.error_msg);
-        //saveStory = findViewById(R.id.save_story);
+        saveStory = findViewById(R.id.save_story);
+
         //todo : check authorization for premium stories
         getStoryWithId(story_id);
-
 
         /*ZoomIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,16 +144,7 @@ public class SingleStoryActivity extends BaseActivity {
             }
         });
 
-        markAsReadBtn.setOnClickListener(view -> {
-            int storiesRead = sharePref.getInt(ReadingStatusActivity.STORIES_READ_KEY);
-            storiesRead += 1;
-            sharePref.setInt(ReadingStatusActivity.STORIES_READ_KEY, storiesRead);
 
-            ReadingStatusActivity.displayUserReadingStatus(this, storiesRead);
-
-            repository.insertReadStoryId(new ReadStory(String.valueOf(story_id)));
-            markAsReadBtn.setVisibility(View.GONE);
-        });
 
                 //Favorite button functionality
 
@@ -162,37 +176,33 @@ public class SingleStoryActivity extends BaseActivity {
             }
         });
 
-        saveStory.setVisibility(View.INVISIBLE);
-        saveStory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                if (testStory!=null){
-                    if(storyLab.getStory(testStory.getTitle())==null){
-                        storyLab.addStory(testStory);
-
-                        BitmapDrawable bitmapDrawable = (BitmapDrawable) story_pic.getDrawable();
-                        Bitmap bitmap = bitmapDrawable .getBitmap();
-                        saveImageFile(SingleStoryActivity.this
-                                ,bitmap
-                                , testStory.getTitle()+".png");
-                        Toast.makeText(SingleStoryActivity.this, "Story saved", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        replaceSavedStoryDialog(testStory);
-                    }
-                }
-            }
-        });*/
-        /*// Check if story has been read already
-        repository.getStoryForId(String.valueOf(story_id)).observe(this, readStory -> {
-            if (readStory == null) {
-                markAsReadBtn.setVisibility(View.VISIBLE);
-            }
-        });*/
+        */
 
         // For controlling Zooming In
+    }
+
+    private void updateIcons() {
+        if (storyLab.getStory(testStory.getTitle()) != null) {
+            saveStory.setSelected(true);
+        }
+
+        saveStory.setOnClickListener(view -> {
+            if (testStory != null) {
+                if (storyLab.getStory(testStory.getTitle()) == null) {
+                    storyLab.addStory(testStory);
+
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) story_pic.getDrawable();
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    saveImageFile(SingleStoryActivity.this
+                            , bitmap
+                            , testStory.getTitle() + ".png");
+                    showSnack("Story can be read offline", findViewById(R.id.single_story_root));
+                    saveStory.setSelected(true);
+                } else {
+                    removeSavedStory(testStory);
+                }
+            }
+        });
     }
 
     public void getStoryWithId(int id) {
@@ -212,12 +222,16 @@ public class SingleStoryActivity extends BaseActivity {
                     //saveStory.setVisibility(View.VISIBLE);
                     comments = currentStory.getComments().getComments();
 
+                    updateIcons();
+
                 } catch (Exception e) {
                     Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong ... story specific issue", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);
                     error_msg.setVisibility(View.VISIBLE);
                     story_author.setVisibility(View.INVISIBLE);
                     story_content.setVisibility(View.INVISIBLE);
+                    saveStory.setVisibility(View.INVISIBLE);
+                    playButton.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -364,17 +378,15 @@ public class SingleStoryActivity extends BaseActivity {
 
     }
 
-    public void replaceSavedStoryDialog(Story story){
+    public void removeSavedStory(Story story) {
          new AlertDialog.Builder(SingleStoryActivity.this)
-                 .setMessage("A story with this name already exists.\nDo you want to Replace it?" )
-                 .setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                     @Override
-                     public void onClick(DialogInterface dialogInterface, int i) {
-                         storyLab.deleteStory(story);
-                         storyLab.addStory(story);
-                     }
+                 .setMessage("Do you want to delete this story from downloads?")
+                 .setPositiveButton("Yes", (dialogInterface, i) -> {
+                     storyLab.deleteStory(story);
+                     //storyLab.addStory(story);
+                     saveStory.setSelected(false);
                  })
-                 .setNegativeButton("no" , null).show();
+                 .setNegativeButton("No", null).show();
     }
     public static void saveImageFile(Context context, Bitmap b, String picName){
         FileOutputStream fos ;

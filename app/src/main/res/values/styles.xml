@@ -10,8 +10,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.MainActivity" parent="AppTheme.NoActionBar">
-    </style>
     <style name="AppTheme.SplashScreen" parent="AppTheme.NoActionBar">
         <item name="android:background">?colorPrimary</item>
         <item name="android:fitsSystemWindows">true</item>

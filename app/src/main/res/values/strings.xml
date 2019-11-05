@@ -113,5 +113,7 @@ SOFTWARE.
     <string name="title_profile_fragment">Profile</string>
     <string name="oops">Oops!</string>
     <string name="oops_something_went_wrong_n_please_try_again">Something went wrong\n  please try again</string>
+    <string name="title_popular_stories">Popular stories</string>
+    <string name="title_explore_stories">Explore</string>
 
 </resources>

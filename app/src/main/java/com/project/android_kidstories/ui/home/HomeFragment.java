@@ -3,12 +3,8 @@ package com.project.android_kidstories.ui.home;
 import android.os.Bundle;
 import android.view.*;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.ui.base.BaseFragment;
-import com.project.android_kidstories.ui.home.adapters.SectionsPageAdapter;
 
 public class HomeFragment extends BaseFragment {
 
@@ -17,16 +13,6 @@ public class HomeFragment extends BaseFragment {
 
         // This fragment needs to show a menu
         setHasOptionsMenu(true);
-
-        TabLayout tabLayout = root.findViewById(R.id.home_frag_tablayout);
-        ViewPager viewPager = root.findViewById(R.id.home_frag_container);
-
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        adapter.addFragment(NewStoriesFragment.newInstance(), "New Stories");
-        adapter.addFragment(PopularStoriesFragment.newInstance(), "Popular Stories");
-
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
 
         return root;
     }

@@ -50,6 +50,7 @@ import com.project.android_kidstories.ui.profile.BookmarksFragment;
 import com.project.android_kidstories.ui.profile.ProfileFragment;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.ibrahimsn.lib.SmoothBottomBar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,7 +71,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private Repository repository;
     private StoryAdapter storyAdapter;
     private GoogleApiClient mGoogleApiClient;
-    private BottomNavigationView bottomNavigationView;
+
+    private SmoothBottomBar bottomNavigationView;
+
     public static final String FRAGMENT_NEW = "New Stories";
     TextView userName;
 
@@ -176,7 +179,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         navigateToFragment(homeFragment);
 
         navigationView.setCheckedItem(R.id.nav_home);
-        bottomNavigationView.setSelectedItemId(0);
+        //bottomNavigationView.setSelectedItemId(0);
         bottomNavigationView.setVisibility(View.VISIBLE);
 
         updateToolbarTitle("Stories");
@@ -348,8 +351,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             }
         });
 
+/*
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setOnItemSelected(pos -> {
+            return Unit.INSTANCE;
+        });
+*/
+
         /*{
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -385,7 +393,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (bottomNavigationView.getSelectedItemId() == item.getItemId()) return false;
+        //if (bottomNavigationView.getSelectedItemId() == item.getItemId()) return false;
 
         Fragment fragment = null;
         String title = null;
@@ -412,7 +420,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         if (fragment == null) return false;
 
         navigateToFragment(fragment);
-        bottomNavigationView.setSelectedItemId(position);
+        //bottomNavigationView.setSelectedItemId(position);
         updateToolbarTitle(title);
 
         return true;

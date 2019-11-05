@@ -10,6 +10,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.MainActivity" parent="AppTheme.NoActionBar">
+        <item name="android:navigationBarColor">?colorPrimary</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
+    </style>
     <style name="AppTheme.SplashScreen" parent="AppTheme.NoActionBar">
         <item name="android:background">?colorPrimary</item>
         <item name="android:fitsSystemWindows">true</item>

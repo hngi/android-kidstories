@@ -23,7 +23,7 @@
         android:layout_height="100dp"
         android:layout_marginStart="4dp"
         android:contentDescription="@string/nav_header_desc"
-        android:src="@drawable/ic_person_black_150dp"
+        android:src="@drawable/ic_account_circle_black_150dp"
         app:civ_circle_background_color="?colorSurface" />
 
     <TextView

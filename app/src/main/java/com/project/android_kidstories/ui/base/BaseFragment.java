@@ -24,7 +24,11 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void showToast(String message) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+        try {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            // Please remove this exception and do it the right way
+        }
     }
 
     protected void showSnack(View root, String message) {

@@ -63,8 +63,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//import com.project.android_kidstories.ui.edit.ProfileFragment;
-
 /**
  * @author .: Ehma Ugbogo
  * @email ..: ehmaugbogo@gmail.com
@@ -204,30 +202,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
-
-        //For test
-        /*RecyclerView recyclerView=findViewById(R.id.main_recycler);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(storyAdapter);*/
         repository = Repository.getInstance(this.getApplication());
 
         storyAdapter = new StoryAdapter(repository);
 
         linkUserDetails();
 
-
-
-
-
         openHomeFragment();
-        //fetchStories();
+
         navigationClickListeners();
-
-
-
     }
 
     public void linkUserDetails() {

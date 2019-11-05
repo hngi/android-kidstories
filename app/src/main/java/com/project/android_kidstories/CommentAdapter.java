@@ -65,7 +65,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             Comment c = comments.get(position);
             Glide.with(context)
                     .load(c.getUser().getImage())
-                    .placeholder(R.drawable.ic_android_black_24dp)
+                    .placeholder(R.drawable.story_bg_ic)
                     .into(commentImage);
             commentAuthorFirstName.setText(c.getUser().getFirstName());
             commentAuthorLastName.setText(c.getUser().getLastName());

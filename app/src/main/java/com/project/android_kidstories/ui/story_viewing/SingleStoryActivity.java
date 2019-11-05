@@ -48,6 +48,7 @@ public class SingleStoryActivity extends BaseActivity {
     private Repository repository;
     private Api storyApi;
 
+    View contentView;
     Story testStory;
     StoryLab storyLab;
     ImageButton btn_speak;
@@ -106,9 +107,8 @@ public class SingleStoryActivity extends BaseActivity {
             }
         });
 
-        //progressBar = findViewById(R.id.story_content_bar);
-        progressBar = new ProgressBar(this);
-        progressBar.setVisibility(View.VISIBLE);
+        contentView = findViewById(R.id.nestedscroll_single_story);
+        progressBar = findViewById(R.id.story_content_bar);
 
         playButton = findViewById(R.id.play_story);
         story_author = findViewById(R.id.author);
@@ -122,6 +122,8 @@ public class SingleStoryActivity extends BaseActivity {
 
         //todo : check authorization for premium stories
         getStoryWithId(story_id);
+
+        playButton.setOnClickListener(v -> play());
 
         /*ZoomIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +197,7 @@ public class SingleStoryActivity extends BaseActivity {
                     saveImageFile(SingleStoryActivity.this
                             , bitmap
                             , testStory.getTitle() + ".png");
-                    showSnack("Story can be read offline", findViewById(R.id.single_story_root));
+                    showToast("Story is now available offline");
                     saveStory.setSelected(true);
                 } else {
                     removeSavedStory(testStory);
@@ -228,35 +230,31 @@ public class SingleStoryActivity extends BaseActivity {
                     Story currentStory = response.body().getData();
                     testStory = currentStory;
                     story_title.setText(currentStory.getTitle());
-                    story_author.setText("Written by " + currentStory.getAuthor());
+                    story_author.setText(String.format("Written by %s", currentStory.getAuthor()));
                     story_content.setText(currentStory.getBody());
-                    Glide.with(getApplicationContext()).load(currentStory.getImageUrl()).placeholder(R.drawable.story_bg_ic).into(story_pic);
-                    story_author.setVisibility(View.VISIBLE);
-                    story_content.setVisibility(View.VISIBLE);
+                    Glide.with(getApplicationContext())
+                            .load(currentStory.getImageUrl())
+                            .into(story_pic);
+                    contentView.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);
-                    //saveStory.setVisibility(View.VISIBLE);
                     comments = currentStory.getComments().getComments();
 
                     updateIcons();
 
                 } catch (Exception e) {
-                    Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong ... story specific issue", Toast.LENGTH_SHORT).show();
+                    showToast("Oops Something went wrong ... story specific issue");
                     progressBar.setVisibility(View.INVISIBLE);
                     error_msg.setVisibility(View.VISIBLE);
-                    story_author.setVisibility(View.INVISIBLE);
-                    story_content.setVisibility(View.INVISIBLE);
-                    saveStory.setVisibility(View.INVISIBLE);
-                    playButton.setVisibility(View.INVISIBLE);
+                    contentView.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<StoryBaseResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-                story_author.setVisibility(View.INVISIBLE);
-                story_content.setVisibility(View.INVISIBLE);
+                contentView.setVisibility(View.GONE);
                 error_msg.setVisibility(View.VISIBLE);
-                Toast.makeText(SingleStoryActivity.this, "Oops Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                showToast("Oops Something went wrong...Please try later!");
             }
         });
 
@@ -388,7 +386,7 @@ public class SingleStoryActivity extends BaseActivity {
 
     public void removeSavedStory(Story story) {
         new AlertDialog.Builder(SingleStoryActivity.this, R.style.AppTheme_Dialog)
-                .setMessage("Do you want to delete this story from downloads?")
+                .setMessage(SingleStoryActivity.this.getString(R.string.remove_from_downloads))
                 .setPositiveButton("Yes", (dialogInterface, i) -> {
                     storyLab.deleteStory(story);
                     saveStory.setSelected(false);

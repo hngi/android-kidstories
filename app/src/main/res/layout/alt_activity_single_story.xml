@@ -24,7 +24,6 @@
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"
                  android:scaleType="centerCrop"
-                 android:src="@drawable/story_bg_ic"
                  app:layout_collapseMode="parallax" />
 
              <View
@@ -34,11 +33,25 @@
 
          </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
+
+    <ProgressBar
+        android:id="@+id/story_content_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="visible"
+        tools:visibility="gone" />
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedscroll_single_story"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="64dp"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:scrollbars="none"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 

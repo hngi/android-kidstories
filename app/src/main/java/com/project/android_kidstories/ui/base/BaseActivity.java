@@ -25,7 +25,7 @@ public class BaseActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    protected void showSnack(String message, View root) {
-        Snackbar.make(root, message, Snackbar.LENGTH_SHORT).show();
+    protected void showSnack(String message, View view) {
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 }

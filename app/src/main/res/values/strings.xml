@@ -100,5 +100,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
     </string>
+    <string name="remove_from_downloads">Remove story from downloads?</string>
 
 </resources>

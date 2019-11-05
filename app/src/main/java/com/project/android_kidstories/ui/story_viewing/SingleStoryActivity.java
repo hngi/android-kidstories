@@ -8,7 +8,6 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -88,7 +87,9 @@ public class SingleStoryActivity extends BaseActivity {
         sharePref = getSharePref();
 
         markAsReadBtn = findViewById(R.id.btn_markasread);
+        markAsReadBtn.setSelected(true);
         markAsReadBtn.setOnClickListener(view -> {
+            if (markAsReadBtn.isSelected()) return;
             int storiesRead = sharePref.getInt(ReadingStatusActivity.STORIES_READ_KEY);
             storiesRead += 1;
             sharePref.setInt(ReadingStatusActivity.STORIES_READ_KEY, storiesRead);
@@ -97,14 +98,14 @@ public class SingleStoryActivity extends BaseActivity {
 
             repository.insertReadStoryId(new ReadStory(String.valueOf(story_id)));
 
-            markAsReadBtn.setVisibility(View.GONE);
+            markAsReadBtn.setSelected(true);
 
         });
 
         // Check if story has been read already
         repository.getStoryForId(String.valueOf(story_id)).observe(this, readStory -> {
             if (readStory == null) {
-                markAsReadBtn.setVisibility(View.VISIBLE);
+                markAsReadBtn.setSelected(false);
             }
         });
 
@@ -267,51 +268,14 @@ public class SingleStoryActivity extends BaseActivity {
                 } else {
                     //btn_speak.setEnabled(true);
                     //textToSpeech.setPitch(0.6f);
-                    textToSpeech.setEngineByPackageName(googleTtsPackage);
                     textToSpeech.setSpeechRate(0.85f);
                     speak();
                 }
             }
 
-        });
-
-        /*btn_speak.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                speak();
-              if (textToSpeech.isSpeaking()){
-                  btn_speak.setVisibility(View.INVISIBLE);
-              btn_stop.setVisibility(View.VISIBLE);
-              btn_stop.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                      textToSpeech.stop();
-                      btn_speak.setVisibility(View.VISIBLE);
-                      btn_stop.setVisibility(View.INVISIBLE);
-                  }
-              });}
-
-            }
-        });*/
-
+        }, googleTtsPackage);
 
         //background Music and tts
-        textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-            @Override
-            public void onStart(String s) {
-            }
-
-            @Override
-            public void onDone(String s) {
-                backgroundMusicPlayer.pause();
-                playButton.setSelected(false);
-            }
-
-            @Override
-            public void onError(String s) {
-            }
-        });
-
         backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong2);
         playButton.setOnClickListener(v -> {
             if (backgroundMusicPlayer.isPlaying()) {

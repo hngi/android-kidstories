@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_popularstories"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
@@ -20,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/img_itemimage_explore"
+            android:id="@+id/img_itemimage_popularstories"
             android:layout_width="180dp"
             android:layout_height="250dp"
             android:scaleType="centerCrop"
@@ -29,7 +30,7 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/txt_itemtitle_explore"
+        android:id="@+id/txt_itemtitle_popularstories"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -43,21 +44,21 @@
         tools:text="Arena of Justice" />
 
     <TextView
-        android:id="@+id/txt_itemauthor_explore"
+        android:id="@+id/txt_itemduration_popularstories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-        app:layout_constraintStart_toStartOf="@+id/txt_itemtitle_explore"
-        app:layout_constraintTop_toBottomOf="@+id/txt_itemtitle_explore"
+        app:layout_constraintStart_toStartOf="@+id/txt_itemtitle_popularstories"
+        app:layout_constraintTop_toBottomOf="@+id/txt_itemtitle_popularstories"
         tools:text="2 minutes read" />
 
     <TextView
-        android:id="@+id/txt_itemdesc_explore"
+        android:id="@+id/txt_itemage_popularstories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-        app:layout_constraintEnd_toEndOf="@+id/txt_itemtitle_explore"
-        app:layout_constraintTop_toBottomOf="@+id/txt_itemauthor_explore"
+        app:layout_constraintEnd_toEndOf="@+id/txt_itemtitle_popularstories"
+        app:layout_constraintTop_toBottomOf="@+id/txt_itemduration_popularstories"
         tools:text="5-18" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

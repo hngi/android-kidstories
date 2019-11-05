@@ -156,7 +156,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             updateToolbarTitle(MainActivity.this.getString(R.string.title_profile_fragment));
 
             drawer.closeDrawer(GravityCompat.START);
-            sideNav.setCheckedItem(-1);
+            sideNav.setCheckedItem(R.id.nav_stub);
             bottomNavigationView.setVisibility(View.GONE);
             for (int i = 0; i < sideNav.getMenu().size(); i++) {
                 sideNav.getMenu().getItem(i).setChecked(false);

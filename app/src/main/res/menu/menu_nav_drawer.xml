@@ -43,4 +43,19 @@
             </group>
         </menu>
     </item>
+    <!--- WHY is this stub needed?
+        In MainActivity, when the profile picture in the nav header is clicked,
+        it unchecks every menu item (visually) but
+        Navigation View still sees the last fragment as checked.
+        Clicking the same navigation item a second time in a row does nothing,
+        which means the fragment selected before going to ProfileFragment
+        cannot be selected again from profile fragment. This stub is hidden,
+        it only represents the "Profile Fragment checked state" as you cannot
+        check the navigation header.
+     -->
+    <item
+        android:id="@+id/nav_stub"
+        android:checkable="true"
+        android:title=""
+        android:visible="false" />
 </menu>

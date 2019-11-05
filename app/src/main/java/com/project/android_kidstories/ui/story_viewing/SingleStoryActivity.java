@@ -123,8 +123,6 @@ public class SingleStoryActivity extends BaseActivity {
         //todo : check authorization for premium stories
         getStoryWithId(story_id);
 
-        playButton.setOnClickListener(v -> play());
-
         /*ZoomIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -259,29 +257,22 @@ public class SingleStoryActivity extends BaseActivity {
         });
 
 
-        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    int result = textToSpeech.setLanguage(Locale.ENGLISH);
-                    if (result == TextToSpeech.LANG_MISSING_DATA
-                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Toast.makeText(SingleStoryActivity.this, "This Language is not Supported", Toast.LENGTH_SHORT).show();
-                    } else {
-                        //btn_speak.setEnabled(true);
-                        //textToSpeech.setPitch(0.6f);
-                        textToSpeech.setEngineByPackageName(googleTtsPackage);
-                        textToSpeech.setSpeechRate(0.85f);
-                        speak();
-                    }
+        textToSpeech = new TextToSpeech(this, status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                int result = textToSpeech.setLanguage(Locale.ENGLISH);
+                if (result == TextToSpeech.LANG_MISSING_DATA
+                        || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Toast.makeText(SingleStoryActivity.this, "This Language is not Supported", Toast.LENGTH_SHORT).show();
+                } else {
+                    //btn_speak.setEnabled(true);
+                    //textToSpeech.setPitch(0.6f);
+                    textToSpeech.setEngineByPackageName(googleTtsPackage);
+                    textToSpeech.setSpeechRate(0.85f);
+                    speak();
                 }
-
             }
-        });
 
-        speak_text = findViewById(R.id.story_content);
-        btn_speak = findViewById(R.id.play_story);
-        btn_stop = findViewById(R.id.stop_story);
+        });
 
         /*btn_speak.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -299,39 +290,29 @@ public class SingleStoryActivity extends BaseActivity {
                   }
               });}
 
-
-
-
             }
         });*/
 
 
-        //background Music
+        //background Music and tts
 
-        /*backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong2);
-        playButton = findViewById(R.id.playSong);
-        stopButton = findViewById(R.id.stopSong);
-        playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong2);
+        playButton.setOnClickListener(v -> {
+            if (backgroundMusicPlayer.isPlaying()) {
+                playButton.setSelected(false);
+                textToSpeech.stop();
+                backgroundMusicPlayer.pause();
+            } else {
+                playButton.setSelected(true);
                 play();
-                if (backgroundMusicPlayer.isPlaying()){
-                    playButton.setVisibility(View.INVISIBLE);
-                    stopButton.setVisibility(View.VISIBLE);
-                    stopButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            backgroundMusicPlayer.pause();
-                            playButton.setVisibility(View.VISIBLE);
-                            stopButton.setVisibility(View.INVISIBLE);
-                        }
-                    });}
+                speak();
             }
-        });*/
+        });
 
     }
 
     private void play() {
+        backgroundMusicPlayer.seekTo(0);
         backgroundMusicPlayer.start();
         backgroundMusicPlayer.setLooping(true);
     }
@@ -343,8 +324,7 @@ public class SingleStoryActivity extends BaseActivity {
     }
 
     private void speak() {
-
-        String text = speak_text.getText().toString();
+        String text = story_content.getText().toString();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
         } else {
@@ -361,16 +341,11 @@ public class SingleStoryActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        super.onResume();/*
-        btn_speak.setVisibility(View.VISIBLE);
-        btn_speak.setEnabled(true);
-        btn_stop.setVisibility(View.INVISIBLE);*/
-
+        super.onResume();
     }
 
     @Override
     protected void onDestroy() {
-
         if (textToSpeech != null) {
             textToSpeech.stop();
             textToSpeech.shutdown();

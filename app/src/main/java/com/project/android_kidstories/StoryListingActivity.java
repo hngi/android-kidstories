@@ -11,12 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.BaseResponse2;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.adapters.RecyclerCategoryStoriesAdapter;
-
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,13 +58,13 @@ public class StoryListingActivity extends AppCompatActivity {
     public void getCategoryStoriesWithId(int id) {
         String idString = Integer.toString(id);
 
-        storyApi.getStoriesByCategoryIdandUser(idString).enqueue(new Callback<BaseResponse<List<CategoryStoriesResponse>>>() {
+        storyApi.getStoriesByCategoryIdandUser2(idString).enqueue(new Callback<BaseResponse2>() {
             @Override
-            public void onResponse(Call<BaseResponse<List<CategoryStoriesResponse>>> call, Response<BaseResponse<List<CategoryStoriesResponse>>> response) {
+            public void onResponse(Call<BaseResponse2> call, Response<BaseResponse2> response) {
 
                 recyclerView = findViewById(R.id.rv_list);
                 if (response.isSuccessful()) {
-                    adapter = new RecyclerCategoryStoriesAdapter(StoryListingActivity.this, response.body().getData().getStories());
+                    adapter = new RecyclerCategoryStoriesAdapter(StoryListingActivity.this, response.body().getStories());
                     int spanCount;
                     try {
                         spanCount = getResources().getInteger(R.integer.home_fragment_gridspan);
@@ -86,7 +84,7 @@ public class StoryListingActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<BaseResponse<List<CategoryStoriesResponse>>> call, Throwable t) {
+            public void onFailure(Call<BaseResponse2> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
                 //textView.setText("Response Error " + t.getMessage());
             }

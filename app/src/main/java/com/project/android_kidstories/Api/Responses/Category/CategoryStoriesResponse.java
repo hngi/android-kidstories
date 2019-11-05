@@ -9,88 +9,40 @@ import java.util.List;
 public class CategoryStoriesResponse {
     @SerializedName("id")
     @Expose
-    private Integer id;
-    @SerializedName("title")
+    private int id;
+    @SerializedName("name")
     @Expose
-    private String title;
-    @SerializedName("body")
-    @Expose
-    private String body;
-    @SerializedName("category_id")
-    @Expose
-    private Integer categoryId;
-    @SerializedName("user_id")
-    @Expose
-    private Integer userId;
+    private String name;
     @SerializedName("image_url")
     @Expose
     private String imageUrl;
     @SerializedName("image_name")
     @Expose
-    private String imageName;
-    @SerializedName("age")
+    private Object imageName;
+    @SerializedName("created_at")
     @Expose
-    private String age;
-    @SerializedName("author")
+    private String createdAt;
+    @SerializedName("updated_at")
     @Expose
-    private String author;
-    @SerializedName("story_duration")
+    private String updatedAt;
+    @SerializedName("stories")
     @Expose
-    private String storyDuration;
-    @SerializedName("is_premium")
-    @Expose
-    private Integer isPremium;
-    @SerializedName("likes_count")
-    @Expose
-    private Integer likesCount;
-    @SerializedName("dislikes_count")
-    @Expose
-    private Integer dislikesCount;
-    @SerializedName("reaction")
-    @Expose
-    private String reaction;
-    @SerializedName("bookmark")
-    @Expose
-    private Boolean bookmark;
+    private List<Story> stories;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getImageUrl() {
@@ -101,76 +53,40 @@ public class CategoryStoriesResponse {
         this.imageUrl = imageUrl;
     }
 
-    public String getImageName() {
+    public Object getImageName() {
         return imageName;
     }
 
-    public void setImageName(String imageName) {
+    public void setImageName(Object imageName) {
         this.imageName = imageName;
     }
 
-    public String getAge() {
-        return age;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    public String getStoryDuration() {
-        return storyDuration;
+
+    public List<Story> getStories() {
+        return stories;
+    }
+    public List<Story> getStoriestest() {
+        return stories;
     }
 
-    public void setStoryDuration(String storyDuration) {
-        this.storyDuration = storyDuration;
-    }
-
-    public Integer getIsPremium() {
-        return isPremium;
-    }
-
-    public void setIsPremium(Integer isPremium) {
-        this.isPremium = isPremium;
-    }
-
-    public Integer getLikesCount() {
-        return likesCount;
-    }
-
-    public void setLikesCount(Integer likesCount) {
-        this.likesCount = likesCount;
-    }
-
-    public Integer getDislikesCount() {
-        return dislikesCount;
-    }
-
-    public void setDislikesCount(Integer dislikesCount) {
-        this.dislikesCount = dislikesCount;
-    }
-
-    public String getReaction() {
-        return reaction;
-    }
-
-    public void setReaction(String reaction) {
-        this.reaction = reaction;
-    }
-
-    public Boolean getBookmark() {
-        return bookmark;
-    }
-
-    public void setBookmark(Boolean bookmark) {
-        this.bookmark = bookmark;
+    public void setStories(List<Story> stories) {
+        this.stories = stories;
     }
 
 }

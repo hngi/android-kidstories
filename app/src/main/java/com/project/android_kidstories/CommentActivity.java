@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.android_kidstories.Api.Api;
@@ -37,6 +38,7 @@ public class CommentActivity extends AppCompatActivity {
     RecyclerView rv;
     EditText typeComment;
     ProgressBar commentProgressBar;
+    TextView commentStatus;
     private String token;
     private int storyId;
     private ImageView sendComment;
@@ -60,6 +62,7 @@ public class CommentActivity extends AppCompatActivity {
         storyId = getIntent().getIntExtra("storyId", -1);
         sendComment = findViewById(R.id.btn_send_comment);
         commentProgressBar = findViewById(R.id.comment_progress_bar);
+        commentStatus = findViewById(R.id.comment_status_text);
 
         layoutManager = new LinearLayoutManager(CommentActivity.this, LinearLayoutManager.VERTICAL, false);
 
@@ -71,6 +74,12 @@ public class CommentActivity extends AppCompatActivity {
                 rv.setLayoutManager(layoutManager);
                 rv.setAdapter(adapter);
                 commentProgressBar.setVisibility(View.GONE);
+                // Display/hide comment status
+                if (commentList.size() == 0) {
+                    commentStatus.setVisibility(View.VISIBLE);
+                } else {
+                    commentStatus.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override
@@ -128,11 +137,20 @@ public class CommentActivity extends AppCompatActivity {
                             rv.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
                             layoutManager.scrollToPosition(commentList.size() - 1);
+                            if (commentStatus.getVisibility() == (View.VISIBLE)) {
+                                commentStatus.setVisibility(View.INVISIBLE);
+                            }
                         }
 
                         @Override
                         public void onFailure(Call<StoryBaseResponse> call, Throwable t) {
                             Toast.makeText(CommentActivity.this, "Check Network Connection", Toast.LENGTH_SHORT).show();
+                            // Display/hide comment status
+                            if (commentList.size() == 0) {
+                                commentStatus.setVisibility(View.VISIBLE);
+                            } else {
+                                commentStatus.setVisibility(View.INVISIBLE);
+                            }
                         }
                     });
 
@@ -150,6 +168,12 @@ public class CommentActivity extends AppCompatActivity {
                 Toast.makeText(CommentActivity.this, "Check Network Connection", Toast.LENGTH_SHORT).show();
                 sendComment.setEnabled(true);
                 typeComment.setEnabled(true);
+                // Display/hide comment status
+                if (commentList.size() == 0) {
+                    commentStatus.setVisibility(View.VISIBLE);
+                } else {
+                    commentStatus.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }

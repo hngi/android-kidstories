@@ -44,7 +44,12 @@ public class Repository {
     public LiveData<User>getUserId(String id){return getUserId(id);}
 
     public void insertReadStoryId(ReadStory readStory) {
-        readStoryDao.insertReadStory(readStory);
+       try {
+           readStoryDao.insertReadStory(readStory);
+       }
+       catch (Exception e ){
+
+       }
     }
 
     public static synchronized Repository getInstance(Application application) {

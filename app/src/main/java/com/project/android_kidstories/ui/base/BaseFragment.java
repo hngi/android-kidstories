@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
 
 public abstract class BaseFragment extends Fragment {
@@ -29,7 +28,9 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void showSnack(View root, String message) {
-        Snackbar.make(root, message, Snackbar.LENGTH_SHORT).show();
+        showToast(message);
+        // Pause due to "No suitable parent found" error
+        //Snackbar.make(root, message, Snackbar.LENGTH_SHORT).show();
     }
 
     public void cleanUp() {

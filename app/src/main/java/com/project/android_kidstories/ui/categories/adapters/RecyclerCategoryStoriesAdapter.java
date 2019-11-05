@@ -12,8 +12,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.SingleStoryActivity;
 import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.ui.story_viewing.SingleStoryActivity;
 
 import java.util.List;
 

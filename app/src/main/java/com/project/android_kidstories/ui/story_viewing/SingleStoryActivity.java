@@ -1,15 +1,13 @@
-package com.project.android_kidstories;
+package com.project.android_kidstories.ui.story_viewing;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -17,17 +15,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.like.LikeButton;
-import com.like.OnLikeListener;
+import com.project.android_kidstories.CommentActivity;
+import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.Repository;
 import com.project.android_kidstories.data.model.Comment;
-import com.project.android_kidstories.data.model.ReadStory;
 import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
 import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryBaseResponse;
 import com.project.android_kidstories.ui.base.BaseActivity;
-import com.project.android_kidstories.ui.reading_status.ReadingStatusActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,7 +40,7 @@ public class SingleStoryActivity extends BaseActivity {
     private MediaPlayer backgroundMusicPlayer;
     private ImageView story_pic, like_btn;
     int story_id = 0;
-    private TextView story_author, story_content, error_msg, saveStory;
+    private TextView story_author, story_title, story_content, error_msg, saveStory;
     private Toolbar toolbar;
     private ProgressBar progressBar;
     private Repository repository;
@@ -70,10 +67,12 @@ public class SingleStoryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_story);
-        toolbar = findViewById(R.id.toolbar2);
+        setContentView(R.layout.alt_activity_single_story);
+        /*toolbar = findViewById(R.id.toolbar2);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
         storyLab = StoryLab.get(this);
         ZoomIn = findViewById(R.id.Zoom_In);
         ZoomOut = findViewById(R.id.Zoom_Out);
@@ -84,16 +83,25 @@ public class SingleStoryActivity extends BaseActivity {
 
         sharePref = getSharePref();
 
-        Button markAsReadBtn = findViewById(R.id.btn_markasread);
-        // Check if story has been read already
-        repository.getStoryForId(String.valueOf(story_id)).observe(this, readStory -> {
-            if (readStory == null) {
-                markAsReadBtn.setVisibility(View.VISIBLE);
-            }
-        });
+        View markAsReadBtn = findViewById(R.id.btn_markasread);
 
-        // For controlling Zooming In
-        ZoomIn.setOnClickListener(new View.OnClickListener() {
+        //progressBar = findViewById(R.id.story_content_bar);
+        progressBar = new ProgressBar(this);
+        progressBar.setVisibility(View.VISIBLE);
+
+        story_author = findViewById(R.id.author);
+        story_title = findViewById(R.id.txt_story_title);
+        story_content = findViewById(R.id.story_content);
+        story_pic = findViewById(R.id.story_pic);
+        //like_btn = findViewById(R.id.like_button);
+        error_msg = new TextView(this);
+        //error_msg = findViewById(R.id.error_msg);
+        //saveStory = findViewById(R.id.save_story);
+        //todo : check authorization for premium stories
+        getStoryWithId(story_id);
+
+
+        /*ZoomIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 story_content.getTextSize();
@@ -124,19 +132,7 @@ public class SingleStoryActivity extends BaseActivity {
             markAsReadBtn.setVisibility(View.GONE);
         });
 
-        progressBar = findViewById(R.id.story_content_bar);
-        progressBar.setVisibility(View.VISIBLE);
-
-        story_author = findViewById(R.id.author);
-        story_content = findViewById(R.id.story_content);
-        story_pic = findViewById(R.id.story_pic);
-        like_btn = findViewById(R.id.like_button);
-        error_msg = findViewById(R.id.error_msg);
-        saveStory = findViewById(R.id.save_story);
-        //todo : check authorization for premium stories
-        getStoryWithId(story_id);
-
-        //Favorite button functionality
+                //Favorite button functionality
 
         likeButton = findViewById(R.id.heart_button);
         likeButton.setLiked(false);
@@ -188,7 +184,15 @@ public class SingleStoryActivity extends BaseActivity {
                     }
                 }
             }
-        });
+        });*/
+        /*// Check if story has been read already
+        repository.getStoryForId(String.valueOf(story_id)).observe(this, readStory -> {
+            if (readStory == null) {
+                markAsReadBtn.setVisibility(View.VISIBLE);
+            }
+        });*/
+
+        // For controlling Zooming In
     }
 
     public void getStoryWithId(int id) {
@@ -198,14 +202,14 @@ public class SingleStoryActivity extends BaseActivity {
                 try {
                     Story currentStory = response.body().getData();
                     testStory = currentStory;
-                    getSupportActionBar().setTitle(currentStory.getTitle());
-                    story_author.setText(currentStory.getAuthor());
+                    story_title.setText(currentStory.getTitle());
+                    story_author.setText("Written by " + currentStory.getAuthor());
                     story_content.setText(currentStory.getBody());
                     Glide.with(getApplicationContext()).load(currentStory.getImageUrl()).placeholder(R.drawable.story_bg_ic).into(story_pic);
                     story_author.setVisibility(View.VISIBLE);
                     story_content.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.INVISIBLE);
-                    saveStory.setVisibility(View.VISIBLE);
+                    //saveStory.setVisibility(View.VISIBLE);
                     comments = currentStory.getComments().getComments();
 
                 } catch (Exception e) {
@@ -240,7 +244,7 @@ public class SingleStoryActivity extends BaseActivity {
                         Toast.makeText(SingleStoryActivity.this, "This Language is not Supported", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                    btn_speak.setEnabled(true);
+                        //btn_speak.setEnabled(true);
                     //textToSpeech.setPitch(0.6f);
                     textToSpeech.setEngineByPackageName(googleTtsPackage);
                     textToSpeech.setSpeechRate(0.85f);
@@ -254,7 +258,7 @@ public class SingleStoryActivity extends BaseActivity {
         btn_speak = findViewById(R.id.play_story);
         btn_stop = findViewById(R.id.stop_story);
 
-        btn_speak.setOnClickListener(new View.OnClickListener() {
+        /*btn_speak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 speak();
@@ -274,12 +278,12 @@ public class SingleStoryActivity extends BaseActivity {
 
 
             }
-        });
+        });*/
 
 
         //background Music
 
-        backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong2);
+        /*backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong2);
         playButton = findViewById(R.id.playSong);
         stopButton = findViewById(R.id.stopSong);
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -298,7 +302,7 @@ public class SingleStoryActivity extends BaseActivity {
                         }
                     });}
             }
-        });
+        });*/
 
     }
 
@@ -353,10 +357,10 @@ public class SingleStoryActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        super.onResume();
+        super.onResume();/*
         btn_speak.setVisibility(View.VISIBLE);
         btn_speak.setEnabled(true);
-        btn_stop.setVisibility(View.INVISIBLE);
+        btn_stop.setVisibility(View.INVISIBLE);*/
 
     }
 

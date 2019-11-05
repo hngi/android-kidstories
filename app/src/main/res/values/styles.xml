@@ -19,6 +19,12 @@
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
     </style>
 
+    <style name="AppTheme.SingleStory" parent="AppTheme.NoActionBar">
+        <item name="android:background">?colorSurface</item>
+        <item name="android:fitsSystemWindows">true</item>
+
+    </style>
+
     <style name="AppTheme.Dialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:windowNoTitle">true</item>
         <item name="android:backgroundDimAmount">0.85</item>
@@ -29,6 +35,12 @@
         <item name="android:windowEnterAnimation">@anim/enter_overshoot_anim</item>
     </style>
 
+    <style name="SingleStoryIcon">
+        <item name="android:background">@drawable/background_single_story_icon</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:padding">8dp</item>
+    </style>
 
     <!--- OLD STYLES -->
 

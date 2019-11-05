@@ -119,43 +119,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         refreshLayout.setOnRefreshListener(() -> fetchStories());
     }
 
-       /*
-        recyclerView = v.findViewById(R.id.new_story_frag_recycler);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));*/
 
-        /*
-        ApiViewmodel apiViewmodel = ViewModelProviders.of(getActivity()).get(ApiViewmodel.class);
-        repository = apiViewmodel.getRepository();
-        storyAdapter = new StoryAdapter(apiViewmodel);
-        storyAdapter.setOnStoryClickListener(this);
-        recyclerView.setAdapter(storyAdapter);
-
-
-        fetchStories();*/
-
-    /*
-
-    private void fetchStories() {
-        if (!Common.checkNetwork(getActivity())) {
-            showToast("You do not have network connection");
-        }
-        repository.getApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
-            @Override
-            public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
-                if (response.isSuccessful()) {
-                    List<Story> storyList = response.body().getData();
-                    storyAdapter.summitStories(storyList);
-                    Log.d(TAG, "getAllStories Successful: Stories " + storyList.size());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<StoryAllResponse> call, Throwable t) {
-                Log.w(TAG, "onFailure: " + t.getMessage());
-            }
-        });
-    }*/
 
     @Override
     public void onStoryClick(Story story) {

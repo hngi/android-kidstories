@@ -296,6 +296,21 @@ public class SingleStoryActivity extends BaseActivity {
 
 
         //background Music and tts
+        textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String s) {
+            }
+
+            @Override
+            public void onDone(String s) {
+                backgroundMusicPlayer.pause();
+                playButton.setSelected(false);
+            }
+
+            @Override
+            public void onError(String s) {
+            }
+        });
 
         backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong2);
         playButton.setOnClickListener(v -> {
@@ -331,27 +346,15 @@ public class SingleStoryActivity extends BaseActivity {
         } else {
             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
-        textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-            @Override
-            public void onStart(String s) {
-            }
 
-            @Override
-            public void onDone(String s) {
-                backgroundMusicPlayer.pause();
-            }
-
-            @Override
-            public void onError(String s) {
-            }
-        });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         textToSpeech.stop();
-        textToSpeech.shutdown();
+        backgroundMusicPlayer.pause();
+        playButton.setSelected(false);
     }
 
     @Override

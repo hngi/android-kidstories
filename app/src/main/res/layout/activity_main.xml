@@ -28,8 +28,8 @@
                 android:background="@color/white"
                 android:theme="@style/AppToolbar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:subtitleTextColor="#ffffff"
-                app:titleTextColor="#ffffff"/>
+                app:subtitleTextColor="#000000"
+                app:titleTextColor="#000000"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 

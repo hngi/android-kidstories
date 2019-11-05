@@ -50,19 +50,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            style="@style/AppTextField">
+            android:hint="@string/email"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:textSize="15sp"
-                android:fontFamily="@font/roboto_light"
-                android:hint="Email"
                 android:inputType="textEmailAddress"
-                android:paddingStart="20dp"
-                android:textAllCaps="false"/>
+                android:paddingStart="20dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
@@ -74,20 +70,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                style="@style/AppTextField"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                android:hint="@string/password"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:fontFamily="@font/roboto_light"
-                    android:hint="Password"
                     android:textSize="15sp"
                     android:inputType="textPassword"
-                    android:paddingStart="20dp"
-                    android:textAllCaps="false" />
+                    android:paddingStart="20dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -103,49 +96,50 @@
 
         </RelativeLayout>
 
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            app:cornerRadius="7dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_triangle_blue"
-            android:fontFamily="@font/roboto_regular"
-            android:text="@string/login"
-            android:textColor="@color/white"/>
+            android:text="@string/login"/>
 
         <LinearLayout
             android:id="@+id/authentication_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/facebook_auth_button"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="45dp"
+                android:layout_weight="1"
                 android:background="@drawable/rounded_triangle"
                 android:drawableStart="@drawable/icon_facebook"
-                android:fontFamily="@font/roboto_regular"
                 android:text="@string/facebook"
-                android:paddingStart="10dp"
+                android:paddingStart= "20dp"
                 android:textAlignment="center"
-                android:textAllCaps="false"/>
+                android:textAllCaps="false"
+                />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/google_auth_button"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="20dp"
+                app:cornerRadius="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/rounded_triangle"
+                android:layout_marginStart="20dp"
                 android:drawableStart="@drawable/icon_google"
-                android:fontFamily="@font/roboto_regular"
-                android:paddingStart="10dp"
+                android:paddingStart="20dp"
                 android:text="@string/google"
                 android:textAlignment="center"
-                android:textAllCaps="false"/>
+                android:textAllCaps="false"
+                />
+
         </LinearLayout>
 
         <LinearLayout

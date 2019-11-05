@@ -105,10 +105,10 @@ public class ProfileFragment extends Fragment {
                 Intent images = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(images, RESULT_LOAD_IMAGE);
             }
-
         });
 
         save = root.findViewById(R.id.btn_save);
+        save.setEnabled(false);
         save.setOnClickListener(view -> {
 
             if (TextUtils.isEmpty(imagePath.getText())) {
@@ -122,6 +122,7 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(), "Please choose an image", Toast.LENGTH_SHORT).show();
                 return;
             }
+            save.setEnabled(false);
             cropLayout.crop(new OnCropListener() {
                 @Override
                 public void onSuccess(Bitmap bitmap) {
@@ -139,14 +140,17 @@ public class ProfileFragment extends Fragment {
                             );
 
                     MultipartBody.Part part = MultipartBody.Part.createFormData("photo", file.getName(),requestFile);
-                    repository.getStoryApi().updateUserProfilePicture("Bearer" + token,
+                    repository.getStoryApi().updateUserProfilePicture("Bearer " + token,
                             part).enqueue(new Callback<BaseResponse<Void>>() {
                         @Override
                         public void onResponse(Call<BaseResponse<Void>> call, Response<BaseResponse<Void>> response) {
                             if (response.isSuccessful()) {
-                                Toast.makeText(requireContext(),"upload successful",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(),"Upload successful",Toast.LENGTH_SHORT).show();
                                 Log.d("Upload State", "Successful");
                                 Log.d("Upload State", response.body().getMessage());
+                                Log.d("Token: ", token);
+                                com.project.android_kidstories.ui.profile.ProfileFragment profileFragment = new com.project.android_kidstories.ui.profile.ProfileFragment();
+                                getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, profileFragment).commit();
                             } else {
                                 Log.d("Upload Status", "Something went wrong");
                             }
@@ -154,7 +158,8 @@ public class ProfileFragment extends Fragment {
 
                         @Override
                         public void onFailure(Call<BaseResponse<Void>> call, Throwable t) {
-                            Log.d("Upload Status", "Network Failure");
+                            save.setEnabled(true);
+                            Toast.makeText(requireContext(), "Network Failure", Toast.LENGTH_SHORT).show();
                             Log.d("Upload Status", t.getMessage());
                         }
                     });
@@ -217,6 +222,7 @@ public class ProfileFragment extends Fragment {
             cursor.close();
 
             imagePath.setText(image_text);
+            save.setEnabled(true);
             Bitmap bitmap;
             try {
                 bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(selected_image));

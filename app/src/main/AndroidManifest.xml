@@ -19,7 +19,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <receiver
             android:name=".receivers.AlarmReceiver"
             android:enabled="true"
@@ -52,12 +52,8 @@
             android:name=".ui.story_viewing.SingleStoryActivity"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.SingleStory" />
-        <activity
-            android:name=".ui.login.RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.login.RegisterActivity" />
+        <activity android:name=".ui.login.LoginActivity" />
         <activity
             android:name=".AddStoryActivity"
             android:parentActivityName=".ui.MainActivity" />

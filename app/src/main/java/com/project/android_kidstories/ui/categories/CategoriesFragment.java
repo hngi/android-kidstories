@@ -6,84 +6,80 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Category;
 import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
 import com.project.android_kidstories.data.source.remote.response_models.category.CategoriesAllResponse;
 import com.project.android_kidstories.ui.base.BaseFragment;
-import com.project.android_kidstories.ui.categories.adapters.RecyclerCategoryAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class CategoriesFragment extends BaseFragment {
 
-    private Call<CategoriesAllResponse> categories;
-
     public static CategoriesFragment newInstance() {
         return new CategoriesFragment();
     }
+
+    private List<Category> categories = new ArrayList<>();
+    private View progressBar;
+    private View errorView;
+
+    private TabLayout tabLayout;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_categories, container, false);
 
-        getCategories(root);
+        tabLayout = root.findViewById(R.id.tabLayout_categories_fragment);
+        progressBar = root.findViewById(R.id.category_bar);
+        errorView = root.findViewById(R.id.error_msg);
+
+        getCategoriesList();
 
         return root;
     }
 
-    private void getCategories(View root) {
-        View progressBar = root.findViewById(R.id.category_bar);
+    private void updateViews() {
+        tabLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void getCategoriesList() {
         progressBar.setVisibility(View.VISIBLE);
 
-        /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
+        Call<CategoriesAllResponse> allResponseCall = service.getAllCategories();
 
-        categories = service.getAllCategories();
-        categories.enqueue(new Callback<CategoriesAllResponse>() {
+        allResponseCall.enqueue(new Callback<CategoriesAllResponse>() {
             @Override
             public void onResponse(Call<CategoriesAllResponse> call, Response<CategoriesAllResponse> response) {
                 progressBar.setVisibility(View.GONE);
-                RecyclerView recyclerView = root.findViewById(R.id.category_recycler);
-
                 if (response.isSuccessful()) {
+                    errorView.setVisibility(View.GONE);
                     CategoriesAllResponse allResponse = response.body();
                     if (allResponse == null) {
-                        showSnack(root, requireActivity().getString(R.string.no_category_received));
-                        return;
+                        errorView.setVisibility(View.VISIBLE);
+                    } else {
+                        categories = allResponse.getData();
+                        updateViews();
                     }
-                    List<Category> categoryList = allResponse.getData();
-
-                    RecyclerCategoryAdapter adapter = new RecyclerCategoryAdapter(getContext(), categoryList);
-
-                    int spanCount;
-                    try {
-                        spanCount = requireContext().getResources().getInteger(R.integer.home_fragment_gridspan);
-                    } catch (NullPointerException e) {
-                        spanCount = 1;
-                    }
-                    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
+                } else {
+                    errorView.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<CategoriesAllResponse> call, Throwable t) {
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE);
+                errorView.setVisibility(View.VISIBLE);
             }
         });
-    }
-
-    @Override
-    public void cleanUp() {
-        categories.cancel();
     }
 }

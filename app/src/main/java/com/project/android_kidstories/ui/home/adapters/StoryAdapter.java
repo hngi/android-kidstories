@@ -1,3 +1,4 @@
+/*
 package com.project.android_kidstories.ui.home.adapters;
 
 import android.view.LayoutInflater;
@@ -16,11 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+*/
 /**
  * @author .: Ehma Ugbogo
  * @email ..: ehmaugbogo@gmail.com
  * @created : 12/10/19
- */
+ *//*
+
 
 
 public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder> {
@@ -171,3 +174,4 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder> 
 
     }
 }
+*/

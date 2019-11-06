@@ -1,3 +1,4 @@
+/*
 package com.project.android_kidstories.ui.home;
 
 import android.content.Context;
@@ -75,7 +76,9 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     }
 
     private void fetchStories() {
-        /*Create handle for the RetrofitInstance interface*/
+        */
+/*Create handle for the RetrofitInstance interface*//*
+
         service = RetrofitClient.getInstance().create(Api.class);
 
         stories = service.getAllStoriesWithAuth(token);
@@ -129,12 +132,15 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         });
     }
 
-       /*
+       */
+/*
         recyclerView = v.findViewById(R.id.new_story_frag_recycler);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));*/
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));*//*
 
-        /*
+
+ */
+/*
         ApiViewmodel apiViewmodel = ViewModelProviders.of(getActivity()).get(ApiViewmodel.class);
         repository = apiViewmodel.getRepository();
         storyAdapter = new StoryAdapter(apiViewmodel);
@@ -142,9 +148,11 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         recyclerView.setAdapter(storyAdapter);
 
 
-        fetchStories();*/
+        fetchStories();*//*
 
-    /*
+
+ */
+/*
 
     private void fetchStories() {
         if (!Common.checkNetwork(getActivity())) {
@@ -165,7 +173,8 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 Log.w(TAG, "onFailure: " + t.getMessage());
             }
         });
-    }*/
+    }*//*
+
 
     @Override
     public void onStoryClick(Story story) {
@@ -252,3 +261,4 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
         storyAdapter.getFilter().filter(query);
     }
 }
+*/

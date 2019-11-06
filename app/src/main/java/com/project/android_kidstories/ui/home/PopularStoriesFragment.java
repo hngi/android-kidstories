@@ -1,3 +1,4 @@
+/*
 package com.project.android_kidstories.ui.home;
 
 import android.content.Context;
@@ -71,7 +72,9 @@ public class PopularStoriesFragment extends BaseFragment implements RecyclerStor
     }
 
     private void fetchStories(){
-        /*Create handle for the RetrofitInstance interface*/
+        */
+/*Create handle for the RetrofitInstance interface*//*
+
         service = RetrofitClient.getInstance().create(Api.class);
         Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token);
 
@@ -220,3 +223,4 @@ public class PopularStoriesFragment extends BaseFragment implements RecyclerStor
     }
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.project.android_kidstories.ui.home.adapters;
 
 import androidx.annotation.NonNull;
@@ -39,3 +40,4 @@ public class SectionsPageAdapter extends FragmentStatePagerAdapter {
         fragTitle.add(title);
     }
 }
+*/

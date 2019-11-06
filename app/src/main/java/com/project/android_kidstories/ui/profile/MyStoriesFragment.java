@@ -60,7 +60,7 @@ public class MyStoriesFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         Repository repository = new Repository(context);
-        repository.getStoryApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
+        repository.getStoryApi().getAllStories("1").enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 if (response.isSuccessful()) {
@@ -72,7 +72,7 @@ public class MyStoriesFragment extends BaseFragment {
                         errorView.setVisibility(View.VISIBLE);
                         return;
                     }
-                    List<Story> stories = storyAllResponse.getData();
+                    List<Story> stories = storyAllResponse.getData().getDataList();
                     for (int i = 0; i < stories.size(); i++) {
                         if (stories.get(i).getUserId() == userId) {
                             storyList.add(stories.get(i));

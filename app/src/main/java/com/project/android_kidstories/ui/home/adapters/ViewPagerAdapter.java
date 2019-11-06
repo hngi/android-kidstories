@@ -1,3 +1,4 @@
+/*
 package com.project.android_kidstories.ui.home.adapters;
 
 import androidx.annotation.NonNull;
@@ -59,4 +60,4 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     }
 
 
-}
+}*/

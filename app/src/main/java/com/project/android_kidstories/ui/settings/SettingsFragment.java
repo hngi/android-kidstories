@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TimePicker;
+import android.util.Pair;
 import android.widget.Toast;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.preference.Preference;
@@ -29,6 +29,8 @@ import java.util.Locale;
 public class SettingsFragment extends PreferenceFragmentCompat {
 
     private SharePref sharePref;
+
+    private Preference reminderTime;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -56,15 +58,45 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             });
         }
 
-        Preference reminderTime = findPreference("reminder_time");
+        reminderTime = findPreference("reminder_time");
         if (reminderTime != null) {
             reminderTime.setOnPreferenceClickListener(preference -> {
                 reminderClicked(reminderTime.getSummary().toString());
                 return true;
             });
         }
+
+        String chosenTime = sharePref.getString(PreferenceKeys.ALARM_TIME);
+        reminderTime.setSummary(chosenTime);
+
+        SwitchPreferenceCompat reminderOn = findPreference("reminder_on");
+        if (reminderOn != null && reminderTime != null) {
+            reminderOn.setOnPreferenceChangeListener(((preference, newValue) -> {
+                boolean isOn = (boolean) newValue;
+                if (isOn) {
+                    Pair<Integer, Integer> timePair = splitTime(reminderTime.getSummary().toString());
+                    setAlarm(timePair.first, timePair.second);
+
+                } else {
+                    unRegisterAlarm();
+                }
+                return true;
+            }));
+        }
+
     }
 
+    private Pair<Integer, Integer> splitTime(String timeStr) {
+        String[] timeSplit = reminderTime.getSummary().toString()
+                .replace("PM", "")
+                .replace("AM", "")
+                .trim()
+                .split(":");
+        String hourString = timeSplit[0];
+        String minuteString = timeSplit[1];
+
+        return new Pair<>(Integer.valueOf(hourString), Integer.valueOf(minuteString));
+    }
 
     // Method to display the privacy policy
     private void openPrivacyPolicyPage() {
@@ -77,48 +109,45 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         customTabsIntent.launchUrl(requireContext(), Uri.parse(policyUrl));
     }
 
+    private PendingIntent getAlarmIntent() {
+        Intent intent = new Intent(getContext(), AlarmReceiver.class);
+        return PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+    }
+
+    private void unRegisterAlarm() {
+        AlarmManager am = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
+        if (am != null) am.cancel(getAlarmIntent());
+    }
+
     private void reminderClicked(String summary) {
-        String newTime = summary;
-        String[] timeSplit = summary.replace("PM", "")
-                .replace("AM", "")
-                .trim()
-                .split(":");
+        Pair<Integer, Integer> timePair = splitTime(summary);
 
-        String hourString = timeSplit[0];
-        String minuteString = timeSplit[1];
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), (timePicker, i, i1) -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, i);
+            calendar.set(Calendar.MINUTE, i1);
+            Date d = new Date(calendar.getTimeInMillis());
+            DateFormat format = new SimpleDateFormat("h:mm a", Locale.US);
 
-        int hour = Integer.valueOf(hourString);
-        int min = Integer.valueOf(minuteString);
+            reminderTime.setSummary(format.format(d));
+            sharePref.setString(PreferenceKeys.ALARM_TIME, format.format(d));
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.HOUR_OF_DAY, i);
-                calendar.set(Calendar.MINUTE, i1);
-                Date d = new Date(calendar.getTimeInMillis());
-                DateFormat format = new SimpleDateFormat("h:mm a", Locale.US);
-                //newTime = format.format(d);
+            setAlarm(i, i1);
+        }, timePair.first, timePair.second, false);
 
-                sharePref.setString(PreferenceKeys.ALARM_TIME, format.format(d));
-                setAlarm(i, i1);
-            }
-        }, hour, min, false);
         timePickerDialog.setTitle("Daily Reminder Time");
         timePickerDialog.show();
     }
 
     private void setAlarm(int hour, int minute) {
         AlarmManager am = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getContext(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
 
         try {
-            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, getAlarmIntent());
             Log.d("Alarm", "Saved Alarm");
         } catch (NullPointerException npe) {
             Toast.makeText(getContext(), "Could not create reminder", Toast.LENGTH_SHORT).show();

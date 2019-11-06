@@ -39,7 +39,6 @@ import com.project.android_kidstories.data.source.remote.response_models.BaseRes
 import com.project.android_kidstories.data.source.remote.response_models.loginRegister.DataResponse;
 import com.project.android_kidstories.receivers.AlarmReceiver;
 import com.project.android_kidstories.ui.base.BaseActivity;
-import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.categories.CategoriesFragment;
 import com.project.android_kidstories.ui.donate.DonateFragment;
 import com.project.android_kidstories.ui.downloads.DownloadsFragment;
@@ -479,12 +478,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             hideDrawer();
         } else if (!(currentFragment instanceof HomeFragment)) {
             // Not in HomeFragment, open home
-            try {
-                // Try to stop all async calls in the fragment
-                ((BaseFragment) currentFragment).cleanUp();
-            } catch (ClassCastException cce) {
-                showToast("Fragment should implement BaseFragment: It's safer, trust me!");
-            }
             openHomeFragment();
         } else {
             doExit();

@@ -1,7 +1,6 @@
 package com.project.android_kidstories.ui.base;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -35,10 +34,5 @@ public abstract class BaseFragment extends Fragment {
 
         // Pause due to "No suitable parent found" error
         //Snackbar.make(root, message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    public void cleanUp() {
-        Log.d("BASE_FRAGMENT", "Clean Up");
-        // Subclasses should end all async calls and clean up after themselves
     }
 }

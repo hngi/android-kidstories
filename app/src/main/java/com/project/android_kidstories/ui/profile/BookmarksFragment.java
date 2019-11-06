@@ -42,6 +42,8 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
     private ArrayList<Story> stories = new ArrayList<>();
     private String token;
 
+    private Call<UserBookmarkResponse> bookmarksCall;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,9 +74,10 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
         token = "Bearer " + getSharePref().getUserToken();
         RecyclerStoriesAdapter.token = token;
 
-        Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
-        bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
+        bookmarksCall = service.getUserBookmarks(token);
+
+        bookmarksCall.enqueue(new Callback<UserBookmarkResponse>() {
             @Override
             public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
                 stories.clear();
@@ -107,4 +110,9 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
         requireContext().startActivity(intent);
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        bookmarksCall.cancel();
+    }
 }

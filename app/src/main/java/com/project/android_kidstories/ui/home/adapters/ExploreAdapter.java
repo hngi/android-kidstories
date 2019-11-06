@@ -1,25 +1,37 @@
 package com.project.android_kidstories.ui.home.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.chip.Chip;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
 
-import java.util.List;
+import java.util.Objects;
 
-public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHolder> {
 
-    private List<Story> stories;
+public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder> {
 
-    public ExploreAdapter(List<Story> stories) {
-        this.stories = stories;
+    public ExploreAdapter() {
+        super(new DiffUtil.ItemCallback<Story>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull Story oldItem, @NonNull Story newItem) {
+                return oldItem == newItem;
+            }
+
+            @Override
+            public boolean areContentsTheSame(@NonNull Story oldItem, @NonNull Story newItem) {
+                return Objects.equals(oldItem.getId(), newItem.getId());
+            }
+        });
     }
 
     @NonNull
@@ -32,12 +44,14 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Story currentStory = stories.get(position);
+        Story currentStory = getCurrentList().get(position);
+
+        Log.d("GLOBAL_SCOPE", "In onBindViewHolder");
 
         holder.storyTitle.setText(currentStory.getTitle());
         holder.storyAuthor.setText(String.format("by %s", currentStory.getAuthor()));
         // Replace ID with actual category name
-        holder.storyCategory.setText(currentStory.getCategoryId());
+        holder.storyCategory.setText(String.valueOf(currentStory.getCategoryId()));
         if (currentStory.isBookmark()) {
             holder.bookmark.setActivated(true);
         } else {
@@ -47,13 +61,12 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
                 .load(currentStory.getImageUrl())
                 .into(holder.storyImage);
 
-        // Set first 300 characters as description
-        holder.storyDescription.setText(currentStory.getBody().substring(0, 300));
+        holder.storyDescription.setText(currentStory.getBody());
     }
 
     @Override
     public int getItemCount() {
-        return stories.size();
+        return getCurrentList().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -73,9 +86,9 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
             storyCategory = itemView.findViewById(R.id.chip_itemcategory_explore);
             bookmark = itemView.findViewById(R.id.img_itembookmarked_explore);
 
-            itemView.setOnClickListener(v -> {
+            /*itemView.setOnClickListener(v -> {
                 // Navigate to Single Story Activity
-            });
+            });*/
         }
     }
 }

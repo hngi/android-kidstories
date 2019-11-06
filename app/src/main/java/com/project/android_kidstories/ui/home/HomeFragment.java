@@ -48,7 +48,7 @@ public class HomeFragment extends BaseFragment {
         RecyclerView recyclerViewExplore = root.findViewById(R.id.recyclerview_explore_stories);
         RecyclerView recyclerViewPopularStories = root.findViewById(R.id.recyclerview_popular_stories);
 
-        exploreAdapter = new ExploreAdapter(stories);
+        exploreAdapter = new ExploreAdapter();
         popularStoriesAdapter = new PopularStoriesAdapter(populars);
 
         recyclerViewExplore.setAdapter(exploreAdapter);
@@ -71,7 +71,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void updateAdapters() {
-        exploreAdapter.notifyDataSetChanged();
+        exploreAdapter.submitList(stories);
         // TODO: Update popular stories adapter
     }
 
@@ -94,6 +94,7 @@ public class HomeFragment extends BaseFragment {
 
                     stories = storyAllResponse.getData().getDataList();
                     updateAdapters();
+
                 } else {
                     toggleVisibilities(true);
                 }

@@ -6,12 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.data.source.remote.api.Api;
+import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
+import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.home.adapters.ExploreAdapter;
 
-public class CategoryTabFragment extends Fragment {
+public class CategoryTabFragment extends BaseFragment {
 
     private String category_name;
 
@@ -37,6 +39,6 @@ public class CategoryTabFragment extends Fragment {
     }
 
     private void getCategoryStories() {
-
+        Api service = RetrofitClient.getInstance().create(Api.class);
     }
 }

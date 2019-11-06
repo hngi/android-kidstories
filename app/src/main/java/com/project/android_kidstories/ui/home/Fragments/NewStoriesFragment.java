@@ -88,7 +88,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
                 progressBar.setVisibility(View.GONE);
 
                 if (response.isSuccessful()) {
-                    List<Story> storiesList = response.body().getData().getDataList();
+                    List<Story> storiesList = response.body().getStories();
                     storiesArray.addAll(storiesList);
                     storyAdapter = new RecyclerStoriesAdapter(getContext(), storiesArray, NewStoriesFragment.this,repository);
                     int spanCount;

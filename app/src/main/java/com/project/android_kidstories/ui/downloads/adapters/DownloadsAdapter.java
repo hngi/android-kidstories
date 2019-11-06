@@ -1,4 +1,4 @@
-package com.project.android_kidstories.ui.home.adapters;
+package com.project.android_kidstories.ui.downloads.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -57,13 +57,8 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
 
         holder.storyTitle.setText(currentStory.getTitle());
         holder.storyAuthor.setText(String.format("by %s", currentStory.getAuthor()));
-        // Replace ID with actual category name
-        // holder.storyCategory.setText(String.valueOf(currentStory.getCategoryId()));
-        if (currentStory.isBookmark()) {
-            holder.bookmark.setActivated(true);
-        } else {
-            holder.bookmark.setActivated(false);
-        }
+
+
         Bitmap bitmap = loadBitmap(context, currentStory.getTitle() + ".png");
         holder.storyImage.setImageBitmap(bitmap);
 
@@ -74,6 +69,10 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
             Intent intent = new Intent(context, SingleStoryActivity.class);
             intent.putExtra(SingleStoryActivity.STORY_ID_KEY, currentStory.getId());
             context.startActivity(intent);
+        });
+
+        holder.remove.setOnClickListener(v -> {
+
         });
     }
 
@@ -88,16 +87,16 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
         private TextView storyAuthor;
         private TextView storyDescription;
         // private Chip storyCategory;
-        private ImageView bookmark;
+        private ImageView remove;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            storyImage = itemView.findViewById(R.id.img_itemimage_explore);
-            storyTitle = itemView.findViewById(R.id.txt_itemtitle_explore);
-            storyAuthor = itemView.findViewById(R.id.txt_itemauthor_explore);
-            storyDescription = itemView.findViewById(R.id.txt_itemdesc_explore);
-//            storyCategory = itemView.findViewById(R.id.chip_itemcategory_explore);
-            bookmark = itemView.findViewById(R.id.img_itembookmarked_explore);
+            storyImage = itemView.findViewById(R.id.img_itemimage_downloads);
+            storyTitle = itemView.findViewById(R.id.txt_itemtitle_downloads);
+            storyAuthor = itemView.findViewById(R.id.txt_itemauthor_downloads);
+            storyDescription = itemView.findViewById(R.id.txt_itemdesc_downloads);
+//            storyCategory = itemView.findViewById(R.id.chip_itemcategory_downloads);
+            remove = itemView.findViewById(R.id.img_itemremove_downloads);
         }
     }
 }

@@ -137,7 +137,7 @@ public class TestActivity extends AppCompatActivity {
                     String message = response.body().getMessage();
                     textView.setText("Response Status " + status + ": " + message + "\n");
 
-                    for (Story s : response.body().getData().getDataList()) {
+                    for (Story s : response.body().getStories()) {
                         textView.append("StoryTitle: " + s.getTitle() + "\n");
                     }
 

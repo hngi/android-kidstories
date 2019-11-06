@@ -10,6 +10,7 @@ import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.RegistrationDataResponse;
+import com.project.android_kidstories.Api.Responses.story.Reaction.StoryPageResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
@@ -98,6 +99,9 @@ public interface Api {
 
     @GET("stories")
     Call<StoryAllResponse> getAllStoriesWithAuth(@Header("Authorization") String token,@Query("page")String page);
+
+    @GET("stories")
+    Call<BaseResponse<StoryPageResponse>> getAllStoriesWithAuth2(@Header("Authorization") String token);
 
 
     /***

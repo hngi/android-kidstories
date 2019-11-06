@@ -247,7 +247,7 @@ public class SingleStoryActivity extends AppCompatActivity {
                     //textToSpeech.setPitch(0.6f);
                     textToSpeech.setEngineByPackageName(googleTtsPackage);
                     textToSpeech.setSpeechRate(0.85f);
-                    speak();}
+                    }
                 }
 
             }

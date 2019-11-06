@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="4dp"
         app:cardElevation="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:maxLines="3"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textColor="?colorSecondary"
         app:layout_constraintEnd_toEndOf="parent"

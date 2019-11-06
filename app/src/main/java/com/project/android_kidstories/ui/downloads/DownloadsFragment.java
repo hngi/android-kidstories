@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
-import com.project.android_kidstories.ui.home.adapters.DownloadsAdapter;
+import com.project.android_kidstories.ui.downloads.adapters.DownloadsAdapter;
 
 public class DownloadsFragment extends Fragment {
 

@@ -45,7 +45,7 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_explore_stories, parent, false);
+                .inflate(R.layout.item_download_stories, parent, false);
         return new ViewHolder(itemView);
     }
 

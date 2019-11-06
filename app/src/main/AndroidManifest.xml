@@ -18,16 +18,18 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme">
         <receiver
             android:name=".receivers.AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
 
         <activity android:name=".IgnoreForApiTest.TestActivity" />
+
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/title_activity_the_main" />
+
         <activity
             android:name=".ui.splash.SplashScreenActivity"
             android:theme="@style/AppTheme.SplashScreen">
@@ -38,24 +40,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.story_viewing.SingleStoryActivity"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.SingleStory" />
+
         <activity android:name=".ui.login.RegisterActivity" />
+
         <activity android:name=".ui.login.LoginActivity" />
+
         <activity
             android:name=".AddStoryActivity"
             android:parentActivityName=".ui.MainActivity" />
+
         <activity
             android:name=".CommentActivity"
             android:parentActivityName=".ui.story_viewing.SingleStoryActivity" />
+
         <activity
             android:name=".AddStoriesContentActivity"
             android:parentActivityName=".AddStoryActivity" />
+
         <activity android:name=".ui.base.BaseActivity" />
+
         <activity android:name=".ui.reading_status.ReadingStatusActivity" />
+
         <activity android:name=".ui.staging.ImageStagingActivity" />
+
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:parentActivityName=".ui.MainActivity" />

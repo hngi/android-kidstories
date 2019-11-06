@@ -22,9 +22,6 @@
     <color name="color_on_surface">#1D1D23</color>
     <color name="color_on_error">#ffffff</color>
 
-    <color name="color_status_bar">@color/color_primary</color>
-
-
     <!--- OLD COLORS -->
 
 

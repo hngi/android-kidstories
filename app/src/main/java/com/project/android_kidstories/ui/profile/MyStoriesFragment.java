@@ -72,7 +72,7 @@ public class MyStoriesFragment extends BaseFragment {
                         errorView.setVisibility(View.VISIBLE);
                         return;
                     }
-                    List<Story> stories = storyAllResponse.getData().getDataList();
+                    List<Story> stories = storyAllResponse.getData();
                     for (int i = 0; i < stories.size(); i++) {
                         if (stories.get(i).getUserId() == userId) {
                             storyList.add(stories.get(i));

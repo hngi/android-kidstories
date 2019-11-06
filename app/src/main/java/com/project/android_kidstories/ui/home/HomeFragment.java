@@ -93,7 +93,7 @@ public class HomeFragment extends BaseFragment {
         if (allStoriesCall != null) allStoriesCall.cancel();
         String authToken = getSharePref().getUserToken();
 
-        allStoriesCall = service.getAllStoriesWithAuth(authToken, currentPage);
+        allStoriesCall = service.getAllStoriesWithAuth(authToken);
         allStoriesCall.enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
@@ -106,7 +106,7 @@ public class HomeFragment extends BaseFragment {
                         return;
                     }
 
-                    stories = storyAllResponse.getData().getDataList();
+                    stories = storyAllResponse.getData();
                     updateAdapters();
 
                 } else {

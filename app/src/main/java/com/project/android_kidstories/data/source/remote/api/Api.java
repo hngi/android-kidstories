@@ -81,7 +81,7 @@ public interface Api {
     Call<StoryAllResponse> getAllStories(@Query("page") String page);
 
     @GET("stories")
-    Call<StoryAllResponse> getAllStoriesWithAuth(@Header("Authorization") String token, @Query("page") String page);
+    Call<StoryAllResponse> getAllStoriesWithAuth(@Header("Authorization") String token);
 
 
     /***

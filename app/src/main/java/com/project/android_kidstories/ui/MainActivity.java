@@ -30,6 +30,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.project.android_kidstories.AddStoryActivity;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.Repository;
 import com.project.android_kidstories.data.model.User;
@@ -408,7 +409,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
 
             case R.id.bottommenu_addstory:
-                // Make add new a fragment
+                //TODO: Make add new a fragment
+                startActivity(new Intent(MainActivity.this, AddStoryActivity.class));
                 break;
         }
 

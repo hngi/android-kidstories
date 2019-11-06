@@ -36,9 +36,11 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
     @BindView(R.id.bookmark_recycler)
     RecyclerView recyclerView;
 
+    private View errorView;
+
     private BookmarksAdapter adapter;
     private ArrayList<Story> stories = new ArrayList<>();
-    String token;
+    private String token;
 
     @Nullable
     @Override
@@ -46,10 +48,25 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
         View root = inflater.inflate(R.layout.fragment_bookmarks, container, false);
         ButterKnife.bind(this, root);
 
-        recyclerView.setAdapter(new BookmarksAdapter(stories, BookmarksFragment.this, requireContext()));
+        errorView = root.findViewById(R.id.error_msg);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+        recyclerView.setLayoutManager(layoutManager);
 
         progressBar.setVisibility(View.VISIBLE);
+        errorView.setVisibility(View.GONE);
 
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        refreshData();
+    }
+
+    private void refreshData() {
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
         token = "Bearer " + getSharePref().getUserToken();
@@ -62,43 +79,32 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
             public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
                 stories.clear();
                 progressBar.setVisibility(View.GONE);
-                if (response.isSuccessful()) {
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(layoutManager);
 
+                if (response.isSuccessful()) {
                     List<Story> data = response.body().getData();
-                    for (Story s : data) {
-                        stories.add(s);
-                    }
-                    adapter = new BookmarksAdapter(stories,BookmarksFragment.this, getContext());
-                    adapter.notifyDataSetChanged();
+                    stories.addAll(data);
+                    adapter = new BookmarksAdapter(stories, BookmarksFragment.this, requireContext());
                     recyclerView.setAdapter(adapter);
+
                 } else {
-                    showSnack(root, "Something went wrong...Please try later!");
+                    errorView.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-                showSnack(root, "Can't retrieve your stories, check connectivity and try again");
+                errorView.setVisibility(View.VISIBLE);
             }
         });
 
-        return root;
     }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-    }
-
 
     @Override
     public void onStoryClick(int storyId) {
         Intent intent = new Intent(getContext(), SingleStoryActivity.class);
-        intent.putExtra("story_id", storyId);
-        getContext().startActivity(intent);
+        intent.putExtra(SingleStoryActivity.STORY_ID_KEY, storyId);
+        requireContext().startActivity(intent);
     }
 
 }

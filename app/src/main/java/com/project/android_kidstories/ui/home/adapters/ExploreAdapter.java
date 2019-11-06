@@ -1,6 +1,7 @@
 package com.project.android_kidstories.ui.home.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.ui.story_viewing.SingleStoryActivity;
 
 import java.util.Objects;
 
@@ -66,6 +68,13 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
                 .into(holder.storyImage);
 
         holder.storyDescription.setText(currentStory.getBody());
+
+        holder.itemView.setOnClickListener(v -> {
+            // Navigate to Single Story Activity
+            Intent intent = new Intent(context, SingleStoryActivity.class);
+            intent.putExtra(SingleStoryActivity.STORY_ID_KEY, currentStory.getId());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -89,10 +98,6 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             storyDescription = itemView.findViewById(R.id.txt_itemdesc_explore);
 //            storyCategory = itemView.findViewById(R.id.chip_itemcategory_explore);
             bookmark = itemView.findViewById(R.id.img_itembookmarked_explore);
-
-            itemView.setOnClickListener(v -> {
-                // Navigate to Single Story Activity
-            });
         }
     }
 }

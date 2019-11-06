@@ -38,6 +38,8 @@ import java.util.Locale;
 
 public class SingleStoryActivity extends BaseActivity {
 
+    public static final String STORY_ID_KEY = "story_id";
+
     private MediaPlayer backgroundMusicPlayer;
     private ImageView story_pic, like_btn;
     int story_id = 0;
@@ -82,7 +84,7 @@ public class SingleStoryActivity extends BaseActivity {
 
         repository = Repository.getInstance(this.getApplication());
         storyApi = repository.getStoryApi();
-        story_id = getIntent().getIntExtra("story_id", 0);
+        story_id = getIntent().getIntExtra(STORY_ID_KEY, 0);
 
         sharePref = getSharePref();
 

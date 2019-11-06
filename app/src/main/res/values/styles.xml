@@ -19,7 +19,6 @@
     </style>
 
     <style name="AppTheme.SingleStory" parent="AppTheme.NoActionBar">
-        <item name="android:background">?colorSurface</item>
         <item name="android:fitsSystemWindows">true</item>
 
     </style>

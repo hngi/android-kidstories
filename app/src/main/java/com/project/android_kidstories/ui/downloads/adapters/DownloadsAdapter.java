@@ -56,7 +56,6 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
         holder.storyTitle.setText(currentStory.getTitle());
         holder.storyAuthor.setText(String.format("by %s", currentStory.getAuthor()));
 
-
         Bitmap bitmap = loadBitmap(fragment.requireContext(), currentStory.getTitle() + ".png");
         holder.storyImage.setImageBitmap(bitmap);
 
@@ -65,7 +64,7 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
         holder.itemView.setOnClickListener(v -> {
             // Navigate to Single Story Activity
             Intent intent = new Intent(fragment.requireContext(), SingleStoryActivity.class);
-            intent.putExtra(SingleStoryActivity.STORY_ID_KEY, currentStory.getId());
+            intent.putExtra(SingleStoryActivity.STORY_NAME_KEY, currentStory.getTitle());
             fragment.startActivity(intent);
         });
 

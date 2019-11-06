@@ -11,6 +11,7 @@ import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
@@ -36,13 +37,19 @@ import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Locale;
 
+import static com.project.android_kidstories.utils.CommonUtils.loadBitmap;
+
 public class SingleStoryActivity extends BaseActivity {
 
     public static final String STORY_ID_KEY = "story_id";
+    public static final String STORY_NAME_KEY = "story_name";
 
     private MediaPlayer backgroundMusicPlayer;
     private ImageView story_pic, like_btn;
+
     int story_id = 0;
+    String downloads_story_name = "";
+
     ImageView playButton;
     ImageView markAsReadBtn;
     private Toolbar toolbar;
@@ -73,18 +80,16 @@ public class SingleStoryActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alt_activity_single_story);
-        /*toolbar = findViewById(R.id.toolbar2);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
         storyLab = StoryLab.get(this);
         ZoomIn = findViewById(R.id.Zoom_In);
         ZoomOut = findViewById(R.id.Zoom_Out);
 
         repository = Repository.getInstance(this.getApplication());
         storyApi = repository.getStoryApi();
+
         story_id = getIntent().getIntExtra(STORY_ID_KEY, 0);
+        downloads_story_name = getIntent().getStringExtra(STORY_NAME_KEY);
 
         sharePref = getSharePref();
 
@@ -224,6 +229,37 @@ public class SingleStoryActivity extends BaseActivity {
         }
     }
 
+    private void updateViews(Story story, @Nullable Bitmap optionalImage) {
+        story_title.setText(story.getTitle());
+        story_author.setText(String.format("Written by %s", story.getAuthor()));
+        story_content.setText(story.getBody());
+
+        if (optionalImage != null) {
+            story_pic.setImageBitmap(optionalImage);
+
+        } else {
+            Glide.with(getApplicationContext())
+                    .load(story.getImageUrl())
+                    .into(story_pic);
+        }
+
+        contentView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private boolean getStoryOffline() {
+        StoryLab storyLab = StoryLab.get(this);
+        //TODO: StoryLab should get a story using storyId
+        Story story = storyLab.getStory(downloads_story_name);
+        if (story != null) {
+            Bitmap bitmap = loadBitmap(this, story.getTitle() + ".png");
+            updateViews(story, bitmap);
+            return true;
+        }
+        showToast("Story is null");
+        return false;
+    }
+
     public void getStoryWithId(int id) {
         storyApi.getStory(id).enqueue(new Callback<StoryBaseResponse>() {
             @Override
@@ -231,32 +267,32 @@ public class SingleStoryActivity extends BaseActivity {
                 try {
                     Story currentStory = response.body().getData();
                     testStory = currentStory;
-                    story_title.setText(currentStory.getTitle());
-                    story_author.setText(String.format("Written by %s", currentStory.getAuthor()));
-                    story_content.setText(currentStory.getBody());
-                    Glide.with(getApplicationContext())
-                            .load(currentStory.getImageUrl())
-                            .into(story_pic);
-                    contentView.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.INVISIBLE);
+                    updateViews(currentStory, null);
+
                     comments = currentStory.getComments().getComments();
 
                     updateIcons();
 
                 } catch (Exception e) {
-                    showToast("Oops Something went wrong ... story specific issue");
-                    progressBar.setVisibility(View.INVISIBLE);
-                    error_msg.setVisibility(View.VISIBLE);
-                    contentView.setVisibility(View.GONE);
+                    // Try to get story offline
+                    if (!getStoryOffline()) {
+                        showToast("Oops Something went wrong ... story specific issue");
+                        progressBar.setVisibility(View.INVISIBLE);
+                        error_msg.setVisibility(View.VISIBLE);
+                        contentView.setVisibility(View.GONE);
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<StoryBaseResponse> call, Throwable t) {
-                progressBar.setVisibility(View.INVISIBLE);
-                contentView.setVisibility(View.GONE);
-                error_msg.setVisibility(View.VISIBLE);
-                showToast("Oops Something went wrong...Please try later!");
+                // Try to get story offline
+                if (!getStoryOffline()) {
+                    showToast("Oops Something went wwwwwrong ... story specific issue");
+                    progressBar.setVisibility(View.INVISIBLE);
+                    error_msg.setVisibility(View.VISIBLE);
+                    contentView.setVisibility(View.GONE);
+                }
             }
         });
 

@@ -153,4 +153,12 @@
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/enter_overshoot_anim</item>
     </style>
+
+
+
+
+    <!-- Tab text size style-->
+    <style name="TabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

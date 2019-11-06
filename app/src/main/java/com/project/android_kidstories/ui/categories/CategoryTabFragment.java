@@ -1,6 +1,7 @@
 package com.project.android_kidstories.ui.categories;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +40,13 @@ public class CategoryTabFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_category_tab, container, false);
 
+        Log.d("GLOBAL_SCOPE", "In TabFragment");
+
         RecyclerView recyclerView = root.findViewById(R.id.recyclerview_category_tab);
         progressBar = root.findViewById(R.id.tab_category_bar);
         errorView = root.findViewById(R.id.error_msg);
 
         adapter = new ExploreAdapter(requireContext());
-
         recyclerView.setAdapter(adapter);
 
         getCategoryStories();
@@ -53,6 +55,8 @@ public class CategoryTabFragment extends BaseFragment {
     }
 
     private void getCategoryStories() {
+        Log.d("GLOBAL_SCOPE", "In TabFragment getting stories for this category");
+
         progressBar.setVisibility(View.VISIBLE);
         Api service = RetrofitClient.getInstance().create(Api.class);
 
@@ -61,15 +65,19 @@ public class CategoryTabFragment extends BaseFragment {
             @Override
             public void onResponse(Call<BaseResponse2> call, Response<BaseResponse2> response) {
                 progressBar.setVisibility(View.GONE);
+                Log.d("GLOBAL_SCOPE", String.valueOf(response.code()));
 
                 if (response.isSuccessful()) {
                     BaseResponse2 br2 = response.body();
                     if (br2 != null && !br2.getStories().isEmpty()) {
                         List<Story> stories = br2.getStories();
+                        Log.d("GLOBAL_SCOPE", String.valueOf(stories.size()));
                         adapter.submitList(stories);
+
                     } else {
                         Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show();
                     }
+
                 } else {
                     errorView.setVisibility(View.VISIBLE);
                 }

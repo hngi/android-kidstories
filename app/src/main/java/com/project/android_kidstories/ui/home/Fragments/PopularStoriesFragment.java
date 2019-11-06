@@ -216,10 +216,10 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
         public int compare(Story story1, Story story2) {
 
 
-            int likes_dislikes_1 = story1.getDislikesCount() + story1.getLikesCount() + story1.getComments().getComments().size() ;
-            int likes_dislikes_2 = story2.getDislikesCount() + story2.getLikesCount() + story2.getComments().getComments().size();
+            int story1PriorityCount = story1.getDislikesCount() + story1.getLikesCount();
+            int story2PriorityCount= story2.getDislikesCount() + story2.getLikesCount();
 
-            return Integer.compare(likes_dislikes_1, likes_dislikes_2);
+            return Integer.compare(story1PriorityCount, story2PriorityCount);
         }
     }
 

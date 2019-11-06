@@ -8,9 +8,9 @@
         android:title="@string/home" />
 
     <item
-        android:id="@+id/nav_categories"
-        android:icon="@drawable/svg_ic_category"
-        android:title="@string/menuitem_categories" />
+        android:id="@+id/bottommenu_bookmark"
+        android:icon="@drawable/svg_ic_bookmark_black"
+        android:title="@string/bookmarks" />
 
     <item
         android:id="@+id/bottommenu_addstory"

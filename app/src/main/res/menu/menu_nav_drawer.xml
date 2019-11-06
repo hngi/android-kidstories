@@ -8,16 +8,16 @@
             android:icon="@drawable/ic_import_contacts_black_24dp"
             android:title="@string/menuitem_home" />
 
+        <item
+            android:id="@+id/nav_categories"
+            android:icon="@drawable/svg_ic_category"
+            android:title="@string/menuitem_categories" />
 
         <item
             android:id="@+id/nav_downloads"
             android:icon="@drawable/svg_ic_cloud_download"
             android:title="@string/menuitem_saved" />
 
-        <item
-            android:id="@+id/bottommenu_bookmark"
-            android:icon="@drawable/svg_ic_bookmark"
-            android:title="@string/bookmarks" />
 
     </group>
 

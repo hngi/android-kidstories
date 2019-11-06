@@ -25,6 +25,9 @@ public class ReactionResponse {
     @SerializedName("dislikes_count")
     @Expose
     private Integer dislikesCount;
+    @SerializedName("comments_count")
+    @Expose
+    private Integer commentsCount;
     @SerializedName("action")
     @Expose
     private String action;
@@ -62,6 +65,14 @@ public class ReactionResponse {
 
     public void setLikesCount(Integer likesCount) {
         this.likesCount = likesCount;
+    }
+
+    public Integer getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(Integer commentsCount) {
+        this.commentsCount = commentsCount;
     }
 
     public Integer getDislikesCount() {

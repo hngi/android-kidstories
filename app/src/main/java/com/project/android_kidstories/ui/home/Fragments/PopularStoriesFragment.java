@@ -126,8 +126,8 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
         List<Story> allStories = allResponse.getData().getDataList();
 
 
-        StoryComparitor storyComparitor = new StoryComparitor();
-        Collections.sort(allStories, storyComparitor);
+        StoryComparator storyComparator = new StoryComparator();
+        Collections.sort(allStories, storyComparator);
 
         StoryAllResponse response = new StoryAllResponse();
         Data d = new Data();
@@ -201,6 +201,8 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         storySearchListener = this;
+
+
     }
 
     @Override
@@ -208,19 +210,16 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
         adapter.getFilter().filter(query);
     }
 
-    public class StoryComparitor implements Comparator<Story> {
+    public class StoryComparator implements Comparator<Story> {
 
         @Override
         public int compare(Story story1, Story story2) {
-            int likes_dislikes_1 = story1.getDislikesCount() + story1.getLikesCount();
-            int likes_dislikes_2 = story2.getDislikesCount() + story2.getLikesCount();
 
-            if (likes_dislikes_1 > likes_dislikes_2)
-                return -1;
-            else if (likes_dislikes_1 > likes_dislikes_2)
-                return +1;
-            else
-                return 0;
+
+            int story1PriorityCount = story1.getDislikesCount() + story1.getLikesCount();
+            int story2PriorityCount= story2.getDislikesCount() + story2.getLikesCount();
+
+            return Integer.compare(story1PriorityCount, story2PriorityCount);
         }
     }
 

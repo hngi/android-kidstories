@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorSurface"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,7 +67,7 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="2dp"
-            android:tint="?colorPrimary"
+            android:tint="?colorOnBackground"
             app:layout_constraintBottom_toBottomOf="@+id/profile"
             app:layout_constraintStart_toEndOf="@+id/profile"
             app:srcCompat="@drawable/ic_edit_black_24dp" />
@@ -88,7 +87,10 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="?android:attr/actionBarSize" />
+            android:maxHeight="?android:attr/actionBarSize"
+            app:tabBackground="?android:attr/colorBackground"
+            app:tabIndicatorColor="?colorOnBackground"
+            app:tabRippleColor="?colorOnBackground" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"

@@ -9,7 +9,6 @@ import com.project.android_kidstories.data.source.local.preferences.SharePref;
 public class KidstoriesApplication extends Application {
     private static final String TAG = "Common";
 
-
     public static void updateSharedPref(int storyId, boolean value) {
         Prefs.putBoolean(String.valueOf(storyId), value);
     }
@@ -23,7 +22,7 @@ public class KidstoriesApplication extends Application {
         if (sharePref.getNightMode()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 

@@ -76,7 +76,6 @@ public class ProfileFragment extends BaseFragment {
 
         tabLayout.getTabAt(0).setText("My Stories");
         tabLayout.getTabAt(1).setText("Bookmarked");
-        tabLayout.setTabTextColors(R.color.grey, R.color.black);
 
         displayProfile(root);
 

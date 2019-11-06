@@ -3,7 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="KidStories.DayNight">
         <!-- Customize your theme here. -->
-        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">

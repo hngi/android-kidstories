@@ -24,7 +24,7 @@ public class SavedStoriesActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_saved_stories);
+        setContentView(R.layout.fragment_downloads);
         storyLab = StoryLab.get(this);
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);

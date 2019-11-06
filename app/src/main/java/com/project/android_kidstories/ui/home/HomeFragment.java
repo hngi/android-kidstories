@@ -49,7 +49,7 @@ public class HomeFragment extends BaseFragment {
         RecyclerView recyclerViewPopularStories = root.findViewById(R.id.recyclerview_popular_stories);
 
         exploreAdapter = new ExploreAdapter();
-        popularStoriesAdapter = new PopularStoriesAdapter(populars);
+        popularStoriesAdapter = new PopularStoriesAdapter();
 
         recyclerViewExplore.setAdapter(exploreAdapter);
         recyclerViewPopularStories.setAdapter(popularStoriesAdapter);
@@ -73,6 +73,8 @@ public class HomeFragment extends BaseFragment {
     private void updateAdapters() {
         exploreAdapter.submitList(stories);
         // TODO: Update popular stories adapter
+        populars = stories.subList(0, 5);
+        popularStoriesAdapter.submitList(populars);
     }
 
     private void updateData() {

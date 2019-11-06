@@ -6,19 +6,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
 
-import java.util.List;
+import java.util.Objects;
 
-public class PopularStoriesAdapter extends RecyclerView.Adapter<PopularStoriesAdapter.ViewHolder> {
+public class PopularStoriesAdapter extends ListAdapter<Story, PopularStoriesAdapter.ViewHolder> {
 
-    private List<Story> stories;
+    public PopularStoriesAdapter() {
+        super(new DiffUtil.ItemCallback<Story>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull Story oldItem, @NonNull Story newItem) {
+                return oldItem == newItem;
+            }
 
-    public PopularStoriesAdapter(List<Story> stories) {
-        this.stories = stories;
+            @Override
+            public boolean areContentsTheSame(@NonNull Story oldItem, @NonNull Story newItem) {
+                return Objects.equals(oldItem.getId(), newItem.getId());
+            }
+        });
     }
 
     @NonNull
@@ -31,7 +41,7 @@ public class PopularStoriesAdapter extends RecyclerView.Adapter<PopularStoriesAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Story currentStory = stories.get(position);
+        Story currentStory = getCurrentList().get(position);
 
         holder.storyTitle.setText(currentStory.getTitle());
         holder.storyAgeRange.setText(String.format("Ages %s", currentStory.getAge()));
@@ -43,7 +53,7 @@ public class PopularStoriesAdapter extends RecyclerView.Adapter<PopularStoriesAd
 
     @Override
     public int getItemCount() {
-        return stories.size();
+        return getCurrentList().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -144,4 +144,10 @@ public class HomeFragment extends BaseFragment {
 
         return true;
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (allStoriesCall != null) allStoriesCall.cancel();
+    }
 }

@@ -331,8 +331,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             bottomNavigationView.setVisibility(View.GONE);
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
-                    openHomeFragment();
-                    return true;
+                    fragment = new HomeFragment();
+                    title = getString(R.string.title_home_fragment);
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                    break;
 
                 case R.id.nav_downloads:
                     fragment = new DownloadsFragment();

@@ -31,7 +31,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.SavedStoriesActivity;
 import com.project.android_kidstories.data.Repository;
 import com.project.android_kidstories.data.model.User;
 import com.project.android_kidstories.data.source.helpers.BedTimeDbHelper;
@@ -43,6 +42,7 @@ import com.project.android_kidstories.ui.base.BaseActivity;
 import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.categories.CategoriesFragment;
 import com.project.android_kidstories.ui.donate.DonateFragment;
+import com.project.android_kidstories.ui.downloads.DownloadsFragment;
 import com.project.android_kidstories.ui.home.HomeFragment;
 import com.project.android_kidstories.ui.info.AboutFragment;
 import com.project.android_kidstories.ui.info.FeedBackFragment;
@@ -340,8 +340,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     break;
 
                 case R.id.nav_downloads:
-                    Intent intent = new Intent(MainActivity.this, SavedStoriesActivity.class);
-                    MainActivity.this.startActivity(intent);
+                    fragment = new DownloadsFragment();
+                    title = MainActivity.this.getString(R.string.title_downloads_fragment);
                     break;
 
                 case R.id.nav_donate:

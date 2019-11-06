@@ -115,5 +115,6 @@ SOFTWARE.
     <string name="oops_something_went_wrong_n_please_try_again">Something went wrong\n  please try again</string>
     <string name="title_popular_stories">Popular stories</string>
     <string name="title_explore_stories">Explore</string>
+    <string name="title_downloads_fragment">Downloads</string>
 
 </resources>

@@ -1,3 +1,4 @@
+/*
 package com.project.android_kidstories;
 
 import android.os.Bundle;
@@ -53,3 +54,4 @@ public class SavedStoriesActivity extends AppCompatActivity {
         return  true;
     }
 }
+*/

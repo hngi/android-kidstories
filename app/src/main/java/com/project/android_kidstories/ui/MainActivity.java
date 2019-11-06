@@ -180,7 +180,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         sideNav.getMenu().getItem(0).setChecked(true);
 
-        bottomNavigationView.setSelectedItemId(0);
+        bottomNavigationView.setSelectedItemId(R.id.bottommenu_home);
         bottomNavigationView.setVisibility(View.VISIBLE);
 
         updateToolbarTitle(getString(R.string.title_home_fragment));
@@ -332,10 +332,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             bottomNavigationView.setVisibility(View.GONE);
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
-                    fragment = new HomeFragment();
-                    title = MainActivity.this.getString(R.string.title_home_fragment);
-                    bottomNavigationView.setVisibility(View.VISIBLE);
-                    break;
+                    openHomeFragment();
+                    return true;
 
                 case R.id.nav_downloads:
                     fragment = new DownloadsFragment();

@@ -360,9 +360,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     title = MainActivity.this.getString(R.string.title_feedback_fragment);
                     break;
 
-                case R.id.nav_categories:
-                    fragment = CategoriesFragment.newInstance();
-                    title = MainActivity.this.getString(R.string.title_categories_fragment);
+                case R.id.bottommenu_bookmark:
+                    fragment = new BookmarksFragment();
+                    title = MainActivity.this.getString(R.string.title_bookmarks_fragment);
                     break;
 
                 case R.id.nav_log_out:
@@ -402,9 +402,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 position = 0;
                 break;
 
-            case R.id.bottommenu_bookmark:
-                fragment = new BookmarksFragment();
-                title = MainActivity.this.getString(R.string.bookmarks);
+            case R.id.nav_categories:
+                fragment = new CategoriesFragment();
+                title = MainActivity.this.getString(R.string.title_categories_fragment);
                 position = 1;
                 break;
 

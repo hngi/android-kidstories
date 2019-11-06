@@ -38,7 +38,7 @@ public class SingleSavedStoryActivity extends AppCompatActivity {
     ImageButton btn_stop;
     TextView speak_text;
     TextToSpeech textToSpeech;
-    String googleTtsPackage = "com.google.android.tts", picoPackage = "com.svox.pico";
+    String googleTtsPackage = "com.google.android.tts";
 
     private Toolbar toolbar;
 

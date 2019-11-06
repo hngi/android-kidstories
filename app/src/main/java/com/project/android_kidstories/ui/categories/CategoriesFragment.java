@@ -15,6 +15,7 @@ import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
 import com.project.android_kidstories.data.source.remote.response_models.category.CategoriesAllResponse;
 import com.project.android_kidstories.ui.base.BaseFragment;
+import com.project.android_kidstories.ui.categories.adapters.CategoriesPagerAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,10 +55,16 @@ public class CategoriesFragment extends BaseFragment {
 
     private void updateViews() {
         tabLayout.setVisibility(View.VISIBLE);
+
+        // Setup ViewPager
+        CategoriesPagerAdapter pagerAdapter = new CategoriesPagerAdapter(getChildFragmentManager());
+
+        // Populate
         for (Category category : categories) {
             Log.d("GLOBAL_SCOPE", category.getName());
 
         }
+
     }
 
     private void getCategoriesList() {

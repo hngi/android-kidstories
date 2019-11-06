@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_explore_stories"
+        android:id="@+id/recyclerview_category_tab"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:clipToPadding="false"

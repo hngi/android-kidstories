@@ -1,5 +1,6 @@
 package com.project.android_kidstories.ui.home.adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,9 @@ import java.util.Objects;
 
 public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder> {
 
-    public ExploreAdapter() {
+    private Context context;
+
+    public ExploreAdapter(Context context) {
         super(new DiffUtil.ItemCallback<Story>() {
             @Override
             public boolean areItemsTheSame(@NonNull Story oldItem, @NonNull Story newItem) {
@@ -31,6 +34,8 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
                 return Objects.equals(oldItem.getId(), newItem.getId());
             }
         });
+
+        this.context = context;
     }
 
     @NonNull
@@ -85,9 +90,9 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
 //            storyCategory = itemView.findViewById(R.id.chip_itemcategory_explore);
             bookmark = itemView.findViewById(R.id.img_itembookmarked_explore);
 
-            /*itemView.setOnClickListener(v -> {
+            itemView.setOnClickListener(v -> {
                 // Navigate to Single Story Activity
-            });*/
+            });
         }
     }
 }

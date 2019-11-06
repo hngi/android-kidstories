@@ -57,8 +57,8 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        exploreAdapter = new ExploreAdapter();
-        popularStoriesAdapter = new PopularStoriesAdapter();
+        exploreAdapter = new ExploreAdapter(requireContext());
+        popularStoriesAdapter = new PopularStoriesAdapter(requireContext());
 
         recyclerViewExplore.setAdapter(exploreAdapter);
         recyclerViewPopularStories.setAdapter(popularStoriesAdapter);

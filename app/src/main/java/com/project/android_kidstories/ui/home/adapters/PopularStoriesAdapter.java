@@ -1,5 +1,6 @@
 package com.project.android_kidstories.ui.home.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,9 @@ import java.util.Objects;
 
 public class PopularStoriesAdapter extends ListAdapter<Story, PopularStoriesAdapter.ViewHolder> {
 
-    public PopularStoriesAdapter() {
+    private Context context;
+
+    public PopularStoriesAdapter(Context context) {
         super(new DiffUtil.ItemCallback<Story>() {
             @Override
             public boolean areItemsTheSame(@NonNull Story oldItem, @NonNull Story newItem) {
@@ -29,6 +32,8 @@ public class PopularStoriesAdapter extends ListAdapter<Story, PopularStoriesAdap
                 return Objects.equals(oldItem.getId(), newItem.getId());
             }
         });
+
+        this.context = context;
     }
 
     @NonNull

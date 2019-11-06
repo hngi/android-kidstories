@@ -14,6 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
 import com.project.android_kidstories.R;
@@ -66,10 +67,11 @@ public class SettingsActivity extends BaseActivity {
 
 
         nightSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+            sharePref.setNightMode(b);
             if (b) {
-                sharePref.setNightMode(true);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             } else {
-                sharePref.setNightMode(true);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         });
 

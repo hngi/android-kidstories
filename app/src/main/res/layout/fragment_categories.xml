@@ -17,7 +17,7 @@
             android:id="@+id/tabLayout_categories_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:tabBackground="?colorPrimary"
             app:tabMode="scrollable"
             app:tabGravity="center"

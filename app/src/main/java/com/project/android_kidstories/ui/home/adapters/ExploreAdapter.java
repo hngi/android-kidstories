@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
-import com.google.android.material.chip.Chip;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
 
@@ -51,7 +50,7 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         holder.storyTitle.setText(currentStory.getTitle());
         holder.storyAuthor.setText(String.format("by %s", currentStory.getAuthor()));
         // Replace ID with actual category name
-        holder.storyCategory.setText(String.valueOf(currentStory.getCategoryId()));
+        // holder.storyCategory.setText(String.valueOf(currentStory.getCategoryId()));
         if (currentStory.isBookmark()) {
             holder.bookmark.setActivated(true);
         } else {
@@ -74,7 +73,7 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         private TextView storyTitle;
         private TextView storyAuthor;
         private TextView storyDescription;
-        private Chip storyCategory;
+        // private Chip storyCategory;
         private ImageView bookmark;
 
         public ViewHolder(@NonNull View itemView) {
@@ -83,7 +82,7 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             storyTitle = itemView.findViewById(R.id.txt_itemtitle_explore);
             storyAuthor = itemView.findViewById(R.id.txt_itemauthor_explore);
             storyDescription = itemView.findViewById(R.id.txt_itemdesc_explore);
-            storyCategory = itemView.findViewById(R.id.chip_itemcategory_explore);
+//            storyCategory = itemView.findViewById(R.id.chip_itemcategory_explore);
             bookmark = itemView.findViewById(R.id.img_itembookmarked_explore);
 
             /*itemView.setOnClickListener(v -> {

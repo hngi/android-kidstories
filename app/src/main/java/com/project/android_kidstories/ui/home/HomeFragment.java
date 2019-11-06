@@ -82,7 +82,7 @@ public class HomeFragment extends BaseFragment {
     private void updateAdapters() {
         exploreAdapter.submitList(stories);
         // TODO: Update popular stories adapter
-        populars = stories.subList(0, 5);
+        populars = stories.subList(3, 14);
         popularStoriesAdapter.submitList(populars);
     }
 

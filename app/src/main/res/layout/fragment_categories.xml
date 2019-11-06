@@ -40,4 +40,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout_categories_fragment" />
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager_categories_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/error_msg"
+        app:layout_constraintTop_toTopOf="@+id/error_msg" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

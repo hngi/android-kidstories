@@ -1,11 +1,13 @@
 package com.project.android_kidstories.ui.categories;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Category;
@@ -32,6 +34,7 @@ public class CategoriesFragment extends BaseFragment {
     private View errorView;
 
     private TabLayout tabLayout;
+    private ViewPager2 viewPager;
 
     @Nullable
     @Override
@@ -39,6 +42,8 @@ public class CategoriesFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.fragment_categories, container, false);
 
         tabLayout = root.findViewById(R.id.tabLayout_categories_fragment);
+        viewPager = root.findViewById(R.id.viewPager_categories_fragment);
+
         progressBar = root.findViewById(R.id.category_bar);
         errorView = root.findViewById(R.id.error_msg);
 
@@ -49,6 +54,10 @@ public class CategoriesFragment extends BaseFragment {
 
     private void updateViews() {
         tabLayout.setVisibility(View.VISIBLE);
+        for (Category category : categories) {
+            Log.d("GLOBAL_SCOPE", category.getName());
+
+        }
     }
 
     private void getCategoriesList() {

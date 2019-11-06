@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
+    android:layout_margin="8dp"
     android:clickable="true"
     android:focusable="true"
+    android:background="@color/white"
     android:padding="8dp">
 
     <androidx.cardview.widget.CardView
@@ -21,8 +22,8 @@
 
         <ImageView
             android:id="@+id/img_itemimage_explore"
-            android:layout_width="110dp"
-            android:layout_height="150dp"
+            android:layout_width="90dp"
+            android:layout_height="130dp"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
@@ -32,17 +33,15 @@
         android:id="@+id/txt_itemtitle_explore"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:textColor="?colorOnSurface"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardView2"
-        app:layout_constraintTop_toTopOf="@+id/cardView2"
+        app:layout_constraintStart_toStartOf="@+id/chip_itemcategory_explore"
+        app:layout_constraintTop_toBottomOf="@+id/chip_itemcategory_explore"
         tools:text="Arena of Justice" />
 
     <TextView
@@ -75,10 +74,15 @@
         android:id="@+id/chip_itemcategory_explore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="?colorOnSecondary"
-        app:chipSurfaceColor="?colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView2"
-        app:layout_constraintStart_toStartOf="@+id/txt_itemtitle_explore"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:textColor="?colorPrimary"
+        app:chipBackgroundColor="@android:color/transparent"
+        app:chipStrokeColor="?colorPrimary"
+        app:chipStrokeWidth="2dp"
+        app:chipSurfaceColor="@android:color/transparent"
+        app:layout_constraintStart_toEndOf="@+id/cardView2"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Fable" />
 
     <ImageView
@@ -86,6 +90,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginEnd="8dp"
+        android:visibility="gone"
         android:src="@drawable/bookmark_toggle"
         app:layout_constraintBottom_toBottomOf="@+id/chip_itemcategory_explore"
         app:layout_constraintEnd_toEndOf="parent"

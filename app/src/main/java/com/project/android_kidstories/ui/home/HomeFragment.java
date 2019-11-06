@@ -3,6 +3,7 @@ package com.project.android_kidstories.ui.home;
 import android.os.Bundle;
 import android.view.*;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
@@ -47,6 +48,14 @@ public class HomeFragment extends BaseFragment {
         // Setup the recyclerviews
         RecyclerView recyclerViewExplore = root.findViewById(R.id.recyclerview_explore_stories);
         RecyclerView recyclerViewPopularStories = root.findViewById(R.id.recyclerview_popular_stories);
+
+        // Disable vertical scrolling in recyclerViewExplore
+        recyclerViewExplore.setLayoutManager(new LinearLayoutManager(requireContext()) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
 
         exploreAdapter = new ExploreAdapter();
         popularStoriesAdapter = new PopularStoriesAdapter();

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.preference.SwitchPreferenceCompat
+        app:key="night_mode"
+        app:title="Dark Mode" />
+
+    <androidx.preference.Preference
+        app:key="privacy_policy"
+        app:title="Privacy policy" />
+
+</androidx.preference.PreferenceScreen>

@@ -11,11 +11,12 @@ import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryAllResponse;
+import com.project.android_kidstories.ui.MainActivity;
 import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.home.adapters.ExploreAdapter;
 import com.project.android_kidstories.ui.home.adapters.PopularStoriesAdapter;
 import com.project.android_kidstories.ui.reading_status.ReadingStatusActivity;
-import com.project.android_kidstories.ui.settings.SettingsActivity;
+import com.project.android_kidstories.ui.settings.SettingsFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -135,7 +136,8 @@ public class HomeFragment extends BaseFragment {
                 break;
 
             case R.id.action_settings:
-                startActivity(new Intent(requireContext(), SettingsActivity.class));
+                ((MainActivity) requireActivity())
+                        .navigateToFragment(new SettingsFragment());
                 break;
 
             default:

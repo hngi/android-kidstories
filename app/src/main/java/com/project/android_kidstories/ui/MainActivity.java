@@ -49,6 +49,7 @@ import com.project.android_kidstories.ui.info.FeedBackFragment;
 import com.project.android_kidstories.ui.login.LoginActivity;
 import com.project.android_kidstories.ui.profile.BookmarksFragment;
 import com.project.android_kidstories.ui.profile.ProfileFragment;
+import com.project.android_kidstories.ui.settings.SettingsFragment;
 import com.project.android_kidstories.viewModel.FragmentsSharedViewModel;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -289,7 +290,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         });
     }
 
-
     /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -455,12 +455,18 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         super.onStart();
     }
 
-    private void navigateToFragment(Fragment fragment) {
+    public void navigateToFragment(Fragment fragment) {
         currentFragment = fragment;
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_fragment_container, currentFragment)
                 .commit();
+
+        if (fragment instanceof SettingsFragment) {
+            bottomNavigationView.setVisibility(View.GONE);
+            updateToolbarTitle(MainActivity.this.getString(R.string.title_settings_fragment));
+            sideNav.setCheckedItem(R.id.nav_stub);
+        }
     }
 
     private void hideDrawer() {

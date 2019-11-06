@@ -27,7 +27,7 @@
 
         <activity android:name=".IgnoreForApiTest.TestActivity" />
         <activity
-            android:name=".ui.settings.SettingsActivity"
+            android:name=".ui.settings.SettingsFragment"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="GoogleAppIndexingWarning" />

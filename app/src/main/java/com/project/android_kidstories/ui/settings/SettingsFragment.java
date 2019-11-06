@@ -1,36 +1,59 @@
 package com.project.android_kidstories.ui.settings;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreferenceCompat;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
-import com.project.android_kidstories.receivers.AlarmReceiver;
-import com.project.android_kidstories.ui.base.BaseActivity;
+import com.project.android_kidstories.ui.KidstoriesApplication;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+public class SettingsFragment extends PreferenceFragmentCompat {
 
-public class SettingsActivity extends BaseActivity {
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.kidstories_preference, rootKey);
 
-    private static final String ALARM_TIME = "ALARM_TIME";
+        SharePref sharePref = SharePref.getInstance(requireActivity().getApplication());
+
+        SwitchPreferenceCompat nightModeSwitch = findPreference("night_mode");
+        if (nightModeSwitch != null) {
+            if (sharePref.getNightMode()) nightModeSwitch.setChecked(true);
+            nightModeSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
+                boolean isNightMode = nightModeSwitch.isChecked();
+                sharePref.setNightMode(isNightMode);
+                KidstoriesApplication.changeMode(isNightMode);
+                return true;
+            });
+        }
+
+        Preference ppolicy = findPreference("privacy_policy");
+        if (ppolicy != null) {
+            ppolicy.setOnPreferenceClickListener(preference -> {
+                openPrivacyPolicyPage();
+                return true;
+            });
+        }
+    }
+
+
+    // Method to display the privacy policy
+    private void openPrivacyPolicyPage() {
+        String policyUrl = "http://kidstories.app//privacy-policy";
+        String packageName = "com.android.chrome";
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.intent.setPackage(packageName);
+
+        customTabsIntent.launchUrl(requireContext(), Uri.parse(policyUrl));
+    }
+
+
+
+
+    /*private static final String ALARM_TIME = "ALARM_TIME";
 
     SharePref sharePref;
 
@@ -76,8 +99,9 @@ public class SettingsActivity extends BaseActivity {
         });
 
     }
+*/
 
-    public void reminderClicked(View view) {
+   /* public void reminderClicked(View view) {
         String timeText = timeTextview.getText().toString();
         String[] timeSplit = timeText.replace("PM", "")
                 .replace("AM", "")
@@ -130,14 +154,5 @@ public class SettingsActivity extends BaseActivity {
 
     }
 
-    // Method to display the privacy policy
-    public void openPrivacyPolicyPage(View view) {
-        String policyUrl = "http://kidstories.app//privacy-policy";
-        String packageName = "com.android.chrome";
-        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        CustomTabsIntent customTabsIntent = builder.build();
-        customTabsIntent.intent.setPackage(packageName);
-
-        customTabsIntent.launchUrl(SettingsActivity.this, Uri.parse(policyUrl));
-    }
+    */
 }

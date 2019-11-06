@@ -23,7 +23,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -163,7 +162,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         });
     }
 
-
     private LoggedInUser getUserDetails() {
         String name;
         String email;
@@ -262,9 +260,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     viewModel.currentUser.setId(response.body().getData().getId().longValue());
                     sharePref.setUserId(response.body().getData().getId());
                     if (viewModel.currentUser.getImage() != null && !viewModel.currentUser.getImage().isEmpty()) {
-                        Glide.with(getApplicationContext())
+                        /*TODO: Glide.with(getApplicationContext())
                                 .load(viewModel.currentUser.getImage())
-                                .into(navProfilePic);
+                                .into(navProfilePic);*/
                     } else {
                         // Leave default local image if there is none from the api
                     }

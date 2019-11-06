@@ -86,7 +86,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                 popular_bar.setVisibility(View.GONE);
 
                 if (response.isSuccessful()) {
-                    List<Story> storiesList = sortList(response.body()).getData().getDataList();
+                    List<Story> storiesList = sortList(response.body()).getStories();
                     storiesArray.addAll(storiesList);
                     adapter = new RecyclerStoriesAdapter(getContext(), storiesArray, PopularStoriesFragment.this,repository);
 
@@ -123,15 +123,15 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     }
 
     private StoryAllResponse sortList(StoryAllResponse allResponse) {
-        List<Story> allStories = allResponse.getData().getDataList();
+        List<Story> allStories = allResponse.getStories();
 
 
         StoryComparator storyComparator = new StoryComparator();
         Collections.sort(allStories, storyComparator);
 
         StoryAllResponse response = new StoryAllResponse();
-        Data d = new Data();
-        d.setDataList(allStories);
+        List<Story> d ;
+        d= allStories;
         response.setData(d);
         return response;
 

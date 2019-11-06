@@ -76,9 +76,9 @@ public class MyStoriesFragment extends Fragment {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 if(response.isSuccessful()){
-                    for(int i = 0; i < response.body().getData().getDataList().size(); i++){
-                        if(response.body().getData().getDataList().get(i).getUserId() == sharePref.getUserId()){
-                            storyList.add(response.body().getData().getDataList().get(i));
+                    for(int i = 0; i < response.body().getStories().size(); i++){
+                        if(response.body().getStories().get(i).getUserId() == sharePref.getUserId()){
+                            storyList.add(response.body().getStories().get(i));
                         }
                     }
                     //errorMessage.setText(storyList.toString());

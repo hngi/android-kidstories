@@ -92,7 +92,7 @@ public class ProfileFragment extends Fragment {
 
         tabLayout.getTabAt(0).setText("My Stories");
         tabLayout.getTabAt(1).setText("Bookmarked");
-        tabLayout.setTabTextColors(R.color.grey, R.color.black);
+        //tabLayout.setTabTextColors(R.color.grey, R.color.black);
 
         return root;
     }

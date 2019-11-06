@@ -37,6 +37,8 @@ public class CategoriesFragment extends BaseFragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    Call<CategoriesAllResponse> allResponseCall;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,7 +84,8 @@ public class CategoriesFragment extends BaseFragment {
         progressBar.setVisibility(View.VISIBLE);
 
         Api service = RetrofitClient.getInstance().create(Api.class);
-        Call<CategoriesAllResponse> allResponseCall = service.getAllCategories();
+
+        allResponseCall = service.getAllCategories();
 
         allResponseCall.enqueue(new Callback<CategoriesAllResponse>() {
             @Override
@@ -108,5 +111,11 @@ public class CategoriesFragment extends BaseFragment {
                 errorView.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        allResponseCall.cancel();
     }
 }

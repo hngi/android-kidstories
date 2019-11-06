@@ -7,7 +7,7 @@
     android:layout_margin="8dp"
     android:clickable="true"
     android:focusable="true"
-    android:background="@color/white"
+    android:background="?colorSurface"
     android:padding="8dp">
 
     <androidx.cardview.widget.CardView

@@ -38,6 +38,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface Api {
 
@@ -93,10 +94,10 @@ public interface Api {
     Call<StoryBaseResponse> getStory(@Path("id") int id);
 
     @GET("stories")
-    Call<StoryAllResponse> getAllStories();
+    Call<StoryAllResponse> getAllStories(@Query("page")String page);
 
     @GET("stories")
-    Call<StoryAllResponse> getAllStoriesWithAuth(@Header("Authorization") String token);
+    Call<StoryAllResponse> getAllStoriesWithAuth(@Header("Authorization") String token,@Query("page")String page);
 
 
     /***

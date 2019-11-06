@@ -21,6 +21,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
+import com.project.android_kidstories.Api.Responses.story.Data;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
 import com.project.android_kidstories.DataStore.Repository;
@@ -68,15 +69,15 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
         refreshLayout.setRefreshing(true);
         storiesArray = new ArrayList<>();
 
-        fetchStories();
+        fetchStories("1");
 
         return v;
     }
 
-    private void fetchStories(){
+    private void fetchStories(String page){
         /*Create handle for the RetrofitInstance interface*/
         service = RetrofitClient.getInstance().create(Api.class);
-        Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token);
+        Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token,page);
 
         stories.enqueue(new Callback<StoryAllResponse>() {
             @Override
@@ -85,7 +86,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
                 popular_bar.setVisibility(View.GONE);
 
                 if (response.isSuccessful()) {
-                    List<Story> storiesList = sortList(response.body()).getData();
+                    List<Story> storiesList = sortList(response.body()).getData().getDataList();
                     storiesArray.addAll(storiesList);
                     adapter = new RecyclerStoriesAdapter(getContext(), storiesArray, PopularStoriesFragment.this,repository);
 
@@ -117,19 +118,21 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         refreshLayout.setOnRefreshListener(() -> {
-            fetchStories();
+            fetchStories("1");
         });
     }
 
     private StoryAllResponse sortList(StoryAllResponse allResponse) {
-        List<Story> allStories = allResponse.getData();
+        List<Story> allStories = allResponse.getData().getDataList();
 
 
         StoryComparator storyComparator = new StoryComparator();
         Collections.sort(allStories, storyComparator);
 
         StoryAllResponse response = new StoryAllResponse();
-        response.setData(allStories);
+        Data d = new Data();
+        d.setDataList(allStories);
+        response.setData(d);
         return response;
 
     }

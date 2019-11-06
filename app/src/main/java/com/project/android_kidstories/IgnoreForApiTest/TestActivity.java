@@ -129,7 +129,7 @@ public class TestActivity extends AppCompatActivity {
     //
     public void getAllStories(View view) {
         showProgressbar();
-        storyApi.getAllStories().enqueue(new Callback<StoryAllResponse>() {
+        storyApi.getAllStories("1").enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 if (response.isSuccessful()) {
@@ -137,7 +137,7 @@ public class TestActivity extends AppCompatActivity {
                     String message = response.body().getMessage();
                     textView.setText("Response Status " + status + ": " + message + "\n");
 
-                    for (Story s : response.body().getData()) {
+                    for (Story s : response.body().getData().getDataList()) {
                         textView.append("StoryTitle: " + s.getTitle() + "\n");
                     }
 

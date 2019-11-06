@@ -57,7 +57,7 @@
         android:id="@+id/viewPager_categories_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/error_msg"
-        app:layout_constraintTop_toTopOf="@+id/error_msg" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appbar_categories_fragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

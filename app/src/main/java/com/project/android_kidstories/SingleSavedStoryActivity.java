@@ -1,3 +1,4 @@
+/*
 package com.project.android_kidstories;
 
 import android.content.Context;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import com.project.android_kidstories.adapters.SavedStoriesAdapter;
 import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
 
@@ -95,26 +95,6 @@ public class SingleSavedStoryActivity extends AppCompatActivity {
 
     }
 
-    public static Bitmap loadBitmap(Context context, String picName){
-        Bitmap b = null;
-        FileInputStream fis;
-        try {
-            fis = context.openFileInput(picName);
-            b = BitmapFactory.decodeStream(fis);
-        }
-        catch (FileNotFoundException e) {
-            Log.d("tag", "file not found");
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            Log.d("tag", "io exception");
-            e.printStackTrace();
-        } finally {
-
-        }
-        return b;
-    }
-
-
 
 }
+*/

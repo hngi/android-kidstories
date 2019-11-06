@@ -1,3 +1,4 @@
+/*
 package com.project.android_kidstories.adapters;
 
 
@@ -145,3 +146,4 @@ public class SavedStoriesAdapter extends RecyclerView.Adapter<SavedStoriesAdapte
     }
 
 }
+*/

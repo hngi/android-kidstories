@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
-import com.project.android_kidstories.ui.home.adapters.ExploreAdapter;
+import com.project.android_kidstories.ui.home.adapters.DownloadsAdapter;
 
 public class DownloadsFragment extends Fragment {
 
-    ExploreAdapter exploreAdapter;
+    DownloadsAdapter exploreAdapter;
     StoryLab storyLab;
 
     @Nullable
@@ -26,7 +26,7 @@ public class DownloadsFragment extends Fragment {
 
         RecyclerView recyclerView = root.findViewById(R.id.saved_stories_recycler);
 
-        exploreAdapter = new ExploreAdapter(requireContext());
+        exploreAdapter = new DownloadsAdapter(requireContext());
         recyclerView.setAdapter(exploreAdapter);
 
         exploreAdapter.submitList(storyLab.getStories());

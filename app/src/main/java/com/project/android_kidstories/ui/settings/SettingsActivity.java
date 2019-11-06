@@ -14,6 +14,7 @@ public class SettingsActivity extends BaseActivity {
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = findViewById(R.id.settings_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getSupportFragmentManager()
                 .beginTransaction()

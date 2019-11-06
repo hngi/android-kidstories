@@ -27,8 +27,7 @@
         <activity android:name=".IgnoreForApiTest.TestActivity" />
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/title_activity_the_main"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_the_main" />
         <activity
             android:name=".ui.splash.SplashScreenActivity"
             android:theme="@style/AppTheme.SplashScreen">
@@ -39,9 +38,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.categories.StoriesInCategoryActivity"
-            android:parentActivityName=".ui.MainActivity" /> <!-- Do not edit this theme -->
         <activity
             android:name=".ui.story_viewing.SingleStoryActivity"
             android:parentActivityName=".ui.MainActivity"
@@ -60,7 +56,9 @@
         <activity android:name=".ui.base.BaseActivity" />
         <activity android:name=".ui.reading_status.ReadingStatusActivity" />
         <activity android:name=".ui.staging.ImageStagingActivity" />
-        <activity android:name=".ui.settings.SettingsActivity" />
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:parentActivityName=".ui.MainActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

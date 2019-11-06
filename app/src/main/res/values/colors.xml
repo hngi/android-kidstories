@@ -7,6 +7,7 @@
     <color name="ash">#AEE2E2E2</color>
     <color name="white">#FFFFFF</color>
     <color name="colorPrimaryTransparent">#e14e53f7</color>
+    <color name="colorRating">#C51162</color>
 
 
     <color name="material_grey_50" tools:override="true">#f9fafa</color>

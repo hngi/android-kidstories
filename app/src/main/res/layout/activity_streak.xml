@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
@@ -39,7 +40,7 @@
         android:layout_marginEnd="8dp"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textColor="#C51162"
+        android:textColor="@color/colorRating"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8"

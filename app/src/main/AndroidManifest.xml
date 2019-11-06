@@ -54,10 +54,10 @@
             android:theme="@style/AppTheme.SingleStory" />
         <activity
             android:name=".ui.login.RegisterActivity"
-            android:theme="@style/AppTheme.WhiteStatusBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.login.LoginActivity"
-            android:theme="@style/AppTheme.WhiteStatusBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddStoryActivity"
             android:parentActivityName=".ui.MainActivity" />

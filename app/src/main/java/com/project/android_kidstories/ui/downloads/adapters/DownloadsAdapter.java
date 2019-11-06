@@ -1,6 +1,5 @@
 package com.project.android_kidstories.ui.downloads.adapters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -10,13 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
-import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
 import com.project.android_kidstories.ui.story_viewing.SingleStoryActivity;
 
 import java.util.Objects;
@@ -25,9 +23,9 @@ import static com.project.android_kidstories.utils.CommonUtils.loadBitmap;
 
 public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHolder> {
 
-    private Context context;
+    private Fragment fragment;
 
-    public DownloadsAdapter(Context context) {
+    public DownloadsAdapter(Fragment fragment) {
         super(new DiffUtil.ItemCallback<Story>() {
             @Override
             public boolean areItemsTheSame(@NonNull Story oldItem, @NonNull Story newItem) {
@@ -40,15 +38,13 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
             }
         });
 
-        this.context = context;
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_download_stories, parent, false);
-        return new ViewHolder(itemView);
+        this.fragment = fragment;
+        try {
+            OnStoryDelete on = (OnStoryDelete) fragment;
+        } catch (ClassCastException cce) {
+            Log.d("GLOBAL_TAG", "fragment must implement OnStoryDelete");
+            throw cce;
+        }
     }
 
     @Override
@@ -61,30 +57,33 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
         holder.storyAuthor.setText(String.format("by %s", currentStory.getAuthor()));
 
 
-        Bitmap bitmap = loadBitmap(context, currentStory.getTitle() + ".png");
+        Bitmap bitmap = loadBitmap(fragment.requireContext(), currentStory.getTitle() + ".png");
         holder.storyImage.setImageBitmap(bitmap);
 
         holder.storyDescription.setText(currentStory.getBody());
 
         holder.itemView.setOnClickListener(v -> {
             // Navigate to Single Story Activity
-            Intent intent = new Intent(context, SingleStoryActivity.class);
+            Intent intent = new Intent(fragment.requireContext(), SingleStoryActivity.class);
             intent.putExtra(SingleStoryActivity.STORY_ID_KEY, currentStory.getId());
-            context.startActivity(intent);
+            fragment.startActivity(intent);
         });
 
         holder.remove.setOnClickListener(v -> {
-            new AlertDialog.Builder(context, R.style.AppTheme_Dialog).setTitle("Delete Story")
-                    .setMessage("Do you want to delete this story?")
-                    .setPositiveButton("Yes", (dialogInterface, i) -> {
-                        StoryLab.get(context).deleteStory(currentStory);
-                        context.deleteFile(currentStory.getTitle() + ".png");
-                        notifyItemRemoved(position);
-                        submitList(StoryLab.get(context).getStories());
-                    })
-                    .setNegativeButton("No", null)
-                    .show();
+            ((OnStoryDelete) fragment).onStoryDelete(currentStory);
         });
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_download_stories, parent, false);
+        return new ViewHolder(itemView);
+    }
+
+    public interface OnStoryDelete {
+        void onStoryDelete(Story story);
     }
 
     @Override

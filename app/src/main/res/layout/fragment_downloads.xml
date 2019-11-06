@@ -16,12 +16,14 @@
             android:layout_height="wrap_content"
             app:lottie_autoPlay="true"
             app:lottie_fileName="empty_box.json"
-            app:lottie_loop="true" />
+            app:lottie_loop="true"
+            app:lottie_scale="1.8" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:alpha="0.7"
             android:gravity="center"
             android:text="@string/empty_downloads"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />

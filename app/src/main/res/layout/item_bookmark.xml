@@ -1,41 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-                                   android:layout_height="80dp"
-                                   android:layout_margin="8dp"
-                                   android:background="@drawable/edit_field_curves"
-                                   android:elevation="4dp"
-    >
+    android:layout_height="100dp"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="?colorSurface"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:elevation="12dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center"
-            app:cardCornerRadius="40dp"
-            android:layout_centerHorizontal="true"
-            >
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/bkmrk_img"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/account_icon"/>
-        </androidx.cardview.widget.CardView>
+            android:layout_marginStart="8dp"
+            android:src="@drawable/account_icon" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:layout_marginLeft="15dp"
-            android:gravity="center_vertical"
+            android:layout_marginTop="24dp"
             android:orientation="vertical"
             android:padding="4dp">
 
@@ -43,17 +35,16 @@
                 android:id="@+id/bookmark_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Category Name"
-                android:textColor="@color/black"
-                android:textSize="16sp"/>
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="?colorOnSurface"
+                tools:text="Story Name" />
 
             <TextView
                 android:id="@+id/bookmark_author"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="by Author"
-                android:textSize="16sp"/>
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                tools:text="by Author" />
 
         </LinearLayout>
 
@@ -71,18 +62,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:tint="@color/colorPrimary"
-                app:srcCompat="@drawable/ic_thumb_up_black_24dp"/>
+                android:tint="?colorPrimary"
+                app:srcCompat="@drawable/ic_thumb_up_black_24dp" />
 
             <TextView
                 android:id="@+id/bkmrkcount1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="20"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                tools:text="20" />
 
             <ImageView
                 android:id="@+id/bkmrk_dislike"
@@ -90,17 +81,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_thumb_down_black_24dp"/>
+                app:srcCompat="@drawable/ic_thumb_down_black_24dp" />
 
             <TextView
                 android:id="@+id/bkmrkcount2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="20"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                tools:text="20" />
 
         </LinearLayout>
 

@@ -1,7 +1,6 @@
 package com.project.android_kidstories.ui.profile.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,14 +43,11 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(position);
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                showDeleteDialog(holder.currentStory.getTitle(), holder.currentStory);
+        holder.itemView.setOnLongClickListener(v -> {
+            showDeleteDialog(holder.currentStory.getTitle(), holder.currentStory);
 
-                return true;
+            return true;
 
-            }
         });
     }
 
@@ -62,6 +58,22 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
 
     public interface OnBookmarkClickListener {
         void onStoryClick(int storyId);
+    }
+
+    private void showDeleteDialog(String storyName, Story story) {
+
+        androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(
+                context);
+
+        alertDialog.setPositiveButton("Yes", (dialog, which) -> {
+            removeStory(story);
+            RecyclerStoriesAdapter.deleteStory(context, story.getId());
+
+        });
+        alertDialog.setNegativeButton("No", null);
+        alertDialog.setMessage("Remove " + storyName + " from bookmarks?");
+        alertDialog.setTitle(R.string.app_name);
+        alertDialog.show();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -90,7 +102,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         void bind(int position) {
             currentStory = stories.get(position);
             title.setText(currentStory.getTitle());
-            author.setText("by " + currentStory.getAuthor());
+            author.setText(String.format("by %s", currentStory.getAuthor()));
             likeCount.setText(String.valueOf(currentStory.getLikesCount()));
             dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
             Glide.with(context).load(currentStory.getImageUrl()).into(image);
@@ -100,25 +112,6 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         public void onClick(View v) {
             listener.onStoryClick(currentStory.getId());
         }
-    }
-
-    private void showDeleteDialog(String storyName, Story story) {
-
-        androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(
-                context);
-
-        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                removeStory(story);
-                RecyclerStoriesAdapter.deleteStory(context, story.getId());
-
-            }
-        });
-        alertDialog.setNegativeButton("No", null);
-        alertDialog.setMessage("Remove " + storyName + " from bookmarks?");
-        alertDialog.setTitle(R.string.app_name);
-        alertDialog.show();
     }
 
     private void removeStory(Story currentStory){

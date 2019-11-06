@@ -14,8 +14,8 @@ import com.project.android_kidstories.ui.home.adapters.DownloadsAdapter;
 
 public class DownloadsFragment extends Fragment {
 
-    DownloadsAdapter exploreAdapter;
-    StoryLab storyLab;
+    private DownloadsAdapter exploreAdapter;
+    private StoryLab storyLab;
 
     @Nullable
     @Override
@@ -28,8 +28,6 @@ public class DownloadsFragment extends Fragment {
 
         exploreAdapter = new DownloadsAdapter(requireContext());
         recyclerView.setAdapter(exploreAdapter);
-
-        exploreAdapter.submitList(storyLab.getStories());
 
         return root;
     }

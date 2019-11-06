@@ -4,11 +4,13 @@
     <androidx.preference.SwitchPreferenceCompat
         app:key="night_mode"
         app:iconSpaceReserved="false"
+        app:summary="Reduce glare, improve night reading"
         app:title="Dark Mode" />
 
     <androidx.preference.Preference
         app:key="privacy_policy"
         app:iconSpaceReserved="false"
+        app:summary="Read our privacy policy"
         app:title="Privacy policy" />
 
 </androidx.preference.PreferenceScreen>

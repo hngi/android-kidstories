@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Category;
@@ -35,7 +35,7 @@ public class CategoriesFragment extends BaseFragment {
     private View errorView;
 
     private TabLayout tabLayout;
-    private ViewPager2 viewPager;
+    private ViewPager viewPager;
 
     @Nullable
     @Override
@@ -62,8 +62,12 @@ public class CategoriesFragment extends BaseFragment {
         // Populate
         for (Category category : categories) {
             Log.d("GLOBAL_SCOPE", category.getName());
+            // Populate pagerAdapter
 
         }
+
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
 
     }
 

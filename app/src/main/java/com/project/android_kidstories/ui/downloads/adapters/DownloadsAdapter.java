@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
 import com.project.android_kidstories.ui.story_viewing.SingleStoryActivity;
 
 import java.util.Objects;
@@ -72,7 +74,16 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
         });
 
         holder.remove.setOnClickListener(v -> {
-
+            new AlertDialog.Builder(context, R.style.AppTheme_Dialog).setTitle("Delete Story")
+                    .setMessage("Do you want to delete this story?")
+                    .setPositiveButton("Yes", (dialogInterface, i) -> {
+                        StoryLab.get(context).deleteStory(currentStory);
+                        context.deleteFile(currentStory.getTitle() + ".png");
+                        notifyItemRemoved(position);
+                        submitList(StoryLab.get(context).getStories());
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
         });
     }
 
@@ -86,7 +97,6 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
         private TextView storyTitle;
         private TextView storyAuthor;
         private TextView storyDescription;
-        // private Chip storyCategory;
         private ImageView remove;
 
         public ViewHolder(@NonNull View itemView) {
@@ -95,7 +105,6 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
             storyTitle = itemView.findViewById(R.id.txt_itemtitle_downloads);
             storyAuthor = itemView.findViewById(R.id.txt_itemauthor_downloads);
             storyDescription = itemView.findViewById(R.id.txt_itemdesc_downloads);
-//            storyCategory = itemView.findViewById(R.id.chip_itemcategory_downloads);
             remove = itemView.findViewById(R.id.img_itemremove_downloads);
         }
     }

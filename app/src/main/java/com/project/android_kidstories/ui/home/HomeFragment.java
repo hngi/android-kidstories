@@ -1,5 +1,6 @@
 package com.project.android_kidstories.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import androidx.annotation.NonNull;
@@ -13,6 +14,8 @@ import com.project.android_kidstories.data.source.remote.response_models.story.S
 import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.home.adapters.ExploreAdapter;
 import com.project.android_kidstories.ui.home.adapters.PopularStoriesAdapter;
+import com.project.android_kidstories.ui.reading_status.ReadingStatusActivity;
+import com.project.android_kidstories.ui.settings.SettingsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -126,6 +129,19 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_streaks:
+                startActivity(new Intent(requireContext(), ReadingStatusActivity.class));
+                break;
+
+            case R.id.action_settings:
+                startActivity(new Intent(requireContext(), SettingsActivity.class));
+                break;
+
+            default:
+                return false;
+        }
+
+        return true;
     }
 }

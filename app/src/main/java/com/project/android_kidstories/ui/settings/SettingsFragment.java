@@ -2,6 +2,7 @@ package com.project.android_kidstories.ui.settings;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -22,7 +23,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if (nightModeSwitch != null) {
             if (sharePref.getNightMode()) nightModeSwitch.setChecked(true);
             nightModeSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
-                boolean isNightMode = nightModeSwitch.isChecked();
+                boolean isNightMode = (boolean) newValue;
+                Log.d("GLOBAL_SCOPE", String.valueOf(isNightMode));
                 sharePref.setNightMode(isNightMode);
                 KidstoriesApplication.changeMode(isNightMode);
                 return true;

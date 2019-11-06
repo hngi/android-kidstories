@@ -6,88 +6,22 @@
     android:orientation="vertical"
     tools:context=".ui.settings.SettingsFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_settings"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:minHeight="?android:attr/actionBarSize"
-        android:background="@drawable/nav_cornars">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Settings"
-            android:fontFamily="@font/roboto_regular"
-            android:textSize="24sp"
-            android:layout_marginEnd="54dp"
-            android:textColor="@color/white"
-            android:gravity="center" />
-    </androidx.appcompat.widget.Toolbar>
-
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:padding="8dp"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true">
 
-        <Switch
-            android:id="@+id/night_switch"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/settings_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textSize="16sp"
-            android:textStyle="normal"
-            android:fontFamily="@font/roboto_regular"
-            android:text="@string/enable_night_mode"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+            android:background="?colorPrimary" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="reminderClicked"
-            android:orientation="horizontal">
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:text="@string/daily_reminder_text"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto_regular"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
-
-            <TextView
-                android:id="@+id/timetext_settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/roboto_regular"
-                android:textSize="16sp"
-                android:text="8:00 PM"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
-
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Privacy Policy"
-            android:layout_marginTop="18dp"
-            android:textSize="16sp"
-            android:onClick="openPrivacyPolicyPage"
-            android:fontFamily="@font/roboto_regular"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
-    </LinearLayout>
-
-
-
-
+    <FrameLayout
+        android:id="@+id/framelayout_settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

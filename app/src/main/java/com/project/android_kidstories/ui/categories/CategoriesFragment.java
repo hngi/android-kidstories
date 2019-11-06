@@ -63,11 +63,18 @@ public class CategoriesFragment extends BaseFragment {
         for (Category category : categories) {
             Log.d("GLOBAL_SCOPE", category.getName());
             // Populate pagerAdapter
-
+            pagerAdapter.addFragment(new CategoryTabFragment(String.valueOf(category.getId())));
         }
 
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        for (int i = 0; i < categories.size(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null) {
+                tab.setText(categories.get(i).getName());
+            }
+        }
 
     }
 

@@ -1,23 +1,40 @@
 package com.project.android_kidstories.ui.settings;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TimePicker;
+import android.widget.Toast;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.data.source.local.preferences.PreferenceKeys;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
+import com.project.android_kidstories.receivers.AlarmReceiver;
 import com.project.android_kidstories.ui.KidstoriesApplication;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class SettingsFragment extends PreferenceFragmentCompat {
+
+    private SharePref sharePref;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.kidstories_preference, rootKey);
 
-        SharePref sharePref = SharePref.getInstance(requireActivity().getApplication());
+        sharePref = SharePref.getInstance(requireActivity().getApplication());
 
         SwitchPreferenceCompat nightModeSwitch = findPreference("night_mode");
         if (nightModeSwitch != null) {
@@ -38,6 +55,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 return true;
             });
         }
+
+        Preference reminderTime = findPreference("reminder_time");
+        if (reminderTime != null) {
+            reminderTime.setOnPreferenceClickListener(preference -> {
+                reminderClicked(reminderTime.getSummary().toString());
+                return true;
+            });
+        }
     }
 
 
@@ -52,60 +77,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         customTabsIntent.launchUrl(requireContext(), Uri.parse(policyUrl));
     }
 
-
-
-
-    /*private static final String ALARM_TIME = "ALARM_TIME";
-
-    SharePref sharePref;
-
-    TextView timeTextview;
-
-    //    SharePref sharePref;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-        // Set up toolbar
-        Toolbar settingsToolbar = findViewById(R.id.toolbar_settings);
-        setSupportActionBar(settingsToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        sharePref = getSharePref();
-
-        Switch nightSwitch = findViewById(R.id.night_switch);
-        Log.d("XXX night", String.valueOf(getSharePref().getNightMode()));
-
-        if (sharePref.getNightMode()) {
-            nightSwitch.setChecked(true);
-        }
-
-//        sharePref = SharePref.getINSTANCE(SettingsActivity.this);
-        timeTextview = findViewById(R.id.timetext_settings);
-
-        String timeStr = getSharePref().getString(ALARM_TIME);
-        if (TextUtils.isEmpty(timeStr)) {
-            timeStr = "8:00 PM";
-        }
-        timeTextview.setText(timeStr);
-
-
-        nightSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
-            sharePref.setNightMode(b);
-            if (b) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
-        });
-
-    }
-*/
-
-   /* public void reminderClicked(View view) {
-        String timeText = timeTextview.getText().toString();
-        String[] timeSplit = timeText.replace("PM", "")
+    private void reminderClicked(String summary) {
+        String newTime = summary;
+        String[] timeSplit = summary.replace("PM", "")
                 .replace("AM", "")
                 .trim()
                 .split(":");
@@ -116,7 +90,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         int hour = Integer.valueOf(hourString);
         int min = Integer.valueOf(minuteString);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 Calendar calendar = Calendar.getInstance();
@@ -124,12 +98,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 calendar.set(Calendar.MINUTE, i1);
                 Date d = new Date(calendar.getTimeInMillis());
                 DateFormat format = new SimpleDateFormat("h:mm a", Locale.US);
-                timeTextview.setText(
-                        format.format(d)
-                );
+                //newTime = format.format(d);
 
-                getSharePref().setString(ALARM_TIME, format.format(d));
-
+                sharePref.setString(PreferenceKeys.ALARM_TIME, format.format(d));
                 setAlarm(i, i1);
             }
         }, hour, min, false);
@@ -138,9 +109,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void setAlarm(int hour, int minute) {
-        AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager am = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
@@ -150,11 +121,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
             Log.d("Alarm", "Saved Alarm");
         } catch (NullPointerException npe) {
-            Toast.makeText(this, "Could not create reminder", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Could not create reminder", Toast.LENGTH_SHORT).show();
             Log.d("Alarm", "Could not save Alarm");
         }
 
     }
 
-    */
 }

@@ -189,13 +189,14 @@ public class SingleStoryActivity extends BaseActivity {
     }
 
     private void updateIcons() {
-        if (storyLab.getStory(testStory.getTitle()) != null) {
+        Story storyDownloaded = storyLab.getStory(downloads_story_name);
+        if (storyDownloaded != null) {
             saveStory.setSelected(true);
         }
 
         saveStory.setOnClickListener(view -> {
             if (testStory != null) {
-                if (storyLab.getStory(testStory.getTitle()) == null) {
+                if (storyDownloaded == null) {
                     storyLab.addStory(testStory);
 
                     BitmapDrawable bitmapDrawable = (BitmapDrawable) story_pic.getDrawable();

@@ -309,7 +309,6 @@ public class LoginActivity extends BaseActivity {
         finish();
     }
 
-
     @Override
     public void onStart() {
 
@@ -319,13 +318,14 @@ public class LoginActivity extends BaseActivity {
             Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
 
         } else if (getSharePref().getUserId() != -1) {
-            for (User loggedInUser : viewModel.getallUsers()) {
-                if (loggedInUser.getId().equals(getSharePref().getLoggedUserId())) {
-                    MainActivity.start(LoginActivity.this, loggedInUser);
-                    finish();
+            if (viewModel != null) {
+                for (User loggedInUser : viewModel.getallUsers()) {
+                    if (loggedInUser.getId().equals(getSharePref().getLoggedUserId())) {
+                        MainActivity.start(LoginActivity.this, loggedInUser);
+                        finish();
+                    }
                 }
             }
-
 
             Log.d(TAG, "Not logged in");
         }

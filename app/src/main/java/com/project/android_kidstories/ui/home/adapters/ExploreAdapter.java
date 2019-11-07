@@ -81,7 +81,11 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             context.startActivity(intent);
         });
 
-        holder.bookmark.setOnClickListener(view -> onBookmarkListener.onBookmark(position));
+        holder.bookmark.setOnClickListener(view -> {
+            currentStory.setBookmark(!currentStory.isBookmark());
+            // Save
+            setBookmark(holder, currentStory);
+        });
     }
 
     @NonNull
@@ -92,7 +96,7 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         return new ViewHolder(itemView);
     }
 
-   /* private void setBookmark(ViewHolder holder, Story story) {
+    private void setBookmark(ViewHolder holder, Story story) {
         if (story.isBookmark()) {
             holder.bookmark.setSelected(true);
         } else {
@@ -100,10 +104,10 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         }
 
         onBookmarkListener.onBookmark(story);
-    }*/
+    }
 
     public interface OnBookmark {
-        void onBookmark(int storyPos);
+        void onBookmark(Story story);
     }
 
     @Override

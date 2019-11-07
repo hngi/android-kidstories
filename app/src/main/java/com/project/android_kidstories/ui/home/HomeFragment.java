@@ -162,25 +162,21 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
     }
 
     @Override
-    public void onBookmark(int pos) {
-        Story story = stories.get(pos);
+    public void onBookmark(Story story) {
         if (story.isBookmark()) {
-            bookmarkStory(story.getId(), pos);
+            bookmarkStory(story.getId());
         } else {
-            deleteBookmarkedStory(story.getId(), pos);
+            deleteBookmarkedStory(story.getId());
         }
     }
 
-    private void deleteBookmarkedStory(int id, int pos) {
-        String token = "Bearer " + getSharePref().getUserToken();
-        service.deleteBookmarkedStory(token, id)
+    private void deleteBookmarkedStory(int id) {
+        service.deleteBookmarkedStory(getSharePref().getUserToken(), id)
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
                             Toast.makeText(getContext(), "Story deleted from bookmarks", Toast.LENGTH_SHORT).show();
-                            stories.get(pos).setBookmark(false);
-                            exploreAdapter.notifyDataSetChanged();
                         }
                     }
 
@@ -191,16 +187,13 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
                 });
     }
 
-    private void bookmarkStory(int id, int pos) {
-        String token = "Bearer " + getSharePref().getUserToken();
-        service.bookmarkStory(token, id)
+    private void bookmarkStory(int id) {
+        service.bookmarkStory(getSharePref().getUserToken(), id)
                 .enqueue(new Callback<BookmarkResponse>() {
                     @Override
                     public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
                         if (response.isSuccessful()) {
                             Toast.makeText(getContext(), "Story added to bookmarks", Toast.LENGTH_SHORT).show();
-                            stories.get(pos).setBookmark(true);
-                            exploreAdapter.notifyDataSetChanged();
                         }
                     }
 

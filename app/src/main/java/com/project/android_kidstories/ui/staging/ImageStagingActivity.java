@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.source.helpers.BedTimeDbHelper;
 import com.project.android_kidstories.ui.base.BaseActivity;
-import com.project.android_kidstories.utils.ImageConversion;
 import com.takusemba.cropme.CropImageView;
 import com.takusemba.cropme.CropLayout;
 import com.takusemba.cropme.OnCropListener;
@@ -21,6 +20,7 @@ import java.io.FileNotFoundException;
 public class ImageStagingActivity extends BaseActivity {
 
     private static final String INTENT_URI_KEY = "INTENT_URI_KEY";
+    private static final String IMAGE_BITMAP_KEY = "IMAGE_BITMAP_KEY";
 
     public static void startForResult(Fragment fragment, String uriString, int request_code) {
         Intent intent = new Intent(fragment.requireContext(), ImageStagingActivity.class);
@@ -65,10 +65,9 @@ public class ImageStagingActivity extends BaseActivity {
         crop_view.crop(new OnCropListener() {
             @Override
             public void onSuccess(Bitmap bitmap) {
-                byte[] imageByteArray = new ImageConversion().convertBitMapToByteArray(bitmap);
-                helper.storeUserImage(imageByteArray, ImageStagingActivity.this);
-
-                setResult(Activity.RESULT_OK);
+                Intent data = new Intent();
+                data.putExtra(IMAGE_BITMAP_KEY, bitmap);
+                setResult(Activity.RESULT_OK, data);
                 finish();
             }
 

@@ -6,34 +6,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-         android:layout_width="match_parent"
-         android:layout_height="278dp"
-         android:animateLayoutChanges="true"
-         android:fitsSystemWindows="true"
-         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <!--  <com.google.android.material.appbar.AppBarLayout
+           android:layout_width="match_parent"
+           android:layout_height="278dp"
+           android:animateLayoutChanges="true"
+           android:fitsSystemWindows="true"
+           android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-         <com.google.android.material.appbar.CollapsingToolbarLayout
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:fitsSystemWindows="true"
-             app:layout_scrollFlags="scroll|exitUntilCollapsed">
+           <com.google.android.material.appbar.CollapsingToolbarLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:fitsSystemWindows="true"
+               app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-             <ImageView
-                 android:id="@+id/story_pic"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:scaleType="centerCrop"
-                 app:layout_collapseMode="parallax" />
+               <ImageView
+                   android:id="@+id/story_pic"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:scaleType="centerCrop"
+                   app:layout_collapseMode="parallax" />
 
-             <View
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:background="@drawable/scrim_single_story" />
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:background="@drawable/scrim_single_story" />
 
-         </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+           </com.google.android.material.appbar.CollapsingToolbarLayout>
+      </com.google.android.material.appbar.AppBarLayout>
 
+    -->
     <ProgressBar
         android:id="@+id/story_content_bar"
         style="?android:attr/progressBarStyle"

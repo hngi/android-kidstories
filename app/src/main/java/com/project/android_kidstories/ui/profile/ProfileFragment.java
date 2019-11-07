@@ -55,6 +55,8 @@ public class ProfileFragment extends BaseFragment {
 
     private String token;
 
+    View progressbar;
+
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
     }
@@ -71,6 +73,8 @@ public class ProfileFragment extends BaseFragment {
         token = sharePref.getUserToken();
 
         imageView = root.findViewById(R.id.profile);
+
+        progressbar = root.findViewById(R.id.progressbar_profile);
 
         initViews(root);
 
@@ -172,6 +176,8 @@ public class ProfileFragment extends BaseFragment {
     }
 
     private void uploadProfileImage(Bitmap bitmap, String uriString) {
+        progressbar.setVisibility(View.VISIBLE);
+
         // Try to upload
         if (uriString == null || uriString.isEmpty()) return; // No uri
         String mediaPath = getMediaPath(uriString);
@@ -200,8 +206,10 @@ public class ProfileFragment extends BaseFragment {
 
                     setProfileImage();
                     ((MainActivity) requireActivity()).updateProfileImage();
+                    progressbar.setVisibility(View.GONE);
                 } else {
                     Log.d("Upload Status", "Something went wrong");
+                    progressbar.setVisibility(View.GONE);
                 }
             }
 
@@ -209,6 +217,7 @@ public class ProfileFragment extends BaseFragment {
             public void onFailure(Call<BaseResponse<Void>> call, Throwable t) {
                 Toast.makeText(requireContext(), "Network Failure", Toast.LENGTH_SHORT).show();
                 Log.d("Upload Status", t.getMessage());
+                progressbar.setVisibility(View.GONE);
             }
         });
     }

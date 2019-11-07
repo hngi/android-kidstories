@@ -385,4 +385,8 @@ public class SingleStoryActivity extends BaseActivity {
                 })
                 .setNegativeButton("No", null).show();
     }
+
+    public void back(View view) {
+        finish();
+    }
 }

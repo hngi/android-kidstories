@@ -61,6 +61,7 @@ public class PopularStoriesAdapter extends ListAdapter<Story, PopularStoriesAdap
             // Navigate to Single Story Activity
             Intent intent = new Intent(context, SingleStoryActivity.class);
             intent.putExtra(SingleStoryActivity.STORY_ID_KEY, currentStory.getId());
+            intent.putExtra(SingleStoryActivity.STORY_NAME_KEY, currentStory.getTitle());
             context.startActivity(intent);
         });
     }

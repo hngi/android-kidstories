@@ -114,7 +114,7 @@ public class StoryLab { // A singleton class
         }
     }
 
-    private  StoryCursorWrapper queryStories(String where, String[] whereArgs){
+    private StoryCursorWrapper queryStories(String where, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
                 StoryDbSchema.StoryTable.NAME,
                 null,

@@ -44,6 +44,13 @@
         android:visibility="visible"
         tools:visibility="gone" />
 
+    <include
+        android:id="@+id/error_msg"
+        layout="@layout/layout_connection_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedscroll_single_story"
         android:layout_width="match_parent"

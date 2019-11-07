@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
@@ -23,6 +26,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -53,6 +60,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * @author .: Ehma Ugbogo
@@ -261,7 +270,24 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     if (viewModel.currentUser.getImage() != null && !viewModel.currentUser.getImage().isEmpty()) {
                         Glide.with(getApplicationContext())
                                 .load(viewModel.currentUser.getImage())
+                                .addListener(new RequestListener<Drawable>() {
+                                    @Override
+                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                        BitmapDrawable bd = (BitmapDrawable) resource;
+                                        Bitmap b = bd.getBitmap();
+                                        ByteArrayOutputStream bs = new ByteArrayOutputStream();
+                                        b.compress(Bitmap.CompressFormat.PNG, 100, bs);
+                                        new BedTimeDbHelper(MainActivity.this).storeUserImage(bs.toByteArray(), MainActivity.this);
+                                        return false;
+                                    }
+                                })
                                 .into(navProfilePic);
+                        //
                     } else {
                         // Leave default local image if there is none from the api
                     }

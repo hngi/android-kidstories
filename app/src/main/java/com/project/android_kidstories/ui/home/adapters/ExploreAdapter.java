@@ -63,6 +63,7 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         } else {
             holder.bookmark.setActivated(false);
         }
+
         Glide.with(holder.itemView)
                 .load(currentStory.getImageUrl())
                 .into(holder.storyImage);
@@ -75,6 +76,12 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             intent.putExtra(SingleStoryActivity.STORY_ID_KEY, currentStory.getId());
             intent.putExtra(SingleStoryActivity.STORY_NAME_KEY, currentStory.getTitle());
             context.startActivity(intent);
+        });
+
+        holder.bookmark.setOnClickListener(view -> {
+            currentStory.setBookmark(true);
+            // Save
+
         });
     }
 

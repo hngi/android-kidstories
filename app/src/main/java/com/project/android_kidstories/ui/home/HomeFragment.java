@@ -3,6 +3,7 @@ package com.project.android_kidstories.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +12,7 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
+import com.project.android_kidstories.data.source.remote.response_models.bookmark.BookmarkResponse;
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryAllResponse;
 import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.home.adapters.ExploreAdapter;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookmark {
 
     private List<Story> stories = new ArrayList<>();
     private List<Story> populars = new ArrayList<>();
@@ -65,7 +67,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        exploreAdapter = new ExploreAdapter(requireContext());
+        exploreAdapter = new ExploreAdapter(this);
         popularStoriesAdapter = new PopularStoriesAdapter(requireContext());
 
         recyclerViewExplore.setAdapter(exploreAdapter);
@@ -157,6 +159,52 @@ public class HomeFragment extends BaseFragment {
         }
 
         return true;
+    }
+
+    @Override
+    public void onBookmark(Story story) {
+        if (story.isBookmark()) {
+            bookmarkStory(story.getId());
+        } else {
+            deleteBookmarkedStory(story.getId());
+        }
+    }
+
+    private void deleteBookmarkedStory(int id) {
+        String token = "Bearer " + getSharePref().getUserToken();
+        service.deleteBookmarkedStory(token, id)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getContext(), "Story deleted from bookmarks", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getContext(), "Could not delete story from bookmarks", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void bookmarkStory(int id) {
+        String token = "Bearer " + getSharePref().getUserToken();
+        service.bookmarkStory(token, id)
+                .enqueue(new Callback<BookmarkResponse>() {
+                    @Override
+                    public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getContext(), "Story added to bookmarks", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<BookmarkResponse> call, Throwable t) {
+                        Toast.makeText(getContext(), "Could not add story to bookmarks", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
     /*@Override

@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 import java.util.List;
 
-public class CategoryTabFragment extends BaseFragment {
+public class CategoryTabFragment extends BaseFragment implements ExploreAdapter.OnBookmark {
 
     private String category_id;
 
@@ -48,7 +48,7 @@ public class CategoryTabFragment extends BaseFragment {
         progressBar = root.findViewById(R.id.tab_category_bar);
         errorView = root.findViewById(R.id.error_msg);
 
-        adapter = new ExploreAdapter(requireContext());
+        adapter = new ExploreAdapter(this);
         recyclerView.setAdapter(adapter);
 
         getCategoryStories();
@@ -93,5 +93,10 @@ public class CategoryTabFragment extends BaseFragment {
                 errorView.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    public void onBookmark(Story story) {
+
     }
 }

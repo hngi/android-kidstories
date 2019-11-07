@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +27,7 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
     private Context context;
     private OnBookmark onBookmarkListener;
 
-    public ExploreAdapter(Context context) {
+    public ExploreAdapter(Fragment fragment) {
         super(new DiffUtil.ItemCallback<Story>() {
             @Override
             public boolean areItemsTheSame(@NonNull Story oldItem, @NonNull Story newItem) {
@@ -40,7 +41,9 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         });
 
         try {
-            onBookmarkListener = (OnBookmark) context;
+            onBookmarkListener = (OnBookmark) fragment;
+            this.context = fragment.getContext();
+
         } catch (IllegalStateException ise) {
             Toast.makeText(context, "Context must implement OnBookmark", Toast.LENGTH_SHORT).show();
             throw ise;
@@ -58,7 +61,11 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         // Replace ID with actual category name
         // holder.storyCategory.setText(String.valueOf(currentStory.getCategoryId()));
 
-        setBookmark(holder, currentStory);
+        if (currentStory.isBookmark()) {
+            holder.bookmark.setSelected(true);
+        } else {
+            holder.bookmark.setSelected(false);
+        }
 
         Glide.with(holder.itemView)
                 .load(currentStory.getImageUrl())
@@ -95,15 +102,12 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         } else {
             holder.bookmark.setSelected(false);
         }
-        if (!onBookmarkListener.onBookmark(story)) {
-            // Story bookmark state couldn't be updated in activity, revert
-            story.setBookmark(!story.isBookmark());
-            holder.bookmark.setSelected(story.isBookmark());
-        }
+
+        onBookmarkListener.onBookmark(story);
     }
 
-    interface OnBookmark {
-        boolean onBookmark(Story story);
+    public interface OnBookmark {
+        void onBookmark(Story story);
     }
 
     @Override

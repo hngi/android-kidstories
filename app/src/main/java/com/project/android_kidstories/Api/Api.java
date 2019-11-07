@@ -181,7 +181,7 @@ public interface Api {
 
     @POST("stories/{storyId}/reactions/dislike")
     Call<ReactionResponse> dislikeStory(@Header("Authorization") String token,
-                                      @Path("storyId") Integer storyId);
+                                        @Path("storyId") Integer storyId);
 
 
 
@@ -216,6 +216,9 @@ public interface Api {
 
     @GET("categories/{id}/stories")
     Call<BaseResponse2> getStoriesByCategoryIdandUser2(@Path("id") String categoryId);
+
+    @GET("categories/{id}/stories")
+    Call<BaseResponse2> getStoriesByCategoryIdandUserWithAuth(@Header("Authorization") String token, @Path("id") String categoryId);
 
 
 

@@ -66,7 +66,6 @@ public class MyStoriesFragment extends Fragment {
         sharePref = SharePref.getINSTANCE(getActivity().getApplicationContext());
 
 
-
         repository = new Repository(getActivity().getApplicationContext());
         fetchStories("1");
 

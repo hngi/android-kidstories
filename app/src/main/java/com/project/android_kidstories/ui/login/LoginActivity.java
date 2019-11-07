@@ -24,7 +24,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.Repository;
-import com.project.android_kidstories.data.model.User;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.data.source.remote.response_models.loginRegister.LoginResponse;
 import com.project.android_kidstories.ui.MainActivity;
@@ -37,7 +36,7 @@ import retrofit2.Response;
 import java.util.Arrays;
 
 public class LoginActivity extends BaseActivity {
-    public static final String USER_KEY_INTENT_EXTRA ="com.project.android_kidstories_USER_KEY";
+    public static final String USER_KEY_INTENT_EXTRA = "com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "LoginActivity";
     private GoogleSignInClient googleSignInClient;
@@ -61,7 +60,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
 
         repository = Repository.getInstance(getApplication());
@@ -97,7 +95,6 @@ public class LoginActivity extends BaseActivity {
                 .requestServerAuthCode("473866473162-4k87knredq3nnb19d4el239n1ja6r3ae.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
-
         googleSignInClient = GoogleSignIn.getClient(this, gso);*/
 
         googleSignInSetUp();
@@ -139,7 +136,7 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        Log.e("TAG", isLogedIn +"");
+        Log.e("TAG", isLogedIn + "");
 
     }
 
@@ -165,8 +162,8 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    private void saveUserDetails(String token, String fullname, String email) {
-        sharePref.saveLoginDetails(token, fullname, email);
+    private void saveUserDetails(String token, String firstname, String lastname, String email) {
+        getSharePref().saveLoginDetails(token, firstname + " " + lastname, email);
     }
 
     private void loginUser() {
@@ -191,8 +188,6 @@ public class LoginActivity extends BaseActivity {
             repository.getStoryApi().loginUser(email_string, password_string).enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-
-
                     if (response.isSuccessful()) {
 
                         assert response.body() != null;
@@ -202,7 +197,7 @@ public class LoginActivity extends BaseActivity {
                         String mFirstname = response.body().getUser().getFirstName();
                         String mLastname = response.body().getUser().getLastName();
                         String mEmail = response.body().getUser().getEmail();
-                        saveUserDetails(token, mFirstname + " " + mLastname, mEmail);
+                        saveUserDetails(token, mFirstname, mLastname, mEmail);
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -221,7 +216,7 @@ public class LoginActivity extends BaseActivity {
                     } else {
                         loginProg.setVisibility(View.INVISIBLE);
                         // LoginProgress.hide();
-                        Snackbar.make(findViewById(R.id.login_parent_layout), "Invalid Username or Password"
+                        Snackbar.make(findViewById(R.id.login_parent_layout), response.message() + " Invalid Username or Password"
                                 , Snackbar.LENGTH_LONG).show();
                     }
                 }
@@ -309,30 +304,29 @@ public class LoginActivity extends BaseActivity {
         finish();
     }
 
+
     @Override
     public void onStart() {
+        super.onStart();
 
-        GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if (getSharePref().getIsUserLoggedIn()) {
+            openMainActivity(LoginActivity.this);
+
+            Log.d(TAG, "Not logged in");
+        }
+
+
+        /*GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
         if (alreadyloggedAccount != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
 
-        } else if (getSharePref().getUserId() != -1) {
-            if (viewModel != null) {
-                for (User loggedInUser : viewModel.getallUsers()) {
-                    if (loggedInUser.getId().equals(getSharePref().getLoggedUserId())) {
-                        MainActivity.start(LoginActivity.this, loggedInUser);
-                        finish();
-                    }
-                }
-            }
-
-            Log.d(TAG, "Not logged in");
         }
-        super.onStart();
-        // Check if user is logged in through facebook
-        checkLoginStatus();
+        */
 
+
+        // Check if user is logged in through facebook
+        //checkLoginStatus();
 
     }
 
@@ -367,6 +361,11 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
-}
 
+    protected void openMainActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        //intent.putExtra(MainActivity.USER_KEY_INTENT_EXTRA, (Parcelable) currentUser);
+        startActivity(intent);
+    }
+}
 

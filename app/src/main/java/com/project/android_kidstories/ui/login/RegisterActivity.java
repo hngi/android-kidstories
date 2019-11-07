@@ -156,11 +156,16 @@ public class RegisterActivity extends BaseActivity {
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                        editor.putString("Token", response.body().getData().getToken());
-                        editor.putString("Username",firstName +" "+ lastName);
+                        RegistrationDataResponse rdr = response.body().getData();
+                        getSharePref().saveLoginDetails(
+                                rdr.getToken(),
+                                rdr.getFirstName() + " " + rdr.getLastName(),
+                                rdr.getEmail());
+
+                        editor.putString("Token", rdr.getToken());
+                        editor.putString("Username", firstName + " " + lastName);
                         editor.apply();
                         sharePref.setIsUserLoggedIn(true);
-
 
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -170,10 +175,9 @@ public class RegisterActivity extends BaseActivity {
                         Toast.makeText(getApplicationContext(), "User Successfully Created", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.INVISIBLE);
                         //  regProgress.dismiss();
-                    }
-                    else {
-                       Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
-                       startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(intent);
                     }
                 }
 
@@ -392,4 +396,3 @@ public class RegisterActivity extends BaseActivity {
         }
     }
 }
-

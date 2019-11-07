@@ -30,7 +30,6 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -71,7 +70,7 @@ import java.io.ByteArrayOutputStream;
 
 
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    private static final String USER_KEY_INTENT_EXTRA = "com.project.android_kidstories_USER_KEY";
+    public static final String USER_KEY_INTENT_EXTRA = "com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "kidstories";
     private DrawerLayout drawer;
@@ -116,7 +115,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         setContentView(R.layout.activity_main);
 
         createNotificationChannel();
-
 
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
@@ -447,7 +445,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private void signout() {
-        // Facebook logout
+        /*// Facebook logout
         if (LoginManager.getInstance() != null) {
             LoginManager.getInstance().logOut();
         }
@@ -458,13 +456,26 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         // ...
                         Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
                     });
-        }
+        }*/
+        Repository repository = Repository.getInstance(getApplication());
+        repository.getStoryApi().logoutUser(getSharePref().getUserToken()).enqueue(new Callback<BaseResponse<DataResponse>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
 
-        sharePref.setIsUserLoggedIn(false);
-        Intent logout = new Intent(MainActivity.this, LoginActivity.class);
-        logout.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(logout);
-        finish();
+                if (response.isSuccessful()) {
+                    sharePref.setIsUserLoggedIn(false);
+                    Intent logout = new Intent(MainActivity.this, LoginActivity.class);
+                    logout.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(logout);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 

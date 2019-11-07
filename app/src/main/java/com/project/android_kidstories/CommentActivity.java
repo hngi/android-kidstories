@@ -56,7 +56,7 @@ public class CommentActivity extends BaseActivity {
         commentProgressBar = findViewById(R.id.comment_progress_bar);
         commentStatus = findViewById(R.id.comment_status_text);
 
-        layoutManager = new LinearLayoutManager(CommentActivity.this, RecyclerView.VERTICAL, false);
+        layoutManager = new LinearLayoutManager(CommentActivity.this, LinearLayoutManager.VERTICAL, false);
 
         service.getStory(storyId).enqueue(new Callback<StoryBaseResponse>() {
             @Override

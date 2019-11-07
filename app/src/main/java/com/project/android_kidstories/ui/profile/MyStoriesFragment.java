@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.Repository;
 import com.project.android_kidstories.data.model.Story;
@@ -35,6 +36,10 @@ public class MyStoriesFragment extends BaseFragment {
     private ProgressBar progressBar;
     private View errorView;
 
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    private Call<StoryAllResponse> allStoriesCall;
+
     public static MyStoriesFragment getInstance() {
         return new MyStoriesFragment();
     }
@@ -46,12 +51,19 @@ public class MyStoriesFragment extends BaseFragment {
         progressBar = root.findViewById(R.id.loading_bar);
         errorView = root.findViewById(R.id.error_msg);
 
+        swipeRefreshLayout = root.findViewById(R.id.swiper);
+
         context = requireContext();
         userId = getSharePref().getUserId();
 
         if (userId == -1) {
             showToast("No user logged in");
         }
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            if (allStoriesCall != null) allStoriesCall.cancel();
+            fetchStories(root, "1");
+        });
 
         return root;
     }
@@ -60,33 +72,18 @@ public class MyStoriesFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-/*<<<<<<< HEAD
-        Repository repository = new Repository(context);
-        repository.getStoryApi().getAllStories("1").enqueue(new Callback<StoryAllResponse>() {
-            @Override
-            public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
-                if (response.isSuccessful()) {
-                    StoryAllResponse storyAllResponse = response.body();
-                    if (storyAllResponse == null) {
-                        // Nothing was received
-                        showSnack(view, "No story received");
-                        progressBar.setVisibility(View.GONE);
-                        errorView.setVisibility(View.VISIBLE);
-                        return;
-                    }
-                    List<Story> stories = storyAllResponse.getData();
-                    for (int i = 0; i < stories.size(); i++) {
-                        if (stories.get(i).getUserId() == userId) {
-                            storyList.add(stories.get(i));*/
-
         repository = new Repository(getActivity().getApplicationContext());
         fetchStories(view, "1");
     }
 
     void fetchStories(View view, String page) {
-        repository.getStoryApi().getAllStories(page).enqueue(new Callback<StoryAllResponse>() {
+        swipeRefreshLayout.setRefreshing(true);
+
+        allStoriesCall = repository.getStoryApi().getAllStories(page);
+        allStoriesCall.enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
+                swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
                     for (int i = 0; i < response.body().getStories().size(); i++) {
                         if (response.body().getStories().get(i).getUserId() == getSharePref().getUserId()) {
@@ -103,6 +100,7 @@ public class MyStoriesFragment extends BaseFragment {
                 showSnack(view, "Can't retrieve your stories, check connectivity and try again");
                 progressBar.setVisibility(View.GONE);
                 errorView.setVisibility(View.VISIBLE);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

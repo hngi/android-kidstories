@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.project.android_kidstories.R;
@@ -42,6 +43,8 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
     private ArrayList<Story> stories = new ArrayList<>();
     private String token;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private Call<UserBookmarkResponse> bookmarksCall;
 
     @Nullable
@@ -51,12 +54,17 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
         ButterKnife.bind(this, root);
 
         errorView = root.findViewById(R.id.error_msg);
+        swipeRefreshLayout = root.findViewById(R.id.swiper);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        progressBar.setVisibility(View.VISIBLE);
         errorView.setVisibility(View.GONE);
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            if (bookmarksCall != null) bookmarksCall.cancel();
+            refreshData();
+        });
 
         return root;
     }
@@ -69,6 +77,8 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
     }
 
     private void refreshData() {
+        swipeRefreshLayout.setRefreshing(true);
+
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
         token = "Bearer " + getSharePref().getUserToken();
@@ -82,6 +92,7 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
             public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
                 stories.clear();
                 progressBar.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
 
                 if (response.isSuccessful()) {
                     List<Story> data = response.body().getData();
@@ -98,6 +109,7 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
             public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
                 errorView.setVisibility(View.VISIBLE);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 

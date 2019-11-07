@@ -31,6 +31,8 @@ public class CategoryTabFragment extends BaseFragment {
     private View progressBar;
     private View errorView;
 
+    private Call<BaseResponse2> serviceCall;
+
     public CategoryTabFragment(String category_id) {
         this.category_id = category_id;
     }
@@ -58,13 +60,15 @@ public class CategoryTabFragment extends BaseFragment {
         Log.d("GLOBAL_SCOPE", "In TabFragment getting stories for this category");
 
         progressBar.setVisibility(View.VISIBLE);
+
         Api service = RetrofitClient.getInstance().create(Api.class);
 
-        Call<BaseResponse2> serviceCall = service.getStoriesByCategoryIdandUser2(category_id);
+        serviceCall = service.getStoriesByCategoryIdandUser2(category_id);
         serviceCall.enqueue(new Callback<BaseResponse2>() {
             @Override
             public void onResponse(Call<BaseResponse2> call, Response<BaseResponse2> response) {
                 progressBar.setVisibility(View.GONE);
+
                 Log.d("GLOBAL_SCOPE", String.valueOf(response.code()));
 
                 if (response.isSuccessful()) {

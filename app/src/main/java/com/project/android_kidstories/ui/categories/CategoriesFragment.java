@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
@@ -37,6 +38,8 @@ public class CategoriesFragment extends BaseFragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    SwipeRefreshLayout swipeRefreshLayout;
+
     Call<CategoriesAllResponse> allResponseCall;
 
     @Nullable
@@ -46,11 +49,13 @@ public class CategoriesFragment extends BaseFragment {
 
         tabLayout = root.findViewById(R.id.tabLayout_categories_fragment);
         viewPager = root.findViewById(R.id.viewPager_categories_fragment);
+        swipeRefreshLayout = root.findViewById(R.id.swiper);
 
         progressBar = root.findViewById(R.id.category_bar);
         errorView = root.findViewById(R.id.error_msg);
 
         getCategoriesList();
+        swipeRefreshLayout.setOnRefreshListener(() -> getCategoriesList());
 
         return root;
     }
@@ -81,7 +86,7 @@ public class CategoriesFragment extends BaseFragment {
     }
 
     private void getCategoriesList() {
-        progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
 
         Api service = RetrofitClient.getInstance().create(Api.class);
 
@@ -91,6 +96,8 @@ public class CategoriesFragment extends BaseFragment {
             @Override
             public void onResponse(Call<CategoriesAllResponse> call, Response<CategoriesAllResponse> response) {
                 progressBar.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
+
                 if (response.isSuccessful()) {
                     errorView.setVisibility(View.GONE);
                     CategoriesAllResponse allResponse = response.body();
@@ -109,6 +116,7 @@ public class CategoriesFragment extends BaseFragment {
             public void onFailure(Call<CategoriesAllResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 errorView.setVisibility(View.VISIBLE);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

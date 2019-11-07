@@ -6,6 +6,7 @@ import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.remote.api.Api;
@@ -37,6 +38,8 @@ public class HomeFragment extends BaseFragment {
 
     private String currentPage = "1";
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private View errorView;
     private View contentView;
 
@@ -48,6 +51,7 @@ public class HomeFragment extends BaseFragment {
 
         errorView = root.findViewById(R.id.error_msg);
         contentView = root.findViewById(R.id.content_fragment_home);
+        swipeRefreshLayout = root.findViewById(R.id.swiper);
 
         // Setup the recyclerviews
         RecyclerView recyclerViewExplore = root.findViewById(R.id.recyclerview_explore_stories);
@@ -69,6 +73,10 @@ public class HomeFragment extends BaseFragment {
 
         service = RetrofitClient.getInstance().create(Api.class);
         updateData();
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            if (allStoriesCall != null) allStoriesCall.cancel();
+            updateData();
+        });
 
         return root;
     }
@@ -77,9 +85,12 @@ public class HomeFragment extends BaseFragment {
         if (isError) {
             contentView.setVisibility(View.INVISIBLE);
             errorView.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setRefreshing(false);
         } else {
             contentView.setVisibility(View.VISIBLE);
             errorView.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+
         }
     }
 
@@ -91,6 +102,8 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void updateData() {
+        swipeRefreshLayout.setRefreshing(true);
+
         if (allStoriesCall != null) allStoriesCall.cancel();
         String authToken = getSharePref().getUserToken();
 

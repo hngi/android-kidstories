@@ -18,12 +18,18 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_story_recyclerView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="8dp" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_story_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/error_message"
@@ -32,8 +38,8 @@
         android:text="@string/you_have_not_submitted_any_story"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/my_story_recyclerView"
-        app:layout_constraintEnd_toEndOf="@+id/my_story_recyclerView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
@@ -44,6 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

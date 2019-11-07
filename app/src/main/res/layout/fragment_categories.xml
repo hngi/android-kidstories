@@ -19,9 +19,9 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:tabBackground="?colorPrimary"
-            app:tabMode="scrollable"
             app:tabGravity="center"
             app:tabIndicatorColor="?colorOnPrimary"
+            app:tabMode="scrollable"
             app:tabRippleColor="?colorOnPrimary"
             app:tabTextColor="?colorOnSecondary" />
 
@@ -53,11 +53,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbar_categories_fragment" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager_categories_fragment"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiper"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbar_categories_fragment" />
+        android:layout_height="match_parent">
 
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager_categories_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appbar_categories_fragment" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

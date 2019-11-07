@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.project.android_kidstories.Api.Api;
+import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
+import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
 import com.project.android_kidstories.Api.RetrofitClient;
@@ -27,6 +29,9 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
 import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.sharePref.SharePref;
+
+import org.jetbrains.annotations.NotNull;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,17 +51,20 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     public static String token = "";
     private Context context;
     private StoryAllResponse storiesList;
-    private OnBookmarked bookmarked;
+//    private OnBookmarked bookmarked;
+    boolean isAddSuccessful, initBookmark;
     private Api service;
     Api storyApi;
     List<Story> stories;
 
-    public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList, OnBookmarked bookmarked, Repository repository) {
+    public RecyclerStoriesAdapter(Context context, StoryAllResponse storiesList,
+//                                  OnBookmarked bookmarked,
+                                  Repository repository) {
         this.context = context;
         this.storiesList = storiesList;
         this.stories =storiesList.getData();
         Collections.reverse(stories);
-        this.bookmarked = bookmarked;
+//        this.bookmarked = bookmarked;
         this.storyApi = repository.getStoryApi();
     }
     @Override
@@ -95,9 +103,11 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
         Story story = stories.get(position);
 
-        boolean isBookmarked = bookmarked.isAlreadyBookmarked(storyId, position);
+        boolean isBookmarked = isAlreadyBookmarked(storyId, position);
         boolean check = Prefs.getBoolean(String.valueOf(storyId),false);
         Log.e("STORYYyyyyyyyyyy", isBookmarked + "");
+
+        if (stories != null)
         if (check) {
             holder.bookmark.setTag(R.drawable.ic_bookmark_click_24dp);
             holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
@@ -173,7 +183,9 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             public void onClick(View v) {
                 int bookmark_drawableId = (Integer) holder.bookmark.getTag();
 
-                boolean checked = bookmarked.onBookmarkAdded(storyId);
+                boolean checked =
+//                        bookmarked.
+                                onBookmarkAdded(storyId);
                 if ((bookmark_drawableId == R.drawable.ic_bookmark_border_black_24dp)&&checked) {
                     Common.updateSharedPref(storyId,true);
                     holder.bookmark.setImageResource(R.drawable.ic_bookmark_click_24dp);
@@ -405,11 +417,11 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         }
     }
 
-    public interface OnBookmarked {
-        boolean onBookmarkAdded(int storyId);
-
-        boolean isAlreadyBookmarked(int storyId, int pos);
-    }
+//    public interface OnBookmarked {
+//        boolean onBookmarkAdded(int storyId);
+//
+//        boolean isAlreadyBookmarked(int storyId, int pos);
+//    }
 
     public interface StorySearch{
         void onStorySearched(String query);
@@ -434,4 +446,68 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
             }
         });
     }
+    public boolean onBookmarkAdded(int storyId) {
+//        Call<BookmarkResponse> addBookmark =
+
+        service = RetrofitClient.getInstance().create(Api.class);
+                service.bookmarkStory(token, storyId)
+//                ;
+//        addBookmark
+                .enqueue(new Callback<BookmarkResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<BookmarkResponse> call, @NotNull Response<BookmarkResponse> response) {
+
+                if (response.isSuccessful()) {
+                    Prefs.putBoolean(String.valueOf(storyId),true);
+                    isAddSuccessful = true;
+                } else {
+                    isAddSuccessful = false;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookmarkResponse> call, Throwable t) {
+                isAddSuccessful = false;
+            }
+        });
+        Log.e("ISADDSUCCESSFUL", isAddSuccessful + "");
+        return isAddSuccessful;
+    }
+
+    //    @Override
+    public boolean isAlreadyBookmarked(int storyId, int pos) {
+
+        service = RetrofitClient.getInstance().create(Api.class);
+//        Call<UserBookmarkResponse> bookmarks =
+                service.getUserBookmarks(token).
+//                ;
+//        bookmarks.
+                enqueue(new Callback<UserBookmarkResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<UserBookmarkResponse> call, @NotNull Response<UserBookmarkResponse> response) {
+                if (response.isSuccessful()) {
+                    List<Story> data = response.body().getData();
+                    for (Story s : data) {
+                        if (s.getId() == storyId) {
+                            Prefs.putBoolean(String.valueOf(storyId),true);
+                            initBookmark = true;
+                        }else{
+
+                            Common.updateSharedPref(storyId,false);
+                        }
+                    }
+                } else {
+                    Common.updateSharedPref(storyId,false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
+//                Toast.makeText(, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Log.e("INITBOOKMARK", initBookmark + "");
+        return initBookmark;
+    }
+
 }

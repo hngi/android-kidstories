@@ -66,6 +66,7 @@ public class MyStoriesFragment extends Fragment {
         sharePref = SharePref.getINSTANCE(getActivity().getApplicationContext());
 
 
+
         repository = new Repository(getActivity().getApplicationContext());
         repository.getStoryApi().getAllStories().enqueue(new Callback<StoryAllResponse>() {
             @Override

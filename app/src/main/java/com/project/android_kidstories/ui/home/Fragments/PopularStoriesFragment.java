@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -29,6 +32,7 @@ import com.project.android_kidstories.R;
 import com.project.android_kidstories.Utils.Common;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
 import com.project.android_kidstories.sharePref.SharePref;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,14 +41,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class PopularStoriesFragment extends Fragment implements RecyclerStoriesAdapter.OnBookmarked, RecyclerStoriesAdapter.StorySearch {
+public class PopularStoriesFragment extends Fragment implements
+        RecyclerStoriesAdapter.StorySearch {
     private RecyclerStoriesAdapter adapter;
     private ProgressBar popular_bar;
     RecyclerView recyclerView;
     Repository repository;
-    private Api service;
-    private boolean isAddSuccessful, initBookmark;
     private String token;
+    StoryViewModel viewModel;
     public static RecyclerStoriesAdapter.StorySearch storySearchListener;
     SwipeRefreshLayout refreshLayout;
 
@@ -60,53 +64,35 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
         repository = Repository.getInstance(getActivity().getApplication());
         popular_bar = v.findViewById(R.id.popular_stories_bar);
         token = "Bearer " + new SharePref(getContext()).getMyToken();
-        popular_bar.setVisibility(View.VISIBLE);
+        popular_bar.setVisibility(View.GONE);
         recyclerView = v.findViewById(R.id.recyclerView);
         refreshLayout = v.findViewById(R.id.swipe_refresh2);
         refreshLayout.setRefreshing(true);
-
+        viewModel = ViewModelProviders.of(this.getActivity()).get(StoryViewModel.class);
+        viewModel.token = token;
         fetchStories();
 
         return v;
     }
 
-    private void fetchStories(){
-        /*Create handle for the RetrofitInstance interface*/
-        service = RetrofitClient.getInstance().create(Api.class);
-        Call<StoryAllResponse> stories = service.getAllStoriesWithAuth(token);
+    private void fetchStories() {
 
-        stories.enqueue(new Callback<StoryAllResponse>() {
-            @Override
-            public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
-                //  generateCategoryList(response.body(),v);
-                popular_bar.setVisibility(View.GONE);
-
-                if (response.isSuccessful()) {
-                    adapter = new RecyclerStoriesAdapter(getContext(), sortList(response.body()), PopularStoriesFragment.this,repository);
-
-                    int spanCount;
-                    try {
-                        spanCount = getContext().getResources().getInteger(R.integer.home_fragment_gridspan);
-                    } catch (NullPointerException e) {
-                        spanCount = 1;
-                    }
-
-                    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
-                    refreshLayout.setRefreshing(false);
-                } else {
-
-                }
+        Observer<StoryAllResponse> observer = storyAllResponse -> {
+            adapter = new RecyclerStoriesAdapter(getContext(), sortList(storyAllResponse),
+//                    PopularStoriesFragment.this,
+                    repository);
+            int spanCount;
+            try {
+                spanCount = getContext().getResources().getInteger(R.integer.home_fragment_gridspan);
+            } catch (NullPointerException e) {
+                spanCount = 1;
             }
-
-            @Override
-            public void onFailure(Call<StoryAllResponse> call, Throwable t) {
-                popular_bar.setVisibility(View.INVISIBLE);
-
-                //TODO
-            }
-        });
+            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
+            refreshLayout.setRefreshing(false);
+        };
+        viewModel.fetchStories().observe(this, observer);
     }
 
     @Override
@@ -118,8 +104,6 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
 
     private StoryAllResponse sortList(StoryAllResponse allResponse) {
         List<Story> allStories = allResponse.getData();
-
-
         StoryComparitor storyComparitor = new StoryComparitor();
         Collections.sort(allStories, storyComparitor);
 
@@ -129,61 +113,7 @@ public class PopularStoriesFragment extends Fragment implements RecyclerStoriesA
 
     }
 
-    @Override
-    public boolean onBookmarkAdded(int storyId) {
-        Call<BookmarkResponse> addBookmark = service.bookmarkStory(token, storyId);
-        addBookmark.enqueue(new Callback<BookmarkResponse>() {
-            @Override
-            public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
-                if (response.isSuccessful()) {
-                    Prefs.putBoolean(String.valueOf(storyId),true);
-                    isAddSuccessful = true;
-                } else {
-                    isAddSuccessful = false;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BookmarkResponse> call, Throwable t) {
-                isAddSuccessful = false;
-            }
-        });
-        Log.e("ISADDSUCCESSFUL", isAddSuccessful + "");
-        return isAddSuccessful;
-    }
-
-    @Override
-    public boolean isAlreadyBookmarked(int storyId, int pos) {
-        Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
-
-        bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
-            @Override
-            public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
-                if (response.isSuccessful()) {
-                    List<Story> data = response.body().getData();
-                    for (Story s : data) {
-                        if (s.getId() == storyId) {
-                            Prefs.putBoolean(String.valueOf(storyId),true);
-                            initBookmark = true;
-                        }else{
-
-                            Common.updateSharedPref(storyId,false);
-                        }
-                    }
-                } else {
-                    Common.updateSharedPref(storyId,false);
-                    //Toast.makeText(getContext(), "33 Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        Log.e("INITBOOKMARK", initBookmark + "");
-        return initBookmark;
-    }
+//    @Override
 
     @Override
     public void onAttach(@NonNull Context context) {

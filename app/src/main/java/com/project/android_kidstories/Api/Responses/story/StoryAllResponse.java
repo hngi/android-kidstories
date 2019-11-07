@@ -24,7 +24,7 @@ public class StoryAllResponse {
     private String message;
     @SerializedName("data")
     @Expose
-    private List<Story> data = null;
+    private List<Story> stories;
 
     public String getStatus() {
         return status;
@@ -50,11 +50,11 @@ public class StoryAllResponse {
         this.message = message;
     }
 
-    public List<Story> getData() {
-        return data;
+    public List<Story> getStories() {
+        return stories;
     }
 
-    public void setData(List<Story> data) {
-        this.data = data;
+    public void setData(List<Story> stories) {
+        this.stories = stories;
     }
 }

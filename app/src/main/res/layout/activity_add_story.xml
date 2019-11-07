@@ -52,7 +52,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="45sp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="12dp"
@@ -63,13 +63,13 @@
         <Button
             android:id="@+id/btn_upload"
             android:layout_width="wrap_content"
-            android:layout_height="28dp"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@drawable/upload_image_button"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/upload_image_new"
             android:textAllCaps="false"
-            android:textColor="#484949"
+            android:textColor="@color/white"
             android:textSize="11sp" />
 
         <TextView

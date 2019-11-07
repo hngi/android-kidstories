@@ -70,12 +70,12 @@ public class PopularStoriesFragment extends Fragment implements
         refreshLayout.setRefreshing(true);
         viewModel = ViewModelProviders.of(this.getActivity()).get(StoryViewModel.class);
         viewModel.token = token;
-        fetchStories();
+        fetchStories("1");
 
         return v;
     }
 
-    private void fetchStories() {
+    private void fetchStories(String page) {
 
         Observer<StoryAllResponse> observer = storyAllResponse -> {
             adapter = new RecyclerStoriesAdapter(getContext(), sortList(storyAllResponse),
@@ -92,23 +92,24 @@ public class PopularStoriesFragment extends Fragment implements
             recyclerView.setAdapter(adapter);
             refreshLayout.setRefreshing(false);
         };
-        viewModel.fetchStories().observe(this, observer);
+        viewModel.fetchStories(page).observe(this, observer);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         refreshLayout.setOnRefreshListener(() -> {
-            fetchStories();
+            fetchStories("1");
         });
     }
 
     private StoryAllResponse sortList(StoryAllResponse allResponse) {
-        List<Story> allStories = allResponse.getData();
+        List<Story> allStories = allResponse.getStories();
         StoryComparitor storyComparitor = new StoryComparitor();
         Collections.sort(allStories, storyComparitor);
-
         StoryAllResponse response = new StoryAllResponse();
-        response.setData(allStories);
+        List<Story> d ;
+        d= allStories;
+        response.setData(d);
         return response;
 
     }

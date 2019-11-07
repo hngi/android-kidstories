@@ -3,6 +3,7 @@ package com.project.android_kidstories.Api;
 import androidx.lifecycle.LiveData;
 
 import com.project.android_kidstories.Api.Responses.BaseResponse;
+import com.project.android_kidstories.Api.Responses.BaseResponse2;
 import com.project.android_kidstories.Api.Responses.Category.CategoriesAllResponse;
 import com.project.android_kidstories.Api.Responses.bookmark.BookmarkResponse;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
@@ -11,6 +12,7 @@ import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.DataResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.LoginResponse;
 import com.project.android_kidstories.Api.Responses.loginRegister.RegistrationDataResponse;
+import com.project.android_kidstories.Api.Responses.story.Reaction.StoryPageResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
 import com.project.android_kidstories.Api.Responses.story.Reaction.ReactionResponse;
 import com.project.android_kidstories.Api.Responses.story.StoryAllResponse;
@@ -39,6 +41,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface Api {
 
@@ -94,10 +97,13 @@ public interface Api {
     Call<StoryBaseResponse> getStory(@Path("id") int id);
 
     @GET("stories")
-    Call<StoryAllResponse> getAllStories();
+    Call<StoryAllResponse> getAllStories(@Query("page")String page);
 
     @GET("stories")
-    Call<StoryAllResponse> getAllStoriesWithAuth(@Header("Authorization") String token);
+    Call<StoryAllResponse> getAllStoriesWithAuth(@Header("Authorization") String token,@Query("page")String page);
+
+    @GET("stories")
+    Call<BaseResponse<StoryPageResponse>> getAllStoriesWithAuth2(@Header("Authorization") String token);
 
 
     /***
@@ -209,6 +215,9 @@ public interface Api {
 
     @GET("categories/{id}/stories")
     Call<BaseResponse<CategoryStoriesResponse>> getStoriesByCategoryIdandUser(@Path("id") String categoryId);
+
+    @GET("categories/{id}/stories")
+    Call<BaseResponse2> getStoriesByCategoryIdandUser2(@Path("id") String categoryId);
 
 
 

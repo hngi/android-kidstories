@@ -62,7 +62,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
                                   Repository repository) {
         this.context = context;
         this.storiesList = storiesList;
-        this.stories =storiesList.getData();
+        this.stories =storiesList.getStories();
         Collections.reverse(stories);
 //        this.bookmarked = bookmarked;
         this.storyApi = repository.getStoryApi();

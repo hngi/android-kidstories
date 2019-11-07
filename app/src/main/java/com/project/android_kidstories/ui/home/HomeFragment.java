@@ -56,6 +56,7 @@ public class HomeFragment extends Fragment {
         adapter.addFragment(NewStoriesFragment.newInstance(), "New Stories");
         adapter.addFragment(PopularStoriesFragment.newInstance(), "Popular Stories");
         adapter.addFragment(CategoriesFragment.newInstance(), "Categories");
+
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(LastTabPosition).select();

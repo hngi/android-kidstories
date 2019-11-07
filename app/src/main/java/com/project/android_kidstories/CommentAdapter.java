@@ -65,7 +65,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             Comment c = comments.get(position);
             Glide.with(context)
                     .load(c.getUser().getImage())
-                    .placeholder(R.drawable.ic_android_black_24dp)
+                    .placeholder(R.drawable.story_bg_ic)
                     .into(commentImage);
             commentAuthorFirstName.setText(c.getUser().getFirstName());
             commentAuthorLastName.setText(c.getUser().getLastName());
@@ -82,14 +82,21 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         private String timeFormatter(String time) {
             String secondTimeConversion = "";
+            String firstDateConversion = "";
+            String convertedDate;
+            String[] firstDateConversionArray;
             String hour = "";
             String minute = "";
+            String day;
+            String month;
+            String year;
             String firstTimeConversion = "";
-            String convertedHour = "";
-            String convertedTime = "";
+            String convertedHour;
+            String convertedTime;
             for (int x = 0; x < time.length(); x++) {
                 if (Character.isWhitespace(time.charAt(x))) {
                     firstTimeConversion = time.substring(x + 1);
+                    firstDateConversion = time.substring(0, x);
                     break;
                 }
             }
@@ -99,6 +106,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     secondTimeConversion = firstTimeConversion.substring(0, y);
                 }
             }
+
+            // Date Conversion
+            firstDateConversionArray = firstDateConversion.split("-");
+            year = firstDateConversionArray[0];
+            month = firstDateConversionArray[1];
+            day = firstDateConversionArray[2];
+            convertedDate = day + "-" + month + "-" + year;
 
             for (int z = 0; z < secondTimeConversion.length(); z++) {
                 if (secondTimeConversion.charAt(z) == ':') {
@@ -112,17 +126,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 }
             }
 
-            // Database time is in GMT time, add 1 hour to convert to local time
-            String localHour = String.valueOf(Integer.parseInt(hour) + 1);
-
             // AM/PM Conversion
-            if (Integer.parseInt(localHour) > 12) {
-                convertedHour = String.valueOf(Integer.parseInt(localHour) - 12);
+            if (Integer.parseInt(hour) > 12) {
+                convertedHour = String.valueOf(Integer.parseInt(hour) - 12);
                 convertedTime = convertedHour + ":" + minute + " " + "pm";
-                return convertedTime;
+                return convertedDate + "  " + convertedTime;
             } else {
-                convertedTime = localHour + ":" + minute + " " + "am";
-                return convertedTime;
+                convertedTime = hour + ":" + minute + " " + "am";
+                return convertedDate + "  " + convertedTime;
             }
         }
     }

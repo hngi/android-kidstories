@@ -15,12 +15,6 @@ public class SharePref {
     private static SharePref INSTANCE;
     public static Context context;
 
-    //    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCr(savedInstanceState);
-//
-//        INSTANCE=SharePref.getINSTANCE(this);
-//    }
     private static SharedPreferences sharedPreferences;
 
     private SharePref(SharedPreferences sharedPreferences) {

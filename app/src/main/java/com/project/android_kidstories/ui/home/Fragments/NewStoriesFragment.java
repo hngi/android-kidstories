@@ -81,7 +81,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     private void fetchStories(){
         Observer<StoryAllResponse> observer = storyAllResponse -> {
 
-            Log.d("XXXX  stories", storyAllResponse.getData().toString());
+//            Log.d("XXXX  stories", storyAllResponse.getData().toString());
 
             storyAdapter = new RecyclerStoriesAdapter(getContext(), storyAllResponse, repository);
             int spanCount;
@@ -95,7 +95,7 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
             recyclerView.setAdapter(storyAdapter);
             refreshLayout.setRefreshing(false);
         };
-        viewModel.fetchStories().observe(this, observer);
+        viewModel.fetchStories("1").observe(this, observer);
 
     }
 

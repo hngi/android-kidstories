@@ -118,5 +118,6 @@ SOFTWARE.
     <string name="title_downloads_fragment">Downloads</string>
     <string name="empty_downloads">No story in downloads</string>
     <string name="title_settings_fragment">Settings</string>
+    <string name="comments">Comments</string>
 
 </resources>

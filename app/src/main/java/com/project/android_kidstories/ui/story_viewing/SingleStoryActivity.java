@@ -331,7 +331,7 @@ public class SingleStoryActivity extends BaseActivity {
         backgroundMusicPlayer.setLooping(true);
     }
 
-    private void sendCommentList() {
+    public void sendCommentList(View view) {
         Intent intent = new Intent(SingleStoryActivity.this, CommentActivity.class);
         intent.putExtra("storyId", story_id);
         startActivity(intent);

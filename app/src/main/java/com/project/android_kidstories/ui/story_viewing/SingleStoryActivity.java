@@ -84,9 +84,6 @@ public class SingleStoryActivity extends BaseActivity {
         story_id = getIntent().getIntExtra(STORY_ID_KEY, 0);
         downloads_story_name = getIntent().getStringExtra(STORY_NAME_KEY);
 
-        showToast(downloads_story_name);
-        showToast(String.valueOf(story_id));
-
         sharePref = getSharePref();
 
         markAsReadBtn = findViewById(R.id.btn_markasread);
@@ -210,9 +207,12 @@ public class SingleStoryActivity extends BaseActivity {
             story_pic.setImageBitmap(optionalImage);
 
         } else {
-            Glide.with(getApplicationContext())
-                    .load(story.getImageUrl())
-                    .into(story_pic);
+            try {
+                Glide.with(getApplicationContext())
+                        .load(story.getImageUrl())
+                        .into(story_pic);
+            } catch (NullPointerException npe) {
+            }
         }
 
         contentView.setVisibility(View.VISIBLE);
@@ -240,15 +240,13 @@ public class SingleStoryActivity extends BaseActivity {
                     Story currentStory = response.body().getData();
                     testStory = currentStory;
                     updateViews(currentStory, null);
-
                     comments = currentStory.getComments().getComments();
-
                     updateIcons();
 
-                } catch (Exception e) {
+                } catch (IllegalStateException npe) {
                     // Try to get story offline
                     if (!getStoryOffline()) {
-                        showToast("Can't load story");
+                        showToast("Can't load story " + npe.getMessage());
                         progressBar.setVisibility(View.INVISIBLE);
                         error_msg.setVisibility(View.VISIBLE);
                         contentView.setVisibility(View.GONE);

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.project.android_kidstories.Api.Responses.BaseResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.Model.User;
@@ -51,7 +53,8 @@ public class ProfileFragment extends Fragment {
 
     CropImageView imageView;
     Button btnUpload;
-    Button save;
+    MaterialButton save;
+    ProgressBar savePb;
     private static int RESULT_LOAD_IMAGE = 1;
     ImageConversion imageConversion;
     TextView imagePath, userName;
@@ -107,6 +110,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        savePb = root.findViewById(R.id.save_progress);
         save = root.findViewById(R.id.btn_save);
         save.setEnabled(false);
         save.setOnClickListener(view -> {
@@ -123,6 +127,8 @@ public class ProfileFragment extends Fragment {
                 return;
             }
             save.setEnabled(false);
+            save.setText("Saving...");
+            savePb.setVisibility(View.VISIBLE);
             cropLayout.crop(new OnCropListener() {
                 @Override
                 public void onSuccess(Bitmap bitmap) {
@@ -148,17 +154,22 @@ public class ProfileFragment extends Fragment {
                                 Toast.makeText(requireContext(),"Upload successful",Toast.LENGTH_SHORT).show();
                                 Log.d("Upload State", "Successful");
                                 Log.d("Upload State", response.body().getMessage());
-                                Log.d("Token: ", token);
+                                save.setText("Save");
+                                savePb.setVisibility(View.GONE);
                                 com.project.android_kidstories.ui.profile.ProfileFragment profileFragment = new com.project.android_kidstories.ui.profile.ProfileFragment();
                                 getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, profileFragment).commit();
                             } else {
                                 Log.d("Upload Status", "Something went wrong");
+                                save.setText("Save");
+                                savePb.setVisibility(View.GONE);
                             }
                         }
 
                         @Override
                         public void onFailure(Call<BaseResponse<Void>> call, Throwable t) {
                             save.setEnabled(true);
+                            save.setText("Save");
+                            savePb.setVisibility(View.GONE);
                             Toast.makeText(requireContext(), "Network Failure", Toast.LENGTH_SHORT).show();
                             Log.d("Upload Status", t.getMessage());
                         }

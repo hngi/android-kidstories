@@ -8,6 +8,7 @@
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
     </style>
 
     <style name="AppTheme.SplashScreen" parent="AppTheme.NoActionBar">
@@ -28,7 +29,6 @@
         <item name="android:backgroundDimAmount">0.85</item>
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
     </style>
-
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/enter_overshoot_anim</item>
     </style>
@@ -55,6 +55,13 @@
 
 
     <!-- MainActivity Toolbar Theme-->
+
+    <!-- MainActivity Toolbar Theme-->
+    <style name="AppToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/black</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 
 
     <!-- Beginning of Theme for Donations Activity -->
@@ -113,5 +120,8 @@
         <item name="colorControlNormal">@color/black</item>
     </style>
 
-
+    <!-- Tab text size style-->
+    <style name="TabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

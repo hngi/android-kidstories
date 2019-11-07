@@ -44,6 +44,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     private String userToken;
     Api storyApi;
     List<Story> stories;
+    private boolean isLoaderVisible = false;
 
     public RecyclerStoriesAdapter(Context context, String token, List<Story> storiesList, OnBookmarked bookmarked, Repository repository) {
         this.context = context;
@@ -53,6 +54,7 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
         this.storyApi = repository.getStoryApi();
         this.userToken = token;
     }
+
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());

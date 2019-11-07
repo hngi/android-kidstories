@@ -21,6 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomeFragment extends BaseFragment {
@@ -93,7 +94,7 @@ public class HomeFragment extends BaseFragment {
         if (allStoriesCall != null) allStoriesCall.cancel();
         String authToken = getSharePref().getUserToken();
 
-        allStoriesCall = service.getAllStoriesWithAuth(authToken);
+        allStoriesCall = service.getAllStoriesWithAuth(authToken, "1");
         allStoriesCall.enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
@@ -106,7 +107,7 @@ public class HomeFragment extends BaseFragment {
                         return;
                     }
 
-                    stories = storyAllResponse.getData();
+                    stories = storyAllResponse.getStories();
                     updateAdapters();
 
                 } else {
@@ -143,6 +144,24 @@ public class HomeFragment extends BaseFragment {
         }
 
         return true;
+    }
+
+    /*@Override
+    public void onStorySearched(String query) {
+        exploreAdapter.getFilter().filter(query);
+    }*/
+
+    public class StoryComparator implements Comparator<Story> {
+
+        @Override
+        public int compare(Story story1, Story story2) {
+
+
+            int story1PriorityCount = story1.getDislikesCount() + story1.getLikesCount();
+            int story2PriorityCount = story2.getDislikesCount() + story2.getLikesCount();
+
+            return Integer.compare(story1PriorityCount, story2PriorityCount);
+        }
     }
 
     @Override

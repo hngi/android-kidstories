@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <color name="color_primary">#607EFA</color>
     <color name="color_primary_variant">#365fc7</color>
@@ -22,32 +22,4 @@
     <color name="color_on_surface">#1D1D23</color>
     <color name="color_on_error">#ffffff</color>
 
-    <!--- OLD COLORS -->
-
-
-    <color name="colorPrimary">#2D98FA</color>
-    <color name="colorPrimaryDark">#3F9FF7</color>
-    <color name="colorAccent">#3f9ff7</color>
-    <color name="ash">#AEE2E2E2</color>
-    <color name="white">#FFFFFF</color>
-
-
-    <color name="material_grey_50" tools:override="true">#f9fafa</color>
-    <color name="material_grey_100" tools:override="true">#f4f5f5</color>
-    <color name="material_grey_300" tools:override="true">#e0e0e0</color>
-    <color name="material_grey_600" tools:override="true">#757575</color>
-    <color name="material_grey_800" tools:override="true">#424242</color>
-    <color name="material_grey_900" tools:override="true">#202020</color>
-
-
-    <color name="blueSky">#3F9FF7</color>
-    <color name="black">#000000</color>
-    <color name="grey">#808080</color>
-
-    <!-- Color for button style -->
-    <!-- End of Color for button style -->
-
-
-    <!-- Color for Tab and screen text-->
-    <!--End of Color for Tab and screen text-->
 </resources>

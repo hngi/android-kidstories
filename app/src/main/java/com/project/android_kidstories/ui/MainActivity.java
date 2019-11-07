@@ -12,7 +12,6 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -23,6 +22,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -140,8 +140,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         userName = headerView.findViewById(R.id.nav_header_name);
         userName.setText(userDetails.getFullname());
 
-        ImageView navImage = headerView.findViewById(R.id.nav_header_imageView);
-        navImage.setOnClickListener(view -> {
+        navProfilePic = headerView.findViewById(R.id.nav_header_imageView);
+        navProfilePic.setOnClickListener(view -> {
             ProfileFragment profileFragment = ProfileFragment.newInstance();
 
             // Add bundle data containing "token" before navigating to profileFragment
@@ -245,10 +245,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
      */
 
     public void linkUserDetails() {
+
         repository.getStoryApi().getUser("Bearer " + userDetails.getToken()).enqueue(new Callback<BaseResponse<DataResponse>>() {
             @Override
             public void onResponse(Call<BaseResponse<DataResponse>> call, Response<BaseResponse<DataResponse>> response) {
-
                 if (response.isSuccessful()) {
                     Log.d("User Details", response.body().getData().toString());
                     Log.d("User Name", response.body().getData().getFirstName());
@@ -259,9 +259,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     viewModel.currentUser.setId(response.body().getData().getId().longValue());
                     sharePref.setUserId(response.body().getData().getId());
                     if (viewModel.currentUser.getImage() != null && !viewModel.currentUser.getImage().isEmpty()) {
-                        /*TODO: Glide.with(getApplicationContext())
+                        Glide.with(getApplicationContext())
                                 .load(viewModel.currentUser.getImage())
-                                .into(navProfilePic);*/
+                                .into(navProfilePic);
                     } else {
                         // Leave default local image if there is none from the api
                     }
@@ -287,6 +287,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             }
         });
     }
+
 
     /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {

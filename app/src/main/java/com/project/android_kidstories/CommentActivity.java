@@ -91,7 +91,7 @@ public class CommentActivity extends BaseActivity {
 
 
     public void sendComment() {
-        String userComment = typeComment.getText().toString();
+        String userComment = typeComment.getText().toString().trim();
         if (!TextUtils.isEmpty(userComment)) {
             postComment(token, storyId, userComment);
             Toast.makeText(CommentActivity.this, "Sending Comment...", Toast.LENGTH_SHORT).show();

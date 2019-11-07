@@ -16,6 +16,7 @@ import com.project.android_kidstories.data.source.remote.response_models.loginRe
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryAllResponse;
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryBaseResponse;
 import com.project.android_kidstories.data.source.remote.response_models.story.reaction.ReactionResponse;
+import com.project.android_kidstories.data.source.remote.response_models.story.reaction.StoryPageResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -40,7 +41,7 @@ public interface Api {
     Call<BaseResponse<DataResponse>> logoutUser(@Header("Authorization") String token);
 
     @GET("auth/user")
-    Call<BaseResponse<DataResponse>> getUser(@Header("Authorization")String token);
+    Call<BaseResponse<DataResponse>> getUser(@Header("Authorization") String token);
 
     @GET("auth/change-password")
     Call<BaseResponse<DataResponse>> changeUserPassword(@Header("Authorization") String token,
@@ -66,7 +67,7 @@ public interface Api {
     @Multipart
     @POST("users/profile/update-image")
     Call<ResponseBody> uploadUserImage(
-            @Header("Authorization")String token,
+            @Header("Authorization") String token,
             @Part MultipartBody.Part file,
             @Part("name") RequestBody requestBody
     );
@@ -81,7 +82,10 @@ public interface Api {
     Call<StoryAllResponse> getAllStories(@Query("page") String page);
 
     @GET("stories")
-    Call<StoryAllResponse> getAllStoriesWithAuth(@Header("Authorization") String token);
+    Call<StoryAllResponse> getAllStoriesWithAuth(@Header("Authorization") String token, @Query("page") String page);
+
+    @GET("stories")
+    Call<BaseResponse<StoryPageResponse>> getAllStoriesWithAuth2(@Header("Authorization") String token);
 
 
     /***
@@ -128,7 +132,6 @@ public interface Api {
 //    );
 
 
-
     /***
      *
      * @param token
@@ -161,8 +164,7 @@ public interface Api {
 
     @POST("stories/{storyId}/reactions/dislike")
     Call<ReactionResponse> dislikeStory(@Header("Authorization") String token,
-                                      @Path("storyId") Integer storyId);
-
+                                        @Path("storyId") Integer storyId);
 
 
     //Bookmark APIs
@@ -182,7 +184,6 @@ public interface Api {
     Call<UserBookmarkResponse> getUserBookmarks(@Header("Authorization") String token);
 
 
-
     //Catergory APIs
     @GET("categories")
     Call<CategoriesAllResponse> getAllCategories();
@@ -196,7 +197,6 @@ public interface Api {
 
     @GET("categories/{id}/stories")
     Call<BaseResponse2> getStoriesByCategoryIdandUser2(@Path("id") String categoryId);
-
 
 
     //Comment APIs

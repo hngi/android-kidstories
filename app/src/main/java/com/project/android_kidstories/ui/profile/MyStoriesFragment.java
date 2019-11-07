@@ -31,6 +31,7 @@ public class MyStoriesFragment extends BaseFragment {
     private List<Story> storyList = new ArrayList<>();
     private Context context;
 
+    private Repository repository;
     private ProgressBar progressBar;
     private View errorView;
 
@@ -59,6 +60,7 @@ public class MyStoriesFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+/*<<<<<<< HEAD
         Repository repository = new Repository(context);
         repository.getStoryApi().getAllStories("1").enqueue(new Callback<StoryAllResponse>() {
             @Override
@@ -75,7 +77,20 @@ public class MyStoriesFragment extends BaseFragment {
                     List<Story> stories = storyAllResponse.getData();
                     for (int i = 0; i < stories.size(); i++) {
                         if (stories.get(i).getUserId() == userId) {
-                            storyList.add(stories.get(i));
+                            storyList.add(stories.get(i));*/
+
+        repository = new Repository(getActivity().getApplicationContext());
+        fetchStories(view, "1");
+    }
+
+    void fetchStories(View view, String page) {
+        repository.getStoryApi().getAllStories(page).enqueue(new Callback<StoryAllResponse>() {
+            @Override
+            public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
+                if (response.isSuccessful()) {
+                    for (int i = 0; i < response.body().getStories().size(); i++) {
+                        if (response.body().getStories().get(i).getUserId() == getSharePref().getUserId()) {
+                            storyList.add(response.body().getStories().get(i));
                         }
                     }
 

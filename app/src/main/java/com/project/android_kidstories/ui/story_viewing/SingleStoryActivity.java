@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
+import com.like.LikeButton;
 import com.project.android_kidstories.CommentActivity;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.Repository;
@@ -50,6 +52,7 @@ public class SingleStoryActivity extends BaseActivity {
 
     ImageView playButton;
     ImageView markAsReadBtn;
+    ImageButton btn_speak;
     private ProgressBar progressBar;
     private Repository repository;
     private Api storyApi;
@@ -57,13 +60,16 @@ public class SingleStoryActivity extends BaseActivity {
     View contentView;
     Story testStory;
     StoryLab storyLab;
+    ImageButton btn_stop;
+    TextView speak_text;
+    LikeButton likeButton;
     TextToSpeech textToSpeech;
     SharePref sharePref;
     Button comment_btn;
     String googleTtsPackage = "com.google.android.tts", picoPackage = "com.svox.pico";
-
-    View error_msg;
-    private TextView story_author, story_title, story_content;
+    ImageButton stopButton;
+    private Toolbar toolbar;
+    private TextView story_author, story_title, story_content, error_msg;
     private ImageView saveStory;
 
     private ImageButton ZoomIn, ZoomOut;
@@ -118,7 +124,7 @@ public class SingleStoryActivity extends BaseActivity {
         story_content = findViewById(R.id.story_content);
         story_pic = findViewById(R.id.story_pic);
         //like_btn = findViewById(R.id.like_button);
-        error_msg = findViewById(R.id.error_msg);
+        error_msg = new TextView(this);
         //error_msg = findViewById(R.id.error_msg);
         saveStory = findViewById(R.id.save_story);
 
@@ -146,6 +152,28 @@ public class SingleStoryActivity extends BaseActivity {
         });
 
 
+
+                //Favorite button functionality
+
+        likeButton = findViewById(R.id.heart_button);
+        likeButton.setLiked(false);
+
+
+        likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+                likeButton.setEnabled(true);
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+                likeButton.setEnabled(true);
+            }
+        });
+
         comment_btn =findViewById(R.id.comment_btn);
         comment_btn.setOnClickListener(new View.OnClickListener(){
 
@@ -156,6 +184,8 @@ public class SingleStoryActivity extends BaseActivity {
         });
 
         */
+
+        // For controlling Zooming In
     }
 
     private void updateIcons() {
@@ -207,12 +237,9 @@ public class SingleStoryActivity extends BaseActivity {
             story_pic.setImageBitmap(optionalImage);
 
         } else {
-            try {
-                Glide.with(getApplicationContext())
-                        .load(story.getImageUrl())
-                        .into(story_pic);
-            } catch (NullPointerException npe) {
-            }
+            Glide.with(this)
+                    .load(story.getImageUrl())
+                    .into(story_pic);
         }
 
         contentView.setVisibility(View.VISIBLE);
@@ -221,14 +248,14 @@ public class SingleStoryActivity extends BaseActivity {
 
     private boolean getStoryOffline() {
         StoryLab storyLab = StoryLab.get(this);
-        //TODO: StoryLab should get a story using storyId
         Story story = storyLab.getStory(downloads_story_name);
         if (story != null) {
             Bitmap bitmap = loadBitmap(this, story.getTitle() + ".png");
             updateViews(story, bitmap);
+            updateIcons();
             return true;
         }
-        showToast("Story is null");
+        showToast("Story not available offline");
         return false;
     }
 
@@ -240,13 +267,14 @@ public class SingleStoryActivity extends BaseActivity {
                     Story currentStory = response.body().getData();
                     testStory = currentStory;
                     updateViews(currentStory, null);
+
                     comments = currentStory.getComments().getComments();
+
                     updateIcons();
 
-                } catch (IllegalStateException npe) {
+                } catch (IllegalStateException e) {
                     // Try to get story offline
                     if (!getStoryOffline()) {
-                        showToast("Can't load story " + npe.getMessage());
                         progressBar.setVisibility(View.INVISIBLE);
                         error_msg.setVisibility(View.VISIBLE);
                         contentView.setVisibility(View.GONE);
@@ -258,7 +286,7 @@ public class SingleStoryActivity extends BaseActivity {
             public void onFailure(Call<StoryBaseResponse> call, Throwable t) {
                 // Try to get story offline
                 if (!getStoryOffline()) {
-                    showToast(t.getMessage());
+                    showToast("Oops Something went wwwwwrong ... story specific issue");
                     progressBar.setVisibility(View.INVISIBLE);
                     error_msg.setVisibility(View.VISIBLE);
                     contentView.setVisibility(View.GONE);
@@ -272,11 +300,12 @@ public class SingleStoryActivity extends BaseActivity {
                 int result = textToSpeech.setLanguage(Locale.ENGLISH);
                 if (result == TextToSpeech.LANG_MISSING_DATA
                         || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    Toast.makeText(SingleStoryActivity.this, "TTS language is not Supported", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SingleStoryActivity.this, "This Language is not Supported", Toast.LENGTH_SHORT).show();
                 } else {
                     //btn_speak.setEnabled(true);
                     //textToSpeech.setPitch(0.6f);
                     textToSpeech.setSpeechRate(0.85f);
+                    speak();
                 }
             }
 

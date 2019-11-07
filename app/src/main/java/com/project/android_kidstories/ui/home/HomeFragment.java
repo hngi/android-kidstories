@@ -107,7 +107,7 @@ public class HomeFragment extends BaseFragment {
         if (allStoriesCall != null) allStoriesCall.cancel();
         String authToken = getSharePref().getUserToken();
 
-        allStoriesCall = service.getAllStoriesWithAuth(authToken, "1");
+        allStoriesCall = service.getAllStories(authToken);
         allStoriesCall.enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {

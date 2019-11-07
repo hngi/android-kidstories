@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import java.util.Locale;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
+    private static final String DEFAULT_ALARM_TIME = "8:00PM";
     private SharePref sharePref;
 
     private Preference reminderTime;
@@ -67,6 +69,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         }
 
         String chosenTime = sharePref.getString(PreferenceKeys.ALARM_TIME);
+        if (TextUtils.isEmpty(chosenTime)) chosenTime = DEFAULT_ALARM_TIME;
         reminderTime.setSummary(chosenTime);
 
         SwitchPreferenceCompat reminderOn = findPreference("reminder_on");
@@ -76,7 +79,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 if (isOn) {
                     Pair<Integer, Integer> timePair = splitTime(reminderTime.getSummary().toString());
                     setAlarm(timePair.first, timePair.second);
-
                 } else {
                     unRegisterAlarm();
                 }
@@ -111,7 +113,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private PendingIntent getAlarmIntent() {
         Intent intent = new Intent(getContext(), AlarmReceiver.class);
-        return PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        return PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private void unRegisterAlarm() {

@@ -2,29 +2,43 @@ package com.project.android_kidstories.ui.profile;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.data.Repository;
 import com.project.android_kidstories.data.source.helpers.BedTimeDbHelper;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
+import com.project.android_kidstories.data.source.remote.response_models.BaseResponse;
 import com.project.android_kidstories.ui.MainActivity;
 import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.profile.adapters.ProfilePagerAdapter;
 import com.project.android_kidstories.ui.staging.ImageStagingActivity;
+import com.project.android_kidstories.utils.ImageConversion;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import org.jetbrains.annotations.NotNull;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import java.io.File;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -39,6 +53,8 @@ public class ProfileFragment extends BaseFragment {
     private static int REQUEST_LOAD_IMAGE = 1;
     private static int REQUEST_CROP_IMAGE = 2;
 
+    private String token;
+
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
     }
@@ -51,6 +67,8 @@ public class ProfileFragment extends BaseFragment {
 
         helper = new BedTimeDbHelper(getContext());
         sharePref = getSharePref();
+
+        token = sharePref.getUserToken();
 
         imageView = root.findViewById(R.id.profile);
 
@@ -145,9 +163,67 @@ public class ProfileFragment extends BaseFragment {
         }
         if (requestCode == REQUEST_CROP_IMAGE) {
             // Image crop was successful
-            setProfileImage();
-            ((MainActivity) requireActivity()).updateProfileImage();
+            if (data != null) {
+                byte[] bitmapArr = data.getByteArrayExtra(ImageStagingActivity.IMAGE_BITMAP_KEY);
+                Bitmap b = BitmapFactory.decodeByteArray(bitmapArr, 0, bitmapArr.length);
+                uploadProfileImage(b, data.getStringExtra(ImageStagingActivity.IMAGE_URI_KEY));
+            }
         }
+    }
+
+    private void uploadProfileImage(Bitmap bitmap, String uriString) {
+        // Try to upload
+        if (uriString == null || uriString.isEmpty()) return; // No uri
+        String mediaPath = getMediaPath(uriString);
+        File file = new File(mediaPath);
+
+        Repository repository = Repository.getInstance(requireActivity().getApplication());
+        // create RequestBody instance from file
+        RequestBody requestFile =
+                RequestBody.create(
+                        file,
+                        MediaType.parse(requireActivity().getContentResolver().getType(Uri.parse(uriString)))
+                );
+
+        MultipartBody.Part part = MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
+        repository.getStoryApi().updateUserProfilePicture("Bearer " + token,
+                part).enqueue(new Callback<BaseResponse<Void>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<Void>> call, Response<BaseResponse<Void>> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(requireContext(), "Upload successful", Toast.LENGTH_SHORT).show();
+                    Log.d("Upload State", "Successful");
+                    Log.d("Upload State", response.body().getMessage());
+                    Log.d("Token: ", token);
+                    byte[] imageByteArray = new ImageConversion().convertBitMapToByteArray(bitmap);
+                    helper.storeUserImage(imageByteArray, getContext());
+
+                    setProfileImage();
+                    ((MainActivity) requireActivity()).updateProfileImage();
+                } else {
+                    Log.d("Upload Status", "Something went wrong");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<Void>> call, Throwable t) {
+                Toast.makeText(requireContext(), "Network Failure", Toast.LENGTH_SHORT).show();
+                Log.d("Upload Status", t.getMessage());
+            }
+        });
+    }
+
+    private String getMediaPath(String uriString) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = getActivity().getContentResolver().query(Uri.parse(uriString), filePathColumn, null, null, null);
+        assert cursor != null;
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String mediaPath = cursor.getString(columnIndex);
+        cursor.close();
+        return mediaPath;
     }
 
 }

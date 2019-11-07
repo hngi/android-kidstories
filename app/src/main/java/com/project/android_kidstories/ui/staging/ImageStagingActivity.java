@@ -9,18 +9,19 @@ import android.os.Bundle;
 import android.view.View;
 import androidx.fragment.app.Fragment;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.data.source.helpers.BedTimeDbHelper;
 import com.project.android_kidstories.ui.base.BaseActivity;
 import com.takusemba.cropme.CropImageView;
 import com.takusemba.cropme.CropLayout;
 import com.takusemba.cropme.OnCropListener;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 
 public class ImageStagingActivity extends BaseActivity {
 
     private static final String INTENT_URI_KEY = "INTENT_URI_KEY";
-    private static final String IMAGE_BITMAP_KEY = "IMAGE_BITMAP_KEY";
+    public static final String IMAGE_BITMAP_KEY = "IMAGE_BITMAP_KEY";
+    public static final String IMAGE_URI_KEY = "IMAGE_URI_KEY";
 
     public static void startForResult(Fragment fragment, String uriString, int request_code) {
         Intent intent = new Intent(fragment.requireContext(), ImageStagingActivity.class);
@@ -28,6 +29,8 @@ public class ImageStagingActivity extends BaseActivity {
 
         fragment.startActivityForResult(intent, request_code);
     }
+
+    String uriStr;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,8 @@ public class ImageStagingActivity extends BaseActivity {
             finish();
         }
 
-        Uri uri = Uri.parse(uriString);
+        uriStr = uriString;
+        Uri uri = Uri.parse(uriStr);
 
         try {
 
@@ -59,14 +63,16 @@ public class ImageStagingActivity extends BaseActivity {
     }
 
     public void saveCropped(View view) {
-        BedTimeDbHelper helper = new BedTimeDbHelper(this);
-
         CropLayout crop_view = findViewById(R.id.crop_view);
         crop_view.crop(new OnCropListener() {
             @Override
             public void onSuccess(Bitmap bitmap) {
                 Intent data = new Intent();
-                data.putExtra(IMAGE_BITMAP_KEY, bitmap);
+                ByteArrayOutputStream bs = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
+
+                data.putExtra(IMAGE_BITMAP_KEY, bs.toByteArray());
+                data.putExtra(IMAGE_URI_KEY, uriStr);
                 setResult(Activity.RESULT_OK, data);
                 finish();
             }

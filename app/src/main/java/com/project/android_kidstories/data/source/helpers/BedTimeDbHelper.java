@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
+
 public class BedTimeDbHelper extends SQLiteOpenHelper {
 
 
@@ -130,8 +131,10 @@ public class BedTimeDbHelper extends SQLiteOpenHelper {
 
         // database.insertWithOnConflict(AddUsers.AddUsersColumn.TABLE_NAME, null,values,SQLiteDatabase.CONFLICT_IGNORE);
         long rowInserted = database.insert(AddUsers.AddUsersColumn.TABLE_NAME, null, values);
-        if (rowInserted == -1)
-            Toast.makeText(context, "Could not save image locally", Toast.LENGTH_SHORT).show();
+        if (rowInserted != -1)
+            Toast.makeText(context, "Uploading...", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(context, "Something wrong", Toast.LENGTH_SHORT).show();
 
     }
 

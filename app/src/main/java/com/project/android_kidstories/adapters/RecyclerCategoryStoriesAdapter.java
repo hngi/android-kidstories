@@ -15,6 +15,7 @@ import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleStoryActivity;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,6 +33,7 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
     public RecyclerCategoryStoriesAdapter(Context context, List<Story> storiesList) {
         this.context = context;
         this.storiesList = storiesList;
+        Collections.reverse(storiesList);
     }
 
     @Override
@@ -43,6 +45,7 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
+        Story story = storiesList.get(position);
         Glide.with(context).load(storiesList.get(position).getImageUrl()).into(holder.storyImage);
 
         holder.storyTitle.setText(storiesList.get(position).getTitle());
@@ -64,81 +67,33 @@ public class RecyclerCategoryStoriesAdapter extends RecyclerView.Adapter<Recycle
             }
         });
 
-        holder.like.setTag(R.drawable.ic_thumb_up_black_24dp);    //When you change the drawable
-        holder.dislike.setTag(R.drawable.ic_thumb_down_black_24dp);
-
+        if(story.getReaction().equals("1")){
+            holder.like.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
+            holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+        }
+        else if(story.getReaction().equals("0")){
+            holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+            holder.dislike.setImageResource(R.drawable.ic_thumb_down_blue_24dp);
+        }
+        else{
+            holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+            holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+        }
         holder.bookmark.setTag(R.drawable.ic_bookmark_border_black_24dp);
 
-        int like_image_black = R.drawable.ic_thumb_up_black_24dp;
-        int like_image_blue = R.drawable.ic_thumb_up_blue_24dp;
-
-        int dislike_image_black = R.drawable.ic_thumb_down_black_24dp;
-        int dislike_image_blue = R.drawable.ic_thumb_down_blue_24dp;
 
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int like_drawableId = (Integer) holder.like.getTag();
-                int dislike_drawableId = (Integer) holder.dislike.getTag();
 
-                if (like_drawableId == like_image_black || dislike_drawableId == dislike_image_blue) {
-                    holder.like.setImageResource(like_image_blue);
-                    holder.like.setTag(like_image_blue);
 
-                    int like_count = Integer.parseInt(holder.num_likes.getText().toString());
-                    like_count++;
-                    holder.num_likes.setText(String.valueOf(like_count));
-
-                    if (dislike_drawableId == dislike_image_blue) {
-                        holder.dislike.setImageResource(dislike_image_black);
-                        holder.dislike.setTag(dislike_image_black);
-
-                        int dislike_count = Integer.parseInt(holder.num_dislikes.getText().toString());
-                        dislike_count--;
-                        holder.num_dislikes.setText(String.valueOf(dislike_count));
-                    }
-                } else {
-                    holder.like.setImageResource(like_image_black);
-                    holder.like.setTag(like_image_black);
-
-                    int like_count = Integer.parseInt(holder.num_likes.getText().toString());
-                    like_count--;
-                    holder.num_likes.setText(String.valueOf(like_count));
-                }
             }
         });
 
         holder.dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int dislike_drawableId = (Integer) holder.dislike.getTag();
-                int like_drawableId = (Integer) holder.like.getTag();
 
-                if (dislike_drawableId == R.drawable.ic_thumb_down_black_24dp || like_drawableId == R.drawable.ic_thumb_up_blue_24dp) {
-                    holder.dislike.setImageResource(dislike_image_blue);
-                    holder.dislike.setTag(dislike_image_blue);
-
-                    int dislike_count = Integer.parseInt(holder.num_dislikes.getText().toString());
-                    dislike_count++;
-                    holder.num_dislikes.setText(String.valueOf(dislike_count));
-
-                    if (like_drawableId == like_image_blue) {
-                        holder.like.setImageResource(like_image_black);
-                        holder.like.setTag(like_image_black);
-
-                        int like_count = Integer.parseInt(holder.num_likes.getText().toString());
-                        like_count--;
-                        holder.num_likes.setText(String.valueOf(like_count));
-                    }
-
-                } else {
-                    holder.dislike.setImageResource(dislike_image_black);
-                    holder.dislike.setTag(dislike_image_black);
-
-                    int dislike_count = Integer.parseInt(holder.num_dislikes.getText().toString());
-                    dislike_count--;
-                    holder.num_dislikes.setText(String.valueOf(dislike_count));
-                }
             }
         });
 

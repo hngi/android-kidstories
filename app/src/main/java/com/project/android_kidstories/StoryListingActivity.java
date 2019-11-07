@@ -15,6 +15,8 @@ import com.project.android_kidstories.Api.Responses.BaseResponse2;
 import com.project.android_kidstories.Api.Responses.Category.CategoryStoriesResponse;
 import com.project.android_kidstories.DataStore.Repository;
 import com.project.android_kidstories.adapters.RecyclerCategoryStoriesAdapter;
+import com.project.android_kidstories.sharePref.SharePref;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,6 +25,7 @@ public class StoryListingActivity extends AppCompatActivity {
 
     private Repository repository;
     private Api storyApi;
+    String token;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private RecyclerCategoryStoriesAdapter adapter;
@@ -39,6 +42,8 @@ public class StoryListingActivity extends AppCompatActivity {
 
         repository = Repository.getInstance(this.getApplication());
         storyApi = repository.getStoryApi();
+        token = "Bearer " + new SharePref(this).getMyToken();
+
 
         CollapsingToolbarLayout toolbar = findViewById(R.id.Collapse_toolbar);
         Toolbar toolbar1 = findViewById(R.id.toolbar);
@@ -58,7 +63,7 @@ public class StoryListingActivity extends AppCompatActivity {
     public void getCategoryStoriesWithId(int id) {
         String idString = Integer.toString(id);
 
-        storyApi.getStoriesByCategoryIdandUser2(idString).enqueue(new Callback<BaseResponse2>() {
+        storyApi.getStoriesByCategoryIdandUserWithAuth(token,idString).enqueue(new Callback<BaseResponse2>() {
             @Override
             public void onResponse(Call<BaseResponse2> call, Response<BaseResponse2> response) {
 

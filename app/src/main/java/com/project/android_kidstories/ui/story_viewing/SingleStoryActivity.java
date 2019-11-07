@@ -267,12 +267,10 @@ public class SingleStoryActivity extends BaseActivity {
                     Story currentStory = response.body().getData();
                     testStory = currentStory;
                     updateViews(currentStory, null);
-
                     comments = currentStory.getComments().getComments();
-
                     updateIcons();
 
-                } catch (IllegalStateException e) {
+                } catch (NullPointerException e) {
                     // Try to get story offline
                     if (!getStoryOffline()) {
                         progressBar.setVisibility(View.INVISIBLE);

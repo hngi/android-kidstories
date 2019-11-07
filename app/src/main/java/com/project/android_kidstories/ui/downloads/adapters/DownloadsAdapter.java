@@ -65,6 +65,7 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
             // Navigate to Single Story Activity
             Intent intent = new Intent(fragment.requireContext(), SingleStoryActivity.class);
             intent.putExtra(SingleStoryActivity.STORY_NAME_KEY, currentStory.getTitle());
+            intent.putExtra(SingleStoryActivity.STORY_ID_KEY, currentStory.getId());
             fragment.startActivity(intent);
         });
 

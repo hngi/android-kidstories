@@ -116,9 +116,10 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
     }
 
     @Override
-    public void onStoryClick(int storyId) {
+    public void onStoryClick(int storyId, String storyName) {
         Intent intent = new Intent(getContext(), SingleStoryActivity.class);
         intent.putExtra(SingleStoryActivity.STORY_ID_KEY, storyId);
+        intent.putExtra(SingleStoryActivity.STORY_NAME_KEY, storyName);
         requireContext().startActivity(intent);
     }
 

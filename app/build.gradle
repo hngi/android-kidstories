@@ -12,7 +12,12 @@ android {
         targetCompatibility = "8"
         sourceCompatibility = "8"
     }
-
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
     defaultConfig {
         applicationId "com.project.android_kidstories"
         minSdkVersion 21

@@ -57,7 +57,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
     }
 
     public interface OnBookmarkClickListener {
-        void onStoryClick(int storyId);
+        void onStoryClick(int storyId, String storyName);
     }
 
     private void showDeleteDialog(String storyName, Story story) {
@@ -110,7 +110,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
 
         @Override
         public void onClick(View v) {
-            listener.onStoryClick(currentStory.getId());
+            listener.onStoryClick(currentStory.getId(), currentStory.getTitle());
         }
     }
 

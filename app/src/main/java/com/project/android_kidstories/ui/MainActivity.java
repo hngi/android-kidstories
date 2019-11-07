@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -473,7 +472,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
             @Override
             public void onFailure(Call<BaseResponse<DataResponse>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                sharePref.setIsUserLoggedIn(false);
+                Intent logout = new Intent(MainActivity.this, LoginActivity.class);
+                logout.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(logout);
+                finish();
             }
         });
     }

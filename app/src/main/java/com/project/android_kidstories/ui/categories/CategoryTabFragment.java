@@ -96,7 +96,7 @@ public class CategoryTabFragment extends BaseFragment implements ExploreAdapter.
     }
 
     @Override
-    public void onBookmark(Story story) {
+    public void onBookmark(int pos) {
 
     }
 }

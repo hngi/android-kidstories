@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
@@ -23,6 +24,7 @@ import java.util.Objects;
 public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder> {
 
     private Context context;
+    private OnBookmark onBookmarkListener;
 
     public ExploreAdapter(Context context) {
         super(new DiffUtil.ItemCallback<Story>() {
@@ -37,15 +39,12 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             }
         });
 
-        this.context = context;
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_explore_stories, parent, false);
-        return new ViewHolder(itemView);
+        try {
+            onBookmarkListener = (OnBookmark) context;
+        } catch (IllegalStateException ise) {
+            Toast.makeText(context, "Context must implement OnBookmark", Toast.LENGTH_SHORT).show();
+            throw ise;
+        }
     }
 
     @Override
@@ -58,11 +57,8 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         holder.storyAuthor.setText(String.format("by %s", currentStory.getAuthor()));
         // Replace ID with actual category name
         // holder.storyCategory.setText(String.valueOf(currentStory.getCategoryId()));
-        if (currentStory.isBookmark()) {
-            holder.bookmark.setActivated(true);
-        } else {
-            holder.bookmark.setActivated(false);
-        }
+
+        setBookmark(holder, currentStory);
 
         Glide.with(holder.itemView)
                 .load(currentStory.getImageUrl())
@@ -79,10 +75,35 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         });
 
         holder.bookmark.setOnClickListener(view -> {
-            currentStory.setBookmark(true);
+            currentStory.setBookmark(!currentStory.isBookmark());
             // Save
-
+            setBookmark(holder, currentStory);
         });
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_explore_stories, parent, false);
+        return new ViewHolder(itemView);
+    }
+
+    private void setBookmark(ViewHolder holder, Story story) {
+        if (story.isBookmark()) {
+            holder.bookmark.setSelected(true);
+        } else {
+            holder.bookmark.setSelected(false);
+        }
+        if (!onBookmarkListener.onBookmark(story)) {
+            // Story bookmark state couldn't be updated in activity, revert
+            story.setBookmark(!story.isBookmark());
+            holder.bookmark.setSelected(story.isBookmark());
+        }
+    }
+
+    interface OnBookmark {
+        boolean onBookmark(Story story);
     }
 
     @Override

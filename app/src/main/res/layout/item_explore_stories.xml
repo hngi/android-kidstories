@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="12dp"
-    android:layout_marginTop="4dp"
+    android:layout_marginTop="12dp"
     android:layout_marginEnd="12dp"
-    android:layout_marginBottom="4dp"
     android:background="?selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    app:cardElevation="3dp">
+    app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,7 +29,7 @@
             android:id="@+id/txt_itemtitle_explore"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:ellipsize="end"
@@ -64,7 +63,6 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/txt_itemauthor_explore"
@@ -77,7 +75,11 @@
             android:layout_height="24dp"
             android:layout_margin="8dp"
             android:src="@drawable/bookmark_toggle"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:visibility="visible"
+            android:clickable="true"
+            android:focusable="true"
+
             app:layout_constraintBottom_toBottomOf="@+id/img_itemimage_explore"
             app:layout_constraintEnd_toEndOf="parent" />
 

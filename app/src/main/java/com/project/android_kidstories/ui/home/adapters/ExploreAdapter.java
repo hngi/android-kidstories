@@ -67,6 +67,11 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             holder.bookmark.setSelected(false);
         }
 
+        //holder.commentCount.setText(currentStory.getComments().getComments().size());
+        holder.likeCount.setText(String.valueOf(currentStory.getLikesCount()));
+        holder.dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
+        holder.ageRange.setText(currentStory.getAge());
+
         Glide.with(holder.itemView)
                 .load(currentStory.getImageUrl())
                 .into(holder.storyImage);
@@ -86,6 +91,7 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             // Save
             setBookmark(holder, currentStory);
         });
+
     }
 
     @NonNull
@@ -120,8 +126,11 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         private TextView storyTitle;
         private TextView storyAuthor;
         private TextView storyDescription;
-        // private Chip storyCategory;
         private ImageView bookmark;
+        private TextView commentCount;
+        private TextView likeCount;
+        private TextView dislikeCount;
+        private TextView ageRange;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -129,8 +138,11 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             storyTitle = itemView.findViewById(R.id.txt_itemtitle_explore);
             storyAuthor = itemView.findViewById(R.id.txt_itemauthor_explore);
             storyDescription = itemView.findViewById(R.id.txt_itemdesc_explore);
-//            storyCategory = itemView.findViewById(R.id.chip_itemcategory_explore);
             bookmark = itemView.findViewById(R.id.img_itembookmarked_explore);
+            commentCount = itemView.findViewById(R.id.txt_itemcommentcount_explore);
+            likeCount = itemView.findViewById(R.id.txt_itemlikecount_explore);
+            dislikeCount = itemView.findViewById(R.id.txt_itemdislikecount_explore);
+            ageRange = itemView.findViewById(R.id.txt_itemage_explore);
         }
     }
 }

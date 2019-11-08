@@ -70,7 +70,7 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         //holder.commentCount.setText(currentStory.getComments().getComments().size());
         holder.likeCount.setText(String.valueOf(currentStory.getLikesCount()));
         holder.dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
-        holder.ageRange.setText(currentStory.getAge());
+        holder.ageRange.setText(String.format("ages %s", currentStory.getAge()));
 
         Glide.with(holder.itemView)
                 .load(currentStory.getImageUrl())

@@ -155,8 +155,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             data.putString("token", userDetails.getToken());
             profileFragment.setArguments(data);
 
-            navigateToFragment(profileFragment);
-            updateToolbarTitle(MainActivity.this.getString(R.string.title_profile_fragment));
+            navigateToFragment(profileFragment, MainActivity.this.getString(R.string.title_profile_fragment));
 
             drawer.closeDrawer(GravityCompat.START);
             sideNav.setCheckedItem(R.id.nav_stub);
@@ -181,14 +180,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     private void openHomeFragment() {
         HomeFragment homeFragment = new HomeFragment();
-        navigateToFragment(homeFragment);
+        navigateToFragment(homeFragment, getString(R.string.title_home_fragment));
 
         sideNav.getMenu().getItem(0).setChecked(true);
 
         bottomNavigationView.setSelectedItemId(R.id.bottommenu_home);
         bottomNavigationView.setVisibility(View.VISIBLE);
-
-        updateToolbarTitle(getString(R.string.title_home_fragment));
     }
 
     private void initViews() {
@@ -398,8 +395,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
             sideNav.setCheckedItem(menuItem.getItemId());
             drawer.closeDrawer(GravityCompat.START);
-            navigateToFragment(fragment);
-            updateToolbarTitle(title);
+            navigateToFragment(fragment, title);
 
             return true;
 
@@ -436,9 +432,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         if (fragment == null) return false;
 
-        navigateToFragment(fragment);
+        navigateToFragment(fragment, title);
         bottomNavigationView.setSelectedItemId(position);
-        updateToolbarTitle(title);
 
         return true;
     }
@@ -494,12 +489,19 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         super.onStart();
     }
 
-    public void navigateToFragment(Fragment fragment) {
+    public void navigateToFragment(Fragment fragment, String title) {
         currentFragment = fragment;
+        if (fragment instanceof HomeFragment) {
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        } else {
+            bottomNavigationView.setVisibility(View.GONE);
+        }
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_fragment_container, currentFragment)
                 .commit();
+        updateToolbarTitle(title);
 
     }
 

@@ -3,6 +3,7 @@ package com.project.android_kidstories.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +15,9 @@ import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
 import com.project.android_kidstories.data.source.remote.response_models.bookmark.BookmarkResponse;
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryAllResponse;
+import com.project.android_kidstories.ui.MainActivity;
 import com.project.android_kidstories.ui.base.BaseFragment;
+import com.project.android_kidstories.ui.categories.CategoriesFragment;
 import com.project.android_kidstories.ui.home.adapters.ExploreAdapter;
 import com.project.android_kidstories.ui.home.adapters.PopularStoriesAdapter;
 import com.project.android_kidstories.ui.reading_status.ReadingStatusActivity;
@@ -79,6 +82,9 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
             if (allStoriesCall != null) allStoriesCall.cancel();
             updateData();
         });
+
+        TextView viewAll = root.findViewById(R.id.txt_viewall_home);
+        viewAll.setOnClickListener(v -> ((MainActivity) getActivity()).navigateToFragment(new CategoriesFragment(), "All Stories"));
 
         return root;
     }

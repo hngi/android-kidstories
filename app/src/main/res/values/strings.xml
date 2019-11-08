@@ -119,5 +119,6 @@ SOFTWARE.
     <string name="empty_downloads">No story in downloads</string>
     <string name="title_settings_fragment">Settings</string>
     <string name="comments">Comments</string>
+    <string name="view_all">More</string>
 
 </resources>

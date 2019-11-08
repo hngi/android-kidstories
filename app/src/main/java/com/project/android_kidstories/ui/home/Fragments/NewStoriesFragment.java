@@ -157,45 +157,6 @@ public class NewStoriesFragment extends BaseFragment implements StoryAdapter.OnS
     }
 
     @Override
-    public boolean isAlreadyBookmarked(int storyId, int pos) {
-
-        Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
-
-        bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
-            @Override
-            public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
-                if (response.isSuccessful()) {
-                    List<Story> data = response.body().getData();
-                    int i= 0;
-                    for (Story s : data) {
-                        if (s.getId() == storyId) {
-                            Log.e("STORYID", storyId + "");
-                            Story k = storiesArray.get(i++);
-                            if(k.getId()==storyId)
-                                k.setBookmark(true);
-                            Common.updateSharedPref(storyId,true);
-                            initBookmark = true;
-                        }else{
-
-                            Common.updateSharedPref(storyId,false);
-                        }
-                    }
-                } else {
-
-                    Common.updateSharedPref(storyId,false);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        Log.e("INITBOOKMARK", initBookmark + "");
-        return initBookmark;
-    }
-
-    @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         storySearchListener = this;

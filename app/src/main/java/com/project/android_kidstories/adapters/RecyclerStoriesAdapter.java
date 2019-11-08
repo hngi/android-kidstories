@@ -96,17 +96,8 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
 
         Story story = stories.get(position);
 
-        boolean isBookmarked = bookmarked.isAlreadyBookmarked(storyId, position);
-        boolean check = Prefs.getBoolean(String.valueOf(storyId),false);
-        Log.e("STORYYyyyyyyyyyy", isBookmarked + "");
+        //  INITIALIZE BOOKMARK
         holder.bookmark.setActivated(story.isBookmark());
-        /*if(check){
-            story.setBookmark(true);
-            holder.bookmark.setActivated(story.isBookmark());
-        }else{
-            story.setBookmark(false);
-            holder.bookmark.setActivated(story.isBookmark());
-        }*/
 
 
         //toggleReaction
@@ -403,7 +394,6 @@ public class RecyclerStoriesAdapter extends RecyclerView.Adapter<RecyclerStories
     public interface OnBookmarked {
         boolean onBookmarkAdded(int storyId);
 
-        boolean isAlreadyBookmarked(int storyId, int pos);
     }
 
     public interface StorySearch{

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,11 +16,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.like.LikeButton;
 import com.project.android_kidstories.CommentActivity;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.Repository;
-import com.project.android_kidstories.data.model.Comment;
 import com.project.android_kidstories.data.model.ReadStory;
 import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
@@ -34,7 +38,6 @@ import retrofit2.Response;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.List;
 import java.util.Locale;
 
 import static com.project.android_kidstories.utils.CommonUtils.loadBitmap;
@@ -48,7 +51,7 @@ public class SingleStoryActivity extends BaseActivity {
     private ImageView story_pic, like_btn;
 
     int story_id = 0;
-    String downloads_story_name = "";
+    String story_name = "";
 
     ImageView playButton;
     ImageView markAsReadBtn;
@@ -58,7 +61,7 @@ public class SingleStoryActivity extends BaseActivity {
     private Api storyApi;
 
     View contentView;
-    Story testStory;
+    Story currentStory;
     StoryLab storyLab;
     ImageButton btn_stop;
     TextView speak_text;
@@ -69,11 +72,10 @@ public class SingleStoryActivity extends BaseActivity {
     String googleTtsPackage = "com.google.android.tts", picoPackage = "com.svox.pico";
     ImageButton stopButton;
     private Toolbar toolbar;
-    private TextView story_author, story_title, story_content, error_msg;
+    View error_msg;
+    private TextView story_author, story_title, story_content;
     private ImageView saveStory;
-
     private ImageButton ZoomIn, ZoomOut;
-    private static List<Comment> comments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,18 +83,26 @@ public class SingleStoryActivity extends BaseActivity {
         setContentView(R.layout.alt_activity_single_story);
 
         storyLab = StoryLab.get(this);
-        ZoomIn = findViewById(R.id.Zoom_In);
-        ZoomOut = findViewById(R.id.Zoom_Out);
-
+        sharePref = getSharePref();
         repository = Repository.getInstance(this.getApplication());
         storyApi = repository.getStoryApi();
 
         story_id = getIntent().getIntExtra(STORY_ID_KEY, 0);
-        downloads_story_name = getIntent().getStringExtra(STORY_NAME_KEY);
+        story_name = getIntent().getStringExtra(STORY_NAME_KEY);
 
-        sharePref = getSharePref();
-
+        contentView = findViewById(R.id.nestedscroll_single_story);
+        progressBar = findViewById(R.id.story_content_bar);
+        playButton = findViewById(R.id.play_story);
+        story_author = findViewById(R.id.author);
+        story_title = findViewById(R.id.txt_story_title);
+        story_content = findViewById(R.id.story_content);
+        story_pic = findViewById(R.id.story_pic);
+        error_msg = findViewById(R.id.error_msg);
+        saveStory = findViewById(R.id.save_story);
+        ZoomIn = findViewById(R.id.Zoom_In);
+        ZoomOut = findViewById(R.id.Zoom_Out);
         markAsReadBtn = findViewById(R.id.btn_markasread);
+
         markAsReadBtn.setSelected(true);
         markAsReadBtn.setOnClickListener(view -> {
             if (markAsReadBtn.isSelected()) return;
@@ -108,25 +118,24 @@ public class SingleStoryActivity extends BaseActivity {
 
         });
 
-        // Check if story has been read already
-        repository.getStoryForId(String.valueOf(story_id)).observe(this, readStory -> {
-            if (readStory == null) {
-                markAsReadBtn.setSelected(false);
+        saveStory.setOnClickListener(view -> {
+            if (currentStory == null) return; // In case the content is ever shown when there's no story
+
+            if (storyInDownloads()) {
+                // Remove story
+                removeSavedStory(currentStory);
+            } else {
+                // Save story offline
+                storyLab.addStory(currentStory);
+                // Save the story's image locally too
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) story_pic.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+                saveImageFile(bitmap
+                        , currentStory.getTitle() + ".png");
+                showToast("Story is now available offline");
+                saveStory.setSelected(true);
             }
         });
-
-        contentView = findViewById(R.id.nestedscroll_single_story);
-        progressBar = findViewById(R.id.story_content_bar);
-
-        playButton = findViewById(R.id.play_story);
-        story_author = findViewById(R.id.author);
-        story_title = findViewById(R.id.txt_story_title);
-        story_content = findViewById(R.id.story_content);
-        story_pic = findViewById(R.id.story_pic);
-        //like_btn = findViewById(R.id.like_button);
-        error_msg = new TextView(this);
-        //error_msg = findViewById(R.id.error_msg);
-        saveStory = findViewById(R.id.save_story);
 
         //todo : check authorization for premium stories
         getStoryWithId(story_id);
@@ -184,112 +193,125 @@ public class SingleStoryActivity extends BaseActivity {
         });
 
         */
+    }
 
-        // For controlling Zooming In
+    /**
+     * Returns true if story has been downloaded already
+     */
+    private boolean storyInDownloads() {
+        Story storyDownloaded = storyLab.getStory(story_name);
+        return storyDownloaded != null;
     }
 
     private void updateIcons() {
-        Story storyDownloaded = storyLab.getStory(downloads_story_name);
-        if (storyDownloaded != null) {
+        // Check if story is in the downloads
+        if (storyInDownloads()) {
             saveStory.setSelected(true);
+        } else {
+            saveStory.setSelected(false);
         }
 
-        saveStory.setOnClickListener(view -> {
-            if (testStory != null) {
-                if (storyDownloaded == null) {
-                    storyLab.addStory(testStory);
-
-                    BitmapDrawable bitmapDrawable = (BitmapDrawable) story_pic.getDrawable();
-                    Bitmap bitmap = bitmapDrawable.getBitmap();
-                    saveImageFile(SingleStoryActivity.this
-                            , bitmap
-                            , testStory.getTitle() + ".png");
-                    showToast("Story is now available offline");
-                    saveStory.setSelected(true);
-                } else {
-                    removeSavedStory(testStory);
-                }
+        // Check if story has been read already
+        repository.getStoryForId(String.valueOf(story_id)).observe(this, readStory -> {
+            if (readStory != null) {
+                // It has been read
+                markAsReadBtn.setSelected(true);
+            } else {
+                markAsReadBtn.setSelected(false);
             }
         });
     }
 
-    public static List<Comment> returnComments() {
-        return comments;
-    }
-
-    public static void saveImageFile(Context context, Bitmap b, String picName) {
+    private void saveImageFile(Bitmap b, String picName) {
         FileOutputStream fos;
         try {
-            fos = context.openFileOutput(picName, Context.MODE_PRIVATE);
+            showToast("Saving image");
+            fos = openFileOutput(picName, Context.MODE_PRIVATE);
             b.compress(Bitmap.CompressFormat.PNG, 100, fos);
         } catch (FileNotFoundException e) {
-
+            showToast("Can't save image");
             Log.d("TAG", "file not found");
             e.printStackTrace();
         }
     }
 
-    private void updateViews(Story story, @Nullable Bitmap optionalImage) {
-        story_title.setText(story.getTitle());
-        story_author.setText(String.format("Written by %s", story.getAuthor()));
-        story_content.setText(story.getBody());
-
-        if (optionalImage != null) {
-            story_pic.setImageBitmap(optionalImage);
-
-        } else {
-            Glide.with(this)
-                    .load(story.getImageUrl())
-                    .into(story_pic);
+    private void showViews(View... views) {
+        for (View view : views) {
+            view.setVisibility(View.VISIBLE);
         }
-
-        contentView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.INVISIBLE);
     }
 
-    private boolean getStoryOffline() {
-        StoryLab storyLab = StoryLab.get(this);
-        Story story = storyLab.getStory(downloads_story_name);
-        if (story != null) {
-            Bitmap bitmap = loadBitmap(this, story.getTitle() + ".png");
-            updateViews(story, bitmap);
-            updateIcons();
-            return true;
+    private void hideViews(View... views) {
+        for (View view : views) {
+            view.setVisibility(View.GONE);
         }
-        showToast("Story not available offline");
-        return false;
+    }
+
+    private void updateViews() {
+        if (currentStory == null) {
+            // Show an error
+            showViews(error_msg);
+            hideViews(progressBar, contentView);
+            return;
+        }
+
+        // currentStory is not null, display views
+        showViews(contentView);
+        hideViews(progressBar, error_msg);
+        // Populate views
+        story_title.setText(currentStory.getTitle());
+        story_author.setText(String.format("Written by %s", currentStory.getAuthor()));
+        story_content.setText(currentStory.getBody());
+
+        Glide.with(this)
+                .load(currentStory.getImageUrl())
+                .addListener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        // Image load failed, try to get it offline
+                        Bitmap bitmap = loadBitmap(SingleStoryActivity.this, currentStory.getTitle() + ".png");
+                        if (bitmap != null) {
+                            story_pic.setImageBitmap(bitmap);
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                })
+                .into(story_pic);
+
+        updateIcons();
+    }
+
+    private Story getStoryOffline() {
+        StoryLab storyLab = StoryLab.get(this);
+        return storyLab.getStory(story_name);
     }
 
     public void getStoryWithId(int id) {
         storyApi.getStory(id).enqueue(new Callback<StoryBaseResponse>() {
             @Override
             public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
-                try {
-                    Story currentStory = response.body().getData();
-                    testStory = currentStory;
-                    updateViews(currentStory, null);
-                    comments = currentStory.getComments().getComments();
-                    updateIcons();
+                StoryBaseResponse storyBaseResponse = response.body();
 
-                } catch (NullPointerException e) {
+                if (response.isSuccessful() && storyBaseResponse != null) {
+                    currentStory = storyBaseResponse.getData();
+                } else {
                     // Try to get story offline
-                    if (!getStoryOffline()) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        error_msg.setVisibility(View.VISIBLE);
-                        contentView.setVisibility(View.GONE);
-                    }
+                    currentStory = getStoryOffline();
                 }
+
+                updateViews();
             }
 
             @Override
             public void onFailure(Call<StoryBaseResponse> call, Throwable t) {
                 // Try to get story offline
-                if (!getStoryOffline()) {
-                    showToast("Oops Something went wwwwwrong ... story specific issue");
-                    progressBar.setVisibility(View.INVISIBLE);
-                    error_msg.setVisibility(View.VISIBLE);
-                    contentView.setVisibility(View.GONE);
-                }
+                currentStory = getStoryOffline();
+                updateViews();
             }
         });
 
@@ -304,7 +326,6 @@ public class SingleStoryActivity extends BaseActivity {
                     //btn_speak.setEnabled(true);
                     //textToSpeech.setPitch(0.6f);
                     textToSpeech.setSpeechRate(0.85f);
-                    speak();
                 }
             }
 
@@ -382,6 +403,7 @@ public class SingleStoryActivity extends BaseActivity {
                 .setPositiveButton("Yes", (dialogInterface, i) -> {
                     storyLab.deleteStory(story);
                     saveStory.setSelected(false);
+                    showToast("Story removed from downloads");
                 })
                 .setNegativeButton("No", null).show();
     }

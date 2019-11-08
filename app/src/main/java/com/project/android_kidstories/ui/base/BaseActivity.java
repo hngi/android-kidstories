@@ -22,7 +22,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "  " + message + "  ", Toast.LENGTH_LONG).show();
     }
 
     protected void showSnack(String message, View view) {

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottommenu_home"
+        android:icon="@drawable/svg_ic_home_icon"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/bottommenu_bookmark"
+        android:icon="@drawable/svg_ic_bookmark_black"
+        android:title="@string/bookmarks" />
+
+    <item
+        android:id="@+id/bottommenu_addstory"
+        android:icon="@drawable/svg_ic_pen"
+        android:title="@string/create" />
+</menu>

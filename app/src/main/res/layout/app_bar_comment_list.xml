@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:id="@+id/comment_toolbar"
+        android:minHeight="?android:attr/actionBarSize"
+        android:background="@drawable/comment_nav_corners"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="@string/comments"
+            android:textColor="?colorOnPrimary"
+            android:textSize="20sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

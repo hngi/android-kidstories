@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_import_contacts_black_24dp"
+            android:title="@string/menuitem_home" />
+
+        <item
+            android:id="@+id/nav_categories"
+            android:icon="@drawable/svg_ic_category"
+            android:title="@string/menuitem_categories" />
+
+        <item
+            android:id="@+id/nav_downloads"
+            android:icon="@drawable/svg_ic_cloud_download"
+            android:title="@string/menuitem_saved" />
+
+
+    </group>
+
+    <item
+        android:title="@string/menugroup_more_text"
+        app:showAsAction="never">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_donate"
+                    android:title="@string/menuitem_donate" />
+
+                <item
+                    android:id="@+id/nav_about"
+                    android:title="@string/menuitem_about" />
+
+                <item
+                    android:id="@+id/nav_feed_back"
+                    android:title="@string/menuitem_feedback" />
+
+                <item
+                    android:id="@+id/nav_log_out"
+                    android:title="@string/menuitem_log_out" />
+            </group>
+        </menu>
+    </item>
+    <!--- WHY is this stub needed?
+        In MainActivity, when the profile picture in the nav header is clicked,
+        it unchecks every menu item (visually) but
+        Navigation View still sees the last fragment as checked.
+        Clicking the same navigation item a second time in a row does nothing,
+        which means the fragment selected before going to ProfileFragment
+        cannot be selected again from profile fragment. This stub is hidden,
+        it only represents the "Profile Fragment checked state" as you cannot
+        check the navigation header.
+     -->
+    <item
+        android:id="@+id/nav_stub"
+        android:checkable="true"
+        android:title=""
+        android:visible="false" />
+</menu>

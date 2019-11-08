@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="com_google_android_gms_fonts_certs" />
+
+    <string-array name="items_class">
+        <item>Category</item>
+        <item>Moral Story</item>
+        <item>Fable</item>
+        <item>African Bedtime Stories</item>
+        <item>Morals</item>
+        <item>Fairytale</item>
+        <item>Folklore</item>
+    </string-array>
+</resources>

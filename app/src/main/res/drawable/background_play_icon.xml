@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="10dp" />
+                    <solid android:color="?colorPrimary" />
+                </shape>
+            </item>
+            <item android:bottom="8dp" android:drawable="@drawable/svg_ic_play_outline_white" android:left="8dp" android:right="8dp" android:top="8dp" />
+        </layer-list>
+    </item>
+
+    <item android:state_selected="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="10dp" />
+                    <solid android:color="?colorPrimary" />
+                </shape>
+            </item>
+            <item android:bottom="8dp" android:drawable="@drawable/ic_crop_square_white_24dp" android:left="8dp" android:right="8dp" android:top="8dp" />
+        </layer-list>
+    </item>
+
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="10dp" />
+                    <solid android:color="@android:color/transparent" />
+                    <stroke android:width="1.5dp" android:color="#39000000" />
+                </shape>
+            </item>
+            <item android:bottom="8dp" android:drawable="@drawable/svg_ic_play_outline" android:left="8dp" android:right="8dp" android:top="8dp" />
+        </layer-list>
+    </item>
+
+</selector>

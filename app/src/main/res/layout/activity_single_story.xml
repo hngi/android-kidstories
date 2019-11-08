@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SingleStoryActivity">
+    tools:context=".ui.story_viewing.SingleStoryActivity">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -20,8 +20,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/float_buttons"
-            android:id="@+id/scroll">
+            android:layout_above="@id/float_buttons">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,7 +47,7 @@
                         android:layout_marginTop="12dp"
                         android:layout_marginEnd="12dp"
                         android:enabled="false"
-                        app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+                        app:srcCompat="@drawable/ic_play_arrow_bluetint_24dp" />
 
                     <ImageButton
                         android:id="@+id/stop_story"
@@ -59,7 +58,7 @@
                         android:layout_marginEnd="12dp"
                         android:enabled="false"
                         android:visibility="invisible"
-                        app:srcCompat="@drawable/ic_stop_black_24dp" />
+                        app:srcCompat="@drawable/ic_stop_red_24dp" />
 
                     <ImageButton
                         android:id="@+id/playSong"
@@ -95,9 +94,9 @@
                         app:icon_size="56dp"
                         app:icon_type="heart"
                         app:is_enabled="true"
-                        app:like_drawable="@drawable/ic_favourite"
                         app:layout_constraintBottom_toBottomOf="@+id/story_pic"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:like_drawable="@drawable/ic_favourite"
                         app:liked="true"
                         app:unlike_drawable="@drawable/ic_favorite_border"
                         tools:ignore="MissingConstraints" />
@@ -125,7 +124,7 @@
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="save story"
-                        android:textColor="@color/blueSky" />
+                        android:textColor="?colorPrimaryVariant" />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -164,51 +163,52 @@
         </ScrollView>
 
 
-              <LinearLayout
-                android:id="@+id/float_buttons"
+        <LinearLayout
+            android:id="@+id/float_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_markasread"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/colorPrimary"
+                android:backgroundTint="@color/colorPrimary"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:text="@string/mark_story_as_read"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                android:visibility="visible"
+                app:backgroundTint="@color/colorPrimary" />
+
+            <ImageButton
+                android:id="@+id/Zoom_In"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="5dp"
-                android:layout_centerInParent="true"
-                android:orientation="horizontal">
+                android:layout_marginStart="3dp"
+                android:src="@drawable/zoom_in" />
 
-                <Button
-                    android:id="@+id/btn_markasread"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:background="@color/colorPrimary"
-                    android:layout_marginBottom="8dp"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="3dp"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:text="@string/mark_story_as_read"
-                    android:textColor="@color/white"
-                    android:visibility="visible"
-                    android:textSize="9sp"
-                    app:backgroundTint="@color/colorPrimary" />
+            <ImageButton
+                android:id="@+id/Zoom_Out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/zoom_out" />
 
-                <ImageButton
-                    android:id="@+id/Zoom_In"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:src="@drawable/zoom_in" />
-
-                <ImageButton
-                    android:id="@+id/Zoom_Out"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/zoom_out" />
-                <Button
-                    android:id="@+id/comment_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="3dp"
-                    android:text="Comment"
-                    android:textSize="12sp"
-                    android:textColor="@color/white"
-                    android:background="@color/colorPrimary"/>
-            </LinearLayout>
-        </RelativeLayout>
+            <Button
+                android:id="@+id/comment_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="3dp"
+                android:background="@color/colorPrimary"
+                android:text="Comment"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

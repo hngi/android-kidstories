@@ -6,24 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.Api.Responses.bookmark.UserBookmarkResponse;
-import com.project.android_kidstories.Api.RetrofitClient;
-import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
-import com.project.android_kidstories.SingleStoryActivity;
-import com.project.android_kidstories.Views.main.MainActivity;
-import com.project.android_kidstories.adapters.BookmarksAdapter;
 import com.project.android_kidstories.adapters.RecyclerStoriesAdapter;
-import com.project.android_kidstories.sharePref.SharePref;
+import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.data.source.remote.api.Api;
+import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
+import com.project.android_kidstories.data.source.remote.response_models.bookmark.UserBookmarkResponse;
+import com.project.android_kidstories.ui.base.BaseFragment;
+import com.project.android_kidstories.ui.profile.adapters.BookmarksAdapter;
+import com.project.android_kidstories.ui.story_viewing.SingleStoryActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,7 +29,7 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBookmarkClickListener {
+public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.OnBookmarkClickListener {
 
     @BindView(R.id.bookmark_bar)
     ProgressBar progressBar;
@@ -39,78 +37,95 @@ public class BookmarksFragment extends Fragment implements BookmarksAdapter.OnBo
     @BindView(R.id.bookmark_recycler)
     RecyclerView recyclerView;
 
-    public BookmarksAdapter adapter;
-    ArrayList<Story> stories;
-    String token;
+    private View errorView;
+
+    private BookmarksAdapter adapter;
+    private ArrayList<Story> stories = new ArrayList<>();
+    private String token;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private Call<UserBookmarkResponse> bookmarksCall;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-        ButterKnife.bind(this, v);
-        stories = new ArrayList<>();
-        recyclerView.setAdapter(new BookmarksAdapter(stories,BookmarksFragment.this, getContext()));
+        View root = inflater.inflate(R.layout.fragment_bookmarks, container, false);
+        ButterKnife.bind(this, root);
 
-       /* recyclerView = v.findViewById(R.id.category_recycler);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
-        recyclerView.setLayoutManager(layoutManager);*/
+        errorView = root.findViewById(R.id.error_msg);
+        swipeRefreshLayout = root.findViewById(R.id.swiper);
 
-        // Glide.with(this).load("http://i.imgur.com/DvpvklR.png").into(imageView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+        recyclerView.setLayoutManager(layoutManager);
 
-       /* RecyclerStoriesAdapter recyclerAdapter = new RecyclerStoriesAdapter(getContext(), images, authors);
-        recyclerView.setAdapter(recyclerAdapter);*/
+        errorView.setVisibility(View.GONE);
 
-        progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            if (bookmarksCall != null) bookmarksCall.cancel();
+            refreshData();
+        });
+
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        refreshData();
+    }
+
+    private void refreshData() {
+        swipeRefreshLayout.setRefreshing(true);
 
         /*Create handle for the RetrofitInstance interface*/
         Api service = RetrofitClient.getInstance().create(Api.class);
-        token = "Bearer " + new SharePref(getContext()).getMyToken();
+        token = "Bearer " + getSharePref().getUserToken();
         RecyclerStoriesAdapter.token = token;
-        BookmarksAdapter.token = token;
-        Call<UserBookmarkResponse> bookmarks = service.getUserBookmarks(token);
 
-        bookmarks.enqueue(new Callback<UserBookmarkResponse>() {
+
+        bookmarksCall = service.getUserBookmarks(token);
+
+        bookmarksCall.enqueue(new Callback<UserBookmarkResponse>() {
             @Override
             public void onResponse(Call<UserBookmarkResponse> call, Response<UserBookmarkResponse> response) {
                 stories.clear();
                 progressBar.setVisibility(View.GONE);
-                if (response.isSuccessful()) {
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(layoutManager);
+                swipeRefreshLayout.setRefreshing(false);
 
+                if (response.isSuccessful()) {
                     List<Story> data = response.body().getData();
-                    for (Story s : data) {
-                        stories.add(s);
-                    }
-                    adapter = new BookmarksAdapter(stories,BookmarksFragment.this, getContext());
-                    adapter.notifyDataSetChanged();
+                    stories.addAll(data);
+                    adapter = new BookmarksAdapter(stories, BookmarksFragment.this, requireContext());
                     recyclerView.setAdapter(adapter);
+
                 } else {
-//                    Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                    errorView.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<UserBookmarkResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-//                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                errorView.setVisibility(View.VISIBLE);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-        return v;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-    }
-
-
-    @Override
-    public void onStoryClick(int storyId) {
+    public void onStoryClick(int storyId, String storyName) {
         Intent intent = new Intent(getContext(), SingleStoryActivity.class);
-        intent.putExtra("story_id", storyId);
-        getContext().startActivity(intent);
+        intent.putExtra(SingleStoryActivity.STORY_ID_KEY, storyId);
+        intent.putExtra(SingleStoryActivity.STORY_NAME_KEY, storyName);
+        requireContext().startActivity(intent);
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        bookmarksCall.cancel();
+    }
 }

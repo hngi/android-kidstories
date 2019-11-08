@@ -1,8 +1,5 @@
 package com.project.android_kidstories;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -11,26 +8,15 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.Toast;
-
-import com.pixplicity.easyprefs.library.Prefs;
-import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.Api.Responses.BaseResponse;
-import com.project.android_kidstories.Api.RetrofitClient;
-import com.project.android_kidstories.Model.Story;
-import com.project.android_kidstories.Utils.FileUtil;
-import com.project.android_kidstories.Views.main.MainActivity;
-import com.project.android_kidstories.sharePref.SharePref;
-
-import java.io.File;
-
-
+import android.widget.*;
+import androidx.appcompat.widget.Toolbar;
+import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.data.source.remote.api.Api;
+import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
+import com.project.android_kidstories.data.source.remote.response_models.BaseResponse;
+import com.project.android_kidstories.ui.MainActivity;
+import com.project.android_kidstories.ui.base.BaseActivity;
+import com.project.android_kidstories.utils.FileUtil;
 import jp.wasabeef.richeditor.RichEditor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -38,28 +24,22 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Multipart;
 
-public class AddStoriesContentActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    public static final String TOKEN_KEY="token";
-    private static final String TAG = "kidstories";
+import java.io.File;
+
+public class AddStoriesContentActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
     private static boolean isStoryAdded = false;
     private static String title;
     private static String token;
 
-    public final int PERMISSION_REQUEST_CODE = 100;
-
     //EditText storyContent;
     Spinner categories;
-    String storyBody;
     Button saveContent;
     public ProgressBar progressBar;
-    public SharePref sharePref;
     private RichEditor mEditor;
     Uri image_uri;
     String imageUri_str;
     String storyCategoriesId;
-    private RequestBody storyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +62,7 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
         image_uri = Uri.parse(imageUri_str);
         assert image_path != null;
 //        image_uri = Uri.fromFile(new File(image_path));
-        token = new SharePref(getApplicationContext()).getMyToken();
+        token = getSharePref().getUserToken();
         token = "Bearer " + token;
 
         //storyContent = findViewById(R.id.story_content_field);
@@ -269,7 +249,7 @@ public class AddStoriesContentActivity extends AppCompatActivity implements Adap
                     story.setTitle(title);
                     story.setBody(Html.fromHtml(mEditor.getHtml()).toString());
                     //story.setBody(storyContent.getText().toString());
-                    String author = new SharePref(getApplicationContext()).getUserFirstname();
+                    String author = getSharePref().getUserFullname();
                     story.setAuthor(author);
 
                     Log.d("TAG", story.getTitle());

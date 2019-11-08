@@ -1,53 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="colorPrimary">#2D98FA</color>
-    <color name="colorPrimaryDark">#3F9FF7</color>
-    <color name="colorAccent">#3f9ff7</color>
-    <color name="orangeRed">#FF5722</color>
-    <color name="ash">#AEE2E2E2</color>
-    <color name="white">#FFFFFF</color>
-    <color name="colorPrimaryTransparent">#e14e53f7</color>
-    <color name="colorRating">#C51162</color>
+<resources>
 
+    <color name="color_primary">#607EFA</color>
+    <color name="color_primary_variant">#365fc7</color>
+    <color name="color_secondary">#616161</color>
+    <color name="color_secondary_variant">#373737</color>
 
-    <color name="material_grey_50" tools:override="true">#f9fafa</color>
-    <color name="material_grey_100" tools:override="true">#f4f5f5</color>
-    <color name="material_grey_200" tools:override="true">#eeeeee</color>
-    <color name="material_grey_300" tools:override="true">#e0e0e0</color>
-    <color name="material_grey_400" tools:override="true">#bdbcbc</color>
-    <color name="material_grey_500" tools:override="true">#9d9d9d</color>
-    <color name="material_grey_600" tools:override="true">#757575</color>
-    <color name="material_grey_700" tools:override="true">#616161</color>
-    <color name="material_grey_800" tools:override="true">#424242</color>
-    <color name="material_grey_900" tools:override="true">#202020</color>
+    <!--colorBackground appears behind scrollable content and is used for the default window-->
+    <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
+    <!--and menus. colorError is used to indicate an error state for components such as-->
+    <!--text fields.-->
+    <color name="color_surface">#FFFFFF</color>
+    <color name="color_background">#EDEDF1</color>
+    <color name="color_error">#b00020</color>
 
+    <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
+    <!--on which they appear.-->
+    <color name="color_on_primary">#FFFFFF</color>
+    <color name="color_on_secondary">#ffffff</color>
+    <color name="color_on_background">#1D1D23</color>
+    <color name="color_on_surface">#1D1D23</color>
+    <color name="color_on_error">#ffffff</color>
 
-    <color name="main_color_grey_500">@color/material_grey_500</color>
-    <color name="main_color_grey_50">@color/material_grey_50</color>
-    <color name="main_color_grey_100">@color/material_grey_100</color>
-    <color name="main_color_grey_200">@color/material_grey_200</color>
-    <color name="main_color_grey_300">@color/material_grey_300</color>
-    <color name="main_color_grey_400">@color/material_grey_400</color>
-    <color name="main_color_grey_600">@color/material_grey_600</color>
-    <color name="main_color_grey_700">@color/material_grey_700</color>
-    <color name="main_color_grey_800">@color/material_grey_800</color>
-    <color name="main_color_grey_900">@color/material_grey_900</color>
-
-    <color name="blueSky">#3F9FF7</color>
-    <color name="black">#000000</color>
-    <color name="grey">#808080</color>
-
-    <!-- Color for button style -->
-    <color name="gradient_start">#4cb4ff</color>
-    <color name="gradient_end">#18a3fe</color>
-    <!-- End of Color for button style -->
-
-
-    <!-- Color for Tab and screen text-->
-    <color name="tab_indicator_gray">#c0c0c0</color>
-    <color name="intro_title_color">#000000</color>
-    <color name="intro_description_color">#656565</color>
-    <color name="tab_indicator_color">#3F9FF7</color>
-    <color name="trans_blue">#B93F9FF7</color>
-    <!--End of Color for Tab and screen text-->
 </resources>

@@ -1,3 +1,4 @@
+/*
 package com.project.android_kidstories.adapters;
 
 
@@ -12,17 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.SingleSavedStoryActivity;
-import com.project.android_kidstories.SingleStoryActivity;
-import com.project.android_kidstories.database.StoryLab;
+import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -150,3 +146,4 @@ public class SavedStoriesAdapter extends RecyclerView.Adapter<SavedStoriesAdapte
     }
 
 }
+*/

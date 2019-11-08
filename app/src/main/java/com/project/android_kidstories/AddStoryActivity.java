@@ -3,23 +3,20 @@ package com.project.android_kidstories;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import com.project.android_kidstories.Views.main.MainActivity;
+import com.project.android_kidstories.ui.MainActivity;
 
 
 public class AddStoryActivity extends AppCompatActivity {
@@ -84,7 +81,7 @@ public class AddStoryActivity extends AppCompatActivity {
         }
     }
 
-    public void TypeContent(View view) {
+    public void typeContent(View view) {
 
         if (TextUtils.isEmpty(storyTitle.getText())) {
             storyTitle.setError("Title cannot be empty");
@@ -106,16 +103,6 @@ public class AddStoryActivity extends AppCompatActivity {
         }
 
     }
-
-//    public String getPath(Uri uri) {
-//        String[] projection = {MediaStore.Images.Media.DATA};
-//        @SuppressWarnings("deprecation")
-//        Cursor cursor = managedQuery(uri, projection, null, null, null);
-//        int column_index = cursor
-//                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//        cursor.moveToFirst();
-//        return cursor.getString(column_index);
-//    }
 
     @Override
     public void onBackPressed() {

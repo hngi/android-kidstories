@@ -1,23 +1,15 @@
+/*
 package com.project.android_kidstories;
 
+import android.os.Bundle;
+import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-
-import com.project.android_kidstories.Model.Story;
-import com.project.android_kidstories.Views.main.MainActivity;
 import com.project.android_kidstories.adapters.SavedStoriesAdapter;
-import com.project.android_kidstories.database.StoryLab;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
 
 public class SavedStoriesActivity extends AppCompatActivity {
 
@@ -32,7 +24,7 @@ public class SavedStoriesActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_saved_stories);
+        setContentView(R.layout.fragment_downloads);
         storyLab = StoryLab.get(this);
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
@@ -62,3 +54,4 @@ public class SavedStoriesActivity extends AppCompatActivity {
         return  true;
     }
 }
+*/

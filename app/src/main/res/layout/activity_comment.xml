@@ -7,7 +7,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".CommentActivity">
 
-
     <include
         android:id="@+id/comment_bar"
         layout="@layout/app_bar_comment_list" />
@@ -16,19 +15,21 @@
         android:id="@+id/comment_progress_bar"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true" />
 
     <TextView
         android:id="@+id/comment_status_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Comments Yet"
-        android:fontFamily="@font/roboto_regular"
         android:layout_centerInParent="true"
-        android:visibility="invisible"/>
+        android:fontFamily="@font/roboto_regular"
+        android:text="No Comments Yet"
+        android:visibility="invisible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comment_rv"
+        android:clipToPadding="false"
+        android:paddingTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/comment_bar"

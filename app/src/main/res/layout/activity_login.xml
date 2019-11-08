@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
+    tools:context=".ui.login.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,6 @@
             android:textSize="25sp"/>
 
         <TextView
-            android:id="@+id/write"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -50,15 +49,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:hint="@string/email"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="@string/email">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:paddingStart="20dp"/>
+                android:paddingStart="20dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
@@ -70,9 +69,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                app:passwordToggleEnabled="true"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="@string/password"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_password"
@@ -80,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:inputType="textPassword"
-                    android:paddingStart="20dp"/>
+                    android:paddingStart="20dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -100,12 +99,11 @@
             android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            app:cornerRadius="7dp"
+            android:text="@string/login"
             android:layout_marginTop="20dp"
-            android:text="@string/login"/>
+            app:cornerRadius="7dp" />
 
         <LinearLayout
-            android:id="@+id/authentication_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -117,33 +115,32 @@
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:background="@drawable/rounded_triangle"
                 android:drawableStart="@drawable/icon_facebook"
                 android:text="@string/facebook"
-                android:paddingStart= "20dp"
+                android:paddingStart="20dp"
                 android:textAlignment="center"
-                android:textAllCaps="false"
-                />
+                android:textAllCaps="false" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/google_auth_button"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
-                app:cornerRadius="10dp"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:background="@drawable/rounded_triangle"
+                android:paddingStart="20dp"
                 android:layout_marginStart="20dp"
                 android:drawableStart="@drawable/icon_google"
-                android:paddingStart="20dp"
+                android:textAllCaps="false"
                 android:text="@string/google"
                 android:textAlignment="center"
-                android:textAllCaps="false"
-                />
+                app:cornerRadius="10dp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/tv_create_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
@@ -154,7 +151,6 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/not_registered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

@@ -1,7 +1,5 @@
+/*
 package com.project.android_kidstories;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,11 +15,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+<<<<<<< HEAD
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
+=======
 
 import com.project.android_kidstories.Model.Story;
 import com.project.android_kidstories.adapters.SavedStoriesAdapter;
 import com.project.android_kidstories.database.StoryLab;
 import com.project.android_kidstories.sharePref.SharePref;
+>>>>>>> 8cd211bffd35ab8341a18bce9fa383b9af939a6a
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -158,6 +163,8 @@ public class SingleSavedStoryActivity extends AppCompatActivity {
 
     }
 
+<<<<<<< HEAD
+=======
     public static Bitmap loadBitmap(Context context, String picName){
         Bitmap b = null;
         FileInputStream fis;
@@ -216,5 +223,7 @@ public class SingleSavedStoryActivity extends AppCompatActivity {
 
 
 
+>>>>>>> 8cd211bffd35ab8341a18bce9fa383b9af939a6a
 
 }
+*/

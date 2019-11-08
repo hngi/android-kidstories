@@ -14,7 +14,6 @@
         android:minWidth="?android:attr/actionBarSize" />
 
     <TextView
-        android:id="@+id/add_story_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -50,7 +49,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -84,7 +82,6 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button_type_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -92,7 +89,7 @@
         android:layout_marginBottom="32dp"
         android:background="@drawable/rounded_triangle_blue"
         android:fontFamily="@font/roboto_regular"
-        android:onClick="TypeContent"
+        android:onClick="typeContent"
         android:text="@string/type_content"
         android:textColor="#F2FFFFFF"
         android:textSize="16sp" />

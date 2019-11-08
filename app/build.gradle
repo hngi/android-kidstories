@@ -12,7 +12,12 @@ android {
         targetCompatibility = "8"
         sourceCompatibility = "8"
     }
-
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
     defaultConfig {
         applicationId "com.project.android_kidstories"
         minSdkVersion 21
@@ -34,23 +39,31 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-    implementation 'com.android.support:appcompat-v7:29.+'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.2.0-alpha01'
 
-    //Added By Ehma, Review not to include repeat
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    // Smooth Bottom Bar
+    implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.5'
+
+    // Preference manager
+    implementation "androidx.preference:preference:1.1.0"
+
+    // Lottie
+    implementation "com.airbnb.android:lottie:3.1.0"
+
+    // Circle ImageView
     implementation 'de.hdodenhof:circleimageview:3.0.1'
+
+    implementation 'com.github.Flutterwave:rave-android:1.0.39'
 
     //Rich EditorLib
     implementation 'jp.wasabeef:richeditor-android:1.2.2'
+    //Favorite button
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+    //ButterKnife
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
 
     // ViewModel and LiveData
     def lifecycle_version = "2.1.0"
@@ -62,16 +75,6 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
-    // optional - RxJava support for Room
-    implementation "androidx.room:room-rxjava2:$room_version"
-
-    // Test helpers
-    testImplementation "androidx.room:room-testing:$room_version"
-
-    //Rx Java & Rx Android
-    //implementation "io.reactivex.rxjava3:rxjava:3.0.0-RC1"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-
     //Glide Image Library
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
@@ -81,41 +84,23 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
 
-
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
-
-    //Flutterwave
-    implementation 'com.github.Flutterwave:rave-android:1.0.39'
-    implementation 'com.google.android.gms:play-services-auth:17.0.0'
-
-
-    implementation 'androidx.navigation:navigation-fragment:2.1.0'
-    implementation 'androidx.navigation:navigation-ui:2.1.0'
-
-    //ButterKnife
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
 
     //Facebook Dependencies
     implementation 'com.facebook.android:facebook-login:[5,6)'
 
     //Google dependencies
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha01'
-
-    //Favorite button
-    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 
     // Firebase Crashlytics and Google Analytics
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
-
     // Feedback with FireBase
     implementation "com.firebase:firebase-client-android:2.5.2"
 
-    // Custom Tabs Dependency
-    implementation 'com.android.support:customtabs:29.0.0'
+    testImplementation 'junit:junit:4.12'
 }
+
 repositories {
     mavenCentral()
 }

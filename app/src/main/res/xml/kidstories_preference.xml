@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.preference.SwitchPreferenceCompat
+        app:iconSpaceReserved="false"
+        app:key="night_mode"
+        app:summary="Reduce glare, improve night reading"
+        app:title="Dark Mode" />
+
+    <androidx.preference.PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:key="notif_category"
+        app:title="Notifications">
+
+        <androidx.preference.SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="reminder_on"
+            app:summary="Set a daily reminder"
+            app:title="Daily Reminder" />
+
+        <androidx.preference.Preference
+            app:dependency="reminder_on"
+            app:iconSpaceReserved="false"
+            app:key="reminder_time"
+            app:summary="8:00PM"
+            app:title="Reminder Time" />
+
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:key="info_category"
+        app:title="Info">
+
+        <androidx.preference.Preference
+            app:iconSpaceReserved="false"
+            app:key="privacy_policy"
+            app:summary="Read our privacy policy"
+            app:title="Privacy policy" />
+    </androidx.preference.PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

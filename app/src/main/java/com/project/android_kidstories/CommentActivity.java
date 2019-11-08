@@ -1,38 +1,30 @@
 package com.project.android_kidstories;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.project.android_kidstories.Api.Api;
-import com.project.android_kidstories.Api.Responses.BaseResponse;
-import com.project.android_kidstories.Api.Responses.comment.CommentResponse;
-import com.project.android_kidstories.Api.Responses.story.StoryBaseResponse;
-import com.project.android_kidstories.Api.RetrofitClient;
-import com.project.android_kidstories.Model.Comment;
-import com.project.android_kidstories.sharePref.SharePref;
-
-import java.util.List;
-
+import android.widget.*;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.project.android_kidstories.data.model.Comment;
+import com.project.android_kidstories.data.source.remote.api.Api;
+import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
+import com.project.android_kidstories.data.source.remote.response_models.BaseResponse;
+import com.project.android_kidstories.data.source.remote.response_models.comment.CommentResponse;
+import com.project.android_kidstories.data.source.remote.response_models.story.StoryBaseResponse;
+import com.project.android_kidstories.ui.base.BaseActivity;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CommentActivity extends AppCompatActivity {
+import java.util.List;
+
+public class CommentActivity extends BaseActivity {
 
     Api service;
     RecyclerView rv;
@@ -58,7 +50,7 @@ public class CommentActivity extends AppCompatActivity {
 
         rv = findViewById(R.id.comment_rv);
         typeComment = findViewById(R.id.type_comment);
-        token = new SharePref(getApplicationContext()).getMyToken();
+        token = getSharePref().getUserToken();
         storyId = getIntent().getIntExtra("storyId", -1);
         sendComment = findViewById(R.id.btn_send_comment);
         commentProgressBar = findViewById(R.id.comment_progress_bar);

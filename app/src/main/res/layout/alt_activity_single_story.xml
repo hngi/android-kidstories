@@ -114,20 +114,35 @@
                 app:layout_constraintTop_toBottomOf="@+id/txt_story_title"
                 tools:text="Written by Author" />
 
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/author"
+                tools:text="5 minute read" />
+
+
             <ImageView
                 android:id="@+id/btn_markasread"
                 style="@style/SingleStoryIcon"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="12dp"
                 android:background="@drawable/background_markread_icon"
                 app:layout_constraintEnd_toStartOf="@+id/play_story"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/author" />
+                app:layout_constraintTop_toBottomOf="@+id/duration" />
 
             <ImageView
                 android:id="@+id/play_story"

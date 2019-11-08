@@ -24,10 +24,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.logo)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.logo))
-                .setContentTitle("Kidstories daily reminder")
-                .setContentText("It's time to read your child a story")
+                .setSmallIcon(R.drawable.icon_57)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
+                .setContentTitle("Daily reminder")
+                .setContentText("Time to read a lovely story")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);

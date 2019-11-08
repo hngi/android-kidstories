@@ -73,7 +73,7 @@ public class SingleStoryActivity extends BaseActivity {
     ImageButton stopButton;
     private Toolbar toolbar;
     View error_msg;
-    private TextView story_author, story_title, story_content;
+    private TextView story_author, story_duration, story_title, story_content;
     private ImageView saveStory;
     private ImageButton ZoomIn, ZoomOut;
 
@@ -96,6 +96,7 @@ public class SingleStoryActivity extends BaseActivity {
         story_author = findViewById(R.id.author);
         story_title = findViewById(R.id.txt_story_title);
         story_content = findViewById(R.id.story_content);
+        story_duration = findViewById(R.id.duration);
         story_pic = findViewById(R.id.story_pic);
         error_msg = findViewById(R.id.error_msg);
         saveStory = findViewById(R.id.save_story);
@@ -103,7 +104,6 @@ public class SingleStoryActivity extends BaseActivity {
         ZoomOut = findViewById(R.id.Zoom_Out);
         markAsReadBtn = findViewById(R.id.btn_markasread);
 
-        markAsReadBtn.setSelected(true);
         markAsReadBtn.setOnClickListener(view -> {
             if (markAsReadBtn.isSelected()) return;
             int storiesRead = sharePref.getInt(ReadingStatusActivity.STORIES_READ_KEY);
@@ -225,11 +225,10 @@ public class SingleStoryActivity extends BaseActivity {
     private void saveImageFile(Bitmap b, String picName) {
         FileOutputStream fos;
         try {
-            showToast("Saving image");
             fos = openFileOutput(picName, Context.MODE_PRIVATE);
             b.compress(Bitmap.CompressFormat.PNG, 100, fos);
         } catch (FileNotFoundException e) {
-            showToast("Can't save image");
+            showToast("Can't save story image");
             Log.d("TAG", "file not found");
             e.printStackTrace();
         }
@@ -262,6 +261,7 @@ public class SingleStoryActivity extends BaseActivity {
         story_title.setText(currentStory.getTitle());
         story_author.setText(String.format("Written by %s", currentStory.getAuthor()));
         story_content.setText(currentStory.getBody());
+        story_duration.setText(currentStory.getStoryDuration());
 
         Glide.with(this)
                 .load(currentStory.getImageUrl())

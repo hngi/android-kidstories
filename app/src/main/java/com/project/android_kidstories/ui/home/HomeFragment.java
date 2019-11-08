@@ -3,6 +3,7 @@ package com.project.android_kidstories.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +15,9 @@ import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
 import com.project.android_kidstories.data.source.remote.response_models.bookmark.BookmarkResponse;
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryAllResponse;
+import com.project.android_kidstories.ui.MainActivity;
 import com.project.android_kidstories.ui.base.BaseFragment;
+import com.project.android_kidstories.ui.categories.CategoriesFragment;
 import com.project.android_kidstories.ui.home.adapters.ExploreAdapter;
 import com.project.android_kidstories.ui.home.adapters.PopularStoriesAdapter;
 import com.project.android_kidstories.ui.reading_status.ReadingStatusActivity;
@@ -80,6 +83,9 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
             updateData();
         });
 
+        TextView viewAll = root.findViewById(R.id.txt_viewall_home);
+        viewAll.setOnClickListener(v -> ((MainActivity) getActivity()).navigateToFragment(new CategoriesFragment(), "All Stories"));
+
         return root;
     }
 
@@ -107,9 +113,9 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
         swipeRefreshLayout.setRefreshing(true);
 
         if (allStoriesCall != null) allStoriesCall.cancel();
-        String authToken = getSharePref().getUserToken();
+        String authToken = "Bearer " + getSharePref().getUserToken();
 
-        allStoriesCall = service.getAllStories(authToken);
+        allStoriesCall = service.getAllStoriesWithAuth(authToken, "1");
         allStoriesCall.enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
@@ -171,7 +177,7 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
     }
 
     private void deleteBookmarkedStory(int id) {
-        service.deleteBookmarkedStory(getSharePref().getUserToken(), id)
+        service.deleteBookmarkedStory("Bearer " + getSharePref().getUserToken(), id)
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
@@ -188,7 +194,7 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
     }
 
     private void bookmarkStory(int id) {
-        service.bookmarkStory(getSharePref().getUserToken(), id)
+        service.bookmarkStory("Bearer " + getSharePref().getUserToken(), id)
                 .enqueue(new Callback<BookmarkResponse>() {
                     @Override
                     public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {

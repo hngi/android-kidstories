@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="12dp"
-    android:layout_marginTop="12dp"
+    android:layout_marginTop="8dp"
     android:layout_marginEnd="12dp"
+    android:layout_marginBottom="10dp"
     android:background="?selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    app:cardElevation="2dp">
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
         <ImageView
             android:id="@+id/img_itemimage_explore"
             android:layout_width="120dp"
-            android:layout_height="140dp"
+            android:layout_height="170dp"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,7 +37,8 @@
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:textColor="?colorOnSurface"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/img_itembookmarked_explore"
             app:layout_constraintStart_toEndOf="@+id/img_itemimage_explore"
             app:layout_constraintTop_toTopOf="@+id/img_itemimage_explore"
             tools:text="Arena of Justice" />
@@ -47,12 +49,78 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            android:textColor="?colorPrimaryVariant"
+            android:textColor="?colorSecondaryVariant"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/txt_itemtitle_explore"
             app:layout_constraintTop_toBottomOf="@+id/txt_itemtitle_explore"
             tools:text="by John Doe" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_comment_black_24dp"
+            app:layout_constraintStart_toStartOf="@+id/txt_itemauthor_explore"
+            app:layout_constraintTop_toBottomOf="@+id/txt_itemauthor_explore" />
+
+        <TextView
+            android:id="@+id/txt_itemcommentcount_explore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            tools:text="32"
+            android:textColor="@color/viewing_icon_stroke_color"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toTopOf="@+id/imageView4" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_thumb_up_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_itemcommentcount_explore"
+            app:layout_constraintStart_toEndOf="@+id/txt_itemcommentcount_explore"
+            app:layout_constraintTop_toTopOf="@+id/txt_itemcommentcount_explore" />
+
+        <TextView
+            android:id="@+id/txt_itemlikecount_explore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            tools:text="48k"
+            android:textColor="@color/viewing_icon_stroke_color"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintTop_toTopOf="@+id/imageView5" />
+
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_thumb_down_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_itemlikecount_explore"
+            app:layout_constraintStart_toEndOf="@+id/txt_itemlikecount_explore"
+            app:layout_constraintTop_toTopOf="@+id/txt_itemlikecount_explore" />
+
+        <TextView
+            android:id="@+id/txt_itemdislikecount_explore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            tools:text="48k"
+            android:textColor="@color/viewing_icon_stroke_color"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/imageView6"
+            app:layout_constraintTop_toTopOf="@+id/imageView6" />
 
         <TextView
             android:id="@+id/txt_itemdesc_explore"
@@ -64,9 +132,11 @@
             android:maxLines="3"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textSize="12sp"
+            android:textColor="@color/description_text_color"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/txt_itemauthor_explore"
-            app:layout_constraintTop_toBottomOf="@+id/txt_itemauthor_explore"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4"
             tools:text="@string/long_text" />
 
         <ImageView
@@ -74,14 +144,31 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_margin="8dp"
-            android:src="@drawable/bookmark_toggle"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:visibility="visible"
             android:clickable="true"
             android:focusable="true"
+            android:src="@drawable/bookmark_toggle"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_itemtitle_explore"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txt_itemtitle_explore" />
 
-            app:layout_constraintBottom_toBottomOf="@+id/img_itemimage_explore"
-            app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/txt_itemage_explore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/background_tag_text"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="1dp"
+            android:textColor="?colorSecondaryVariant"
+            tools:text="ages 6-8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/txt_itemdesc_explore"
+            app:layout_constraintTop_toBottomOf="@+id/txt_itemdesc_explore" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

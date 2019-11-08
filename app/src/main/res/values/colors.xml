@@ -3,15 +3,15 @@
 
     <color name="color_primary">#607EFA</color>
     <color name="color_primary_variant">#365fc7</color>
-    <color name="color_secondary">#616161</color>
-    <color name="color_secondary_variant">#373737</color>
+    <color name="color_secondary">#FF5722</color>
+    <color name="color_secondary_variant">#A23715</color>
 
     <!--colorBackground appears behind scrollable content and is used for the default window-->
     <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
     <!--and menus. colorError is used to indicate an error state for components such as-->
     <!--text fields.-->
-    <color name="color_surface">#FFFFFF</color>
-    <color name="color_background">#EDEDF1</color>
+    <color name="color_surface">#EDEDF1</color>
+    <color name="color_background">#FFFFFF</color>
     <color name="color_error">#b00020</color>
 
     <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->

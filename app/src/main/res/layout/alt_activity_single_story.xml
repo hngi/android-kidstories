@@ -114,20 +114,35 @@
                 app:layout_constraintTop_toBottomOf="@+id/txt_story_title"
                 tools:text="Written by Author" />
 
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/author"
+                tools:text="5 minute read" />
+
+
             <ImageView
                 android:id="@+id/btn_markasread"
                 style="@style/SingleStoryIcon"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="12dp"
                 android:background="@drawable/background_markread_icon"
                 app:layout_constraintEnd_toStartOf="@+id/play_story"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/author" />
+                app:layout_constraintTop_toBottomOf="@+id/duration" />
 
             <ImageView
                 android:id="@+id/play_story"
@@ -165,10 +180,22 @@
                 android:layout_marginTop="24dp"
                 android:onClick="sendCommentList"
                 android:text="@string/comments"
+                android:visibility="gone"
                 android:textAllCaps="false"
                 app:layout_constraintEnd_toEndOf="@id/save_story"
                 app:layout_constraintStart_toStartOf="@+id/btn_markasread"
                 app:layout_constraintTop_toBottomOf="@+id/save_story" />
+
+            <ImageView
+                android:id="@+id/top_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:background="@color/black"
+                android:backgroundTint="@color/sl_color_divider"
+                app:layout_constraintTop_toBottomOf="@+id/btn_markasread"
+                tools:layout_editor_absoluteX="8dp" />
 
             <TextView
                 android:id="@+id/story_content"
@@ -183,7 +210,7 @@
                 android:textIsSelectable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/story_comment"
+                app:layout_constraintTop_toBottomOf="@+id/top_divider"
                 tools:text="@string/long_text" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

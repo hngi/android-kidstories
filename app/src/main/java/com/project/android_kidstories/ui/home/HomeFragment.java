@@ -107,9 +107,9 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
         swipeRefreshLayout.setRefreshing(true);
 
         if (allStoriesCall != null) allStoriesCall.cancel();
-        String authToken = getSharePref().getUserToken();
+        String authToken = "Bearer " + getSharePref().getUserToken();
 
-        allStoriesCall = service.getAllStories(authToken);
+        allStoriesCall = service.getAllStoriesWithAuth(authToken, "1");
         allStoriesCall.enqueue(new Callback<StoryAllResponse>() {
             @Override
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
@@ -171,7 +171,7 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
     }
 
     private void deleteBookmarkedStory(int id) {
-        service.deleteBookmarkedStory(getSharePref().getUserToken(), id)
+        service.deleteBookmarkedStory("Bearer " + getSharePref().getUserToken(), id)
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
@@ -188,7 +188,7 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
     }
 
     private void bookmarkStory(int id) {
-        service.bookmarkStory(getSharePref().getUserToken(), id)
+        service.bookmarkStory("Bearer " + getSharePref().getUserToken(), id)
                 .enqueue(new Callback<BookmarkResponse>() {
                     @Override
                     public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {

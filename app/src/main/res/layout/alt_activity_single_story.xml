@@ -191,6 +191,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
+                android:visibility="gone"
                 android:background="@color/black"
                 android:backgroundTint="@color/sl_color_divider"
                 app:layout_constraintTop_toBottomOf="@+id/btn_markasread"

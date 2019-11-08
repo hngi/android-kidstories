@@ -103,7 +103,6 @@ public class SingleStoryActivity extends BaseActivity {
         ZoomOut = findViewById(R.id.Zoom_Out);
         markAsReadBtn = findViewById(R.id.btn_markasread);
 
-        markAsReadBtn.setSelected(true);
         markAsReadBtn.setOnClickListener(view -> {
             if (markAsReadBtn.isSelected()) return;
             int storiesRead = sharePref.getInt(ReadingStatusActivity.STORIES_READ_KEY);

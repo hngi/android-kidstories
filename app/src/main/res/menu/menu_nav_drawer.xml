@@ -5,12 +5,12 @@
 
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_import_contacts_black_24dp"
+            android:icon="@drawable/svg_ic_menu_book_24px"
             android:title="@string/menuitem_home" />
 
         <item
             android:id="@+id/nav_categories"
-            android:icon="@drawable/svg_ic_category"
+            android:icon="@drawable/svg_ic_category_24px"
             android:title="@string/menuitem_categories" />
 
         <item

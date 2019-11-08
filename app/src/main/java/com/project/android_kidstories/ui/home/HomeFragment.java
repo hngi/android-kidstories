@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.project.android_kidstories.R;
@@ -75,6 +76,8 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
 
         recyclerViewExplore.setAdapter(exploreAdapter);
         recyclerViewPopularStories.setAdapter(popularStoriesAdapter);
+
+        new LinearSnapHelper().attachToRecyclerView(recyclerViewPopularStories);
 
         service = RetrofitClient.getInstance().create(Api.class);
         updateData();

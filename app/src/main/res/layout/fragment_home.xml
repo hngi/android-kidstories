@@ -69,7 +69,7 @@
                     android:layout_marginTop="40dp"
                     android:fontFamily="@font/calibri_regular"
                     android:text="@string/title_explore_stories"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recyclerview_popular_stories" />
 
@@ -93,9 +93,10 @@
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
                     android:orientation="vertical"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     android:paddingBottom="16dp"
+                    android:paddingTop="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

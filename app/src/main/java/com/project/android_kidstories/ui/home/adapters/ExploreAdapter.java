@@ -71,12 +71,9 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         holder.likeCount.setText(String.valueOf(currentStory.getLikesCount()));
         holder.dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
         holder.ageRange.setText(String.format("ages %s", currentStory.getAge()));
-
         Glide.with(holder.itemView)
                 .load(currentStory.getImageUrl())
                 .into(holder.storyImage);
-
-        holder.storyDescription.setText(currentStory.getBody());
 
         holder.itemView.setOnClickListener(v -> {
             // Navigate to Single Story Activity
@@ -85,6 +82,8 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             intent.putExtra(SingleStoryActivity.STORY_NAME_KEY, currentStory.getTitle());
             context.startActivity(intent);
         });
+
+        holder.storyDescription.setText(currentStory.getBody());
 
         holder.bookmark.setOnClickListener(view -> {
             currentStory.setBookmark(!currentStory.isBookmark());

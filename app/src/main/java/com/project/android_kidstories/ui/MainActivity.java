@@ -278,7 +278,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                                         BitmapDrawable bd = (BitmapDrawable) resource;
                                         Bitmap b = bd.getBitmap();
                                         ByteArrayOutputStream bs = new ByteArrayOutputStream();
-                                        b.compress(Bitmap.CompressFormat.PNG, 100, bs);
+                                        b.compress(Bitmap.CompressFormat.JPEG, 100, bs);
                                         new BedTimeDbHelper(MainActivity.this).storeUserImage(bs.toByteArray(), MainActivity.this);
                                         return false;
                                     }

@@ -15,22 +15,22 @@ import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
 import com.project.android_kidstories.data.source.remote.response_models.BaseResponse2;
 import com.project.android_kidstories.ui.base.BaseFragment;
-import com.project.android_kidstories.ui.home.adapters.ExploreAdapter;
+import com.project.android_kidstories.ui.categories.adapters.CategoryTabAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.util.List;
 
-public class CategoryTabFragment extends BaseFragment implements ExploreAdapter.OnBookmark {
+public class CategoryTabFragment extends BaseFragment {
 
     private String category_id;
 
-    private ExploreAdapter adapter;
+    private CategoryTabAdapter adapter;
 
     private View progressBar;
     private View errorView;
-
+    private Api service;
     private Call<BaseResponse2> serviceCall;
 
     public CategoryTabFragment(String category_id) {
@@ -48,7 +48,7 @@ public class CategoryTabFragment extends BaseFragment implements ExploreAdapter.
         progressBar = root.findViewById(R.id.tab_category_bar);
         errorView = root.findViewById(R.id.error_msg);
 
-        adapter = new ExploreAdapter(this);
+        adapter = new CategoryTabAdapter(this);
         recyclerView.setAdapter(adapter);
 
         getCategoryStories();
@@ -61,7 +61,7 @@ public class CategoryTabFragment extends BaseFragment implements ExploreAdapter.
 
         progressBar.setVisibility(View.VISIBLE);
 
-        Api service = RetrofitClient.getInstance().create(Api.class);
+        service = RetrofitClient.getInstance().create(Api.class);
 
         serviceCall = service.getStoriesByCategoryIdandUser2(category_id);
         serviceCall.enqueue(new Callback<BaseResponse2>() {
@@ -93,10 +93,5 @@ public class CategoryTabFragment extends BaseFragment implements ExploreAdapter.
                 errorView.setVisibility(View.VISIBLE);
             }
         });
-    }
-
-    @Override
-    public void onBookmark(Story story) {
-
     }
 }

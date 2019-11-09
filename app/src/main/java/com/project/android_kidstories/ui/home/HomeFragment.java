@@ -28,6 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -106,8 +107,15 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
     }
 
     private void updateAdapters() {
+        int firstStoryId = stories.get(0).getId();
+        int lastStoryId = stories.get(stories.size() - 1).getId();
+
+        if (firstStoryId < lastStoryId) {
+            Collections.reverse(stories);
+        }
+
         exploreAdapter.submitList(stories);
-        // TODO: Update popular stories adapter
+        // TODO: Update popular stories adapter correctly
         populars = stories.subList(3, 14);
         popularStoriesAdapter.submitList(populars);
     }

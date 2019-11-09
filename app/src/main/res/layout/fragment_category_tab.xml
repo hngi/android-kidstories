@@ -13,7 +13,7 @@
         android:clipToPadding="false"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_explore_stories" />
+        tools:listitem="@layout/item_story_layout" />
 
     <include
         android:id="@+id/error_msg"

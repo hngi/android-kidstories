@@ -74,7 +74,7 @@ public class SingleStoryActivity extends BaseActivity {
     private Toolbar toolbar;
     View error_msg;
     private TextView story_author, story_duration, story_title, story_content;
-    private ImageView saveStory;
+    private ImageView saveStory, likeIcon, dislikeIcon;
     private ImageButton ZoomIn, ZoomOut;
 
     @Override
@@ -100,6 +100,8 @@ public class SingleStoryActivity extends BaseActivity {
         story_pic = findViewById(R.id.story_pic);
         error_msg = findViewById(R.id.error_msg);
         saveStory = findViewById(R.id.save_story);
+        likeIcon = findViewById(R.id.likeIcon);
+        dislikeIcon = findViewById(R.id.dislikeIcon);
         ZoomIn = findViewById(R.id.Zoom_In);
         ZoomOut = findViewById(R.id.Zoom_Out);
         markAsReadBtn = findViewById(R.id.btn_markasread);
@@ -136,6 +138,22 @@ public class SingleStoryActivity extends BaseActivity {
                 saveStory.setSelected(true);
             }
         });
+
+        likeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+        dislikeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
 
         //todo : check authorization for premium stories
         getStoryWithId(story_id);
@@ -220,6 +238,11 @@ public class SingleStoryActivity extends BaseActivity {
                 markAsReadBtn.setSelected(false);
             }
         });
+
+        //check user's previous reaction to story
+
+
+
     }
 
     private void saveImageFile(Bitmap b, String picName) {

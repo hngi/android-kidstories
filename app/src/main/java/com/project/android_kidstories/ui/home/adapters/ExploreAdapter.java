@@ -67,6 +67,19 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             holder.bookmark.setSelected(false);
         }
 
+        if(currentStory.getReaction().equals("1")){
+            holder.like.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
+            holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+        }
+        else if(currentStory.getReaction().equals("0")){
+            holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+            holder.dislike.setImageResource(R.drawable.ic_thumb_down_blue_24dp);
+        }
+        else{
+            holder.like.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+            holder.dislike.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+        }
+
         //holder.commentCount.setText(currentStory.getComments().getComments().size());
         holder.likeCount.setText(String.valueOf(currentStory.getLikesCount()));
         holder.dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
@@ -127,7 +140,10 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         private TextView storyAuthor;
         private TextView storyDescription;
         private ImageView bookmark;
+        private ImageView like;
+        private ImageView dislike;
         private TextView commentCount;
+
         private TextView likeCount;
         private TextView dislikeCount;
         private TextView ageRange;
@@ -139,6 +155,8 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             storyAuthor = itemView.findViewById(R.id.txt_itemauthor_explore);
             storyDescription = itemView.findViewById(R.id.txt_itemdesc_explore);
             bookmark = itemView.findViewById(R.id.img_itembookmarked_explore);
+            like= itemView.findViewById(R.id.likeIcon);
+            dislike= itemView.findViewById(R.id.dislikeIcon);
             commentCount = itemView.findViewById(R.id.txt_itemcommentcount_explore);
             likeCount = itemView.findViewById(R.id.txt_itemlikecount_explore);
             dislikeCount = itemView.findViewById(R.id.txt_itemdislikecount_explore);

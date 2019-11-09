@@ -44,7 +44,7 @@
     <!-- Light/Day mode theme. -->
 
     <style name="AppTextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="boxStrokeColor">?colorOnSurface</item>
     </style>
 
     <!--    <style name="ButtonColor" parent="@android:style/Widget.Button">-->

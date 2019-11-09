@@ -10,7 +10,8 @@
         android:id="@+id/toolbar_add_story"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:background="?colorPrimary"
         android:minWidth="?android:attr/actionBarSize" />
 
     <TextView
@@ -21,7 +22,7 @@
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/add_story"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?colorOnBackground"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -82,17 +83,17 @@
     </LinearLayout>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="32dp"
+        android:layout_gravity="center_horizontal"
         android:background="@drawable/rounded_triangle_blue"
         android:fontFamily="@font/roboto_regular"
         android:onClick="typeContent"
         android:text="@string/type_content"
         android:textColor="#F2FFFFFF"
         android:textSize="16sp" />
-
 
 </LinearLayout>

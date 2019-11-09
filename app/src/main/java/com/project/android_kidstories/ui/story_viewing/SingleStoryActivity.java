@@ -20,6 +20,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.like.LikeButton;
 import com.project.android_kidstories.CommentActivity;
 import com.project.android_kidstories.R;
@@ -29,6 +30,7 @@ import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
 import com.project.android_kidstories.data.source.remote.api.Api;
+import com.project.android_kidstories.data.source.remote.response_models.bookmark.BookmarkResponse;
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryBaseResponse;
 import com.project.android_kidstories.data.source.remote.response_models.story.reaction.ReactionResponse;
 import com.project.android_kidstories.ui.base.BaseActivity;
@@ -78,6 +80,8 @@ public class SingleStoryActivity extends BaseActivity {
     private ImageView saveStory, likeIcon, dislikeIcon;
     private TextView likeCount, dislikeCount;
 
+    private FloatingActionButton bookmarkFab;
+
     private ImageButton ZoomIn, ZoomOut;
 
     @Override
@@ -93,6 +97,7 @@ public class SingleStoryActivity extends BaseActivity {
         story_id = getIntent().getIntExtra(STORY_ID_KEY, 0);
         story_name = getIntent().getStringExtra(STORY_NAME_KEY);
 
+        bookmarkFab = findViewById(R.id.fab_bookmark);
         contentView = findViewById(R.id.nestedscroll_single_story);
         progressBar = findViewById(R.id.story_content_bar);
         playButton = findViewById(R.id.play_story);
@@ -221,63 +226,63 @@ public class SingleStoryActivity extends BaseActivity {
 
         });
 
+        bookmarkFab.setOnClickListener(view -> {
+            if (bookmarkFab.isSelected()) {
+                deleteBookmarkedStory(currentStory.getId());
+            } else {
+                bookmarkStory(currentStory.getId());
+            }
+        });
+
 
         //todo : check authorization for premium stories
         getStoryWithId(story_id);
 
-        /*ZoomIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                story_content.getTextSize();
-                story_content.setTextSize(24);
-                story_content.setMovementMethod(new ScrollingMovementMethod());
-            }
-        });
+    }
 
+    private void deleteBookmarkedStory(int id) {
+        bookmarkFab.setSelected(false);
+        storyApi.deleteBookmarkedStory("Bearer " + getSharePref().getUserToken(), id)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(SingleStoryActivity.this, "Story deleted from bookmarks", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SingleStoryActivity.this, "Could not delete story from bookmarks", Toast.LENGTH_SHORT).show();
+                            bookmarkFab.setSelected(true);
+                        }
+                    }
 
-        // For controlling Zooming Out
-        ZoomOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                story_content.getTextSize();
-                story_content.setTextSize(14);
-                story_content.setMovementMethod(new ScrollingMovementMethod());
-            }
-        });
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(SingleStoryActivity.this, "Could not delete story from bookmarks", Toast.LENGTH_SHORT).show();
+                        bookmarkFab.setSelected(true);
+                    }
+                });
+    }
 
+    private void bookmarkStory(int id) {
+        bookmarkFab.setSelected(true);
+        storyApi.bookmarkStory("Bearer " + getSharePref().getUserToken(), id)
+                .enqueue(new Callback<BookmarkResponse>() {
+                    @Override
+                    public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(SingleStoryActivity.this, "Story added to bookmarks", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SingleStoryActivity.this, "Could not add story to bookmarks", Toast.LENGTH_SHORT).show();
+                            bookmarkFab.setSelected(false);
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<BookmarkResponse> call, Throwable t) {
+                        Toast.makeText(SingleStoryActivity.this, "Could not add story to bookmarks", Toast.LENGTH_SHORT).show();
+                        bookmarkFab.setSelected(false);
+                    }
+                });
 
-                //Favorite button functionality
-
-        likeButton = findViewById(R.id.heart_button);
-        likeButton.setLiked(false);
-
-
-        likeButton.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-
-                likeButton.setEnabled(true);
-
-            }
-
-            @Override
-            public void unLiked(LikeButton likeButton) {
-
-                likeButton.setEnabled(true);
-            }
-        });
-
-        comment_btn =findViewById(R.id.comment_btn);
-        comment_btn.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                sendCommentList();
-            }
-        });
-
-        */
     }
 
     /**
@@ -307,11 +312,19 @@ public class SingleStoryActivity extends BaseActivity {
         });
 
         //check user's previous reaction to story
+        Toast.makeText(this, String.valueOf(currentStory.isLiked()), Toast.LENGTH_SHORT).show();
         likeIcon.setSelected(currentStory.isLiked());
         dislikeIcon.setSelected(currentStory.isDisliked());
 
         likeCount.setText(String.valueOf(currentStory.getLikesCount()));
         dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
+
+        // bookmark
+        if (currentStory.isBookmark()) {
+            bookmarkFab.setSelected(true);
+        } else {
+            bookmarkFab.setSelected(false);
+        }
 
     }
 
@@ -385,7 +398,7 @@ public class SingleStoryActivity extends BaseActivity {
     }
 
     public void getStoryWithId(int id) {
-        storyApi.getStory(id).enqueue(new Callback<StoryBaseResponse>() {
+        storyApi.getStoryWithAuth("Bearer " + getSharePref().getUserToken(), id).enqueue(new Callback<StoryBaseResponse>() {
             @Override
             public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
                 StoryBaseResponse storyBaseResponse = response.body();

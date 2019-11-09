@@ -83,7 +83,7 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             context.startActivity(intent);
         });
 
-        holder.storyDescription.setText(currentStory.getBody());
+        //holder.storyDescription.setText(currentStory.getBody());
 
         holder.bookmark.setOnClickListener(view -> {
             currentStory.setBookmark(!currentStory.isBookmark());
@@ -97,7 +97,7 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_explore_stories, parent, false);
+                .inflate(R.layout.alt_item_explore_stories, parent, false);
         return new ViewHolder(itemView);
     }
 

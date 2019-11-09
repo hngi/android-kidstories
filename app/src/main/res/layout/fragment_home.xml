@@ -94,14 +94,13 @@
                     android:clipToPadding="false"
                     android:orientation="vertical"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
                     android:paddingBottom="16dp"
-                    android:paddingTop="16dp"
+                    android:paddingTop="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView12"
-                    tools:listitem="@layout/item_explore_stories" />
+                    tools:listitem="@layout/alt_item_explore_stories" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

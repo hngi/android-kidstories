@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/fab_anchor"
         android:layout_width="match_parent"
         android:layout_height="278dp"
         android:animateLayoutChanges="true"
@@ -266,4 +267,15 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_bookmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:fabSize="mini"
+        app:layout_anchor="@id/fab_anchor"
+        app:layout_anchorGravity="bottom|end|right"
+        app:srcCompat="@drawable/bookmark_toggle" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -58,8 +58,6 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
 
         holder.storyTitle.setText(currentStory.getTitle());
         holder.storyAuthor.setText(String.format("by %s", currentStory.getAuthor()));
-        // Replace ID with actual category name
-        // holder.storyCategory.setText(String.valueOf(currentStory.getCategoryId()));
 
         if (currentStory.isBookmark()) {
             holder.bookmark.setSelected(true);
@@ -67,10 +65,14 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             holder.bookmark.setSelected(false);
         }
 
-        //holder.commentCount.setText(currentStory.getComments().getComments().size());
         holder.likeCount.setText(String.valueOf(currentStory.getLikesCount()));
         holder.dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
+
+        holder.thumbsup.setSelected(currentStory.isLiked());
+        holder.thumbsdown.setSelected(currentStory.isDisliked());
+
         holder.ageRange.setText(String.format("ages %s", currentStory.getAge()));
+
         Glide.with(holder.itemView)
                 .load(currentStory.getImageUrl())
                 .into(holder.storyImage);
@@ -126,10 +128,11 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         private TextView storyAuthor;
         private TextView storyDescription;
         private ImageView bookmark;
-        private TextView commentCount;
         private TextView likeCount;
         private TextView dislikeCount;
         private TextView ageRange;
+        private ImageView thumbsup;
+        private ImageView thumbsdown;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -138,10 +141,11 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             storyAuthor = itemView.findViewById(R.id.txt_itemauthor_explore);
             storyDescription = itemView.findViewById(R.id.txt_itemdesc_explore);
             bookmark = itemView.findViewById(R.id.img_itembookmarked_explore);
-            commentCount = itemView.findViewById(R.id.txt_itemcommentcount_explore);
             likeCount = itemView.findViewById(R.id.txt_itemlikecount_explore);
             dislikeCount = itemView.findViewById(R.id.txt_itemdislikecount_explore);
             ageRange = itemView.findViewById(R.id.txt_itemage_explore);
+            thumbsup = itemView.findViewById(R.id.img_itemlikecount_explore);
+            thumbsdown = itemView.findViewById(R.id.img_itemdislikecount_explore);
         }
     }
 }

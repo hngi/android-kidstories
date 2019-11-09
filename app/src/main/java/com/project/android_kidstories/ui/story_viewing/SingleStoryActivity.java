@@ -168,20 +168,19 @@ public class SingleStoryActivity extends BaseActivity {
                                 ReactionResponse rr = response.body();
                                 if (rr == null) {
                                     likeIcon.setSelected(!likeIcon.isSelected());
-                                    Toast.makeText(context, "Could not like story", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Could not react to story", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 
                                 likeCount.setText(String.valueOf(rr.getLikesCount()));
                                 dislikeCount.setText(String.valueOf(rr.getDislikesCount()));
-                                Toast.makeText(context, "Story liked", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ReactionResponse> call, Throwable t) {
                             likeIcon.setSelected(!likeIcon.isSelected());
-                            Toast.makeText(context, "Could not like story, check internet connection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Could not react to story, check internet connection", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -204,20 +203,19 @@ public class SingleStoryActivity extends BaseActivity {
                                 ReactionResponse rr = response.body();
                                 if (rr == null) {
                                     dislikeIcon.setSelected(!dislikeIcon.isSelected());
-                                    Toast.makeText(context, "Could not dislike story", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Could not react to story", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 
                                 likeCount.setText(String.valueOf(rr.getLikesCount()));
                                 dislikeCount.setText(String.valueOf(rr.getDislikesCount()));
-                                Toast.makeText(context, "Story disliked", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ReactionResponse> call, Throwable t) {
                             dislikeIcon.setSelected(!dislikeIcon.isSelected());
-                            Toast.makeText(context, "Could not dislike story, check internet connection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Could not react to story, check internet connection", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -308,8 +306,7 @@ public class SingleStoryActivity extends BaseActivity {
             }
         });
 
-        //check user's previous reaction to story
-        Toast.makeText(this, String.valueOf(currentStory.isLiked()), Toast.LENGTH_SHORT).show();
+        //check user's reaction to story
         String reaction = currentStory.getReaction();
 
         likeIcon.setSelected(reaction.equals("1"));

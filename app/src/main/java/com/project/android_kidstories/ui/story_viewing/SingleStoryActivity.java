@@ -329,7 +329,7 @@ public class SingleStoryActivity extends BaseActivity {
                 }
             }
 
-        }, googleTtsPackage);
+        }, picoPackage);
 
         //background Music and tts
         backgroundMusicPlayer = MediaPlayer.create(this, R.raw.kidsong2);

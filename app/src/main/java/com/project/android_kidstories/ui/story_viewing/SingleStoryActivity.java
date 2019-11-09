@@ -289,6 +289,8 @@ public class SingleStoryActivity extends BaseActivity {
     }
 
     private void updateIcons() {
+        if (currentStory == null) return; // Nothing to do with no story
+
         // Check if story is in the downloads
         if (storyInDownloads()) {
             saveStory.setSelected(true);
@@ -308,6 +310,17 @@ public class SingleStoryActivity extends BaseActivity {
 
         //check user's reaction to story
         String reaction = currentStory.getReaction();
+        if (reaction == null) {
+            // No reaction
+            likeIcon.setVisibility(View.GONE);
+            dislikeIcon.setVisibility(View.GONE);
+            bookmarkFab.setVisibility(View.GONE);
+            return;
+        }
+
+        likeIcon.setVisibility(View.VISIBLE);
+        dislikeIcon.setVisibility(View.VISIBLE);
+        bookmarkFab.setVisibility(View.VISIBLE);
 
         likeIcon.setSelected(reaction.equals("1"));
         dislikeIcon.setSelected(reaction.equals("0"));

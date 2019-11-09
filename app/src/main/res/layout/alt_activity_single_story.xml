@@ -70,6 +70,7 @@
         layout="@layout/layout_connection_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="84dp"
         android:visibility="gone" />
 
     <androidx.core.widget.NestedScrollView
@@ -274,6 +275,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         app:fabSize="mini"
+        android:visibility="gone"
         app:layout_anchor="@id/fab_anchor"
         app:layout_anchorGravity="bottom|end|right"
         app:srcCompat="@drawable/bookmark_toggle" />

@@ -2,6 +2,7 @@ package com.project.android_kidstories.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.*;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookmark {
+
+    private static final int NUM_POPULAR_STORIES = 10;
 
     private List<Story> stories = new ArrayList<>();
     private List<Story> populars = new ArrayList<>();
@@ -115,9 +118,15 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
         }
 
         exploreAdapter.submitList(stories);
-        // TODO: Update popular stories adapter correctly
-        populars = stories.subList(3, 14);
-        popularStoriesAdapter.submitList(populars);
+
+        // Get the stories with most engagement (likes + dislikes)
+        new Handler().post(() -> {
+            populars.addAll(stories);
+            Collections.sort(populars, new StoryComparator());
+            populars = populars.subList(0, NUM_POPULAR_STORIES);
+            popularStoriesAdapter.submitList(populars);
+        });
+
     }
 
     private void updateData() {
@@ -232,11 +241,10 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
         @Override
         public int compare(Story story1, Story story2) {
 
-
             int story1PriorityCount = story1.getDislikesCount() + story1.getLikesCount();
             int story2PriorityCount = story2.getDislikesCount() + story2.getLikesCount();
 
-            return Integer.compare(story1PriorityCount, story2PriorityCount);
+            return Integer.compare(story2PriorityCount, story1PriorityCount);
         }
     }
 

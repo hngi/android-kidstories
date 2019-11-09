@@ -83,7 +83,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         private TextView author;
         private ImageView likeIcon;
         private TextView likeCount;
-        private ImageView disikeIcon;
+        private ImageView dislikeIcon;
         private TextView dislikeCount;
         private Story currentStory;
 
@@ -94,7 +94,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
             author = itemView.findViewById(R.id.bookmark_author);
             likeIcon = itemView.findViewById(R.id.bkmrk_like);
             likeCount = itemView.findViewById(R.id.bkmrkcount1);
-            disikeIcon = itemView.findViewById(R.id.bkmrk_dislike);
+            dislikeIcon = itemView.findViewById(R.id.bkmrk_dislike);
             dislikeCount = itemView.findViewById(R.id.bkmrkcount2);
 
             itemView.setOnClickListener(this);
@@ -105,6 +105,16 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
             title.setText(currentStory.getTitle());
             author.setText(String.format("by %s", currentStory.getAuthor()));
             likeCount.setText(String.valueOf(currentStory.getLikesCount()));
+            if (currentStory.getReaction().equals("1")) {
+                likeIcon.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
+                dislikeIcon.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+            } else if (currentStory.getReaction().equals("0")) {
+                likeIcon.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+                dislikeIcon.setImageResource(R.drawable.ic_thumb_down_blue_24dp);
+            } else {
+                likeIcon.setImageResource(R.drawable.ic_thumb_up_black_24dp);
+                dislikeIcon.setImageResource(R.drawable.ic_thumb_down_black_24dp);
+            }
             dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
             Glide.with(context).load(currentStory.getImageUrl()).into(image);
         }

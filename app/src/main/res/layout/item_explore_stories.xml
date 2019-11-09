@@ -78,7 +78,7 @@
             app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/likeIcon"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginStart="8dp"
@@ -95,13 +95,13 @@
             tools:text="48k"
             android:textColor="@color/viewing_icon_stroke_color"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toTopOf="@+id/imageView5" />
+            app:layout_constraintBottom_toBottomOf="@+id/likeIcon"
+            app:layout_constraintStart_toEndOf="@+id/likeIcon"
+            app:layout_constraintTop_toTopOf="@+id/likeIcon" />
 
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/dislikeIcon"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginStart="8dp"
@@ -118,9 +118,9 @@
             tools:text="48k"
             android:textColor="@color/viewing_icon_stroke_color"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-            app:layout_constraintStart_toEndOf="@+id/imageView6"
-            app:layout_constraintTop_toTopOf="@+id/imageView6" />
+            app:layout_constraintBottom_toBottomOf="@+id/dislikeIcon"
+            app:layout_constraintStart_toEndOf="@+id/dislikeIcon"
+            app:layout_constraintTop_toTopOf="@+id/dislikeIcon" />
 
         <TextView
             android:id="@+id/txt_itemdesc_explore"

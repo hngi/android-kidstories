@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +30,8 @@ public class CategoryTabFragment extends BaseFragment {
     private View progressBar;
     private View errorView;
     private Api service;
+    private View emptyView;
+
     private Call<BaseResponse2> serviceCall;
 
     public CategoryTabFragment(String category_id) {
@@ -47,6 +48,7 @@ public class CategoryTabFragment extends BaseFragment {
         RecyclerView recyclerView = root.findViewById(R.id.recyclerview_category_tab);
         progressBar = root.findViewById(R.id.tab_category_bar);
         errorView = root.findViewById(R.id.error_msg);
+        emptyView = root.findViewById(R.id.empty_message);
 
         adapter = new CategoryTabAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -74,12 +76,12 @@ public class CategoryTabFragment extends BaseFragment {
                 if (response.isSuccessful()) {
                     BaseResponse2 br2 = response.body();
                     if (br2 != null && !br2.getStories().isEmpty()) {
+                        emptyView.setVisibility(View.GONE);
                         List<Story> stories = br2.getStories();
                         Log.d("GLOBAL_SCOPE", String.valueOf(stories.size()));
                         adapter.submitList(stories);
-
                     } else {
-                        Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show();
+                        emptyView.setVisibility(View.VISIBLE);
                     }
 
                 } else {

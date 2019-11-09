@@ -3,6 +3,7 @@ package com.project.android_kidstories.ui;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -383,7 +384,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     break;
 
                 case R.id.nav_log_out:
-                    signout();
+                    createLogoutDialog();
                     break;
             }
 
@@ -436,6 +437,21 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         bottomNavigationView.setSelectedItemId(position);
 
         return true;
+    }
+
+    private void createLogoutDialog(){
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Do you really want to leave us?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        signout();
+                    }
+                })
+                .setNegativeButton("No", null).create();
+
+        dialog.show();
     }
 
     private void signout() {
@@ -493,7 +509,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         currentFragment = fragment;
         if (fragment instanceof HomeFragment || fragment instanceof BookmarksFragment) {
             bottomNavigationView.setVisibility(View.VISIBLE);
-        } else {
+        } else if(fragment instanceof BookmarksFragment) {
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
+        else {
             bottomNavigationView.setVisibility(View.GONE);
         }
 

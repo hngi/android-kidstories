@@ -7,16 +7,15 @@
     android:layout_margin="8dp"
     android:background="?colorSurface"
     android:clickable="true"
-    android:focusable="true"
-    android:padding="8dp">
+    android:focusable="true">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="0dp"
         app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -33,15 +32,17 @@
         android:id="@+id/txt_itemtitle_downloads"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textStyle="bold"
         android:textColor="?colorOnSurface"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/img_itemremove_downloads"
         app:layout_constraintStart_toEndOf="@+id/cardView2"
-        app:layout_constraintTop_toBottomOf="@+id/img_itemremove_downloads"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Arena of Justice" />
 
     <TextView
@@ -61,10 +62,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:maxLines="3"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-        android:textColor="?colorSecondary"
+        android:textColor="@color/description_text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/txt_itemauthor_downloads"
         app:layout_constraintTop_toBottomOf="@+id/txt_itemauthor_downloads"
@@ -74,13 +76,14 @@
         android:id="@+id/img_itemremove_downloads"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="12dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_remove_black_24dp"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_itemtitle_downloads"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/cardView2" />
+        app:layout_constraintTop_toTopOf="@+id/txt_itemtitle_downloads" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

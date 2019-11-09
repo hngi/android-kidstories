@@ -11,7 +11,7 @@
     android:background="?selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    app:cardElevation="0dp">
+    app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

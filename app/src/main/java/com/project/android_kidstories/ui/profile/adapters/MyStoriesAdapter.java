@@ -55,7 +55,8 @@ public class MyStoriesAdapter extends RecyclerView.Adapter<MyStoriesAdapter.MyVi
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, SingleStoryActivity.class);
-            intent.putExtra("story_id", story.getId());
+            intent.putExtra(SingleStoryActivity.STORY_ID_KEY, story.getId());
+            intent.putExtra(SingleStoryActivity.STORY_NAME_KEY, story.getTitle());
             context.startActivity(intent);
         });
     }

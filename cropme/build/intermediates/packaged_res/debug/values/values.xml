@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="light_white">#80ffffff</color>
+    <item name="cropme_image_view" type="id"/>
+    <item name="cropme_overlay" type="id"/>
+    <string name="app_name">CropMe</string>
+    <declare-styleable name="CropLayout">
+        <attr format="integer" name="cropme_max_scale"/>
+    </declare-styleable>
+    <declare-styleable name="SquareCropOverlay">
+        <attr format="fraction" name="cropme_result_width"/>
+        <attr format="fraction" name="cropme_result_height"/>
+        <attr format="boolean" name="cropme_with_border"/>
+        <attr format="fraction" name="cropme_background_alpha"/>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,13 @@
+R_DEF: Internal format may change without notice
+local
+attr? cropme_background_alpha
+attr? cropme_max_scale
+attr? cropme_result_height
+attr? cropme_result_width
+attr? cropme_with_border
+color light_white
+id cropme_image_view
+id cropme_overlay
+string app_name
+styleable CropLayout cropme_max_scale
+styleable SquareCropOverlay cropme_result_width cropme_result_height cropme_with_border cropme_background_alpha

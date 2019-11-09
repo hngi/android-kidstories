@@ -164,8 +164,8 @@
             android:paddingTop="1dp"
             android:paddingEnd="8dp"
             android:paddingBottom="1dp"
-            android:textColor="?colorSecondaryVariant"
             tools:text="ages 6-8"
+            android:textColor="?colorSecondaryVariant"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/txt_itemdesc_explore"
             app:layout_constraintTop_toBottomOf="@+id/txt_itemdesc_explore" />

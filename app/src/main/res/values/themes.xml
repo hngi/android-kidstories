@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="KidStories.DayNight" parent="Base.KidStories"></style>
+    <style name="KidStories.DayNight" parent="Base.KidStories" />
 
     <!--Base custom theme which will be shared between both light and dark theme variants-->
     <style name="Base.KidStories" parent="Base.MaterialThemeBuilder">
@@ -26,6 +26,11 @@
         <item name="android:textColor">@color/color_on_background</item>
         <item name="android:textColorLink">@color/color_primary_variant</item>
         <item name="android:textColorLinkInverse">@color/color_secondary_variant</item>
+
+        <!--Material shape attributes-->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MyTheme.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.MyTheme.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.MyTheme.LargeComponent</item>
 
         <item name="android:statusBarColor">@color/color_primary</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>

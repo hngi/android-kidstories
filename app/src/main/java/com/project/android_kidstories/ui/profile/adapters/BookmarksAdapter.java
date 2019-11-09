@@ -1,7 +1,6 @@
 package com.project.android_kidstories.ui.profile.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +43,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         holder.bind(position);
 
         holder.itemView.setOnLongClickListener(v -> {
-            showDeleteDialog(holder.currentStory.getTitle(), holder.currentStory);
+            showDeleteDialog(position);
 
             return true;
 
@@ -60,18 +59,20 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         void onStoryClick(int storyId, String storyName);
     }
 
-    private void showDeleteDialog(String storyName, Story story) {
+    private void showDeleteDialog(int position) {
+
+        Story story = stories.get(position);
 
         androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(
                 context);
 
         alertDialog.setPositiveButton("Yes", (dialog, which) -> {
-            removeStory(story);
+            removeStory(position);
             RecyclerStoriesAdapter.deleteStory(context, story.getId());
 
         });
         alertDialog.setNegativeButton("No", null);
-        alertDialog.setMessage("Remove " + storyName + " from bookmarks?");
+        alertDialog.setMessage("Remove " + story.getTitle() + " from bookmarks?");
         alertDialog.setTitle(R.string.app_name);
         alertDialog.show();
     }
@@ -80,7 +81,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         private ImageView image;
         private TextView title;
         private TextView author;
-        private ImageView likeIcon ;
+        private ImageView likeIcon;
         private TextView likeCount;
         private ImageView dislikeIcon;
         private TextView dislikeCount;
@@ -104,15 +105,13 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
             title.setText(currentStory.getTitle());
             author.setText(String.format("by %s", currentStory.getAuthor()));
             likeCount.setText(String.valueOf(currentStory.getLikesCount()));
-            if(currentStory.getReaction().equals("1")){
+            if (currentStory.getReaction().equals("1")) {
                 likeIcon.setImageResource(R.drawable.ic_thumb_up_blue_24dp);
                 dislikeIcon.setImageResource(R.drawable.ic_thumb_down_black_24dp);
-            }
-            else if(currentStory.getReaction().equals("0")){
+            } else if (currentStory.getReaction().equals("0")) {
                 likeIcon.setImageResource(R.drawable.ic_thumb_up_black_24dp);
                 dislikeIcon.setImageResource(R.drawable.ic_thumb_down_blue_24dp);
-            }
-            else{
+            } else {
                 likeIcon.setImageResource(R.drawable.ic_thumb_up_black_24dp);
                 dislikeIcon.setImageResource(R.drawable.ic_thumb_down_black_24dp);
             }
@@ -126,18 +125,10 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         }
     }
 
-    private void removeStory(Story currentStory){
+    private void removeStory(int position) {
         List<Story> stories1 = stories;
-        Log.d("XXX first list", String.valueOf(stories1));
-        for (Story story : stories1){
-            if (story == currentStory){
-                stories1.remove(story);
-                Log.d("XXX new list", String.valueOf(stories1));
-                stories = stories1;
-
-            }
-        }
-
+        stories1.remove(position);
+        notifyItemRemoved(position);
     }
 
 }

@@ -54,7 +54,6 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
-
     <ProgressBar
         android:id="@+id/story_content_bar"
         style="?android:attr/progressBarStyle"
@@ -81,8 +80,8 @@
         android:scrollbars="none"
         android:visibility="gone"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        tools:visibility="visible"
-        tools:layout_marginTop="-900dp">
+        tools:layout_marginTop="-900dp"
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -181,9 +180,9 @@
                 android:onClick="sendCommentList"
                 android:text="@string/comments"
                 android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 tools:layout_editor_absoluteX="155dp" />
 
             <ImageView
@@ -212,7 +211,7 @@
                 app:layout_constraintBottom_toTopOf="@id/reactionsLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/top_divider"
+                app:layout_constraintTop_toBottomOf="@+id/btn_markasread"
                 tools:text="@string/long_text" />
 
             <LinearLayout
@@ -224,7 +223,8 @@
                 android:padding="8dp"
                 app:layout_constraintBottom_toTopOf="@id/story_comment"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/story_content">
 
                 <TextView
                     android:id="@+id/likesCount"

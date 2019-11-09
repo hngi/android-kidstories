@@ -507,7 +507,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     public void navigateToFragment(Fragment fragment, String title) {
         currentFragment = fragment;
-        if (fragment instanceof HomeFragment) {
+        if (fragment instanceof HomeFragment || fragment instanceof BookmarksFragment) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         } else if(fragment instanceof BookmarksFragment) {
             bottomNavigationView.setVisibility(View.VISIBLE);

@@ -30,6 +30,7 @@ import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.data.source.local.relational.database.StoryLab;
 import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryBaseResponse;
+import com.project.android_kidstories.data.source.remote.response_models.story.reaction.ReactionResponse;
 import com.project.android_kidstories.ui.base.BaseActivity;
 import com.project.android_kidstories.ui.reading_status.ReadingStatusActivity;
 import retrofit2.Call;
@@ -75,6 +76,8 @@ public class SingleStoryActivity extends BaseActivity {
     View error_msg;
     private TextView story_author, story_duration, story_title, story_content;
     private ImageView saveStory, likeIcon, dislikeIcon;
+    private TextView likeCount, dislikeCount;
+
     private ImageButton ZoomIn, ZoomOut;
 
     @Override
@@ -100,8 +103,12 @@ public class SingleStoryActivity extends BaseActivity {
         story_pic = findViewById(R.id.story_pic);
         error_msg = findViewById(R.id.error_msg);
         saveStory = findViewById(R.id.save_story);
+
         likeIcon = findViewById(R.id.likeIcon);
         dislikeIcon = findViewById(R.id.dislikeIcon);
+        likeCount = findViewById(R.id.likesCount);
+        dislikeCount = findViewById(R.id.dislikesCount);
+
         ZoomIn = findViewById(R.id.Zoom_In);
         ZoomOut = findViewById(R.id.Zoom_Out);
         markAsReadBtn = findViewById(R.id.btn_markasread);
@@ -139,19 +146,79 @@ public class SingleStoryActivity extends BaseActivity {
             }
         });
 
-        likeIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        likeIcon.setOnClickListener(v -> {
+            // Do nothing if it is liked already
+            if (likeIcon.isSelected()) return;
 
+            likeIcon.setSelected(true);
+            dislikeIcon.setSelected(false);
 
-            }
+            String token = "Bearer " + getSharePref().getUserToken();
+            final Context context = this;
+
+            storyApi.likeStory(token, currentStory.getId())
+                    .enqueue(new Callback<ReactionResponse>() {
+                        @Override
+                        public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
+                            if (response.isSuccessful()) {
+                                // Update like count
+                                ReactionResponse rr = response.body();
+                                if (rr == null) {
+                                    likeIcon.setSelected(false);
+                                    Toast.makeText(context, "Could not like story", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                likeCount.setText(String.valueOf(rr.getLikesCount()));
+                                dislikeCount.setText(String.valueOf(rr.getDislikesCount()));
+                                Toast.makeText(context, "Story liked", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReactionResponse> call, Throwable t) {
+                            likeIcon.setSelected(false);
+                            Toast.makeText(context, "Could not like story, check internet connection", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
         });
-        dislikeIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
+        dislikeIcon.setOnClickListener(v -> {
+            if (dislikeIcon.isSelected()) return;
 
-            }
+            dislikeIcon.setSelected(true);
+            likeIcon.setSelected(false);
+
+            String token = "Bearer " + getSharePref().getUserToken();
+            final Context context = this;
+
+            storyApi.dislikeStory(token, currentStory.getId())
+                    .enqueue(new Callback<ReactionResponse>() {
+                        @Override
+                        public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
+                            if (response.isSuccessful()) {
+                                // Update like count
+                                ReactionResponse rr = response.body();
+                                if (rr == null) {
+                                    dislikeIcon.setSelected(false);
+                                    Toast.makeText(context, "Could not dislike story", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                likeCount.setText(String.valueOf(rr.getLikesCount()));
+                                dislikeCount.setText(String.valueOf(rr.getDislikesCount()));
+                                Toast.makeText(context, "Story disliked", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReactionResponse> call, Throwable t) {
+                            dislikeIcon.setSelected(false);
+                            Toast.makeText(context, "Could not dislike story, check internet connection", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
         });
 
 
@@ -240,8 +307,11 @@ public class SingleStoryActivity extends BaseActivity {
         });
 
         //check user's previous reaction to story
+        likeIcon.setSelected(currentStory.isLiked());
+        dislikeIcon.setSelected(currentStory.isDisliked());
 
-
+        likeCount.setText(String.valueOf(currentStory.getLikesCount()));
+        dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
 
     }
 

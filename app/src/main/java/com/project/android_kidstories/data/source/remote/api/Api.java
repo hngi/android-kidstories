@@ -78,6 +78,9 @@ public interface Api {
     @GET("stories/{id}")
     Call<StoryBaseResponse> getStory(@Path("id") int id);
 
+    @GET("stories/{id}")
+    Call<StoryBaseResponse> getStoryWithAuth(@Header("Authorization") String token, @Path("id") int id);
+
     @GET("stories")
     Call<StoryAllResponse> getAllStories(@Query("page") String page);
 

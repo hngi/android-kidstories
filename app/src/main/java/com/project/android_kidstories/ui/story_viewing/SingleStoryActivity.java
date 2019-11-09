@@ -152,10 +152,8 @@ public class SingleStoryActivity extends BaseActivity {
         });
 
         likeIcon.setOnClickListener(v -> {
-            // Do nothing if it is liked already
-            if (likeIcon.isSelected()) return;
 
-            likeIcon.setSelected(true);
+            likeIcon.setSelected(!likeIcon.isSelected());
             dislikeIcon.setSelected(false);
 
             String token = "Bearer " + getSharePref().getUserToken();
@@ -169,30 +167,28 @@ public class SingleStoryActivity extends BaseActivity {
                                 // Update like count
                                 ReactionResponse rr = response.body();
                                 if (rr == null) {
-                                    likeIcon.setSelected(false);
-                                    Toast.makeText(context, "Could not like story", Toast.LENGTH_SHORT).show();
+                                    likeIcon.setSelected(!likeIcon.isSelected());
+                                    Toast.makeText(context, "Could not react to story", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 
                                 likeCount.setText(String.valueOf(rr.getLikesCount()));
                                 dislikeCount.setText(String.valueOf(rr.getDislikesCount()));
-                                Toast.makeText(context, "Story liked", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ReactionResponse> call, Throwable t) {
-                            likeIcon.setSelected(false);
-                            Toast.makeText(context, "Could not like story, check internet connection", Toast.LENGTH_SHORT).show();
+                            likeIcon.setSelected(!likeIcon.isSelected());
+                            Toast.makeText(context, "Could not react to story, check internet connection", Toast.LENGTH_SHORT).show();
                         }
                     });
 
         });
 
         dislikeIcon.setOnClickListener(v -> {
-            if (dislikeIcon.isSelected()) return;
 
-            dislikeIcon.setSelected(true);
+            dislikeIcon.setSelected(!dislikeIcon.isSelected());
             likeIcon.setSelected(false);
 
             String token = "Bearer " + getSharePref().getUserToken();
@@ -206,28 +202,27 @@ public class SingleStoryActivity extends BaseActivity {
                                 // Update like count
                                 ReactionResponse rr = response.body();
                                 if (rr == null) {
-                                    dislikeIcon.setSelected(false);
-                                    Toast.makeText(context, "Could not dislike story", Toast.LENGTH_SHORT).show();
+                                    dislikeIcon.setSelected(!dislikeIcon.isSelected());
+                                    Toast.makeText(context, "Could not react to story", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 
                                 likeCount.setText(String.valueOf(rr.getLikesCount()));
                                 dislikeCount.setText(String.valueOf(rr.getDislikesCount()));
-                                Toast.makeText(context, "Story disliked", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ReactionResponse> call, Throwable t) {
-                            dislikeIcon.setSelected(false);
-                            Toast.makeText(context, "Could not dislike story, check internet connection", Toast.LENGTH_SHORT).show();
+                            dislikeIcon.setSelected(!dislikeIcon.isSelected());
+                            Toast.makeText(context, "Could not react to story, check internet connection", Toast.LENGTH_SHORT).show();
                         }
                     });
 
         });
 
         bookmarkFab.setOnClickListener(view -> {
-            if (currentStory.isBookmark()) {
+            if (bookmarkFab.isSelected()) {
                 deleteBookmarkedStory(currentStory.getId());
             } else {
                 bookmarkStory(currentStory.getId());
@@ -311,9 +306,11 @@ public class SingleStoryActivity extends BaseActivity {
             }
         });
 
-        //check user's previous reaction to story
-        likeIcon.setSelected(currentStory.isLiked());
-        dislikeIcon.setSelected(currentStory.isDisliked());
+        //check user's reaction to story
+        String reaction = currentStory.getReaction();
+
+        likeIcon.setSelected(reaction.equals("1"));
+        dislikeIcon.setSelected(reaction.equals("0"));
 
         likeCount.setText(String.valueOf(currentStory.getLikesCount()));
         dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
@@ -324,6 +321,7 @@ public class SingleStoryActivity extends BaseActivity {
         } else {
             bookmarkFab.setSelected(false);
         }
+
     }
 
     private void saveImageFile(Bitmap b, String picName) {
@@ -396,7 +394,7 @@ public class SingleStoryActivity extends BaseActivity {
     }
 
     public void getStoryWithId(int id) {
-        storyApi.getStory(id).enqueue(new Callback<StoryBaseResponse>() {
+        storyApi.getStoryWithAuth("Bearer " + getSharePref().getUserToken(), id).enqueue(new Callback<StoryBaseResponse>() {
             @Override
             public void onResponse(Call<StoryBaseResponse> call, Response<StoryBaseResponse> response) {
                 StoryBaseResponse storyBaseResponse = response.body();

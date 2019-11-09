@@ -78,8 +78,9 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         holder.likeCount.setText(String.valueOf(currentStory.getLikesCount()));
         holder.dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));
 
-        holder.thumbsup.setSelected(currentStory.isLiked());
-        holder.thumbsdown.setSelected(currentStory.isDisliked());
+        String reaction = currentStory.getReaction();
+        holder.thumbsup.setSelected(reaction.equals("1"));
+        holder.thumbsdown.setSelected(reaction.equals("0"));
 
         holder.ageRange.setText(String.format("ages %s", currentStory.getAge()));
 
@@ -112,10 +113,8 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         Api service = RetrofitClient.getInstance().create(Api.class);
 
         holder.thumbsup.setOnClickListener(v -> {
-            // Do nothing if it is liked already
-            if (currentStory.isLiked()) return;
 
-            holder.thumbsup.setSelected(true);
+            holder.thumbsup.setSelected(!holder.thumbsup.isSelected());
             holder.thumbsdown.setSelected(false);
 
             // Try to effect the change online
@@ -127,30 +126,27 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
                                 // Update like count
                                 ReactionResponse rr = response.body();
                                 if (rr == null) {
-                                    holder.thumbsup.setSelected(false);
-                                    Toast.makeText(context, "Could not like story", Toast.LENGTH_SHORT).show();
+                                    holder.thumbsup.setSelected(!holder.thumbsup.isSelected());
+                                    Toast.makeText(context, "Could not react to story", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 
                                 holder.likeCount.setText(String.valueOf(rr.getLikesCount()));
                                 holder.dislikeCount.setText(String.valueOf(rr.getDislikesCount()));
-                                Toast.makeText(context, "Story liked", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ReactionResponse> call, Throwable t) {
-                            holder.thumbsup.setSelected(false);
-                            Toast.makeText(context, "Could not like story, check internet connection", Toast.LENGTH_SHORT).show();
+                            holder.thumbsup.setSelected(!holder.thumbsup.isSelected());
+                            Toast.makeText(context, "Could not react to story, check internet connection", Toast.LENGTH_SHORT).show();
                         }
                     });
         });
 
         holder.thumbsdown.setOnClickListener(v -> {
-            // Do nothing if it is disliked already
-            if (currentStory.isDisliked()) return;
 
-            holder.thumbsdown.setSelected(true);
+            holder.thumbsdown.setSelected(!holder.thumbsdown.isSelected());
             holder.thumbsup.setSelected(false);
 
             // Try to effect the change online
@@ -162,21 +158,20 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
                                 // Update like count
                                 ReactionResponse rr = response.body();
                                 if (rr == null) {
-                                    holder.thumbsdown.setSelected(false);
-                                    Toast.makeText(context, "Could not dislike story", Toast.LENGTH_SHORT).show();
+                                    holder.thumbsdown.setSelected(!holder.thumbsdown.isSelected());
+                                    Toast.makeText(context, "Could not react to story", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 
                                 holder.likeCount.setText(String.valueOf(rr.getLikesCount()));
                                 holder.dislikeCount.setText(String.valueOf(rr.getDislikesCount()));
-                                Toast.makeText(context, "Story disliked", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ReactionResponse> call, Throwable t) {
-                            holder.thumbsdown.setSelected(false);
-                            Toast.makeText(context, "Could not dislike story, check internet connection", Toast.LENGTH_SHORT).show();
+                            holder.thumbsdown.setSelected(!holder.thumbsdown.isSelected());
+                            Toast.makeText(context, "Could not react to story, check internet connection", Toast.LENGTH_SHORT).show();
                         }
                     });
         });

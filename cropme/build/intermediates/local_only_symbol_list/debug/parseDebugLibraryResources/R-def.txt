@@ -5,7 +5,6 @@ attr? cropme_max_scale
 attr? cropme_result_height
 attr? cropme_result_width
 attr? cropme_with_border
-color background
 color light_white
 id cropme_image_view
 id cropme_overlay

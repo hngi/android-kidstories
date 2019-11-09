@@ -17,7 +17,8 @@ import com.project.android_kidstories.data.Repository;
 import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryAllResponse;
 import com.project.android_kidstories.ui.base.BaseFragment;
-import com.project.android_kidstories.ui.profile.adapters.MyStoriesAdapter;
+import com.project.android_kidstories.ui.categories.adapters.CategoryTabAdapter;
+import com.project.android_kidstories.ui.home.adapters.ExploreAdapter;
 import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,7 +27,7 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyStoriesFragment extends BaseFragment {
+public class MyStoriesFragment extends BaseFragment implements ExploreAdapter.OnBookmark {
 
     private int userId;
     private List<Story> storyList = new ArrayList<>();
@@ -109,7 +110,7 @@ public class MyStoriesFragment extends BaseFragment {
         RecyclerView recyclerView = root.findViewById(R.id.my_story_recyclerView);
         TextView userHasNoStory = root.findViewById(R.id.error_message);
 
-        MyStoriesAdapter adapter = new MyStoriesAdapter(storyList, context);
+        CategoryTabAdapter adapter = new CategoryTabAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
@@ -120,6 +121,12 @@ public class MyStoriesFragment extends BaseFragment {
         } else {
             userHasNoStory.setVisibility(View.GONE);
         }
+
+        adapter.submitList(storyList);
     }
 
+    @Override
+    public void onBookmark(Story story) {
+
+    }
 }

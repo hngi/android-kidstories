@@ -11,13 +11,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
+import com.project.android_kidstories.data.source.local.preferences.SharePref;
+import com.project.android_kidstories.data.source.remote.api.Api;
+import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
+import com.project.android_kidstories.data.source.remote.response_models.story.reaction.ReactionResponse;
 import com.project.android_kidstories.ui.story_viewing.SingleStoryActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.Objects;
 
@@ -26,6 +34,7 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
 
     private Context context;
     private OnBookmark onBookmarkListener;
+    private FragmentActivity a;
 
     public ExploreAdapter(Fragment fragment) {
         super(new DiffUtil.ItemCallback<Story>() {
@@ -43,6 +52,7 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         try {
             onBookmarkListener = (OnBookmark) fragment;
             this.context = fragment.getContext();
+            this.a = fragment.getActivity();
 
         } catch (IllegalStateException ise) {
             Toast.makeText(context, "Context must implement OnBookmark", Toast.LENGTH_SHORT).show();
@@ -71,6 +81,30 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         holder.thumbsup.setSelected(currentStory.isLiked());
         holder.thumbsdown.setSelected(currentStory.isDisliked());
 
+        holder.thumbsup.setOnClickListener(v -> {
+            if (!currentStory.isLiked()) {
+                // Not liked yet, like it now
+                SharePref sharePref = SharePref.getInstance(a.getApplication());
+                final String token = "Bearer " + sharePref.getUserToken();
+                Api service = RetrofitClient.getInstance().create(Api.class);
+                service.likeStory(token, currentStory.getId()).enqueue(new Callback<ReactionResponse>() {
+                    @Override
+                    public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(context, "Story liked", Toast.LENGTH_SHORT).show();
+                            holder.thumbsup.setSelected(true);
+                            currentStory.setLiked(true);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ReactionResponse> call, Throwable t) {
+
+                    }
+                });
+
+            }
+        });
         holder.ageRange.setText(String.format("ages %s", currentStory.getAge()));
 
         Glide.with(holder.itemView)

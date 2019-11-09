@@ -9,24 +9,12 @@
 
     <item android:state_selected="true">
         <layer-list>
-            <item>
-                <shape android:shape="oval">
-                    <corners android:radius="10dp" />
-                    <solid android:color="?colorPrimary" />
-                </shape>
-            </item>
             <item android:bottom="8dp" android:drawable="@drawable/ic_thumb_up_black_24dp" android:left="8dp" android:right="8dp" android:top="8dp" />
         </layer-list>
     </item>
 
     <item>
         <layer-list>
-            <item>
-                <shape android:shape="oval">
-                    <corners android:radius="10dp" />
-                    <solid android:color="@android:color/transparent" />
-                </shape>
-            </item>
             <item android:bottom="8dp" android:drawable="@drawable/ic_thumb_up_outline_24dp" android:left="8dp" android:right="8dp" android:top="8dp" />
         </layer-list>
     </item>

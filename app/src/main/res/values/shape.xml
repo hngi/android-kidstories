@@ -9,7 +9,7 @@
     <!--Shape Appearance for medium components like cards, alert dialogs-->
     <style name="ShapeAppearance.MyTheme.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">12dp</item>
+        <item name="cornerSize">2dp</item>
     </style>
 
     <!--Shape Appearance for large components like side and bottom navigation drawers-->

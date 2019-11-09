@@ -11,8 +11,7 @@
     android:clickable="true"
     android:focusable="true"
     app:cardBackgroundColor="?colorSurface"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="0dp">
+    app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_popularstories"
@@ -21,8 +20,8 @@
 
         <ImageView
             android:id="@+id/img_itemimage_popularstories"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

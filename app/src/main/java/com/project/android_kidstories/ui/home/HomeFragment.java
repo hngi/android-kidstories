@@ -3,6 +3,7 @@ package com.project.android_kidstories.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.*;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,8 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
     private View errorView;
     private View contentView;
 
+    private MainActivity mainActivity;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -84,7 +87,17 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
         new LinearSnapHelper().attachToRecyclerView(recyclerViewPopularStories);
 
         service = RetrofitClient.getInstance().create(Api.class);
-        updateData();
+
+        mainActivity = (MainActivity) requireActivity();
+        stories = mainActivity.getHomeStories();
+        if (stories.isEmpty()) {
+            updateData();
+        } else {
+            Log.d("GLOBAL_SCOPE", String.valueOf(stories.size()));
+            toggleVisibilities(false);
+            updateAdapters();
+        }
+
         swipeRefreshLayout.setOnRefreshListener(() -> {
             if (allStoriesCall != null) allStoriesCall.cancel();
             updateData();
@@ -98,7 +111,7 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
 
     private void toggleVisibilities(boolean isError) {
         if (isError) {
-            contentView.setVisibility(View.INVISIBLE);
+            contentView.setVisibility(View.GONE);
             errorView.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setRefreshing(false);
         } else {
@@ -126,7 +139,6 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
             populars = populars.subList(0, NUM_POPULAR_STORIES);
             popularStoriesAdapter.submitList(populars);
         });
-
     }
 
     private void updateData() {
@@ -150,6 +162,7 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
 
                     stories = storyAllResponse.getStories();
                     updateAdapters();
+                    mainActivity.setHomeStrories(stories);
 
                 } else {
                     toggleVisibilities(true);

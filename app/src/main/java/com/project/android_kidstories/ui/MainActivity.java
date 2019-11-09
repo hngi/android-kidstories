@@ -38,6 +38,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.project.android_kidstories.AddStoryActivity;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.Repository;
+import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.model.User;
 import com.project.android_kidstories.data.source.helpers.BedTimeDbHelper;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
@@ -61,6 +62,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 /**
  * @author .: Ehma Ugbogo
@@ -165,6 +167,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 sideNav.getMenu().getItem(i).setChecked(false);
             }
         });
+    }
+
+    public List<Story> getHomeStories() {
+        return viewModel.homeStories;
+    }
+
+    public void setHomeStrories(List<Story> strories) {
+        viewModel.homeStories = strories;
     }
 
     private LoggedInUser getUserDetails() {

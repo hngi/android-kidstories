@@ -152,10 +152,8 @@ public class SingleStoryActivity extends BaseActivity {
         });
 
         likeIcon.setOnClickListener(v -> {
-            // Do nothing if it is liked already
-            if (likeIcon.isSelected()) return;
 
-            likeIcon.setSelected(true);
+            likeIcon.setSelected(!likeIcon.isSelected());
             dislikeIcon.setSelected(false);
 
             String token = "Bearer " + getSharePref().getUserToken();
@@ -169,7 +167,7 @@ public class SingleStoryActivity extends BaseActivity {
                                 // Update like count
                                 ReactionResponse rr = response.body();
                                 if (rr == null) {
-                                    likeIcon.setSelected(false);
+                                    likeIcon.setSelected(!likeIcon.isSelected());
                                     Toast.makeText(context, "Could not like story", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
@@ -182,7 +180,7 @@ public class SingleStoryActivity extends BaseActivity {
 
                         @Override
                         public void onFailure(Call<ReactionResponse> call, Throwable t) {
-                            likeIcon.setSelected(false);
+                            likeIcon.setSelected(!likeIcon.isSelected());
                             Toast.makeText(context, "Could not like story, check internet connection", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -190,9 +188,8 @@ public class SingleStoryActivity extends BaseActivity {
         });
 
         dislikeIcon.setOnClickListener(v -> {
-            if (dislikeIcon.isSelected()) return;
 
-            dislikeIcon.setSelected(true);
+            dislikeIcon.setSelected(!dislikeIcon.isSelected());
             likeIcon.setSelected(false);
 
             String token = "Bearer " + getSharePref().getUserToken();
@@ -206,7 +203,7 @@ public class SingleStoryActivity extends BaseActivity {
                                 // Update like count
                                 ReactionResponse rr = response.body();
                                 if (rr == null) {
-                                    dislikeIcon.setSelected(false);
+                                    dislikeIcon.setSelected(!dislikeIcon.isSelected());
                                     Toast.makeText(context, "Could not dislike story", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
@@ -219,7 +216,7 @@ public class SingleStoryActivity extends BaseActivity {
 
                         @Override
                         public void onFailure(Call<ReactionResponse> call, Throwable t) {
-                            dislikeIcon.setSelected(false);
+                            dislikeIcon.setSelected(!dislikeIcon.isSelected());
                             Toast.makeText(context, "Could not dislike story, check internet connection", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -313,8 +310,10 @@ public class SingleStoryActivity extends BaseActivity {
 
         //check user's previous reaction to story
         Toast.makeText(this, String.valueOf(currentStory.isLiked()), Toast.LENGTH_SHORT).show();
-        likeIcon.setSelected(currentStory.isLiked());
-        dislikeIcon.setSelected(currentStory.isDisliked());
+        String reaction = currentStory.getReaction();
+
+        likeIcon.setSelected(reaction.equals("1"));
+        dislikeIcon.setSelected(reaction.equals("0"));
 
         likeCount.setText(String.valueOf(currentStory.getLikesCount()));
         dislikeCount.setText(String.valueOf(currentStory.getDislikesCount()));

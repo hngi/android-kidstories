@@ -104,6 +104,9 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
                     if(stories.isEmpty()){
                         noBookmarkMessage.setVisibility(View.VISIBLE);
                     }
+                    else{
+                        noBookmarkMessage.setVisibility(View.INVISIBLE);
+                    }
                     adapter = new BookmarksAdapter(stories, BookmarksFragment.this, requireContext());
                     recyclerView.setAdapter(adapter);
 

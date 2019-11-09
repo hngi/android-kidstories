@@ -351,6 +351,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             String title = "";
 
             bottomNavigationView.setVisibility(View.GONE);
+
+            boolean isLogout = false;
+
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
                     fragment = new HomeFragment();
@@ -385,9 +388,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
                 case R.id.nav_log_out:
                     createLogoutDialog();
+                    isLogout = true;
                     break;
             }
 
+            if (isLogout) return true;
             if (fragment == null) {
                 fragment = new HomeFragment();
                 title = MainActivity.this.getString(R.string.title_home_fragment);

@@ -81,30 +81,6 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         holder.thumbsup.setSelected(currentStory.isLiked());
         holder.thumbsdown.setSelected(currentStory.isDisliked());
 
-        holder.thumbsup.setOnClickListener(v -> {
-            if (!currentStory.isLiked()) {
-                // Not liked yet, like it now
-                SharePref sharePref = SharePref.getInstance(a.getApplication());
-                final String token = "Bearer " + sharePref.getUserToken();
-                Api service = RetrofitClient.getInstance().create(Api.class);
-                service.likeStory(token, currentStory.getId()).enqueue(new Callback<ReactionResponse>() {
-                    @Override
-                    public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(context, "Story liked", Toast.LENGTH_SHORT).show();
-                            holder.thumbsup.setSelected(true);
-                            currentStory.setLiked(true);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ReactionResponse> call, Throwable t) {
-
-                    }
-                });
-
-            }
-        });
         holder.ageRange.setText(String.format("ages %s", currentStory.getAge()));
 
         Glide.with(holder.itemView)
@@ -127,6 +103,83 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             setBookmark(holder, currentStory);
         });
 
+        setReactions(holder, currentStory);
+    }
+
+    private void setReactions(ViewHolder holder, Story currentStory) {
+        SharePref sharePref = SharePref.getInstance(a.getApplication());
+        final String token = "Bearer " + sharePref.getUserToken();
+        Api service = RetrofitClient.getInstance().create(Api.class);
+
+        holder.thumbsup.setOnClickListener(v -> {
+            // Do nothing if it is liked already
+            if (currentStory.isLiked()) return;
+
+            holder.thumbsup.setSelected(true);
+            holder.thumbsdown.setSelected(false);
+
+            // Try to effect the change online
+            service.likeStory(token, currentStory.getId())
+                    .enqueue(new Callback<ReactionResponse>() {
+                        @Override
+                        public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
+                            if (response.isSuccessful()) {
+                                // Update like count
+                                ReactionResponse rr = response.body();
+                                if (rr == null) {
+                                    holder.thumbsup.setSelected(false);
+                                    Toast.makeText(context, "Could not like story", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                holder.likeCount.setText(String.valueOf(rr.getLikesCount()));
+                                holder.dislikeCount.setText(String.valueOf(rr.getDislikesCount()));
+                                Toast.makeText(context, "Story liked", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReactionResponse> call, Throwable t) {
+                            holder.thumbsup.setSelected(false);
+                            Toast.makeText(context, "Could not like story, check internet connection", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
+
+        holder.thumbsdown.setOnClickListener(v -> {
+            // Do nothing if it is disliked already
+            if (currentStory.isDisliked()) return;
+
+            holder.thumbsdown.setSelected(true);
+            holder.thumbsup.setSelected(false);
+
+            // Try to effect the change online
+            service.dislikeStory(token, currentStory.getId())
+                    .enqueue(new Callback<ReactionResponse>() {
+                        @Override
+                        public void onResponse(Call<ReactionResponse> call, Response<ReactionResponse> response) {
+                            if (response.isSuccessful()) {
+                                // Update like count
+                                ReactionResponse rr = response.body();
+                                if (rr == null) {
+                                    holder.thumbsdown.setSelected(false);
+                                    Toast.makeText(context, "Could not dislike story", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                holder.likeCount.setText(String.valueOf(rr.getLikesCount()));
+                                holder.dislikeCount.setText(String.valueOf(rr.getDislikesCount()));
+                                Toast.makeText(context, "Story disliked", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReactionResponse> call, Throwable t) {
+                            holder.thumbsdown.setSelected(false);
+                            Toast.makeText(context, "Could not dislike story, check internet connection", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
     }
 
     @NonNull

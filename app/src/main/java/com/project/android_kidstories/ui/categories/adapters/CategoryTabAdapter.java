@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.google.android.material.chip.Chip;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.ui.story_viewing.SingleStoryActivity;
@@ -52,6 +53,8 @@ public class CategoryTabAdapter extends ListAdapter<Story, CategoryTabAdapter.Vi
         // Replace ID with actual category name
         // holder.storyCategory.setText(String.valueOf(currentStory.getCategoryId()));
 
+        holder.ageRange.setText(String.format("ages %s", currentStory.getAge()));
+
         Glide.with(holder.itemView)
                 .load(currentStory.getImageUrl())
                 .into(holder.storyImage);
@@ -72,7 +75,7 @@ public class CategoryTabAdapter extends ListAdapter<Story, CategoryTabAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_explore_stories, parent, false);
+                .inflate(R.layout.item_story_layout, parent, false);
         return new ViewHolder(itemView);
     }
 
@@ -87,7 +90,7 @@ public class CategoryTabAdapter extends ListAdapter<Story, CategoryTabAdapter.Vi
         private TextView storyAuthor;
         private TextView storyDescription;
         private View bookmark;
-        // private Chip storyCategory;
+        private Chip ageRange;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,7 +98,7 @@ public class CategoryTabAdapter extends ListAdapter<Story, CategoryTabAdapter.Vi
             storyTitle = itemView.findViewById(R.id.txt_itemtitle_explore);
             storyAuthor = itemView.findViewById(R.id.txt_itemauthor_explore);
             storyDescription = itemView.findViewById(R.id.txt_itemdesc_explore);
-//            storyCategory = itemView.findViewById(R.id.chip_itemcategory_explore);
+            ageRange = itemView.findViewById(R.id.txt_itemage_explore);
             bookmark = itemView.findViewById(R.id.img_itembookmarked_explore);
             bookmark.setVisibility(View.GONE); // Category request returns a user agnostic list
         }

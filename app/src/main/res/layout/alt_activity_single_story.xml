@@ -221,42 +221,47 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@id/story_comment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/story_content">
 
-                <TextView
-                    android:id="@+id/likesCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp" />
 
                 <ImageView
                     android:id="@+id/likeIcon"
                     style="@style/SingleStoryIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="16dp"
-                    android:backgroundTint="#00FFFFFF"
-                    app:srcCompat="@drawable/svg_ic_thumbs_up" />
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/background_thumbsup_icon" />
+
+                <TextView
+                    android:id="@+id/likesCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    tools:text="30k"
+                    android:layout_marginEnd="16dp" />
 
                 <ImageView
                     android:id="@+id/dislikeIcon"
                     style="@style/SingleStoryIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_marginStart="16dp"
-                    android:backgroundTint="#00FFFFFF"
-                    app:srcCompat="@drawable/svg_ic_thumb_down" />
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/background_thumbsdown_icon" />
 
                 <TextView
                     android:id="@+id/dislikesCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp" />
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    tools:text="90k" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

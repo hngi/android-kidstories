@@ -142,7 +142,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             openHomeFragment();
         }
 
-
         // Init side nav header
         View headerView = sideNav.getHeaderView(0);
 
@@ -523,8 +522,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void navigateToFragment(Fragment fragment, String title) {
         currentFragment = fragment;
         if (fragment instanceof HomeFragment || fragment instanceof BookmarksFragment) {
-            bottomNavigationView.setVisibility(View.VISIBLE);
-        } else if(fragment instanceof BookmarksFragment) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
         else {

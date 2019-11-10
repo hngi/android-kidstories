@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".About">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="?colorSurface"
         android:elevation="4dp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
         tools:layout_editor_absoluteX="28dp"
         tools:layout_editor_absoluteY="32dp">
 
         <TextView
+            android:id="@+id/textView1"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center|fill"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
             android:fontFamily="@font/roboto_regular"
-            android:text="@string/about_description"
+            android:gravity="center|fill"
             android:padding="16dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            app:layout_constraintBottom_toTopOf="@+id/develop"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteX="0dp" />
+            android:text="@string/about_description"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
         <TextView
             android:id="@+id/develop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textView1"
+            android:layout_marginTop="64dp"
             android:layout_marginBottom="12dp"
             android:fontFamily="@font/roboto_regular"
             android:gravity="center"
             android:text="@string/developers"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            app:layout_constraintBottom_toBottomOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+    </RelativeLayout>
+</ScrollView>

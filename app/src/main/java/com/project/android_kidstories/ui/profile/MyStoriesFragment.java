@@ -18,7 +18,6 @@ import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryAllResponse;
 import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.categories.adapters.CategoryTabAdapter;
-import com.project.android_kidstories.ui.home.adapters.ExploreAdapter;
 import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +26,7 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyStoriesFragment extends BaseFragment implements ExploreAdapter.OnBookmark {
+public class MyStoriesFragment extends BaseFragment {
 
     private int userId;
     private List<Story> storyList = new ArrayList<>();
@@ -77,7 +76,7 @@ public class MyStoriesFragment extends BaseFragment implements ExploreAdapter.On
         fetchStories(view, "1");
     }
 
-    void fetchStories(View view, String page) {
+    private void fetchStories(View view, String page) {
         swipeRefreshLayout.setRefreshing(true);
 
         allStoriesCall = repository.getStoryApi().getAllStories(page);
@@ -86,9 +85,11 @@ public class MyStoriesFragment extends BaseFragment implements ExploreAdapter.On
             public void onResponse(Call<StoryAllResponse> call, Response<StoryAllResponse> response) {
                 swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
+                    storyList.clear();
                     for (int i = 0; i < response.body().getStories().size(); i++) {
                         if (response.body().getStories().get(i).getUserId() == getSharePref().getUserId()) {
-                            storyList.add(response.body().getStories().get(i));
+                            Story thisStory = response.body().getStories().get(i);
+                            storyList.add(thisStory);
                         }
                     }
 
@@ -125,8 +126,4 @@ public class MyStoriesFragment extends BaseFragment implements ExploreAdapter.On
         adapter.submitList(storyList);
     }
 
-    @Override
-    public void onBookmark(Story story) {
-
-    }
 }

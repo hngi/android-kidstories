@@ -4,20 +4,20 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.*;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
-import com.project.android_kidstories.data.source.remote.response_models.bookmark.BookmarkResponse;
 import com.project.android_kidstories.data.source.remote.response_models.story.StoryAllResponse;
 import com.project.android_kidstories.ui.MainActivity;
 import com.project.android_kidstories.ui.base.BaseFragment;
@@ -31,10 +31,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookmark {
+public class HomeFragment extends BaseFragment {
+
+    private static final int NUM_POPULAR_STORIES = 10;
 
     private List<Story> stories = new ArrayList<>();
     private List<Story> populars = new ArrayList<>();
@@ -61,8 +64,16 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
         this.listener = listener;
     }
 
+    private MainActivity mainActivity;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        // Update Activity's toolbar title
+        try {
+            ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("Stories");
+        } catch (NullPointerException npe) {
+            Log.d("GLOBAL_SCOPE", "Can't set toolbar title");
+        }
 
         // This fragment needs to show a menu
         setHasOptionsMenu(true);
@@ -89,10 +100,18 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
         recyclerViewExplore.setAdapter(exploreAdapter);
         recyclerViewPopularStories.setAdapter(popularStoriesAdapter);
 
-        new LinearSnapHelper().attachToRecyclerView(recyclerViewPopularStories);
-
         service = RetrofitClient.getInstance().create(Api.class);
-        updateData();
+
+        mainActivity = (MainActivity) requireActivity();
+        stories = mainActivity.getHomeStories();
+        if (stories.isEmpty()) {
+            updateData();
+        } else {
+            Log.d("GLOBAL_SCOPE", String.valueOf(stories.size()));
+            toggleVisibilities(false);
+            updateAdapters();
+        }
+
         swipeRefreshLayout.setOnRefreshListener(() -> {
             if (allStoriesCall != null) allStoriesCall.cancel();
             updateData();
@@ -106,7 +125,7 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
 
     private void toggleVisibilities(boolean isError) {
         if (isError) {
-            contentView.setVisibility(View.INVISIBLE);
+            contentView.setVisibility(View.GONE);
             errorView.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setRefreshing(false);
         } else {
@@ -118,10 +137,22 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
     }
 
     private void updateAdapters() {
+        int firstStoryId = stories.get(0).getId();
+        int lastStoryId = stories.get(stories.size() - 1).getId();
+
+        if (firstStoryId < lastStoryId) {
+            Collections.reverse(stories);
+        }
+
         exploreAdapter.submitList(stories);
-        // TODO: Update popular stories adapter
-        populars = stories.subList(3, 14);
-        popularStoriesAdapter.submitList(populars);
+
+        // Get the stories with most engagement (likes + dislikes)
+        new Handler().post(() -> {
+            populars.addAll(stories);
+            Collections.sort(populars, new StoryComparator());
+            populars = populars.subList(0, NUM_POPULAR_STORIES);
+            popularStoriesAdapter.submitList(populars);
+        });
     }
 
     private void updateData() {
@@ -146,6 +177,7 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
                     stories = storyAllResponse.getStories();
                     listener.storiesArrayList(stories);
                     updateAdapters();
+                    mainActivity.setHomeStrories(stories);
 
                 } else {
                     toggleVisibilities(true);
@@ -191,65 +223,22 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
         return true;
     }
 
-    @Override
-    public void onBookmark(Story story) {
-        if (story.isBookmark()) {
-            bookmarkStory(story.getId());
-        } else {
-            deleteBookmarkedStory(story.getId());
-        }
-    }
+/*
 
-    private void deleteBookmarkedStory(int id) {
-        service.deleteBookmarkedStory("Bearer " + getSharePref().getUserToken(), id)
-                .enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(getContext(), "Story deleted from bookmarks", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(getContext(), "Could not delete story from bookmarks", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void bookmarkStory(int id) {
-        service.bookmarkStory("Bearer " + getSharePref().getUserToken(), id)
-                .enqueue(new Callback<BookmarkResponse>() {
-                    @Override
-                    public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(getContext(), "Story added to bookmarks", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<BookmarkResponse> call, Throwable t) {
-                        Toast.makeText(getContext(), "Could not add story to bookmarks", Toast.LENGTH_SHORT).show();
-                    }
-                });
+    private void onStorySearched(String query) {
 
     }
-
-    /*@Override
-    public void onStorySearched(String query) {
-        exploreAdapter.getFilter().filter(query);
-    }*/
+*/
 
     public class StoryComparator implements Comparator<Story> {
 
         @Override
         public int compare(Story story1, Story story2) {
 
-
             int story1PriorityCount = story1.getDislikesCount() + story1.getLikesCount();
             int story2PriorityCount = story2.getDislikesCount() + story2.getLikesCount();
 
-            return Integer.compare(story1PriorityCount, story2PriorityCount);
+            return Integer.compare(story2PriorityCount, story1PriorityCount);
         }
     }
 

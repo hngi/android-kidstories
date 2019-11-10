@@ -120,5 +120,6 @@ SOFTWARE.
     <string name="title_settings_fragment">Settings</string>
     <string name="comments">Comments</string>
     <string name="view_all">More</string>
+    <string name="no_story_in_category">No story in category</string>
 
 </resources>

@@ -15,7 +15,8 @@ import com.takusemba.cropme.CropLayout;
 import com.takusemba.cropme.OnCropListener;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ImageStagingActivity extends BaseActivity {
 
@@ -51,15 +52,63 @@ public class ImageStagingActivity extends BaseActivity {
         Uri uri = Uri.parse(uriStr);
 
         try {
+            Bitmap compressed = compressBitmap(uri);
+            if (compressed == null) {
+                showToast("Could not compress image");
+                finish();
+            }
 
-            Bitmap bitmap;
-            bitmap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(uri));
-            civ.setImageBitmap(bitmap);
+            civ.setImageBitmap(compressed);
 
-        } catch (FileNotFoundException fnfe) {
+        } catch (IOException ioe) {
             showMessage("No image received");
         }
 
+    }
+
+    private Bitmap compressBitmap(Uri uri) throws IOException {
+        InputStream inputStream = getContentResolver().openInputStream(uri);
+        if (inputStream == null) {
+            return null;
+        }
+
+        int width = 250;
+        int height = 250;
+
+        BitmapFactory.Options scaleOptions = new BitmapFactory.Options();
+        scaleOptions.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeStream(inputStream, null, scaleOptions);
+
+        inputStream.close();
+        inputStream = getContentResolver().openInputStream(uri);
+        if (inputStream == null) {
+            return null;
+        }
+
+        int scale = 1;
+        while (scaleOptions.outWidth / scale / 2 >= width && scaleOptions.outHeight / scale / 2 >= height) {
+            scale *= 2;
+        }
+
+        BitmapFactory.Options outOptions = new BitmapFactory.Options();
+        outOptions.inJustDecodeBounds = false;
+        outOptions.inSampleSize = scale;
+
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, outOptions);
+        if (bitmap == null) {
+            return null;
+        }
+
+        inputStream.close();
+
+        ByteArrayOutputStream baoStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.WEBP, 100, baoStream);
+
+        byte[] byteArray = baoStream.toByteArray();
+        baoStream.close();
+
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
     }
 
     public void saveCropped(View view) {

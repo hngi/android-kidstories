@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
@@ -28,7 +29,6 @@ import com.project.android_kidstories.ui.MainActivity;
 import com.project.android_kidstories.ui.base.BaseFragment;
 import com.project.android_kidstories.ui.profile.adapters.ProfilePagerAdapter;
 import com.project.android_kidstories.ui.staging.ImageStagingActivity;
-import com.project.android_kidstories.utils.ImageConversion;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -66,6 +66,13 @@ public class ProfileFragment extends BaseFragment {
                              @Nullable Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.profile_fragment, container, false);
+
+        // Update Activity's toolbar title
+        try {
+            ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("Profile");
+        } catch (NullPointerException npe) {
+            Log.d("GLOBAL_SCOPE", "Can't set toolbar title");
+        }
 
         helper = new BedTimeDbHelper(getContext());
         sharePref = getSharePref();
@@ -161,7 +168,7 @@ public class ProfileFragment extends BaseFragment {
                 // Start the staging activity
                 ImageStagingActivity.startForResult(this, uriString, REQUEST_CROP_IMAGE);
 
-            } catch (Exception e) {
+            } catch (NullPointerException e) {
                 showToast("No picture was selected");
             }
         }
@@ -169,29 +176,29 @@ public class ProfileFragment extends BaseFragment {
             // Image crop was successful
             if (data != null) {
                 byte[] bitmapArr = data.getByteArrayExtra(ImageStagingActivity.IMAGE_BITMAP_KEY);
-                Bitmap b = BitmapFactory.decodeByteArray(bitmapArr, 0, bitmapArr.length);
-                uploadProfileImage(b, data.getStringExtra(ImageStagingActivity.IMAGE_URI_KEY));
+                if (bitmapArr == null) return;
+                uploadProfileImage(bitmapArr, data.getStringExtra(ImageStagingActivity.IMAGE_URI_KEY));
             }
         }
     }
 
-    private void uploadProfileImage(Bitmap bitmap, String uriString) {
+    private void uploadProfileImage(byte[] bitmapArr, String uriString) {
         progressbar.setVisibility(View.VISIBLE);
 
         // Try to upload
         if (uriString == null || uriString.isEmpty()) return; // No uri
         String mediaPath = getMediaPath(uriString);
-        File file = new File(mediaPath);
+        String fileName = new File(mediaPath).getName();
 
         Repository repository = Repository.getInstance(requireActivity().getApplication());
         // create RequestBody instance from file
         RequestBody requestFile =
                 RequestBody.create(
-                        file,
+                        bitmapArr,
                         MediaType.parse(requireActivity().getContentResolver().getType(Uri.parse(uriString)))
                 );
 
-        MultipartBody.Part part = MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("photo", fileName, requestFile);
         repository.getStoryApi().updateUserProfilePicture("Bearer " + token,
                 part).enqueue(new Callback<BaseResponse<Void>>() {
             @Override
@@ -201,14 +208,15 @@ public class ProfileFragment extends BaseFragment {
                     Log.d("Upload State", "Successful");
                     Log.d("Upload State", response.body().getMessage());
                     Log.d("Token: ", token);
-                    byte[] imageByteArray = new ImageConversion().convertBitMapToByteArray(bitmap);
-                    helper.storeUserImage(imageByteArray, getContext());
+
+                    helper.storeUserImage(bitmapArr, getContext());
 
                     setProfileImage();
                     ((MainActivity) requireActivity()).updateProfileImage();
+
                     progressbar.setVisibility(View.GONE);
                 } else {
-                    Log.d("Upload Status", "Something went wrong");
+                    Log.d("Upload Status", "Something went wrong " + response.message());
                     progressbar.setVisibility(View.GONE);
                 }
             }

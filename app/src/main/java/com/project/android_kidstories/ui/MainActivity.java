@@ -128,7 +128,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-        updateToolbarTitle("Stories");
 
         if (lastTabPosition == 1) {
             setCurrentFragment(FRAGMENT_POPULAR);
@@ -149,7 +148,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         if (savedInstanceState == null) {
             openHomeFragment();
         }
-
 
         // Init side nav header
         View headerView = sideNav.getHeaderView(0);
@@ -175,6 +173,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 sideNav.getMenu().getItem(i).setChecked(false);
             }
         });
+    }
+
+    public List<Story> getHomeStories() {
+        return viewModel.homeStories;
+    }
+
+    public void setHomeStrories(List<Story> strories) {
+        viewModel.homeStories = strories;
     }
 
     private LoggedInUser getUserDetails() {
@@ -347,28 +353,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         return true;
 }
 */
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
 
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search_function).getActionView();
-        searchView.setSearchableInfo( searchManager.getSearchableInfo(getComponentName()) );
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.search_function) {
-            //start search dialog
-            onSearchRequested();
-            return true;
-        }
-        return false;
-    }*/
 
     private void setupNavigation() {
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -545,8 +530,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         currentFragment = fragment;
         if (fragment instanceof HomeFragment || fragment instanceof BookmarksFragment) {
             bottomNavigationView.setVisibility(View.VISIBLE);
-        } else if(fragment instanceof BookmarksFragment) {
-            bottomNavigationView.setVisibility(View.VISIBLE);
         }
         else {
             bottomNavigationView.setVisibility(View.GONE);
@@ -556,21 +539,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 .beginTransaction()
                 .replace(R.id.main_fragment_container, currentFragment)
                 .commit();
-        updateToolbarTitle(title);
 
     }
 
     private void hideDrawer() {
         drawer.closeDrawer(GravityCompat.START, false);
     }
-
-    private void updateToolbarTitle(String title) {
-        if (getSupportActionBar() == null) {
-            return;
-        }
-        getSupportActionBar().setTitle(title);
-    }
-
 
     @Override
     public void onBackPressed() {

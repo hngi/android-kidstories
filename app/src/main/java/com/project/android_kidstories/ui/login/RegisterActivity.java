@@ -136,7 +136,7 @@ public class RegisterActivity extends BaseActivity {
         } else if (phone.isEmpty() || !Patterns.PHONE.matcher(phone).matches()) {
             this.phone.setError("Please enter a valid phone number");
         } else if (password.isEmpty() || password.length() < 8) {
-            this.password.setError("Please enter a valid password");
+            this.password.setError("Password should be at least 8 characters");
         } else if (confirmPassword.isEmpty() || !confirmPassword.contentEquals(password)) {
             this.confirmPassword.setError("Passwords do not match");
 
@@ -176,8 +176,8 @@ public class RegisterActivity extends BaseActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                         //  regProgress.dismiss();
                     } else {
-                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        Toast.makeText(getApplicationContext(), "Email is already registered", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
 

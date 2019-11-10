@@ -21,6 +21,7 @@ import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
 import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
+import com.project.android_kidstories.data.source.remote.response_models.bookmark.BookmarkResponse;
 import com.project.android_kidstories.data.source.remote.response_models.story.reaction.ReactionResponse;
 import com.project.android_kidstories.ui.story_viewing.SingleStoryActivity;
 import retrofit2.Call;
@@ -33,7 +34,6 @@ import java.util.Objects;
 public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder> {
 
     private Context context;
-    private OnBookmark onBookmarkListener;
     private FragmentActivity a;
 
     public ExploreAdapter(Fragment fragment) {
@@ -49,15 +49,8 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
             }
         });
 
-        try {
-            onBookmarkListener = (OnBookmark) fragment;
-            this.context = fragment.getContext();
-            this.a = fragment.getActivity();
-
-        } catch (IllegalStateException ise) {
-            Toast.makeText(context, "Context must implement OnBookmark", Toast.LENGTH_SHORT).show();
-            throw ise;
-        }
+        this.context = fragment.getContext();
+        this.a = fragment.getActivity();
     }
 
     @Override
@@ -99,12 +92,59 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         //holder.storyDescription.setText(currentStory.getBody());
 
         holder.bookmark.setOnClickListener(view -> {
-            currentStory.setBookmark(!currentStory.isBookmark());
-            // Save
             setBookmark(holder, currentStory);
         });
 
         setReactions(holder, currentStory);
+    }
+
+    private void setBookmark(ViewHolder holder, Story currentStory) {
+        SharePref sharePref = SharePref.getInstance(a.getApplication());
+        final String token = "Bearer " + sharePref.getUserToken();
+        Api service = RetrofitClient.getInstance().create(Api.class);
+
+        holder.bookmark.setSelected(!holder.bookmark.isSelected());
+        if (holder.bookmark.isSelected()) {
+            // Add bookmark
+            service.bookmarkStory(token, currentStory.getId())
+                    .enqueue(new Callback<BookmarkResponse>() {
+                        @Override
+                        public void onResponse(Call<BookmarkResponse> call, Response<BookmarkResponse> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(context, "Story added to bookmarks", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "Could not add story to bookmarks", Toast.LENGTH_SHORT).show();
+                                holder.bookmark.setSelected(!holder.bookmark.isSelected());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<BookmarkResponse> call, Throwable t) {
+                            Toast.makeText(context, "Could not add story to bookmarks, check internet connection", Toast.LENGTH_SHORT).show();
+                            holder.bookmark.setSelected(!holder.bookmark.isSelected());
+                        }
+                    });
+        } else {
+            // Remove bookmark
+            service.deleteBookmarkedStory(token, currentStory.getId())
+                    .enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(context, "Story deleted from bookmarks", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "Could not delete story from bookmarks", Toast.LENGTH_SHORT).show();
+                                holder.bookmark.setSelected(!holder.bookmark.isSelected());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Toast.makeText(context, "Could not delete story from bookmarks, check internet connection", Toast.LENGTH_SHORT).show();
+                            holder.bookmark.setSelected(!holder.bookmark.isSelected());
+                        }
+                    });
+        }
     }
 
     private void setReactions(ViewHolder holder, Story currentStory) {
@@ -183,20 +223,6 @@ public class ExploreAdapter extends ListAdapter<Story, ExploreAdapter.ViewHolder
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.alt_item_explore_stories, parent, false);
         return new ViewHolder(itemView);
-    }
-
-    private void setBookmark(ViewHolder holder, Story story) {
-        if (story.isBookmark()) {
-            holder.bookmark.setSelected(true);
-        } else {
-            holder.bookmark.setSelected(false);
-        }
-
-        onBookmarkListener.onBookmark(story);
-    }
-
-    public interface OnBookmark {
-        void onBookmark(Story story);
     }
 
     @Override

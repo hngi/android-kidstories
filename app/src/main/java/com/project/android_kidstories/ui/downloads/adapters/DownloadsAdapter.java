@@ -69,6 +69,11 @@ public class DownloadsAdapter extends ListAdapter<Story, DownloadsAdapter.ViewHo
             fragment.startActivity(intent);
         });
 
+        holder.itemView.setOnLongClickListener(v -> {
+            holder.remove.callOnClick();
+            return true;
+        });
+
         holder.remove.setOnClickListener(v -> {
             ((OnStoryDelete) fragment).onStoryDelete(currentStory);
         });

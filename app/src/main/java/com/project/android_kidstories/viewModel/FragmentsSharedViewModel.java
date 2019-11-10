@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel;
 import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,12 +13,12 @@ import java.util.List;
  * @created : 10/22/19
  */
 public class FragmentsSharedViewModel extends ViewModel {
-
     public User currentUser;
-    public List<Story> currentUsersStories;
+
+    public List<Story> homeStories = new ArrayList<>();
 
 
-   public void setUser(User user){
-       currentUser = user;
-   }
+    public void setUser(User user) {
+        currentUser = user;
+    }
 }

@@ -63,7 +63,6 @@ public class ImageStagingActivity extends BaseActivity {
         } catch (IOException ioe) {
             showMessage("No image received");
         }
-
     }
 
     private Bitmap compressBitmap(Uri uri) throws IOException {
@@ -72,8 +71,8 @@ public class ImageStagingActivity extends BaseActivity {
             return null;
         }
 
-        int width = 400;
-        int height = 400;
+        int width = 250;
+        int height = 250;
 
         BitmapFactory.Options scaleOptions = new BitmapFactory.Options();
         scaleOptions.inJustDecodeBounds = true;

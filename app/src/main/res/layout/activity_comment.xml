@@ -61,7 +61,10 @@
                 android:hint="Write a comment"
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLines="4"
-                android:padding="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="32dp"
+                android:paddingBottom="16dp"
                 android:textSize="14sp" />
 
             <ImageView

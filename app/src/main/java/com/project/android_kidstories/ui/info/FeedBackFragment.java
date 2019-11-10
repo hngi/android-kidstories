@@ -2,12 +2,14 @@ package com.project.android_kidstories.ui.info;
 
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import com.firebase.client.Firebase;
 import com.project.android_kidstories.R;
 import com.project.android_kidstories.ui.base.BaseFragment;
@@ -19,6 +21,13 @@ public class FeedBackFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_feed_back, container, false);
+
+        // Update Activity's toolbar title
+        try {
+            ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("Feedback");
+        } catch (NullPointerException npe) {
+            Log.d("GLOBAL_SCOPE", "Can't set toolbar title");
+        }
 
         TextView name = root.findViewById(R.id.fed_Name);
         TextView email = root.findViewById(R.id.fed_Email);

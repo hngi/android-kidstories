@@ -120,7 +120,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-        updateToolbarTitle("Stories");
 
         if (lastTabPosition == 1) {
             setCurrentFragment(FRAGMENT_POPULAR);
@@ -532,19 +531,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 .beginTransaction()
                 .replace(R.id.main_fragment_container, currentFragment)
                 .commit();
-        updateToolbarTitle(title);
 
     }
 
     private void hideDrawer() {
         drawer.closeDrawer(GravityCompat.START, false);
-    }
-
-    private void updateToolbarTitle(String title) {
-        if (getSupportActionBar() == null) {
-            return;
-        }
-        getSupportActionBar().setTitle(title);
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
@@ -46,6 +47,13 @@ public class CategoriesFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_categories, container, false);
+
+        // Update Activity's toolbar title
+        try {
+            ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("Categories");
+        } catch (NullPointerException npe) {
+            Log.d("GLOBAL_SCOPE", "Can't set toolbar title");
+        }
 
         tabLayout = root.findViewById(R.id.tabLayout_categories_fragment);
         viewPager = root.findViewById(R.id.viewPager_categories_fragment);

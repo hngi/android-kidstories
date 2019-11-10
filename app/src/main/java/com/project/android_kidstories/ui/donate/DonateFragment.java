@@ -3,6 +3,7 @@ package com.project.android_kidstories.ui.donate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import com.flutterwave.raveandroid.RaveConstants;
 import com.flutterwave.raveandroid.RavePayActivity;
 import com.flutterwave.raveandroid.RavePayManager;
@@ -30,6 +32,13 @@ public class DonateFragment extends BaseFragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_donate, container, false);
+
+        // Update Activity's toolbar title
+        try {
+            ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("Donate");
+        } catch (NullPointerException npe) {
+            Log.d("GLOBAL_SCOPE", "Can't set toolbar title");
+        }
 
         Button button = root.findViewById(R.id.button_donate);
         EditText editText = root.findViewById(R.id.editText_amount);

@@ -2,12 +2,14 @@ package com.project.android_kidstories.ui.downloads;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.project.android_kidstories.R;
@@ -28,6 +30,13 @@ public class DownloadsFragment extends Fragment implements DownloadsAdapter.OnSt
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_downloads, container, false);
+
+        // Update Activity's toolbar title
+        try {
+            ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("Downloads");
+        } catch (NullPointerException npe) {
+            Log.d("GLOBAL_SCOPE", "Can't set toolbar title");
+        }
 
         storyLab = StoryLab.get(requireContext());
 

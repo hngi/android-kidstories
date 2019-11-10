@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.project.android_kidstories.R;
@@ -65,6 +66,13 @@ public class ProfileFragment extends BaseFragment {
                              @Nullable Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.profile_fragment, container, false);
+
+        // Update Activity's toolbar title
+        try {
+            ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("Profile");
+        } catch (NullPointerException npe) {
+            Log.d("GLOBAL_SCOPE", "Can't set toolbar title");
+        }
 
         helper = new BedTimeDbHelper(getContext());
         sharePref = getSharePref();

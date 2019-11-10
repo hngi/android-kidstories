@@ -126,8 +126,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
     }
 
     private void removeStory(int position) {
-        List<Story> stories1 = stories;
-        stories1.remove(position);
+        stories.remove(position);
         notifyItemRemoved(position);
     }
 

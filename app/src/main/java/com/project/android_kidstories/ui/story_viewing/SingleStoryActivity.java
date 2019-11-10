@@ -374,7 +374,7 @@ public class SingleStoryActivity extends BaseActivity {
         hideViews(progressBar, error_msg);
         // Populate views
         story_title.setText(currentStory.getTitle());
-        story_author.setText(String.format("Written by %s", currentStory.getAuthor()));
+        story_author.setText(String.format("Submitted by %s", currentStory.getAuthor()));
         story_content.setText(currentStory.getBody());
         story_duration.setText(currentStory.getStoryDuration());
 

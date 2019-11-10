@@ -1,6 +1,7 @@
 package com.project.android_kidstories.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import com.project.android_kidstories.R;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -47,6 +50,7 @@ public class CustomSearchAdapter extends ArrayAdapter {
 
         TextView resultItem = (TextView) view.findViewById(android.R.id.text1);
         resultItem.setText(getItem(position));
+        resultItem.setTextColor(getContext().getResources().getColor(R.color.white));
         return view;
     }
 }

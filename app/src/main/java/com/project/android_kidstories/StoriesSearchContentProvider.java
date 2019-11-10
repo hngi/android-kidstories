@@ -58,7 +58,7 @@ public class StoriesSearchContentProvider extends ContentProvider {
                     mRow[0] = ""+counterId++;
                     mRow[1] = rec.getTitle();
 
-                    mRow[2] = getContext().getResources().getDrawable(R.drawable.account_icon);/*getContext().getResources().getIdentifier(getStoryTitle(rec.getTitle()),
+                    mRow[2] = rec.getImageUrl(); /*getContext().getResources().getDrawable(R.drawable.account_icon);getContext().getResources().getIdentifier(getStoryTitle(rec.getTitle()),
                             "drawable", getContext().getPackageName());*/
                     mRow[3] = rec.getId()+"&"+rec.getTitle();
 

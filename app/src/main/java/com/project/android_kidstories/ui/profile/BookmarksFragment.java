@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +20,7 @@ import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
 import com.project.android_kidstories.data.source.remote.response_models.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.ui.base.BaseFragment;
+import com.project.android_kidstories.ui.home.adapters.ExploreAdapter;
 import com.project.android_kidstories.ui.profile.adapters.BookmarksAdapter;
 import com.project.android_kidstories.ui.story_viewing.SingleStoryActivity;
 import retrofit2.Call;
@@ -42,7 +41,7 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
     private View errorView;
     private TextView noBookmarkMessage;
 
-    private BookmarksAdapter adapter;
+    private ExploreAdapter adapter;
     private ArrayList<Story> stories = new ArrayList<>();
     private String token;
 
@@ -105,10 +104,11 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
                         noBookmarkMessage.setVisibility(View.VISIBLE);
                     }
                     else{
-                        noBookmarkMessage.setVisibility(View.INVISIBLE);
+                        noBookmarkMessage.setVisibility(View.GONE);
                     }
-                    adapter = new BookmarksAdapter(stories, BookmarksFragment.this, requireContext());
+                    adapter = new ExploreAdapter(BookmarksFragment.this);
                     recyclerView.setAdapter(adapter);
+                    adapter.submitList(stories);
 
                 } else {
                     errorView.setVisibility(View.VISIBLE);

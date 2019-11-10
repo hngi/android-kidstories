@@ -2,13 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.project.android_kidstories">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <application
         android:name=".ui.KidstoriesApplication"
         android:allowBackup="true"
@@ -19,62 +12,79 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver
-            android:name=".receivers.AlarmReceiver"
-            android:enabled="true"
-            android:exported="false" />
+        <activity android:name=".SearchResultsActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
 
         <activity android:name=".IgnoreForApiTest.TestActivity" />
 
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/title_activity_the_main" />
+            android:label="@string/title_activity_the_main">
 
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchResultsActivity" />
+
+        </activity>
         <activity
             android:name=".ui.splash.SplashScreenActivity"
             android:theme="@style/AppTheme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
+                <!--<action android:name="android.intent.action.VIEW" />-->
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.story_viewing.SingleStoryActivity"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.SingleStory" />
-
         <activity android:name=".ui.login.RegisterActivity" />
-
         <activity android:name=".ui.login.LoginActivity" />
-
         <activity
             android:name=".AddStoryActivity"
             android:parentActivityName=".ui.MainActivity" />
-
         <activity
             android:name=".CommentActivity"
             android:parentActivityName=".ui.story_viewing.SingleStoryActivity" />
-
         <activity
             android:name=".AddStoriesContentActivity"
             android:parentActivityName=".AddStoryActivity" />
-
         <activity android:name=".ui.base.BaseActivity" />
-
         <activity android:name=".ui.reading_status.ReadingStatusActivity" />
-
         <activity android:name=".ui.staging.ImageStagingActivity" />
-
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:parentActivityName=".ui.MainActivity" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        <provider
+            android:name=".StoriesSearchContentProvider"
+            android:authorities="com.project.android_kidstories.search" />
+
+        <receiver
+            android:name=".receivers.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false" />
     </application>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

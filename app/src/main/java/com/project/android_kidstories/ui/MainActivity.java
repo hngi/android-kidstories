@@ -2,6 +2,7 @@ package com.project.android_kidstories.ui;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,9 +14,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -37,7 +43,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.project.android_kidstories.AddStoryActivity;
 import com.project.android_kidstories.R;
+import com.project.android_kidstories.adapters.CustomSearchAdapter;
 import com.project.android_kidstories.data.Repository;
+import com.project.android_kidstories.data.SearchData;
+import com.project.android_kidstories.data.model.Story;
 import com.project.android_kidstories.data.model.User;
 import com.project.android_kidstories.data.source.helpers.BedTimeDbHelper;
 import com.project.android_kidstories.data.source.local.preferences.SharePref;
@@ -61,6 +70,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 /**
  * @author .: Ehma Ugbogo
@@ -69,7 +79,7 @@ import java.io.ByteArrayOutputStream;
  */
 
 
-public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, HomeFragment.StoriesListListener {
     public static final String USER_KEY_INTENT_EXTRA = "com.project.android_kidstories_USER_KEY";
 
     private static final String TAG = "kidstories";
@@ -180,7 +190,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private void openHomeFragment() {
-        HomeFragment homeFragment = new HomeFragment();
+        HomeFragment homeFragment = new HomeFragment(this);
         navigateToFragment(homeFragment, getString(R.string.title_home_fragment));
 
         sideNav.getMenu().getItem(0).setChecked(true);
@@ -337,7 +347,28 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         return true;
 }
 */
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
 
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search_function).getActionView();
+        searchView.setSearchableInfo( searchManager.getSearchableInfo(getComponentName()) );
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.search_function) {
+            //start search dialog
+            onSearchRequested();
+            return true;
+        }
+        return false;
+    }*/
 
     private void setupNavigation() {
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -356,7 +387,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
-                    fragment = new HomeFragment();
+                    fragment = new HomeFragment(this);
                     title = getString(R.string.title_home_fragment);
                     bottomNavigationView.setVisibility(View.VISIBLE);
                     break;
@@ -394,7 +425,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
             if (isLogout) return true;
             if (fragment == null) {
-                fragment = new HomeFragment();
+                fragment = new HomeFragment(this);
                 title = MainActivity.this.getString(R.string.title_home_fragment);
                 bottomNavigationView.setVisibility(View.VISIBLE);
             }
@@ -419,7 +450,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         switch (item.getItemId()) {
             case R.id.bottommenu_home:
-                fragment = new HomeFragment();
+                fragment = new HomeFragment(this);
                 title = MainActivity.this.getString(R.string.title_home_fragment);
                 position = 0;
                 break;
@@ -582,6 +613,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             }
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+
+
+    @Override
+    public void storiesArrayList(List<Story> storiesList) {
+        SearchData.setStories(storiesList);
     }
 
     // Class to maintain a user object

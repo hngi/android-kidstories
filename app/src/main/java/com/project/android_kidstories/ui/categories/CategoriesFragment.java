@@ -63,7 +63,7 @@ public class CategoriesFragment extends BaseFragment {
         errorView = root.findViewById(R.id.error_msg);
 
         getCategoriesList();
-        swipeRefreshLayout.setOnRefreshListener(() -> getCategoriesList());
+        swipeRefreshLayout.setOnRefreshListener(this::getCategoriesList);
 
         return root;
     }
@@ -78,7 +78,7 @@ public class CategoriesFragment extends BaseFragment {
         for (Category category : categories) {
             Log.d("GLOBAL_SCOPE", category.getName());
             // Populate pagerAdapter
-            pagerAdapter.addFragment(new CategoryTabFragment(String.valueOf(category.getId())));
+            pagerAdapter.addFragment(CategoryTabFragment.newInstance(String.valueOf(category.getId())));
         }
 
         viewPager.setAdapter(pagerAdapter);

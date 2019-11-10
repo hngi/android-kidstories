@@ -23,19 +23,23 @@ import java.util.List;
 
 public class CategoryTabFragment extends BaseFragment {
 
+    private static final String CATEGORY_ID_KEY = "CATEGORY_ID_KEY";
     private String category_id;
 
     private CategoryTabAdapter adapter;
 
     private View progressBar;
     private View errorView;
-    private Api service;
     private View emptyView;
 
     private Call<BaseResponse2> serviceCall;
 
-    public CategoryTabFragment(String category_id) {
-        this.category_id = category_id;
+    static CategoryTabFragment newInstance(String category_id) {
+        Bundle args = new Bundle();
+        args.putString(CATEGORY_ID_KEY, category_id);
+        CategoryTabFragment ctf = new CategoryTabFragment();
+        ctf.setArguments(args);
+        return ctf;
     }
 
     @Nullable
@@ -44,6 +48,15 @@ public class CategoryTabFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.fragment_category_tab, container, false);
 
         Log.d("GLOBAL_SCOPE", "In TabFragment");
+
+        // Get category name
+        Bundle arguments = getArguments();
+        if (arguments == null) {
+            Log.e("GLOBAL_SCOPE", "No category id");
+            return root;
+        }
+
+        category_id = getArguments().getString(CATEGORY_ID_KEY);
 
         RecyclerView recyclerView = root.findViewById(R.id.recyclerview_category_tab);
         progressBar = root.findViewById(R.id.tab_category_bar);
@@ -63,7 +76,7 @@ public class CategoryTabFragment extends BaseFragment {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        service = RetrofitClient.getInstance().create(Api.class);
+        Api service = RetrofitClient.getInstance().create(Api.class);
 
         serviceCall = service.getStoriesByCategoryIdandUser2(category_id);
         serviceCall.enqueue(new Callback<BaseResponse2>() {
@@ -95,5 +108,11 @@ public class CategoryTabFragment extends BaseFragment {
                 errorView.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (serviceCall != null) serviceCall.cancel();
     }
 }

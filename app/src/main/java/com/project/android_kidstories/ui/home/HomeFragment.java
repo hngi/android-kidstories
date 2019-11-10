@@ -243,11 +243,12 @@ public class HomeFragment extends BaseFragment implements ExploreAdapter.OnBookm
                 });
 
     }
+/*
 
-    /*@Override
-    public void onStorySearched(String query) {
-        exploreAdapter.getFilter().filter(query);
-    }*/
+    private void onStorySearched(String query) {
+
+    }
+*/
 
     public class StoryComparator implements Comparator<Story> {
 

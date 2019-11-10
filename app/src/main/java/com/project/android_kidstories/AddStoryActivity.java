@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import com.project.android_kidstories.ui.MainActivity;
 
 
 public class AddStoryActivity extends AppCompatActivity {
@@ -106,9 +105,7 @@ public class AddStoryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent home = new Intent(getApplicationContext(), MainActivity.class);
-        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(home);
+        finish();
     }
 
 }

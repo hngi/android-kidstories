@@ -80,6 +80,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
+        android:tint="?colorOnSurface"
         android:src="@drawable/ic_remove_black_24dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/txt_itemtitle_downloads"

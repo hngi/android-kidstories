@@ -20,7 +20,6 @@ import com.project.android_kidstories.data.source.remote.api.Api;
 import com.project.android_kidstories.data.source.remote.api.RetrofitClient;
 import com.project.android_kidstories.data.source.remote.response_models.bookmark.UserBookmarkResponse;
 import com.project.android_kidstories.ui.base.BaseFragment;
-import com.project.android_kidstories.ui.home.adapters.ExploreAdapter;
 import com.project.android_kidstories.ui.profile.adapters.BookmarksAdapter;
 import com.project.android_kidstories.ui.story_viewing.SingleStoryActivity;
 import retrofit2.Call;
@@ -41,7 +40,7 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
     private View errorView;
     private TextView noBookmarkMessage;
 
-    private ExploreAdapter adapter;
+    private BookmarksAdapter adapter;
     private ArrayList<Story> stories = new ArrayList<>();
     private String token;
 
@@ -104,11 +103,10 @@ public class BookmarksFragment extends BaseFragment implements BookmarksAdapter.
                         noBookmarkMessage.setVisibility(View.VISIBLE);
                     }
                     else{
-                        noBookmarkMessage.setVisibility(View.GONE);
+                        noBookmarkMessage.setVisibility(View.INVISIBLE);
                     }
-                    adapter = new ExploreAdapter(BookmarksFragment.this);
+                    adapter = new BookmarksAdapter(stories, BookmarksFragment.this, requireContext());
                     recyclerView.setAdapter(adapter);
-                    adapter.submitList(stories);
 
                 } else {
                     errorView.setVisibility(View.VISIBLE);

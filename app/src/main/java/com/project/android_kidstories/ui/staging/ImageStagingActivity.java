@@ -63,6 +63,7 @@ public class ImageStagingActivity extends BaseActivity {
         } catch (IOException ioe) {
             showMessage("No image received");
         }
+
     }
 
     private Bitmap compressBitmap(Uri uri) throws IOException {

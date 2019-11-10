@@ -6,8 +6,8 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="16"
-8-->/home/ukeje/AndroidStudioProjects/android-keystories/cropme/src/main/AndroidManifest.xml
+8-->C:\Projects\hng6\android-kidstories\cropme\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="28" />
-9-->/home/ukeje/AndroidStudioProjects/android-keystories/cropme/src/main/AndroidManifest.xml
+9-->C:\Projects\hng6\android-kidstories\cropme\src\main\AndroidManifest.xml
 10
 11</manifest>

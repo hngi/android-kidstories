@@ -1,10 +1,13 @@
 package com.project.android_kidstories.ui.home;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.*;
+import android.widget.SearchView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +54,15 @@ public class HomeFragment extends BaseFragment {
 
     private View errorView;
     private View contentView;
+    StoriesListListener listener;
+
+    public MainActivity getActivityCast(){
+        return (MainActivity)getActivity();
+    }
+
+    public HomeFragment(StoriesListListener listener) {
+        this.listener = listener;
+    }
 
     private MainActivity mainActivity;
 
@@ -163,6 +175,7 @@ public class HomeFragment extends BaseFragment {
                     }
 
                     stories = storyAllResponse.getStories();
+                    listener.storiesArrayList(stories);
                     updateAdapters();
                     mainActivity.setHomeStrories(stories);
 
@@ -182,6 +195,10 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
+        SearchManager searchManager = (SearchManager) getActivityCast().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search_function).getActionView();
+        searchView.setSearchableInfo( searchManager.getSearchableInfo(getActivityCast().getComponentName()) );
+
     }
 
     @Override
@@ -193,6 +210,10 @@ public class HomeFragment extends BaseFragment {
 
             case R.id.action_settings:
                 startActivity(new Intent(requireContext(), SettingsActivity.class));
+                break;
+
+            case R.id.search_function:
+                getActivityCast().onSearchRequested();
                 break;
 
             default:
@@ -225,5 +246,10 @@ public class HomeFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         if (allStoriesCall != null) allStoriesCall.cancel();
+    }
+
+    public interface StoriesListListener{
+        void storiesArrayList(List<Story> storiesList);
+
     }
 }

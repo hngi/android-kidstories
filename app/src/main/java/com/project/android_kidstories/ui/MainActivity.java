@@ -547,7 +547,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         getSupportActionBar().setTitle(title);
     }
 
-
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {

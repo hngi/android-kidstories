@@ -53,6 +53,7 @@
             android:layout_gravity="bottom"
             android:fitsSystemWindows="true"
             app:itemIconSize="22dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

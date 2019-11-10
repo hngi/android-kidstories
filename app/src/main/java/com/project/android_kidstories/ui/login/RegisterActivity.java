@@ -176,8 +176,8 @@ public class RegisterActivity extends BaseActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                         //  regProgress.dismiss();
                     } else {
-                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        Toast.makeText(getApplicationContext(), "Email is already registered", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
 

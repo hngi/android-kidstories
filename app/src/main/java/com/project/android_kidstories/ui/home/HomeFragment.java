@@ -199,6 +199,19 @@ public class HomeFragment extends BaseFragment {
         SearchView searchView = (SearchView) menu.findItem(R.id.search_function).getActionView();
         searchView.setSearchableInfo( searchManager.getSearchableInfo(getActivityCast().getComponentName()) );
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
     }
 
     @Override

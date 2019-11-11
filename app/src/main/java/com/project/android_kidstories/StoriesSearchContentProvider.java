@@ -6,13 +6,26 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.target.Target;
 import com.project.android_kidstories.data.SearchData;
 import com.project.android_kidstories.data.model.Story;
+
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.concurrent.ExecutionException;
+
+import retrofit2.http.Url;
 
 public class StoriesSearchContentProvider extends ContentProvider {
 
@@ -58,11 +71,27 @@ public class StoriesSearchContentProvider extends ContentProvider {
                     mRow[0] = ""+counterId++;
                     mRow[1] = rec.getTitle();
 
-                    mRow[2] = rec.getImageUrl(); /*getContext().getResources().getDrawable(R.drawable.account_icon);getContext().getResources().getIdentifier(getStoryTitle(rec.getTitle()),
+                    FutureTarget<File> futureTarget  = Glide.with(getContext()
+                            .getApplicationContext())
+                            .load(rec.getImageUrl())
+                            .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
+
+                    File cacheFile = null;
+                    try {
+                        cacheFile = futureTarget.get();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Uri searchIconUri = Uri.fromFile(cacheFile);
+
+                    mRow[2] = searchIconUri; /*getContext().getResources().getDrawable(R.drawable.account_icon);getContext().getResources().getIdentifier(getStoryTitle(rec.getTitle()),
                             "drawable", getContext().getPackageName());*/
                     mRow[3] = rec.getId()+"&"+rec.getTitle();
 
                     searchResults.addRow(mRow);
+
+                    Glide.with(getContext()).clear(futureTarget);
                 }
             }
         }

@@ -50,7 +50,6 @@ public class CustomSearchAdapter extends ArrayAdapter {
 
         TextView resultItem = (TextView) view.findViewById(android.R.id.text1);
         resultItem.setText(getItem(position));
-        resultItem.setTextColor(getContext().getResources().getColor(R.color.white));
         return view;
     }
 }

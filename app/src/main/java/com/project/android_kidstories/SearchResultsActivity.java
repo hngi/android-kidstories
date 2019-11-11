@@ -31,7 +31,6 @@ public class SearchResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
-        Log.e("TAGGG","INTO DOLLAR");
         handleSearch();
     }
 
@@ -50,8 +49,12 @@ public class SearchResultsActivity extends AppCompatActivity {
             CustomSearchAdapter adapter = new CustomSearchAdapter(this,
                     android.R.layout.simple_dropdown_item_1line,
                     SearchData.filterData(searchQuery));
-            listView.setBackgroundColor(getResources().getColor(R.color.white));
-            listView.setAdapter(adapter);
+            if(!adapter.isEmpty())
+                listView.setAdapter(adapter);
+            else{
+                Toast.makeText(this,"Story Not found",Toast.LENGTH_LONG).show();
+                finish();
+            }
 
         }else if(Intent.ACTION_VIEW.equals(intent.getAction())) {
             String info = intent.getDataString();
